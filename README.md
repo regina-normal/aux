@@ -11,4 +11,4 @@ Users should not need to check out these files.  Instead:
   * For the bleeding-edge source code, check out the main repository at
     https://github.com/regina-normal/regina .
 
-_Ben Burton <bab@debian.org>, Sun, 13 Nov 2016 08:19:03 +1000_
+_Ben Burton (bab@debian.org), Sun, 13 Nov 2016 08:19:03 +1000_
