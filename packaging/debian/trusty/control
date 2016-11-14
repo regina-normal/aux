@@ -2,7 +2,7 @@ Source: regina-normal
 Section: math
 Priority: extra
 Maintainer: Ben Burton <bab@debian.org>
-Homepage: http://regina.sourceforge.net/
+Homepage: http://regina-normal.github.io/
 Build-Depends:
     debhelper (>= 7),
     dh-python,

@@ -9,8 +9,8 @@ Release: 1.%{_vendor}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
-Source: http://prdownloads.sourceforge.net/regina/regina-%{version}.tar.gz
-URL: http://regina.sourceforge.net/
+Source: https://github.com/regina-normal/regina/releases/download/regina-%{version}/regina-%{version}.tar.gz
+URL: http://regina-normal.github.io/
 Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
