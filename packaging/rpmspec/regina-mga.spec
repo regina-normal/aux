@@ -27,6 +27,7 @@ BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: gmpxx-devel
 BuildRequires: graphviz-devel
+BuildRequires: libjansson-devel
 BuildRequires: libstdc++-devel
 BuildRequires: libxml2-devel
 BuildRequires: qtbase5-devel

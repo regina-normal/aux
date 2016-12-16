@@ -19,6 +19,7 @@ builddep="
   doxygen
   gmp5
   libgraphviz238-nox-dev
+  libjansson4
   libxslt-bin
   pkgconfig
   popt

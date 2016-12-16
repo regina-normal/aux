@@ -1,6 +1,7 @@
 regina-normal (5.1-1~jessie.1) jessie; urgency=low
 
   * New upstream release, packaged for jessie.
+  * Added build-depends on libjansson-dev, which is required as of Regina 5.1.
   * Removed build-depends on libsource-highlight-dev, which is no longer used.
 
  -- Ben Burton <bab@debian.org>  Tue, 20 Sep 2016 10:03:24 +1000
