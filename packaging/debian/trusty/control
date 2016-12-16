@@ -10,7 +10,6 @@ Build-Depends:
     doxygen,
     libboost-iostreams-dev,
     libboost-python-dev (>= 1.39.0),
-    libboost-regex-dev,
     libcppunit-dev (>= 1.10.2-4),
     libgmp-dev (>= 4.1.4-10),
     libgraphviz-dev,
