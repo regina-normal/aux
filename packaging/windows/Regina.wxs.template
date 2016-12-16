@@ -97,14 +97,11 @@
                 <File Source='c:\Program Files\Graphviz2.38\bin\PathPlan.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libboost_iostreams-mt.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libboost_python-mt.dll'/>
-                <File Source='c:\msys32\mingw32\bin\libboost_regex-mt.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libbz2-1.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libgcc_s_dw2-1.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libgmp-10.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libgmpxx-4.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libiconv-2.dll'/>
-                <File Source='c:\msys32\mingw32\bin\libicudt57.dll'/>
-                <File Source='c:\msys32\mingw32\bin\libicuuc57.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libjansson-4.dll'/>
                 <File Source='c:\msys32\mingw32\bin\liblzma-5.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libstdc++-6.dll'
@@ -227,8 +224,8 @@
                 <Directory Id='PKGDATADIR_syntax' Name='syntax'>
                   <Component Id='Syntax'
                    Guid='C8681025-2207-4D2B-84DA-E3186DE066F2'>
-                    <File Name='default.style' KeyPath='yes'/>
-                    <File Name='*.lang'/>
+                    <File Name='default.theme' KeyPath='yes'/>
+                    <File Name='*.xml'/>
                   </Component>
                 </Directory>
 
@@ -310,7 +307,6 @@
         <ComponentRef Id='Syntax'/>
         <ComponentRef Id='IconsOxygen'/>
         <ComponentRef Id='IconsRegina'/>
-        <ComponentRef Id='PythonLibs'/>
         <ComponentRef Id='CensusData'/>
         <ComponentRef Id='SnapPeaData'/>
         <ComponentRef Id='ProgramMenuDir'/>
