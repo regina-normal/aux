@@ -1,4 +1,5 @@
 # Known to work for:
+# - openSuSE Leap 42.2 (x86_64)
 # - openSuSE Leap 42.1 (x86_64)
 # - openSuSE 13.2 (i586, x86_64)
 
