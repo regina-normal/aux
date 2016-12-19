@@ -1,6 +1,6 @@
 # Known to work for:
+# - Fedora 25 (i386, x86_64)
 # - Fedora 24 (i386, x86_64)
-# - Fedora 23 (i386, x86_64)
 
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
@@ -56,7 +56,6 @@ and a low-level C++ programming interface.
 
 %prep
 %setup -n regina-%{version}
-%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -68,8 +67,13 @@ export CFLAGS="${CFLAGS:--O2}"
 export CXXFLAGS="${CXXFLAGS:--O2}"
 export FFLAGS="${FFLAGS:--O2}"
 export LIB_SUFFIX=$(echo %_lib | cut -b4-)
+%if 0%{?fedora} == 25
+export BOOST_FIX="-DREGINA_BOOST_DO_NOT_FIX_CONVERTERS=1"
+%else
+export BOOST_FIX=
+%endif
 cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX \
-  -DCMAKE_VERBOSE_MAKEFILE=ON -DDISABLE_MPI=1 -DPACKAGING_MODE=1 \
+  -DCMAKE_VERBOSE_MAKEFILE=ON -DDISABLE_MPI=1 -DPACKAGING_MODE=1 ${BOOST_FIX} \
   ..
 popd
 

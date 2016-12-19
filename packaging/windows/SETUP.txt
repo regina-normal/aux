@@ -64,9 +64,6 @@ BUILDING REGINA
 
 To build regina:
 
-  First patch out the boost fix in python/helpers.h (the bug it works around
-  does not seem to be present in the boost 1.60 shipped with MinGW).
-
   Run regina-cmake.sh (in this directory) to get all necessary cmake arguments.
   make
   make install
