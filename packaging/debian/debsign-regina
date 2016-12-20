@@ -14,6 +14,7 @@
 # (Ben Burton, September 2016)
 #
 DEFAULT_DEBSIGN_KEYID=36B861C1
+# DEFAULT_DEBSIGN_KEYID=542D38D9
 
 # This program is designed to GPG sign a .dsc and .changes file pair
 # in the form needed for a legal Debian upload.  It is based in part
