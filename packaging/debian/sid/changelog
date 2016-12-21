@@ -1,6 +1,7 @@
 regina-normal (5.1-2) unstable; urgency=low
 
   * Updated the debian watch file to point to github (not sourceforge).
+  * Switched to debhelper compatibility level 9.
 
  -- Ben Burton <bab@debian.org>  Sat, 17 Dec 2016 09:27:49 +1100
 
