@@ -12,8 +12,8 @@ set -e
 # will need Qt5 installed from qt-project.org (not via fink).
 
 builddep="
-  boost1.58-nopython
-  boost1.58-systempython
+  boost1.63-nopython
+  boost1.63-systempython
   cmake
   cppunit1.12.1
   doxygen
@@ -91,7 +91,7 @@ elif (otool -L "$gvlib" | grep -i java > /dev/null); then
   exit 1
 fi
 
-bplib=/sw/opt/boost-1_58/lib/libboost_python.dylib
+bplib=/sw/opt/boost-1_63/lib/libboost_python.dylib
 if [ ! -e "$bplib" ]; then
   echo "Your boost.python library is missing."
   exit 1
@@ -132,7 +132,7 @@ rm -rf "$DEST/Regina.app"
 
 cmake \
   -DCMAKE_INSTALL_PREFIX="$DEST" \
-  -DBOOST_ROOT=/sw/opt/boost-1_58 \
+  -DBOOST_ROOT=/sw/opt/boost-1_63 \
   -DPYTHON_EXECUTABLE="$pybin" \
   -DCMAKE_PREFIX_PATH=/Users/bab/Qt5/5.7/clang_64 \
   -DPACKAGING_MODE=1 \
