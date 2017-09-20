@@ -1,4 +1,5 @@
 # Known to work for:
+# - Fedora 26 (x86_64)
 # - Fedora 25 (i386, x86_64)
 # - Fedora 24 (i386, x86_64)
 
@@ -10,6 +11,7 @@ License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
 Source: https://github.com/regina-normal/regina/releases/download/regina-%{version}/regina-%{version}.tar.gz
+Patch0: regina-gcc7.patch
 URL: http://regina-normal.github.io/
 Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
@@ -56,6 +58,7 @@ and a low-level C++ programming interface.
 
 %prep
 %setup -n regina-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
