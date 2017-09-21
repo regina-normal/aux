@@ -1,5 +1,5 @@
 # Known to work for:
-# - openSuSE Leap 42.3 (x86_64)
+# - openSuSE Leap 42.2 (x86_64)
 
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
@@ -22,8 +22,8 @@ BuildRequires: boost-devel >= 1.55
 BuildRequires: cmake
 BuildRequires: cppunit-devel
 BuildRequires: doxygen
-BuildRequires: gcc7
-BuildRequires: gcc7-c++
+BuildRequires: gcc6
+BuildRequires: gcc6-c++
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
@@ -62,9 +62,9 @@ and a low-level C++ programming interface.
 %patch0 -p1
 
 %build
-export CC=/usr/bin/gcc-7
-export CPP=/usr/bin/cpp-7
-export CXX=/usr/bin/g++-7
+export CC=/usr/bin/gcc-6
+export CPP=/usr/bin/cpp-6
+export CXX=/usr/bin/g++-6
 export CFLAGS=$RPM_OPT_FLAGS
 export CXXFLAGS=$RPM_OPT_FLAGS
 export LDFLAGS="-Wl,-Bsymbolic-functions $LDFLAGS"
