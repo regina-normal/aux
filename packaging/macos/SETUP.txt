@@ -1,3 +1,4 @@
+-----------------
 PACKAGING SUMMARY
 -----------------
 
@@ -30,4 +31,56 @@ To build MacOS binaries for release:
     ./dmg_maker.py temporary_path/Regina.app
 
     collect Regina-X.Y.dmg for distribution
+
+-----------------------
+BUILDING VIRTUALBOX VMs
+-----------------------
+
+High Sierra:
+
+1. Create an installer ISO from the App Store app:
+
+  hdiutil create -o /tmp/High\ Sierra.cdr -size 7316m -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/High\ Sierra.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build
+  hdiutil detach /Volumes/Install\ macOS\ High\ Sierra
+  hdiutil convert /tmp/High\ Sierra.cdr.dmg -format UDTO -o 'High Sierra'.iso
+  rm /tmp/High\ Sierra.cdr.dmg
+  mv High\ Sierra.iso.cdr High\ Sierra.iso
+
+2. Create the VM:
+
+- Non-default options: 2 CPUs, 128MB video memory
+
+- Ensure solid state drive is deselected
+
+3. Install the OS:
+
+- Boot from ISO
+
+- Open Disk Utility to erase (and thereby format) the virtual drive
+
+- Run the installer
+
+- The automatic reboot will (incorrectly) reboot to the ISO, not the HDD:
+  + Hammer F12 when booting the machine to open the VirtualBox boot manager
+  + Select: Boot Maintenance Manager -> Boot from File -> ...HD(2,GPT)... ->
+    macOS Install Data -> Locked Files -> Boot Files -> boot.efi
+
+4. Compress the HD:
+
+- The VDI will take up twice the necessary space due to deleted installer files.
+
+- Boot from the ISO again, open Terminal, and run:
+
+  diskutil list (to find out which device is the virtual HD)
+  diskutil secureErase freespace 0 disk0s2 (to overwrite deleted files with 0)
+
+- In the host system, run:
+
+  /Applications/VirtualBox.app/Contents/MacOS/VBoxManage modifymedium disk path/to/guest.vdi --compact
+
+Sources for steps 1-3:
+
+http://tobiwashere.de/2017/10/virtualbox-how-to-create-a-macos-high-sierra-vm-to-run-on-a-mac-host-system/
 
