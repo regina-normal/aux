@@ -36,7 +36,9 @@ To build MacOS binaries for release:
 BUILDING VIRTUALBOX VMs
 -----------------------
 
-High Sierra:
+HIGH SIERRA:
+
+0. Download the High Sierra installer through the Purchased tab in the App Store.
 
 1. Create an installer ISO from the App Store app:
 
@@ -83,4 +85,123 @@ High Sierra:
 Sources for steps 1-3:
 
 http://tobiwashere.de/2017/10/virtualbox-how-to-create-a-macos-high-sierra-vm-to-run-on-a-mac-host-system/
+
+
+SIERRA (currently broken):
+
+0. Download the Sierra installer through the Purchased tab in the App Store:
+
+  git clone https://github.com/mas-cli/mas.git
+  scripts/build
+  build/mas install 1127487414
+
+- Kill the installer when it runs automatically, since quitting it normally may
+  result in the installer being deleted.
+
+1. Create an installer ISO from the App Store app:
+
+  hdiutil create -o /tmp/Sierra.cdr -size 7316m -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/Sierra.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --applicationpath /Applications/Install\ macOS\ Sierra.app
+  hdiutil detach /Volumes/Install\ macOS\ Sierra
+  hdiutil convert /tmp/Sierra.cdr.dmg -format UDTO -o Sierra.iso
+  rm /tmp/Sierra.cdr.dmg
+  mv Sierra.iso.cdr Sierra.iso
+
+2. Problems from here:
+
+- ISO does not boot on its own (gets stuck after gIOScreenLockState for Sierra ISO >= 10.12.4)
+
+- El Capitan upgrade from the ISO installs but reboots back into El Capitan, not Sierra
+
+- Cannot sign into the App Store to download Sierra directly (cannot verify identity of this mac)
+
+
+EL CAPITAN:
+
+0. Download the El Capitan installer through the Purchased tab in the App Store.
+
+- Kill the installer when it runs automatically, since quitting it normally may
+  result in the installer being deleted.
+
+1. Create an installer ISO from the App Store app:
+
+  hdiutil create -o /tmp/El\ Capitan.cdr -size 7316m -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/El\ Capitan.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app
+  hdiutil detach /Volumes/Install\ OS\ X\ El\ Capitan
+  hdiutil convert /tmp/El\ Capitan.cdr.dmg -format UDTO -o El\ Capitan.iso
+  rm /tmp/El\ Capitan.cdr.dmg
+  mv El\ Capitan.iso.cdr El\ Capitan.iso
+
+2. Add .IAProductInfo as required for read-only install media:
+
+- Find the installer's volume UUID:
+
+  hdiutil attach -noverify -nobrowse /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/SharedSupport/InstallESD.dmg
+  diskutil info /Volumes/OS\ X\ Install\ ESD | grep 'Volume UUID'
+  hdiutil detach /Volumes/OS\ X\ Install\ ESD
+
+- Mount the ISO as a regular user:
+
+  hdiutil attach -noverify -nobrowse El\ Capitan.iso
+  cp IAProductInfo /Volumes/Install\ OS\ X\ El\ Capitan/.IAProductInfo
+  vim /Volumes/Install\ OS\ X\ El\ Capitan/.IAProductInfo (replace the UUID with the one found above)
+  hdiutil detach /Volumes/Install\ OS\ X\ El\ Capitan
+
+3. Create the VM and install the OS:
+
+- Non-default VM options: 2 CPUs, 128MB video memory
+
+- Boot from ISO, which runs the installer automatically
+
+- Use Disk Utility from the installer to erase (and thus format) the virtual drive
+
+- The automatic reboot will (incorrectly) reboot back to the ISO, not the HDD.
+  Ejecting the ISO will fix this.
+
+
+YOSEMITE:
+
+0. Download the Yosemite installer through the Purchased tab in the App Store.
+
+- Kill the installer when it runs automatically, since quitting it normally may
+  result in the installer being deleted.
+
+1. Create an installer ISO from the App Store app:
+
+  hdiutil create -o /tmp/Yosemite.cdr -size 7316m -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/Yosemite.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --applicationpath /Applications/Install\ OS\ X\ Yosemite.app
+  hdiutil detach /Volumes/Install\ OS\ X\ Yosemite
+  hdiutil convert /tmp/Yosemite.cdr.dmg -format UDTO -o Yosemite.iso
+  rm /tmp/Yosemite.cdr.dmg
+  mv Yosemite.iso.cdr Yosemite.iso
+
+2. Add .IAProductInfo as required for read-only install media:
+
+- Find the installer's volume UUID:
+
+  hdiutil attach -noverify -nobrowse /Applications/Install\ OS\ X\ Yosemite.app/Contents/SharedSupport/InstallESD.dmg
+  diskutil info /Volumes/OS\ X\ Install\ ESD | grep 'Volume UUID'
+  hdiutil detach /Volumes/OS\ X\ Install\ ESD
+
+- Mount the ISO as a regular user:
+
+  hdiutil attach -noverify -nobrowse Yosemite.iso
+  cp IAProductInfo /Volumes/Install\ OS\ X\ Yosemite/.IAProductInfo
+  vim /Volumes/Install\ OS\ X\ Yosemite/.IAProductInfo (replace the UUID with the one found above)
+  hdiutil detach /Volumes/Install\ OS\ X\ Yosemite
+
+3. Create the VM and install the OS:
+
+- Non-default VM options: 2 CPUs, 128MB video memory
+
+- The VM requires a chipset override:
+
+  /Applications/VirtualBox.app/Contents/MacOS/VBoxManage modifyvm Yosemite --cpuidset 00000001 000306a9 04100800 7fbae3ff bfebfbff
+
+- Boot from ISO, which runs the installer automatically
+
+- Use Disk Utility from the installer to erase (and thus format) the virtual drive
 
