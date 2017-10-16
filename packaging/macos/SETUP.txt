@@ -32,15 +32,15 @@ To build MacOS binaries for release:
 
     collect Regina-X.Y.dmg for distribution
 
------------------------
-BUILDING VIRTUALBOX VMs
------------------------
+----------------------
+BUILDING PARALLELS VMs
+----------------------
 
 HIGH SIERRA:
 
-0. Download the High Sierra installer through the Purchased tab in the App Store.
+0. Download the High Sierra installer through the App Store.
 
-1. Create an installer ISO from the App Store app:
+1. Create an installer ISO from the installer app:
 
   hdiutil create -o /tmp/High\ Sierra.cdr -size 7316m -layout SPUD -fs HFS+J
   hdiutil attach /tmp/High\ Sierra.cdr.dmg -noverify -mountpoint /Volumes/install_build
@@ -49,6 +49,117 @@ HIGH SIERRA:
   hdiutil convert /tmp/High\ Sierra.cdr.dmg -format UDTO -o 'High Sierra'.iso
   rm /tmp/High\ Sierra.cdr.dmg
   mv High\ Sierra.iso.cdr High\ Sierra.iso
+
+2. Boot from the ISO, but do not use the GUI installer.
+   Instead open a terminal to start the installer manually, so we can
+   avoid APFS (which is not supported by Parallels 13):
+
+  cd /Volumes/Image\ Volume/Install\ macOS\ High\ Sierra.app/Contents/Resources
+
+  ./startosinstall --volume /Volumes/Macintosh\ HD --converttoapfs NO --applicationpath /Volumes/Image\ Volume/Install\ macOS\ High\ Sierra.app
+
+
+SIERRA:
+
+0. Download the Sierra installer through the App Store:
+
+  git clone https://github.com/mas-cli/mas.git
+  scripts/build
+  build/mas install 1127487414
+
+- Kill the installer when it runs automatically, since quitting it normally may
+  result in the installer being deleted.
+
+1. Create an installer ISO from the installer app:
+
+  hdiutil create -o /tmp/Sierra.cdr -size 7316m -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/Sierra.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --applicationpath /Applications/Install\ macOS\ Sierra.app
+  hdiutil detach /Volumes/Install\ macOS\ Sierra
+  hdiutil convert /tmp/Sierra.cdr.dmg -format UDTO -o Sierra.iso
+  rm /tmp/Sierra.cdr.dmg
+  mv Sierra.iso.cdr Sierra.iso
+
+2. Boot from the ISO and run the GUI installer.
+
+
+EL CAPITAN:
+
+0. Download the El Capitan installer through the Purchased tab in the App Store.
+
+- Kill the installer when it runs automatically, since quitting it normally may
+  result in the installer being deleted.
+
+1. Create an installer ISO from the installer app:
+
+  hdiutil create -o /tmp/El\ Capitan.cdr -size 7316m -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/El\ Capitan.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app
+  hdiutil detach /Volumes/Install\ OS\ X\ El\ Capitan
+  hdiutil convert /tmp/El\ Capitan.cdr.dmg -format UDTO -o El\ Capitan.iso
+  rm /tmp/El\ Capitan.cdr.dmg
+  mv El\ Capitan.iso.cdr El\ Capitan.iso
+
+2. Add .IAProductInfo as required for read-only install media:
+
+- Find the installer's volume UUID:
+
+  hdiutil attach -noverify -nobrowse /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/SharedSupport/InstallESD.dmg
+  diskutil info /Volumes/OS\ X\ Install\ ESD | grep 'Volume UUID'
+  hdiutil detach /Volumes/OS\ X\ Install\ ESD
+
+- Mount the ISO as a regular user:
+
+  hdiutil attach -noverify -nobrowse El\ Capitan.iso
+  cp IAProductInfo /Volumes/Install\ OS\ X\ El\ Capitan/.IAProductInfo
+  vim /Volumes/Install\ OS\ X\ El\ Capitan/.IAProductInfo (replace the UUID with the one found above)
+  hdiutil detach /Volumes/Install\ OS\ X\ El\ Capitan
+
+3. Boot from the ISO and run the GUI installer.
+
+
+YOSEMITE:
+
+0. Download the Yosemite installer through the Purchased tab in the App Store.
+
+- Kill the installer when it runs automatically, since quitting it normally may
+  result in the installer being deleted.
+
+1. Create an installer ISO from the installer app:
+
+  hdiutil create -o /tmp/Yosemite.cdr -size 7316m -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/Yosemite.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --applicationpath /Applications/Install\ OS\ X\ Yosemite.app
+  hdiutil detach /Volumes/Install\ OS\ X\ Yosemite
+  hdiutil convert /tmp/Yosemite.cdr.dmg -format UDTO -o Yosemite.iso
+  rm /tmp/Yosemite.cdr.dmg
+  mv Yosemite.iso.cdr Yosemite.iso
+
+2. Add .IAProductInfo as required for read-only install media:
+
+- Find the installer's volume UUID:
+
+  hdiutil attach -noverify -nobrowse /Applications/Install\ OS\ X\ Yosemite.app/Contents/SharedSupport/InstallESD.dmg
+  diskutil info /Volumes/OS\ X\ Install\ ESD | grep 'Volume UUID'
+  hdiutil detach /Volumes/OS\ X\ Install\ ESD
+
+- Mount the ISO as a regular user:
+
+  hdiutil attach -noverify -nobrowse Yosemite.iso
+  cp IAProductInfo /Volumes/Install\ OS\ X\ Yosemite/.IAProductInfo
+  vim /Volumes/Install\ OS\ X\ Yosemite/.IAProductInfo (replace the UUID with the one found above)
+  hdiutil detach /Volumes/Install\ OS\ X\ Yosemite
+
+3. Boot from the ISO and run the GUI installer.
+
+
+-----------------------
+BUILDING VIRTUALBOX VMs
+-----------------------
+
+HIGH SIERRA:
+
+1. Create an installer ISO, as for the Parallels VM.
 
 2. Create the VM:
 
@@ -89,24 +200,7 @@ http://tobiwashere.de/2017/10/virtualbox-how-to-create-a-macos-high-sierra-vm-to
 
 SIERRA (currently broken):
 
-0. Download the Sierra installer through the Purchased tab in the App Store:
-
-  git clone https://github.com/mas-cli/mas.git
-  scripts/build
-  build/mas install 1127487414
-
-- Kill the installer when it runs automatically, since quitting it normally may
-  result in the installer being deleted.
-
-1. Create an installer ISO from the App Store app:
-
-  hdiutil create -o /tmp/Sierra.cdr -size 7316m -layout SPUD -fs HFS+J
-  hdiutil attach /tmp/Sierra.cdr.dmg -noverify -mountpoint /Volumes/install_build
-  sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --applicationpath /Applications/Install\ macOS\ Sierra.app
-  hdiutil detach /Volumes/Install\ macOS\ Sierra
-  hdiutil convert /tmp/Sierra.cdr.dmg -format UDTO -o Sierra.iso
-  rm /tmp/Sierra.cdr.dmg
-  mv Sierra.iso.cdr Sierra.iso
+1. Create an installer ISO, as for the Parallels VM.
 
 2. Problems from here:
 
@@ -119,37 +213,9 @@ SIERRA (currently broken):
 
 EL CAPITAN:
 
-0. Download the El Capitan installer through the Purchased tab in the App Store.
+1. Create an installer ISO, as for the Parallels VM.
 
-- Kill the installer when it runs automatically, since quitting it normally may
-  result in the installer being deleted.
-
-1. Create an installer ISO from the App Store app:
-
-  hdiutil create -o /tmp/El\ Capitan.cdr -size 7316m -layout SPUD -fs HFS+J
-  hdiutil attach /tmp/El\ Capitan.cdr.dmg -noverify -mountpoint /Volumes/install_build
-  sudo /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app
-  hdiutil detach /Volumes/Install\ OS\ X\ El\ Capitan
-  hdiutil convert /tmp/El\ Capitan.cdr.dmg -format UDTO -o El\ Capitan.iso
-  rm /tmp/El\ Capitan.cdr.dmg
-  mv El\ Capitan.iso.cdr El\ Capitan.iso
-
-2. Add .IAProductInfo as required for read-only install media:
-
-- Find the installer's volume UUID:
-
-  hdiutil attach -noverify -nobrowse /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/SharedSupport/InstallESD.dmg
-  diskutil info /Volumes/OS\ X\ Install\ ESD | grep 'Volume UUID'
-  hdiutil detach /Volumes/OS\ X\ Install\ ESD
-
-- Mount the ISO as a regular user:
-
-  hdiutil attach -noverify -nobrowse El\ Capitan.iso
-  cp IAProductInfo /Volumes/Install\ OS\ X\ El\ Capitan/.IAProductInfo
-  vim /Volumes/Install\ OS\ X\ El\ Capitan/.IAProductInfo (replace the UUID with the one found above)
-  hdiutil detach /Volumes/Install\ OS\ X\ El\ Capitan
-
-3. Create the VM and install the OS:
+2. Create the VM and install the OS:
 
 - Non-default VM options: 2 CPUs, 128MB video memory
 
@@ -163,37 +229,9 @@ EL CAPITAN:
 
 YOSEMITE:
 
-0. Download the Yosemite installer through the Purchased tab in the App Store.
+1. Create an installer ISO, as for the Parallels VM.
 
-- Kill the installer when it runs automatically, since quitting it normally may
-  result in the installer being deleted.
-
-1. Create an installer ISO from the App Store app:
-
-  hdiutil create -o /tmp/Yosemite.cdr -size 7316m -layout SPUD -fs HFS+J
-  hdiutil attach /tmp/Yosemite.cdr.dmg -noverify -mountpoint /Volumes/install_build
-  sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --applicationpath /Applications/Install\ OS\ X\ Yosemite.app
-  hdiutil detach /Volumes/Install\ OS\ X\ Yosemite
-  hdiutil convert /tmp/Yosemite.cdr.dmg -format UDTO -o Yosemite.iso
-  rm /tmp/Yosemite.cdr.dmg
-  mv Yosemite.iso.cdr Yosemite.iso
-
-2. Add .IAProductInfo as required for read-only install media:
-
-- Find the installer's volume UUID:
-
-  hdiutil attach -noverify -nobrowse /Applications/Install\ OS\ X\ Yosemite.app/Contents/SharedSupport/InstallESD.dmg
-  diskutil info /Volumes/OS\ X\ Install\ ESD | grep 'Volume UUID'
-  hdiutil detach /Volumes/OS\ X\ Install\ ESD
-
-- Mount the ISO as a regular user:
-
-  hdiutil attach -noverify -nobrowse Yosemite.iso
-  cp IAProductInfo /Volumes/Install\ OS\ X\ Yosemite/.IAProductInfo
-  vim /Volumes/Install\ OS\ X\ Yosemite/.IAProductInfo (replace the UUID with the one found above)
-  hdiutil detach /Volumes/Install\ OS\ X\ Yosemite
-
-3. Create the VM and install the OS:
+2. Create the VM and install the OS:
 
 - Non-default VM options: 2 CPUs, 128MB video memory
 
