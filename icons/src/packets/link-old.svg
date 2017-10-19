@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns:inkpad="http://taptrix.com/inkpad/svg_extensions"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
+	 style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:url(#SVGID_1_);stroke-width:28;stroke-linecap:square;stroke-linejoin:round;}
+	.st1{fill:none;stroke:url(#SVGID_2_);stroke-width:28;stroke-linecap:square;stroke-linejoin:round;}
+	.st2{fill:none;stroke:url(#SVGID_3_);stroke-width:28;stroke-linecap:square;stroke-linejoin:round;}
+</style>
+<g id="Layer" inkpad:layerName="Layer 1">
+	<radialGradient id="SVGID_1_" cx="267.6925" cy="194.7973" r="158.9122" gradientUnits="userSpaceOnUse">
+		<stop  offset="0" style="stop-color:#B27867"/>
+		<stop  offset="0.5" style="stop-color:#8E4130"/>
+		<stop  offset="1" style="stop-color:#7A1E15"/>
+	</radialGradient>
+	<path class="st0" d="M374,182.3C401,91.3,326.9-2.8,234.3,29c-143.6,49.3-55.9,271.5-5.7,332.3"/>
+	<radialGradient id="SVGID_2_" cx="350.3927" cy="350.0677" r="152.6727" gradientUnits="userSpaceOnUse">
+		<stop  offset="0" style="stop-color:#B27867"/>
+		<stop  offset="0.5" style="stop-color:#8E4130"/>
+		<stop  offset="1" style="stop-color:#7A1E15"/>
+	</radialGradient>
+	<path class="st1" d="M293.7,437.7c103.9,115.3,229.1,16.9,186.6-102.5c-28.5-79.9-161.8-141.3-265.7-119.6"/>
+	<radialGradient id="SVGID_3_" cx="185.309" cy="356.3782" r="152.4225" gradientUnits="userSpaceOnUse">
+		<stop  offset="0" style="stop-color:#B27867"/>
+		<stop  offset="0.5" style="stop-color:#8E4130"/>
+		<stop  offset="1" style="stop-color:#7A1E15"/>
+	</radialGradient>
+	<path class="st2" d="M118.8,248.8c-93.1,45.7-116.5,152.6-73,191.7c89.7,80.6,244.3-23,296.2-164.5"/>
+</g>
+</svg>
