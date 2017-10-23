@@ -3,16 +3,16 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 649 648" style="enable-background:new 0 0 649 648;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#0071BC;stroke-width:60;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st1{fill:none;stroke:#0071BC;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st2{fill:none;stroke:#999999;stroke-width:60;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st3{fill:none;stroke:#999999;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st0{fill:none;stroke:#0071BC;stroke-width:40;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#0071BC;stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#999999;stroke-width:40;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st3{fill:none;stroke:#999999;stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 </style>
 <g>
-	<line class="st0" x1="36" y1="324" x2="558" y2="324"/>
+	<line class="st0" x1="36" y1="324" x2="585" y2="324"/>
 	<polyline class="st1" points="504,216 612,324 504,432 	"/>
 </g>
 <line class="st2" x1="324" y1="612" x2="324" y2="450"/>
 <polyline class="st3" points="216,144 324,36 432,144 "/>
-<line class="st2" x1="324" y1="198" x2="324" y2="99"/>
+<line class="st2" x1="324" y1="198" x2="324" y2="63"/>
 </svg>
