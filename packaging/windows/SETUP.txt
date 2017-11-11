@@ -13,6 +13,7 @@ Install MSYS2:
     pacman -Syu            # full system update
     pacman -S foo bar baz  # install one or more packages
     pacman -Ss foo         # search for package whose name contains "foo"
+    pacman -Scc            # empty the package cache to free disk space
 
 Install basic utilities from MSYS2:
 
@@ -38,7 +39,8 @@ Install build dependencies with standalone installers:
 
   Qt5 (from qt-project.org)
   Graphviz (from graphviz.org)
-  Wix (from wixtoolset.org) - may require .NET to be installed separately
+  Wix (from wixtoolset.org) - may require .NET to be installed separately;
+      on Windows 8 this is done through Control Panel -> Windows Features
 
 Ensure the following are UNINSTALLED:
 
