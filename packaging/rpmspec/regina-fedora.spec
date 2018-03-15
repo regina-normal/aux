@@ -1,4 +1,5 @@
 # Known to work for:
+# - Fedora 27 (x86_64)
 # - Fedora 26 (x86_64)
 # - Fedora 25 (i386, x86_64)
 # - Fedora 24 (i386, x86_64)
@@ -55,6 +56,8 @@ combinatorial and algebraic tools, plus support for normal hypersurfaces.
 
 Regina comes with a full graphical user interface, as well as Python bindings
 and a low-level C++ programming interface.
+
+%global debug_package %{nil}
 
 %prep
 %setup -n regina-%{version}
