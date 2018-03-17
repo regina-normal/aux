@@ -8,13 +8,21 @@
 #
 # - sha1sum and sha256sum have changed to gsha1sum and gsha256sum.
 #
-# - the default keyid is set to my 1024-bit Regina signing key
+# - the default keyid is set to my 4096-bit key from the Debian keyring
 #   (instead of the empty string, which is now commented out far below).
 #
-# (Ben Burton, September 2016)
+# Regina's debian/ubuntu repositories have transitioned from the old
+# 1024-bit key to the new 4096-bit key as of 17 March 2018, since all
+# new uploads from this date will be for distributions where Regina has
+# always asked users to download both keys (not just the old key).
 #
-DEFAULT_DEBSIGN_KEYID=36B861C1
-# DEFAULT_DEBSIGN_KEYID=542D38D9
+# The last distributions for which Regina (historically) ever told users
+# to download just the old key were debian/jessie and ubuntu/vivid.
+#
+# (Ben Burton, March 2018)
+#
+# DEFAULT_DEBSIGN_KEYID=36B861C1
+DEFAULT_DEBSIGN_KEYID=542D38D9
 
 # This program is designed to GPG sign a .dsc and .changes file pair
 # in the form needed for a legal Debian upload.  It is based in part
