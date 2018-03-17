@@ -1,6 +1,6 @@
 Source: regina-normal
 Section: math
-Priority: extra
+Priority: optional
 Maintainer: Ben Burton <bab@debian.org>
 Homepage: http://regina-normal.github.io/
 Build-Depends:
@@ -26,7 +26,7 @@ Build-Depends:
     xsltproc,
     zlib1g-dev,
     dpkg-dev (>= 1.16.0)
-Standards-Version: 3.9.8.0
+Standards-Version: 4.1.0.0
 
 Package: regina-normal
 Architecture: any
@@ -35,9 +35,8 @@ Depends:
     ${shlibs:Depends},
     ${perl:Depends},
     ${python:Depends},
-    ${misc:Depends},
-    regina-normal-doc (>= 5.1-0)
-Recommends: gap, evince | pdf-viewer
+    ${misc:Depends}
+Recommends: regina-normal-doc (>= 5.1-0), gap, evince | pdf-viewer
 Suggests: regina-normal-dev, regina-normal-mpi
 Description: mathematical software for low-dimensional topology
  Regina is a software package for 3-manifold and 4-manifold topologists,
