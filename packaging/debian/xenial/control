@@ -31,6 +31,7 @@ Standards-Version: 3.9.8.0
 Package: regina-normal
 Architecture: any
 Section: math
+Pre-Depends: ${misc:Pre-Depends}
 Depends:
     ${shlibs:Depends},
     ${perl:Depends},
@@ -107,6 +108,7 @@ Description: MPI utilities for Regina, the topology software
 Package: regina-normal-doc
 Architecture: all
 Section: doc
+Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends}
 Recommends: iceweasel | www-browser
 Suggests: regina-normal, regina-normal-dev
