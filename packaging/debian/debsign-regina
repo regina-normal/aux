@@ -1,9 +1,8 @@
 #!/bin/sh
 
-# This is a variant of debsign designed to work on MacOS with Fink, to be·
-# used for uploading packages to Regina's repository on people.debian.org.
+# This is a variant of debsign designed to work on MacOS with Fink.
 #
-# This script is taken from devscripts 2.16.7 (22 August 2016), with the
+# This script is taken from devscripts 2.18.1 (6 March 2018), with the
 # following changes:
 #
 # - sha1sum and sha256sum have changed to gsha1sum and gsha256sum.
