@@ -14,15 +14,9 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
 endif
 
-ifeq ($(shell dpkg-architecture -qDEB_BUILD_ARCH),arm64)
-	# The arm64 build fails under -O3.
-	# The error is not dissimilar to that seen in #839249.
-	# As a stop-gap for now, just use -O2 instead.
-	arch_flags =  "-DCMAKE_C_FLAGS_RELEASE='-O2 -DNDEBUG'"
-	arch_flags += "-DCMAKE_CXX_FLAGS_RELEASE='-O2 -DNDEBUG'"
-else
-	arch_flags =
-endif
+# When setting C/C++ flags, always use -g so the dbgsym packages build.
+arch_flags =  "-DCMAKE_C_FLAGS_RELEASE='-g -O3 -DNDEBUG'"
+arch_flags += "-DCMAKE_CXX_FLAGS_RELEASE='-g -O3 -DNDEBUG'"
 
 # Find the default python version so we can pass it to ./configure.  This 
 # keeps things sane when multiple python*-dev packages are installed.

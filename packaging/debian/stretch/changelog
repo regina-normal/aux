@@ -6,11 +6,13 @@ regina-normal (5.2-1~stretch.1) stretch; urgency=low
 
 regina-normal (5.1-4) unstable; urgency=low
 
-  * Switch packaging to dpkg-source 3.0 (quilt) format.
+  * Switched packaging to dpkg-source 3.0 (quilt) format.
   * The examples, API docs and user handbook have moved from beneath
     /usr/share/doc/ into /usr/share/regina-normal/, to respect preferred
     behaviour in debian policy.  The old directories beneath /usr/share/doc/
     have been replaced with symlinks.
+  * Removed the arm64 -O2 workaround from debian/rules, which was to avoid
+    a gcc breakage that I believe is now fixed.
 
  -- Ben Burton <bab@debian.org>  Sun, 18 Mar 2018 07:35:09 +1000
 
