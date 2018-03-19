@@ -73,7 +73,8 @@ install: build
 	$(MAKE) -C ${build_dir} install DESTDIR=$(CURDIR)/$(tmp)
 
 	# Split into separate binary packages.
-	dh_install --sourcedir=$(tmp) --fail-missing
+	dh_install --sourcedir=$(tmp)
+	dh_missing --sourcedir=$(tmp) --fail-missing
 
 	# Install a pixmap for the menu system.
 	$(INSTALL_DIR) debian/regina-normal/usr/share/pixmaps
