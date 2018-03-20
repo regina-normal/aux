@@ -13,6 +13,10 @@ regina-normal (5.1-4) unstable; urgency=low
     have been replaced with symlinks.
   * Removed the arm64 -O2 workaround from debian/rules, which was to avoid
     a gcc breakage that I believe is now fixed.
+  * Build with -g so that the -dbgsym packages contain real debug symbols.
+    These symbols are still stripped out as usual in the mainstream packages.
+  * Switched to debhelper compatibility level 11; now using
+    dh_missing --fail-missing instead of dh_install --list-missing.
 
  -- Ben Burton <bab@debian.org>  Sun, 18 Mar 2018 07:35:09 +1000
 
