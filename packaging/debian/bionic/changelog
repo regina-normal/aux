@@ -6,6 +6,8 @@ regina-normal (5.2-1ubuntu1~bionic1) bionic; urgency=low
 
 regina-normal (5.1-5) unstable; urgency=low
 
+  * Reorganised debian/rules to use the standard dh sequence instead of
+    many individual dh_* calls.
   * Replaced manual make/cmake calls in debian/rules with dh_auto_*.
   * The package build now respects dpkg-buildflags, and (as a result)
     includes additional security hardening features.
