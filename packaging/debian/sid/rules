@@ -65,15 +65,6 @@ install: build
 	dh_install --sourcedir=$(tmp)
 	dh_missing --sourcedir=$(tmp) --fail-missing
 
-	# Install HIGHLIGHTS.txt (a second changelog) for each package.
-	# We don't do this in dh_installdocs since we want HIGHLIGHTS.txt
-	# to be shipped with every package, not just the main package.
-	for pkg in `dh_listpackages`; do \
-	  $(INSTALL_DIR) debian/$$pkg/usr/share/doc/$$pkg; \
-	  $(INSTALL_FILE) HIGHLIGHTS.txt \
-	    debian/$$pkg/usr/share/doc/$$pkg/HIGHLIGHTS.txt; \
-	done
-
 # Build architecture-independent files here.
 binary-indep: build install
 	dh_testdir
