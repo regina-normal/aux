@@ -1,14 +1,8 @@
 #!/usr/bin/make -f
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
-
 tmp = debian/tmp
 
 DEB_HOST_MULTIARCH ?=$(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
-
-INSTALL_DIR = install -p -d -o root -g root -m 755
-INSTALL_FILE = install -p -o root -g root -m 644
 
 # Upgrade optimisation flags:
 export DEB_CFLAGS_MAINT_STRIP = -O2 -g
