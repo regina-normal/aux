@@ -73,10 +73,6 @@ install: build
 	    debian/$$pkg/usr/share/doc/$$pkg/HIGHLIGHTS.txt; \
 	done
 
-	# Install a pixmap for the menu system.
-	$(INSTALL_DIR) debian/regina-normal/usr/share/pixmaps
-	$(INSTALL_FILE) debian/regina.xpm debian/regina-normal/usr/share/pixmaps/regina-normal.xpm
-
 # Build architecture-independent files here.
 binary-indep: build install
 	dh_testdir
