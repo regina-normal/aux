@@ -1,9 +1,17 @@
 regina-normal (5.2-1) unstable; urgency=low
 
   * New upstream release.
-  * Bumped standards-version to 4.1.3.0 (no changes required).
 
  -- Ben Burton <bab@debian.org>  Sun, 18 Mar 2018 07:35:09 +1000
+
+regina-normal (5.1-5) unstable; urgency=low
+
+  * Replaced manual make/cmake calls in debian/rules with dh_auto_*.
+  * The package build now respects dpkg-buildflags, and (as a result)
+    includes additional security hardening features.
+  * Bumped standards-version to 4.1.3.0 (no changes required).
+
+ -- Ben Burton <bab@debian.org>  Fri, 23 Mar 2018 09:01:58 +1000
 
 regina-normal (5.1-4) unstable; urgency=low
 

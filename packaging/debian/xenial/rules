@@ -10,46 +10,37 @@ DEB_HOST_MULTIARCH ?=$(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 INSTALL_DIR = install -p -d -o root -g root -m 755
 INSTALL_FILE = install -p -o root -g root -m 644
 
-ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
-	INSTALL_PROGRAM += -s
-endif
-
-# Placeholder for any arch-specific flags that we might need later on.
-arch_flags =
+# Upgrade optimisation flags:
+export DEB_CFLAGS_MAINT_STRIP = -O2 -g
+export DEB_CXXFLAGS_MAINT_STRIP = -O2 -g
+export DEB_CFLAGS_MAINT_APPEND = -O3 -DNDEBUG
+export DEB_CXXFLAGS_MAINT_APPEND = -O3 -DNDEBUG
 
 # Find the default python version so we can pass it to ./configure.  This 
 # keeps things sane when multiple python*-dev packages are installed.
 pyver = $(subst python,,$(shell /usr/bin/pyversions --default))
 
-build_dir = builds/debbuild
-
-${build_dir}:
+configure: configure-stamp
+configure-stamp:
 	dh_testdir
 
-	mkdir -p ${build_dir}
-	cd ${build_dir} && \
-		cmake $(CURDIR) $(arch_flags) \
+	dh_auto_configure -- \
 		-DPACKAGE_NAME=regina-normal -DPACKAGING_MODE=1 \
-		$(DEB_CMAKE_CUSTOM_FLAGS) \
 		-DPYTHON_EXECUTABLE=/usr/bin/python${pyver} \
 		-DPYTHON_LIBRARY=/usr/lib/$(DEB_HOST_MULTIARCH)/libpython${pyver}.so \
-		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DDISABLE_RPATH=1 \
-		-DCMAKE_MODULE_PATH="/usr/share/apps/cmake/modules"
+		-DDISABLE_RPATH=1
 
-configure: ${build_dir}
+	touch configure-stamp
 
 build: build-arch build-indep
 build-arch: build-stamp
 build-indep: build-stamp
 
-build-stamp: ${build_dir}
+build-stamp: configure-stamp
 	dh_testdir
 
-	$(MAKE) -C ${build_dir} VERBOSE=1
-ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	$(MAKE) -C ${build_dir} test ARGS=-V
-endif
+	dh_auto_build -- VERBOSE=1
+	dh_auto_test -- ARGS=-V
 
 	touch build-stamp
 
@@ -58,8 +49,7 @@ clean:
 	dh_testroot
 	rm -f build-stamp configure-stamp
 
-	[ ! -d ${build_dir} ] || rm -rf ${build_dir}
-
+	dh_auto_clean
 	dh_clean
 
 install: build
@@ -69,7 +59,7 @@ install: build
 	dh_installdirs
 
 	# Main install.
-	$(MAKE) -C ${build_dir} install DESTDIR=$(CURDIR)/$(tmp)
+	dh_auto_install
 
 	# Split into separate binary packages.
 	dh_install --sourcedir=$(tmp) --fail-missing
