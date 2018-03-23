@@ -77,15 +77,6 @@ install: build
 	$(INSTALL_DIR) debian/regina-normal/usr/share/pixmaps
 	$(INSTALL_FILE) debian/regina.xpm debian/regina-normal/usr/share/pixmaps/regina-normal.xpm
 
-	# Install lintian overrides.
-	for pkg in `dh_listpackages`; do \
-	  if test -e debian/$$pkg.override; then \
-	    $(INSTALL_DIR) debian/$$pkg/usr/share/lintian/overrides; \
-	    $(INSTALL_FILE) debian/$$pkg.override \
-	      debian/$$pkg/usr/share/lintian/overrides/$$pkg; \
-	  fi; \
-	done
-
 # Build architecture-independent files here.
 binary-indep: build install
 	dh_testdir
