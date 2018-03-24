@@ -13,7 +13,7 @@ for i in *; do
 	if [ -d "$i" ]; then
 		echo "Making $i ..."
 		mkdir debian
-		cp -p $i/* debian
+		cp -pr $i/* debian
 		tar -zcf $i.tgz debian
 		rm -rf debian
 	fi
