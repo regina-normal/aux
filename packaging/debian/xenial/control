@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: Ben Burton <bab@debian.org>
 Homepage: http://regina-normal.github.io/
 Build-Depends:
-    debhelper (>= 7),
+    debhelper (>= 9),
     dh-python,
     cmake (>= 2.8.7),
     doxygen,
