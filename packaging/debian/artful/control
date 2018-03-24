@@ -6,6 +6,7 @@ Homepage: http://regina-normal.github.io/
 Build-Depends:
     debhelper (>= 9),
     dh-python,
+    dh-strip-nondeterminism,
     cmake (>= 2.8.7),
     doxygen,
     libboost-iostreams-dev,
