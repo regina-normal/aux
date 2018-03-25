@@ -1,11 +1,11 @@
-#include <triangulation/ntriangulation.h>
+#include <triangulation/dim3.h>
 #include <cstring>
 
 #define MAXLEN 1000 // TODO: Work out what the real upper bound should be.
 
 using namespace regina;
 
-bool interesting(NTriangulation* t) {
+bool interesting(Triangulation<3>* t) {
     return t->isThreeSphere();
 }
 
@@ -19,7 +19,7 @@ int main() {
         if (feof(stdin) || ! res)
             break;
 
-        NTriangulation* t = NTriangulation::fromIsoSig(input);
+        Triangulation<3>* t = Triangulation<3>::fromIsoSig(input);
         if (interesting(t)) {
             printf("%s\n", input);
             ++tot;
