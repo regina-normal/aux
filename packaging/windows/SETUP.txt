@@ -14,6 +14,8 @@ Install MSYS2:
     pacman -S foo bar baz  # install one or more packages
     pacman -Ss foo         # search for package whose name contains "foo"
     pacman -Scc            # empty the package cache to free disk space
+    pacman -Qm             # list packages not in any repository
+    pacman -Qdt            # list orphaned packages (no longer required)
 
 Install basic utilities from MSYS2:
 
@@ -34,6 +36,7 @@ Install build dependencies from mingw-w64:
   pacman -S mingw-w64-i686-jansson
   pacman -S mingw-w64-i686-libxml2
   pacman -S mingw-w64-i686-popt
+  pacman -S mingw-w64-i686-python2
 
 Install build dependencies with standalone installers:
 
