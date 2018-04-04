@@ -48,7 +48,7 @@ fi
 echo 'Checking build dependencies...'
 broken=
 
-qmake=/Users/bab/Qt5/5.7/clang_64/bin/qmake
+qmake=/Users/bab/Qt5.10.1/5.10.1/clang_64/bin/qmake
 if [ ! -e "$qmake" ]; then
   echo "Missing build dependency: Qt standalone installation"
   broken=1
@@ -134,7 +134,7 @@ cmake \
   -DCMAKE_INSTALL_PREFIX="$DEST" \
   -DBOOST_ROOT=/sw/opt/boost-1_63 \
   -DPYTHON_EXECUTABLE="$pybin" \
-  -DCMAKE_PREFIX_PATH=/Users/bab/Qt5/5.7/clang_64 \
+  -DCMAKE_PREFIX_PATH=/Users/bab/Qt5.10.1/5.10.1/clang_64 \
   -DPACKAGING_MODE=1 \
   -DDISABLE_MPI=1 \
   ..
