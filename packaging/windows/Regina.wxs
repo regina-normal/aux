@@ -75,6 +75,7 @@
                 <File Name='regfiledump.exe'/>
                 <File Name='regfiletype.exe'/>
                 <File Name='regina-python'/>
+                <File Name='retriangulate.exe'/>
                 <File Name='sigcensus.exe'/>
                 <File Name='tricensus.exe'/>
                 <File Name='trisetcmp.exe'/>
