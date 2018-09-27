@@ -67,13 +67,7 @@ HIGH SIERRA:
   rm /tmp/High\ Sierra.cdr.dmg
   mv High\ Sierra.iso.cdr High\ Sierra.iso
 
-2. Boot from the ISO, but do not use the GUI installer.
-   Instead open a terminal to start the installer manually, so we can
-   avoid APFS (which is not supported by Parallels 13):
-
-  cd /Volumes/Image\ Volume/Install\ macOS\ High\ Sierra.app/Contents/Resources
-
-  ./startosinstall --volume /Volumes/Macintosh\ HD --converttoapfs NO --applicationpath /Volumes/Image\ Volume/Install\ macOS\ High\ Sierra.app
+2. Boot from the ISO and run the GUI installer.
 
 
 SIERRA:
