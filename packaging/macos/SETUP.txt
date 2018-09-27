@@ -36,6 +36,23 @@ To build MacOS binaries for release:
 BUILDING PARALLELS VMs
 ----------------------
 
+MOJAVE:
+
+0. Download the Mojave installer through the App Store.
+
+1. Create an installer ISO from the installer app:
+
+  hdiutil create -o /tmp/Mojave.cdr -size 7316m -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/Mojave.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ macOS\ Mojave.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build
+  hdiutil detach /Volumes/Install\ macOS\ Mojave
+  hdiutil convert /tmp/Mojave.cdr.dmg -format UDTO -o Mojave.iso
+  rm /tmp/Mojave.cdr.dmg
+  mv Mojave.iso.cdr Mojave.iso
+
+2. Boot from the ISO and run the GUI installer.
+
+
 HIGH SIERRA:
 
 0. Download the High Sierra installer through the App Store.
