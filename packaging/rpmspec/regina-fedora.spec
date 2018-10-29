@@ -1,8 +1,6 @@
 # Known to work for:
+# - Fedora 28 (x86_64)
 # - Fedora 27 (x86_64)
-# - Fedora 26 (x86_64)
-# - Fedora 25 (i386, x86_64)
-# - Fedora 24 (i386, x86_64)
 
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
@@ -18,7 +16,7 @@ Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Requires: mimehandler(application/pdf)
-Requires: python
+Requires: python2
 Conflicts: regina
 
 BuildRequires: boost-devel
@@ -37,7 +35,7 @@ BuildRequires: libxml2-devel
 BuildRequires: libxslt
 BuildRequires: pkgconfig
 BuildRequires: popt-devel
-BuildRequires: python-devel
+BuildRequires: python2-devel
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtsvg-devel
 BuildRequires: shared-mime-info
@@ -80,6 +78,7 @@ export BOOST_FIX=
 %endif
 cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX \
   -DCMAKE_VERBOSE_MAKEFILE=ON -DDISABLE_MPI=1 -DPACKAGING_MODE=1 ${BOOST_FIX} \
+  -DPYTHON_EXECUTABLE=/usr/bin/python2 \
   ..
 popd
 

@@ -1,4 +1,5 @@
 # Known to work for:
+# - openSuSE Leap 15.0 (x86_64)
 # - openSuSE Leap 42.3 (x86_64)
 
 Name: regina-normal
@@ -15,7 +16,7 @@ Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Requires: mimehandler(application/pdf)
-Requires: python
+Requires: python2
 Conflicts: regina
 
 BuildRequires: boost-devel >= 1.55
@@ -37,7 +38,7 @@ BuildRequires: libxml2-devel
 BuildRequires: libxslt-tools
 BuildRequires: pkg-config
 BuildRequires: popt-devel
-BuildRequires: python-devel
+BuildRequires: python2-devel
 BuildRequires: shared-mime-info
 BuildRequires: zlib-devel
 
@@ -72,7 +73,7 @@ mkdir build
 cd build
 export LIB_SUFFIX=$(echo %_lib | cut -b4-)
 
-cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX -DDISABLE_MPI=1 -DPACKAGING_MODE=1 ..
+cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX -DDISABLE_MPI=1 -DPACKAGING_MODE=1 -DPYTHON_EXECUTABLE=/usr/bin/python2 ..
 
 %make_jobs
 
