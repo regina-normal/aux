@@ -1,4 +1,5 @@
 # Known to work for:
+# - Fedora 29 (x86_64)
 # - Fedora 28 (x86_64)
 # - Fedora 27 (x86_64)
 
@@ -20,6 +21,9 @@ Requires: python2
 Conflicts: regina
 
 BuildRequires: boost-devel
+%if 0%{?fedora} >= 29
+BuildRequires: boost-python2-devel
+%endif
 BuildRequires: cmake
 BuildRequires: cppunit-devel
 BuildRequires: desktop-file-utils
