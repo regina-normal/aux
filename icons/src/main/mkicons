@@ -94,11 +94,11 @@ for i in 16; do
   render app-lores.svg ios/app-$i.png $i
 done
 
-for i in 20 29 32 40 58 64 76 80 120 128 152 167 180 256 512 1024; do
+for i in 20 29 32 40 58 64 76 80 87 120 128 152 167 180 256 512 1024; do
   render app.svg ios/app-$i.png $i
 done
 
-for i in 29 32 40 58 80 256 512; do
+for i in 29 32 40 58 80 120 256 512 1024; do
   # These sizes are used twice.
   cp -p ios/app-$i.png ios/app-${i}-1.png
 done
