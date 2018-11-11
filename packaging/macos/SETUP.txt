@@ -42,7 +42,9 @@ BUILDING PARALLELS VMs
 
 MOJAVE:
 
-0. Download the Mojave installer through the App Store.
+0. Download the Mojave installer through the App Store:
+
+  https://itunes.apple.com/us/app/macos-mojave/id1398502828?ls=1&mt=12
 
 1. Create an installer ISO from the installer app:
 
@@ -59,7 +61,9 @@ MOJAVE:
 
 HIGH SIERRA:
 
-0. Download the High Sierra installer through the App Store.
+0. Download the High Sierra installer through the App Store:
+
+  https://itunes.apple.com/us/app/macos-high-sierra/id1246284741?mt=12
 
 1. Create an installer ISO from the installer app:
 
@@ -78,9 +82,7 @@ SIERRA:
 
 0. Download the Sierra installer through the App Store:
 
-  git clone https://github.com/mas-cli/mas.git
-  scripts/build
-  build/mas install 1127487414
+  https://itunes.apple.com/us/app/macos-sierra/id1127487414?ls=1&mt=12
 
 - Kill the installer when it runs automatically, since quitting it normally may
   result in the installer being deleted.
