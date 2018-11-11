@@ -32,6 +32,10 @@ To build MacOS binaries for release:
 
     collect Regina-X.Y.dmg for distribution
 
+To find all signing identities:
+
+    security find-identity -v -p codesigning
+
 ----------------------
 BUILDING PARALLELS VMs
 ----------------------
