@@ -78,7 +78,7 @@ HIGH SIERRA:
 2. Boot from the ISO and run the GUI installer.
 
 
-SIERRA:
+SIERRA (last installable Xcode is 9.2):
 
 0. Download the Sierra installer through the App Store:
 
@@ -100,7 +100,7 @@ SIERRA:
 2. Boot from the ISO and run the GUI installer.
 
 
-EL CAPITAN:
+EL CAPITAN (last installable Xcode is 8.2):
 
 0. Download the El Capitan installer through the Purchased tab in the App Store.
 
