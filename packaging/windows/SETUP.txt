@@ -45,6 +45,12 @@ Install build dependencies with standalone installers:
   Wix (from wixtoolset.org) - may require .NET to be installed separately;
       on Windows 8 this is done through Control Panel -> Windows Features
 
+To prepare WiX for use:
+
+  If WiX is not on the path, add aliases to ~/.bashrc:
+    alias candle='"/c/Program Files/WiX Toolset v3.10/bin/candle"'
+    alias light='"/c/Program Files/WiX Toolset v3.10/bin/light"'
+
 Ensure the following are UNINSTALLED:
 
   Python2.7 (from python.org) - causes problems with MinGW's math.h
@@ -67,6 +73,11 @@ To build qdbm, which replaces tokyocabinet for MinGW (verified for v1.8.78):
 BUILDING REGINA
 ---------------
 
+To package the python system library for shipping:
+
+  cd /mingw32/lib/python2.7
+  zip -r ~/python/python27.zip . -x distutils/\* -x \*.pyc -x \*.pyo
+
 To build regina:
 
   cd ~/software/regina-X.Y/build
@@ -85,8 +96,6 @@ To run locally:
 
   Copy all necessary DLLs into software/bin.
 
-  Copy python27.zip and zlib.pyd into software/lib/regina/python.
-
   - Most DLLs come from /mingw32/bin/.
 
   - Some DLLs come from graphviz bin/:
@@ -94,20 +103,12 @@ To run locally:
       gvplugin_dot_layout gvplugin_neato_layout
       ltdl libexpat libglib-2.0-0
 
+  Copy ~/python/python27.zip and /mingw32/lib/python2.7/lib-dynload/zlib.pyd
+  into software/lib/regina/python.
+
 ----------------------
 BUILDING THE INSTALLER
 ----------------------
-
-Package the python system library for shipping:
-
-  cd /mingw32/lib/python2.7
-  zip -r ~/python/python27.zip . -x distutils/\* -x \*.pyc -x \*.pyo
-
-To prepare WiX for use:
-
-  If WiX is not on the path, add aliases to ~/.bashrc:
-    alias candle='"/c/Program Files/WiX Toolset v3.10/bin/candle"'
-    alias light='"/c/Program Files/WiX Toolset v3.10/bin/light"'
 
 Update the WiX source file:
 
