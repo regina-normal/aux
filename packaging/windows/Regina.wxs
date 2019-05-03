@@ -105,6 +105,7 @@
                 <File Source='c:\msys32\mingw32\bin\libiconv-2.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libjansson-4.dll'/>
                 <File Source='c:\msys32\mingw32\bin\liblzma-5.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libpopt-0.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libstdc++-6.dll'
                  KeyPath='yes'/>
                 <File Source='c:\msys32\mingw32\bin\libwinpthread-1.dll'/>
