@@ -82,10 +82,10 @@
               </Component>
               <Component Id='CoreDLLs'
                Guid='7D74E2A7-1970-4751-94E2-DB9674CA2C64'>
-                <File Source='c:\Qt\Qt5.10.1\5.10.1\mingw53_32\bin\Qt5Core.dll'/>
-                <File Source='c:\Qt\Qt5.10.1\5.10.1\mingw53_32\bin\Qt5Gui.dll'/>
-                <File Source='c:\Qt\Qt5.10.1\5.10.1\mingw53_32\bin\Qt5Svg.dll'/>
-                <File Source='c:\Qt\Qt5.10.1\5.10.1\mingw53_32\bin\Qt5Widgets.dll'/>
+                <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\bin\Qt5Core.dll'/>
+                <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\bin\Qt5Gui.dll'/>
+                <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\bin\Qt5Svg.dll'/>
+                <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\bin\Qt5Widgets.dll'/>
                 <File Source='c:\Program Files\Graphviz2.38\bin\cdt.dll'/>
                 <File Source='c:\Program Files\Graphviz2.38\bin\cgraph.dll'/>
                 <File Source='c:\Program Files\Graphviz2.38\bin\gvc.dll'/>
@@ -127,14 +127,14 @@
                 <Directory Id='BINDIR_plugins_platforms' Name='platforms'>
                   <Component Id='QtPlatforms'
                    Guid='8265E5B7-99EE-4BC3-84FD-B2C871AD10C3'>
-                    <File Source='c:\Qt\Qt5.10.1\5.10.1\mingw53_32\plugins\platforms\qwindows.dll'
+                    <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\plugins\platforms\qwindows.dll'
                      KeyPath='yes'/>
                   </Component>
                 </Directory>
                 <Directory Id='BINDIR_plugins_styles' Name='styles'>
                   <Component Id='QtStyles'
                    Guid='7894BBD8-BE9A-4BFB-B8D1-9F1E56C3F549'>
-                    <File Source='c:\Qt\Qt5.10.1\5.10.1\mingw53_32\plugins\styles\qwindowsvistastyle.dll'
+                    <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\plugins\styles\qwindowsvistastyle.dll'
                      KeyPath='yes'/>
                   </Component>
                 </Directory>
