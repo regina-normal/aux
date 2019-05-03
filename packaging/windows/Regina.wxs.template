@@ -250,6 +250,22 @@
                   <Component Id='IconsRegina'
                    Guid='555B7874-574B-4323-9D12-9DF00DF9024B'>
                     <File Name='SOURCES' KeyPath='yes'/>
+                    <File Name='crossing+l-16.png' Id='crossingpl16.png'/>
+                    <File Name='crossing+l-16@2x.png' Id='crossingpl16x2.png'/>
+                    <File Name='crossing+l-22.png' Id='crossingpl22.png'/>
+                    <File Name='crossing+l-22@2x.png' Id='crossingpl22x2.png'/>
+                    <File Name='crossing+u-16.png' Id='crossingpu16.png'/>
+                    <File Name='crossing+u-16@2x.png' Id='crossingpu16x2.png'/>
+                    <File Name='crossing+u-22.png' Id='crossingpu22.png'/>
+                    <File Name='crossing+u-22@2x.png' Id='crossingpu22x2.png'/>
+                    <File Name='crossing-l-16.png' Id='crossingnl16.png'/>
+                    <File Name='crossing-l-16@2x.png' Id='crossingnl16x2.png'/>
+                    <File Name='crossing-l-22.png' Id='crossingnl22.png'/>
+                    <File Name='crossing-l-22@2x.png' Id='crossingnl22x2.png'/>
+                    <File Name='crossing-u-16.png' Id='crossingnu16.png'/>
+                    <File Name='crossing-u-16@2x.png' Id='crossingnu16x2.png'/>
+                    <File Name='crossing-u-22.png' Id='crossingnu22.png'/>
+                    <File Name='crossing-u-22@2x.png' Id='crossingnu22x2.png'/>
                     <File Name='*.png'/>
                   </Component>
                 </Directory>
