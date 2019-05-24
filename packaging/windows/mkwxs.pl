@@ -1,10 +1,20 @@
 #!/usr/bin/perl -w
 use strict;
 
+# ------------------------------------------------------------------------
+# Begin configuration variables
+#
+# You should check and/or edit these before each build.
+# ------------------------------------------------------------------------
+my $regina_version = '5.2';
+my $regina_build = '5.2.0';
 my $qtver = '5.12.3';
 my $mingwver = '73';
 my $srctree_from_msys = 'home\bab\git\regina';
 # my $srctree_from_msys = 'home\bab\software\regina-5.2';
+# ------------------------------------------------------------------------
+# End configuration variables
+# ------------------------------------------------------------------------
 
 open(TEMPLATE, '<', 'Regina.wxs.template') or die;
 open(WXS, '>', 'Regina.wxs') or die;
@@ -41,6 +51,8 @@ my $currPath = undef;
 my $currExclude = {};
 my ($name, $prefix, $suffix);
 while (<TEMPLATE>) {
+    s/\$regina_version/$regina_version/g;
+    s/\$regina_build/$regina_build/g;
     s/\$msys/$msys/g;
     s/\$mingw/$mingw/g;
     s/\$qt/$qt/g;

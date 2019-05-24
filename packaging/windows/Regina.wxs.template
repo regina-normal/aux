@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
   <Product Id='*'
-   Name='Regina 5.2'
+   Name='Regina $regina_version'
    UpgradeCode='C3D9D7D7-6614-4F3F-9D8E-EEA184C24A99'
    Language='1033'
    Codepage='1252'
-   Version='5.2.0'
+   Version='$regina_build'
    Manufacturer='Regina development team'>
     <Package Id='*'
      Keywords='Installer'
-     Description='Regina 5.2 Installer'
+     Description='Regina $regina_version Installer'
      Manufacturer='Regina development team'
      Languages='1033'
      Compressed='yes'
@@ -23,7 +23,7 @@
     </InstallExecuteSequence>
 
     <Media Id='1' Cabinet='Regina.cab' EmbedCab='yes' DiskPrompt='Disk #1'/>
-    <Property Id='DiskPrompt' Value='Regina 5.2 Installation [1]'/>
+    <Property Id='DiskPrompt' Value='Regina $regina_version Installation [1]'/>
     <UIRef Id='WixUI_Regina'/>
     <UIRef Id='WixUI_ErrorProgressText'/>
     <Property Id='WIXUI_INSTALLDIR' Value='INSTALLDIR'/>
@@ -33,7 +33,7 @@
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <Directory Id='$programfiles' Name='PFiles'>
         <Directory Id='Regina' Name='Regina'>
-          <Directory Id='INSTALLDIR' Name='Regina 5.2'
+          <Directory Id='INSTALLDIR' Name='Regina $regina_version'
            FileSource='$msys\home\bab\software'>
 
             <Directory Id='BINDIR' Name='bin'>
@@ -50,7 +50,7 @@
                    Advertise='yes'/>
                   <Shortcut Id='desktopRegina'
                    Directory='DesktopFolder'
-                   Name='Regina 5.2'
+                   Name='Regina $regina_version'
                    WorkingDirectory='PersonalFolder'
                    Icon='regina.ico'
                    Advertise='yes'/>
@@ -300,7 +300,7 @@
         </Directory>
       </Directory>
       <Directory Id='ProgramMenuFolder' Name='Programs'>
-        <Directory Id='ProgramMenuDir' Name='Regina 5.2'>
+        <Directory Id='ProgramMenuDir' Name='Regina $regina_version'>
           <Component Id='ProgramMenuDir'
            Guid='2EF46552-9E7B-4822-A773-621B48A205B4'>
             <RemoveFolder Id='ProgramMenuDir' On='uninstall'/>
@@ -315,7 +315,7 @@
     </Directory>
 
     <Feature Id='Complete'
-     Title='Regina 5.2'
+     Title='Regina $regina_version'
      Description='The complete package.'
      AllowAdvertise='no'
      InstallDefault='local'
