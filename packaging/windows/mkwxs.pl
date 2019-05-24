@@ -10,6 +10,7 @@ open(WXS, '>', 'Regina.wxs') or die;
 my $msys;
 my $mingw;
 my $qt;
+my $programfiles;
 
 my $arch = `uname -m`;
 chomp $arch;
@@ -17,10 +18,12 @@ if ($arch eq 'x86_64') {
     $msys = 'c:\msys64';
     $mingw = 'c:\msys64\mingw64';
     $qt = "c:\\Qt\\$qtver\\mingw${mingwver}_64";
+    $programfiles = 'ProgramFiles64Folder';
 } elsif ($arch eq 'i686') {
     $msys = 'c:\msys32';
     $mingw = 'c:\msys32\mingw32';
     $qt = "c:\\Qt\\$qtver\\mingw${mingwver}_32";
+    $programfiles = 'ProgramFilesFolder';
 } else {
     die "Unknown architecture: $arch";
 }
@@ -36,6 +39,7 @@ while (<TEMPLATE>) {
     s/\$msys/$msys/g;
     s/\$mingw/$mingw/g;
     s/\$qt/$qt/g;
+    s/\$programfiles/$programfiles/g;
 
     />.*</ and die;
 
