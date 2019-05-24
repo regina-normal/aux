@@ -26,4 +26,3 @@ cmake -G 'MSYS Makefiles' -DQDBM=1 \
   -DREGINA_BOOST_DO_NOT_FIX_CONVERTERS=1 \
   ..
 
-# Debug: -DCMAKE_BUILD_TYPE=Debug
