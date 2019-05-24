@@ -4,7 +4,7 @@ READY-MADE DEPENDENCIES
 
 Install MSYS2:
 
-  Download the 32-bit installer from https://msys2.github.io/
+  Download the {64,32}-bit installer from https://msys2.github.io/
   Follow instructions on that page to update the core packages
 
   General notes for how to use the package manager:
@@ -28,34 +28,37 @@ Install basic utilities from MSYS2:
 Install build dependencies from mingw-w64:
 
   pacman -S make libxslt texinfo
-  pacman -S mingw-w64-i686-toolchain
-  pacman -S mingw-w64-i686-boost
-  pacman -S mingw-w64-i686-cmake
-  pacman -S mingw-w64-i686-cppunit
-  pacman -S mingw-w64-i686-doxygen
-  pacman -S mingw-w64-i686-jansson
-  pacman -S mingw-w64-i686-libxml2
-  pacman -S mingw-w64-i686-popt
-  pacman -S mingw-w64-i686-python2
+  pacman -S mingw-w64-{x86_64,i686}-toolchain
+  pacman -S mingw-w64-{x86_64,i686}-boost
+  pacman -S mingw-w64-{x86_64,i686}-cmake
+  pacman -S mingw-w64-{x86_64,i686}-cppunit
+  pacman -S mingw-w64-{x86_64,i686}-doxygen
+  pacman -S mingw-w64-{x86_64,i686}-graphviz
+  pacman -S mingw-w64-{x86_64,i686}-jansson
+  pacman -S mingw-w64-{x86_64,i686}-libxml2
+  pacman -S mingw-w64-{x86_64,i686}-popt
+  pacman -S mingw-w64-{x86_64,i686}-python2
 
 Install build dependencies with standalone installers:
 
-  Qt5 (from qt-project.org)
-  Graphviz (from graphviz.org)
+  Qt5 (from qt-project.org) - use the online installer (which is mandatory
+      for the x86_64 build)
   Wix (from wixtoolset.org) - may require .NET to be installed separately;
       on Windows 8 this is done through Control Panel -> Windows Features
 
 To prepare WiX for use:
 
-  If WiX is not on the path, add aliases to ~/.bashrc:
-    alias candle='"/c/Program Files/WiX Toolset v3.10/bin/candle"'
-    alias light='"/c/Program Files/WiX Toolset v3.10/bin/light"'
+  If WiX is not on the path, add aliases to ~/.bashrc;
+  note that the " (x86)" suffix is only needed for 64-bit windows:
+
+    alias candle='"/c/Program Files (x86)/WiX Toolset v3.11/bin/candle"'
+    alias light='"/c/Program Files (x86)/WiX Toolset v3.11/bin/light"'
 
 Ensure the following are UNINSTALLED:
 
   Python2.7 (from python.org) - causes problems with MinGW's math.h
 
-NOTE: To put gcc on the path, you need to run the mingw32 shell, not msys2.
+NOTE: To put gcc on the path, you need to run the mingw{64,32} shell, not msys2.
 
 ------------------------
 HAND-ROLLED DEPENDENCIES
@@ -75,7 +78,7 @@ BUILDING REGINA
 
 To package the python system library for shipping:
 
-  cd /mingw32/lib/python2.7
+  cd /mingw{64,32}/lib/python2.7
   zip -r ~/python/python27.zip . -x distutils/\* -x \*.pyc -x \*.pyo
 
 To build regina:
@@ -96,15 +99,12 @@ To run locally:
 
   Copy all necessary DLLs into software/bin.
 
-  - Most DLLs come from /mingw32/bin/.
+  - All DLLs come from /mingw{64,32}/bin/ or the Qt installation.
 
-  - Some DLLs come from graphviz bin/:
-      gvc cdt cgraph Pathplan gvplugin_core
-      gvplugin_dot_layout gvplugin_neato_layout
-      ltdl libexpat libglib-2.0-0
+  Copy python libraries into software/lib/regina/python:
 
-  Copy ~/python/python27.zip and /mingw32/lib/python2.7/lib-dynload/zlib.pyd
-  into software/lib/regina/python.
+    ~/python/python27.zip
+    /mingw{64,32}/lib/python2.7/lib-dynload/zlib.pyd
 
 ----------------------
 BUILDING THE INSTALLER
@@ -117,7 +117,7 @@ Update the WiX source file:
   - Check the list of files that Regina.wxs.template installs.
 
       * If more unique IDs are required (e.g., there are new * components),
-        then run "uuidgen" (which comes with msys32) to generate them.
+        then run "uuidgen" (which comes with msys2) to generate them.
 
   - Run "make install" from the source tree, ensuring that ~/software is
     clean of any old Regina files.
