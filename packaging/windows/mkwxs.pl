@@ -3,6 +3,8 @@ use strict;
 
 my $qtver = '5.12.3';
 my $mingwver = '73';
+my $srctree_from_msys = 'home\bab\git\regina';
+# my $srctree_from_msys = 'home\bab\software\regina-5.2';
 
 open(TEMPLATE, '<', 'Regina.wxs.template') or die;
 open(WXS, '>', 'Regina.wxs') or die;
@@ -11,6 +13,7 @@ my $msys;
 my $mingw;
 my $qt;
 my $programfiles;
+my $libgcc;
 
 my $arch = `uname -m`;
 chomp $arch;
@@ -19,11 +22,13 @@ if ($arch eq 'x86_64') {
     $mingw = 'c:\msys64\mingw64';
     $qt = "c:\\Qt\\$qtver\\mingw${mingwver}_64";
     $programfiles = 'ProgramFiles64Folder';
+    $libgcc = 'libgcc_s_seh-1.dll';
 } elsif ($arch eq 'i686') {
     $msys = 'c:\msys32';
     $mingw = 'c:\msys32\mingw32';
     $qt = "c:\\Qt\\$qtver\\mingw${mingwver}_32";
     $programfiles = 'ProgramFilesFolder';
+    $libgcc = 'libgcc_s_dw2-1.dll';
 } else {
     die "Unknown architecture: $arch";
 }
@@ -40,6 +45,8 @@ while (<TEMPLATE>) {
     s/\$mingw/$mingw/g;
     s/\$qt/$qt/g;
     s/\$programfiles/$programfiles/g;
+    s/\$libgcc/$libgcc/g;
+    s/\$srctree/$msys\\$srctree_from_msys/g;
 
     />.*</ and die;
 
