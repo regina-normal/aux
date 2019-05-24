@@ -1,7 +1,29 @@
 #!/bin/sh
-export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/home/bab/software/lib/pkgconfig:/c/Program Files/Graphviz2.38/lib/pkgconfig"
+set -e
+
+qtver=5.12.3
+# gvdir="/c/Program Files/Graphviz2.38"
+arch=`uname -m`
+
+if [ "$arch" = x86_64 ]; then
+  qtdir="/c/Qt/$qtver/mingw73_64"
+elif [ "$arch" = i686 ]; then
+  qtdir="/c/Qt/$qtver/mingw73_32"
+else
+  echo "ERROR: Unknown architecture: $arch"
+  exit 1
+fi
+
+if [ -z "$gvdir" ]; then
+  export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/home/bab/software/lib/pkgconfig"
+else
+  export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/home/bab/software/lib/pkgconfig:$gvdir/lib/pkgconfig"
+fi
+
 cmake -G 'MSYS Makefiles' -DQDBM=1 \
-  -DCMAKE_PREFIX_PATH=/c/Qt/Qt5.11.2/5.11.2/mingw53_32 \
+  -DCMAKE_PREFIX_PATH="$qtdir" \
   -DCMAKE_INSTALL_PREFIX=/home/bab/software \
   -DREGINA_BOOST_DO_NOT_FIX_CONVERTERS=1 \
   ..
+
+# Debug: -DCMAKE_BUILD_TYPE=Debug
