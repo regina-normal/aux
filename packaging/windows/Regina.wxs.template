@@ -82,35 +82,41 @@
               </Component>
               <Component Id='CoreDLLs'
                Guid='7D74E2A7-1970-4751-94E2-DB9674CA2C64'>
-                <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\bin\Qt5Core.dll'/>
-                <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\bin\Qt5Gui.dll'/>
-                <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\bin\Qt5Svg.dll'/>
-                <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\bin\Qt5Widgets.dll'/>
-                <File Source='c:\Program Files\Graphviz2.38\bin\cdt.dll'/>
-                <File Source='c:\Program Files\Graphviz2.38\bin\cgraph.dll'/>
-                <File Source='c:\Program Files\Graphviz2.38\bin\gvc.dll'/>
-                <File Source='c:\Program Files\Graphviz2.38\bin\gvplugin_core.dll'/>
-                <File Source='c:\Program Files\Graphviz2.38\bin\gvplugin_dot_layout.dll'/>
-                <File Source='c:\Program Files\Graphviz2.38\bin\gvplugin_neato_layout.dll'/>
-                <File Source='c:\Program Files\Graphviz2.38\bin\libexpat.dll'/>
-                <File Source='c:\Program Files\Graphviz2.38\bin\libglib-2.0-0.dll'/>
-                <File Source='c:\Program Files\Graphviz2.38\bin\ltdl.dll'/>
-                <File Source='c:\Program Files\Graphviz2.38\bin\PathPlan.dll'/>
+                <File Source='c:\Qt\5.12.3\mingw73_32\bin\Qt5Core.dll'/>
+                <File Source='c:\Qt\5.12.3\mingw73_32\bin\Qt5Gui.dll'/>
+                <File Source='c:\Qt\5.12.3\mingw73_32\bin\Qt5Svg.dll'/>
+                <File Source='c:\Qt\5.12.3\mingw73_32\bin\Qt5Widgets.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libboost_iostreams-mt.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libboost_python27-mt.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libbz2-1.dll'/>
-                <File Source='c:\msys32\mingw32\bin\libgcc_s_dw2-1.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libcdt-5.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libcgraph-6.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libexpat-1.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libgcc_s_seh-1.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libglib-2.0-0.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libgmp-10.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libgmpxx-4.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libgts-0-7-5.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libgvc-6.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libgvplugin_core-6.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libgvplugin_dot_layout-6.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libgvplugin_neato_layout-6.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libiconv-2.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libintl-8.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libjansson-4.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libltdl-7.dll'/>
                 <File Source='c:\msys32\mingw32\bin\liblzma-5.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libpathplan-4.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libpcre-1.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libpopt-0.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libstdc++-6.dll'
                  KeyPath='yes'/>
+                <File Source='c:\msys32\mingw32\bin\libsystre-0.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libtre-5.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libwinpthread-1.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libxdot-4.dll'/>
                 <File Source='c:\msys32\mingw32\bin\libxml2-2.dll'/>
+                <File Source='c:\msys32\mingw32\bin\libzstd.dll'/>
                 <File Source='c:\msys32\mingw32\bin\zlib1.dll'/>
               </Component>
               <Component Id='PythonCore'
@@ -127,14 +133,14 @@
                 <Directory Id='BINDIR_plugins_platforms' Name='platforms'>
                   <Component Id='QtPlatforms'
                    Guid='8265E5B7-99EE-4BC3-84FD-B2C871AD10C3'>
-                    <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\plugins\platforms\qwindows.dll'
+                    <File Source='c:\Qt\5.12.3\mingw73_32\plugins\platforms\qwindows.dll'
                      KeyPath='yes'/>
                   </Component>
                 </Directory>
                 <Directory Id='BINDIR_plugins_styles' Name='styles'>
                   <Component Id='QtStyles'
                    Guid='7894BBD8-BE9A-4BFB-B8D1-9F1E56C3F549'>
-                    <File Source='c:\Qt\Qt5.11.2\5.11.2\mingw53_32\plugins\styles\qwindowsvistastyle.dll'
+                    <File Source='c:\Qt\5.12.3\mingw73_32\plugins\styles\qwindowsvistastyle.dll'
                      KeyPath='yes'/>
                   </Component>
                 </Directory>
