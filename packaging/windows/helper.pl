@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 use File::Copy qw(copy);
+use Cwd qw(cwd);
 
 # ------------------------------------------------------------------------
 # Begin manual configuration variables
@@ -274,6 +275,8 @@ sub mkwxs {
 
     &cleanwxs;
 
+    my $cwd = cwd;
+
     open(TEMPLATE, '<', "$regina_wxs.template") or die;
     open(WXS, '>', $regina_wxs) or die;
 
@@ -384,6 +387,8 @@ sub mkwxs {
 
     close(TEMPLATE);
     close(WXS);
+
+    chdir $cwd or die;
 
     print "Created $regina_wxs.\n";
 }
