@@ -83,42 +83,7 @@
               </Component>
               <Component Id='CoreDLLs'
                Guid='7D74E2A7-1970-4751-94E2-DB9674CA2C64'>
-                <File Source='$qt\bin\Qt5Core.dll'/>
-                <File Source='$qt\bin\Qt5Gui.dll'/>
-                <File Source='$qt\bin\Qt5Svg.dll'/>
-                <File Source='$qt\bin\Qt5Widgets.dll'/>
-                <File Source='$mingw\bin\libboost_iostreams-mt.dll'/>
-                <File Source='$mingw\bin\libboost_python27-mt.dll'/>
-                <File Source='$mingw\bin\libbz2-1.dll'/>
-                <File Source='$mingw\bin\libcdt-5.dll'/>
-                <File Source='$mingw\bin\libcgraph-6.dll'/>
-                <File Source='$mingw\bin\libexpat-1.dll'/>
-                <File Source='$mingw\bin\$libgcc'/>
-                <File Source='$mingw\bin\libglib-2.0-0.dll'/>
-                <File Source='$mingw\bin\libgmp-10.dll'/>
-                <File Source='$mingw\bin\libgmpxx-4.dll'/>
-                <File Source='$mingw\bin\libgts-0-7-5.dll'/>
-                <File Source='$mingw\bin\libgvc-6.dll'/>
-                <File Source='$mingw\bin\libgvplugin_core-6.dll'/>
-                <File Source='$mingw\bin\libgvplugin_dot_layout-6.dll'/>
-                <File Source='$mingw\bin\libgvplugin_neato_layout-6.dll'/>
-                <File Source='$mingw\bin\libiconv-2.dll'/>
-                <File Source='$mingw\bin\libintl-8.dll'/>
-                <File Source='$mingw\bin\libjansson-4.dll'/>
-                <File Source='$mingw\bin\libltdl-7.dll'/>
-                <File Source='$mingw\bin\liblzma-5.dll'/>
-                <File Source='$mingw\bin\libpathplan-4.dll'/>
-                <File Source='$mingw\bin\libpcre-1.dll'/>
-                <File Source='$mingw\bin\libpopt-0.dll'/>
-                <File Source='$mingw\bin\libstdc++-6.dll'
-                 KeyPath='yes'/>
-                <File Source='$mingw\bin\libsystre-0.dll'/>
-                <File Source='$mingw\bin\libtre-5.dll'/>
-                <File Source='$mingw\bin\libwinpthread-1.dll'/>
-                <File Source='$mingw\bin\libxdot-4.dll'/>
-                <File Source='$mingw\bin\libxml2-2.dll'/>
-                <File Source='$mingw\bin\libzstd.dll'/>
-                <File Source='$mingw\bin\zlib1.dll'/>
+                $coredlls
               </Component>
               <Component Id='PythonCore'
                Guid='487000C7-4872-4E6D-A110-4492A9A30F3C'>
