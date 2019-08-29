@@ -49,6 +49,10 @@ To find which packages are newer than the apt-get sources:
     apt-get install apt-show-versions
     apt-show-vesrions | fgrep newer
 
+To avoid building the enormous dbgsym packages, put in .bashrc:
+
+    export DEB_BUILD_OPTIONS=noautodbgsym
+
 To build binary packages only on debian sid from a .dsc:
 
     sbuild -d sid *.dsc
