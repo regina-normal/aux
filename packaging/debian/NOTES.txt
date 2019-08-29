@@ -44,6 +44,11 @@ To force the .orig.tar.gz to be uploaded (not just the diff):
 OLD NOTES
 ---------
 
+To find which packages are newer than the apt-get sources:
+
+    apt-get install apt-show-versions
+    apt-show-vesrions | fgrep newer
+
 To build binary packages only on debian sid from a .dsc:
 
     sbuild -d sid *.dsc
