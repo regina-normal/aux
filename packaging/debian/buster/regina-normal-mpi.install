@@ -1,0 +1,4 @@
+usr/bin/tricensus-mpi
+usr/bin/tricensus-mpi-status
+usr/share/man/man1/tricensus-mpi*
+../../HIGHLIGHTS.txt usr/share/doc/regina-normal-mpi
