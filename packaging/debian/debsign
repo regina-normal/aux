@@ -7,6 +7,8 @@
 #
 # - sha1sum and sha256sum have changed to gsha1sum and gsha256sum.
 #
+# - getopt has been changed to /sw/bin/getopt.
+#
 # - the default keyid is set to my 4096-bit key from the Debian keyring
 #   (instead of the empty string, which is now commented out far below).
 #
@@ -349,7 +351,7 @@ else
     fi
 fi
 
-TEMP=$(getopt -n "$PROGNAME" -o 'p:m:e:k:Sa:t:r:h' \
+TEMP=$(/sw/bin/getopt -n "$PROGNAME" -o 'p:m:e:k:Sa:t:r:h' \
 	      -l 'multi,re-sign,no-re-sign,debs-dir:' \
 	      -l 'noconf,no-conf,help,version' \
 	      -- "$@") || (rc=$?; usage >&2; exit $rc)
