@@ -91,21 +91,15 @@ popd
 %post
 /sbin/ldconfig
 
+%mime_database_post
 %desktop_database_post
-
-# Hand-roll our own update-mime-database so we can pipe output to /dev/null.
-%{_bindir}/update-mime-database "%{_datadir}/mime" &> /dev/null || true
-
 %icon_theme_cache_post
 
 %postun
 /sbin/ldconfig
 
+%mime_database_postun
 %desktop_database_postun
-
-# Hand-roll our own update-mime-database so we can pipe output to /dev/null.
-%{_bindir}/update-mime-database "%{_datadir}/mime" &> /dev/null || true
-
 %icon_theme_cache_postun
 
 %clean
