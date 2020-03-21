@@ -113,7 +113,7 @@ BUILDING THE INSTALLER
 Update the installer scripts:
 
   - Update the Regina version and any other configuration variables
-    at the top of ./mkwxs.pl.
+    at the top of ./helper.pl.
 
   - If this release installs new files, add them to Regina.wxs.template.
 
