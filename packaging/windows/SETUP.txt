@@ -78,8 +78,8 @@ BUILDING REGINA
 
 To package the python system library for shipping:
 
-  cd /mingw{64,32}/lib/python2.7
-  zip -r ~/python/python27.zip . -x distutils/\* -x \*.pyc -x \*.pyo
+  cd /mingw{64,32}/lib/python3.8
+  zip -r ~/python/python38.zip . -x distutils/\* -x \*.pyc -x \*.pyo
 
 To build regina:
 
@@ -103,8 +103,8 @@ To run locally:
 
   Copy python libraries into software/lib/regina/python:
 
-    ~/python/python27.zip
-    /mingw{64,32}/lib/python2.7/lib-dynload/zlib.pyd
+    ~/python/python38.zip
+    /mingw{64,32}/lib/python3.8/lib-dynload/zlib-cpython-38.dll
 
 ----------------------
 BUILDING THE INSTALLER
