@@ -44,7 +44,45 @@ To find all signing identities:
 BUILDING PARALLELS VMs
 ----------------------
 
-MOJAVE:
+BIG SUR:
+
+0. Download the Big Sur installer through the App Store:
+
+  https://itunes.apple.com/au/app/macos-big-sur/id1526878132?ls=1&mt=12
+
+1. Create an installer ISO from the installer app:
+
+  hdiutil create -o /tmp/Big\ Sur.cdr -size 12.5g -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/Big\ Sur.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ macOS\ Big\ Sur.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build
+  hdiutil detach /Volumes/Install\ macOS\ Big\ Sur
+  hdiutil convert /tmp/Big\ Sur.cdr.dmg -format UDTO -o Big\ Sur.iso
+  rm /tmp/Big\ Sur.cdr.dmg
+  mv Big\ Sur.iso.cdr Big\ Sur.iso
+
+2. Boot from the ISO and run the GUI installer.
+
+
+CATALINA:
+
+0. Download the Catalina installer through the App Store:
+
+  https://apps.apple.com/us/app/macos-catalina/id1466841314?ls=1&mt=12
+
+1. Create an installer ISO from the installer app:
+
+  hdiutil create -o /tmp/Catalina.cdr -size 8500m -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/Catalina.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ macOS\ Catalina.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build
+  hdiutil detach /Volumes/Install\ macOS\ Catalina
+  hdiutil convert /tmp/Catalina.cdr.dmg -format UDTO -o Catalina.iso
+  rm /tmp/Catalina.cdr.dmg
+  mv Catalina.iso.cdr Catalina.iso
+
+2. Boot from the ISO and run the GUI installer.
+
+
+MOJAVE (last installable Xcode is 11.3.1):
 
 0. Download the Mojave installer through the App Store:
 
@@ -63,7 +101,7 @@ MOJAVE:
 2. Boot from the ISO and run the GUI installer.
 
 
-HIGH SIERRA:
+HIGH SIERRA (last installable Xcode is 10.1):
 
 0. Download the High Sierra installer through the App Store:
 
