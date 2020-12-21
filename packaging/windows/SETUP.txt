@@ -12,6 +12,7 @@ Install MSYS2:
     pacman -Qe             # list installed packages with versions
     pacman -Syu            # full system update
     pacman -S foo bar baz  # install one or more packages
+    pacman -R foo bar baz  # remove one of more packages
     pacman -Ss foo         # search for package whose name contains "foo"
     pacman -Scc            # empty the package cache to free disk space
     pacman -Qm             # list packages not in any repository
