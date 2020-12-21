@@ -1,8 +1,13 @@
-regina-normal (5.2-1) unstable; urgency=low
+regina-normal (5.95-1) unstable; urgency=low
 
   * New upstream release.
+  * Removed regina-normal-mpi, since Regina no longer ships with MPI utilities.
+  * Updated to build against python3 (closes: #938346)
+  * Now build-depends on cmake >= 3.12.
+  * Now requires only the boost headers, not any pre-built boost libraries
+    (closes: #962070).
 
- -- Ben Burton <bab@debian.org>  Sun, 28 Oct 2018 08:14:58 +1000
+ -- Ben Burton <bab@debian.org>  Mon, 21 Dec 2020 16:34:12 +1000
 
 regina-normal (5.1-6) unstable; urgency=low
 

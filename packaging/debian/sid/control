@@ -6,10 +6,9 @@ Homepage: http://regina-normal.github.io/
 Build-Depends:
     debhelper (>= 11),
     dh-python,
-    cmake (>= 2.8.7),
+    cmake (>= 3.12),
     doxygen,
-    libboost-iostreams-dev,
-    libboost-python-dev (>= 1.39.0),
+    libboost-dev,
     libcppunit-dev (>= 1.10.2-4),
     libgmp-dev (>= 4.1.4-10),
     libgraphviz-dev,
@@ -18,9 +17,8 @@ Build-Depends:
     libqt5svg5-dev,
     libtokyocabinet-dev,
     libxml2-dev,
-    mpi-default-dev,
     pkg-config,
-    python-dev (>= 2.7.3-10~),
+    python3-all-dev,
     qtbase5-dev,
     shared-mime-info,
     xsltproc,
@@ -35,10 +33,10 @@ Pre-Depends: ${misc:Pre-Depends}
 Depends:
     ${shlibs:Depends},
     ${perl:Depends},
-    ${python:Depends},
+    ${python3:Depends},
     ${misc:Depends}
-Recommends: regina-normal-doc (>= 5.1-0), gap, evince | pdf-viewer
-Suggests: regina-normal-dev, regina-normal-mpi
+Recommends: regina-normal-doc (>= 5.95-0), gap, evince | pdf-viewer
+Suggests: regina-normal-dev
 Description: mathematical software for low-dimensional topology
  Regina is a software package for 3-manifold and 4-manifold topologists,
  with a focus on triangulations, normal surfaces and angle structures.
@@ -54,8 +52,7 @@ Description: mathematical software for low-dimensional topology
  .
  This package includes the graphical user interface and the command-line
  Python interface.  The users' handbook and the API documentation are in
- the separate package regina-normal-doc, and the MPI-enabled utilities for
- high-performance clusters are in the separate package regina-normal-mpi.
+ the separate package regina-normal-doc.
 
 Package: regina-normal-dev
 Architecture: any
@@ -75,29 +72,6 @@ Description: development files for Regina, the topology software
  .
  The calculation engine is provided as a C++ shared library.  For complete
  API documentation, see the package regina-normal-doc.
- .
- Regina focuses on the study of 3-manifold and 4-manifold triangulations,
- normal surfaces, and angle structures.  For Regina's standard graphical
- user interface, and for more information about what Regina can do, see
- the package regina-normal.
-
-Package: regina-normal-mpi
-Architecture: any
-Section: math
-Depends:
-    mpi-default-bin,
-    ${shlibs:Depends},
-    ${perl:Depends},
-    ${misc:Depends}
-Replaces: regina-normal (<= 4.3.1-6)
-Description: MPI utilities for Regina, the topology software
- Regina is a software package for low-dimensional topologists.  This package
- contains the components of Regina designed to run large parallel computations
- on a high-performance cluster using MPI.
- .
- These components are built against the default implementation of MPI,
- and must be run under the default MPI runtime environment (as found
- in the package mpi-default-bin).
  .
  Regina focuses on the study of 3-manifold and 4-manifold triangulations,
  normal surfaces, and angle structures.  For Regina's standard graphical
