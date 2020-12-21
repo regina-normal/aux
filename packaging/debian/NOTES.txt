@@ -1,7 +1,11 @@
 Notes for building Debian-based packages
 ----------------------------------------
 
-To avoid automatic -dbgsym packages, set DEB_BUILD_OPTIONS=noautodbgsym.
+- To avoid automatic -dbgsym packages, set DEB_BUILD_OPTIONS=noautodbgsym.
+- To finish a build without cleaning first, call debuild -nc.
+- To skip the "make check", set DEB_BUILD_OPTIONS=nocheck.
+
+DEB_BUILD_OPTIONS should be space-separated.
 
 ---
 SID
