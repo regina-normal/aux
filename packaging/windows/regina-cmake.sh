@@ -23,7 +23,6 @@ fi
 cmake -G 'MSYS Makefiles' -DQDBM=1 \
   -DCMAKE_PREFIX_PATH="$qtdir" \
   -DCMAKE_INSTALL_PREFIX=/home/bab/software \
-  -DREGINA_BOOST_DO_NOT_FIX_CONVERTERS=1 \
   -DPYTHON_CORE_IN_ZIP=1 \
   ..
 
