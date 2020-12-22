@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 use File::Copy qw(copy);
+use File::Path qw(remove_tree);
 use Cwd qw(cwd);
 
 # ------------------------------------------------------------------------
@@ -22,9 +23,10 @@ my $installtree = '/home/bab/software';
 
 # Constants and commands:
 my $regina_wxs = 'Regina.wxs';
+my @plugins = ( "platforms/qwindows.dll", "styles/qwindowsvistastyle.dll" );
 
 my %major_commands = (
-    'dlls' => 'update mingw/qt DLLs in the install tree (cleandlls + copydlls)',
+    'dlls' => 'update mingw/qt DLLs and plugins in the install tree (cleandlls + copydlls)',
     'msi' => 'all steps to create a full installer (mkwxs + mkmsi)',
 );
 
@@ -34,8 +36,8 @@ my %minor_commands = (
     'cleanwxs' => "clean the generated $regina_wxs",
     'cleanmsi' => "clean the MSI installer and other related generated files",
     'listdlls' => 'list all mingw/qt DLLs that need to ship with Regina',
-    'copydlls' => 'copy/replace all mingw/qt DLLs into the install tree',
-    'cleandlls' => 'clean all mingw/qt DLLs from the install tree',
+    'copydlls' => 'copy/replace all mingw/qt DLLs and plugins into the install tree',
+    'cleandlls' => 'clean all mingw/qt DLLs and plugins from the install tree',
 );
 
 # Automatically deduced configuration variables:
@@ -223,6 +225,27 @@ sub copydlls {
             copy $src, $dest or die;
         }
     }
+
+    my $pluginDir = "$installtree/bin/plugins";
+    if (! -d "$pluginDir") {
+        mkdir "$pluginDir" or die;
+    }
+    foreach (@plugins) {
+        my $src = "$qt/plugins/$_";
+        my $dest = "$pluginDir/$_";
+        if (-e $dest) {
+            print "Replacing plugin: $_  <-  $src\n";
+            copy $src, $dest or die;
+        } else {
+            my $destdir = `dirname "$dest"`;
+            chomp $destdir;
+            if (! -d "$destdir") {
+                mkdir $destdir or die;
+            }
+            print "Copying plugin: $_  <-  $src\n";
+            copy $src, $dest or die;
+        }
+    }
 }
 
 sub cleandlls {
@@ -239,6 +262,12 @@ sub cleandlls {
         }
     }
     unlink @burn;
+
+    my $pluginDir = "$installtree/bin/plugins";
+    if (-e "$pluginDir") {
+        print "Purging plugins: $pluginDir";
+        remove_tree($pluginDir, { safe => 1}) or die;
+    }
 }
 
 # ------------------------------------------------------------------------
