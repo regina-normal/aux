@@ -1,16 +1,20 @@
-regina-normal (5.2-1ubuntu1~bionic1) bionic; urgency=low
+regina-normal (5.96-1ubuntu1~bionic1) bionic; urgency=low
 
   * New upstream release, packaged for bionic.
+  * Fixed crash in Link::homfly() on some 32-bit architectures.
 
- -- Ben Burton <bab@debian.org>  Sun, 28 Oct 2018 08:17:12 +1000
+ -- Ben Burton <bab@debian.org>  Tue, 22 Dec 2020 22:19:10 +1000
 
-regina-normal (5.1-6ubuntu1~bionic1) bionic; urgency=low
+regina-normal (5.95-1) unstable; urgency=low
 
-  * Packaged for bionic.
-  * This rebuild fixes the crash-on-startup that is seen in the versions
-    of regina from the official ubuntu 18.04 repository.
+  * New upstream release.
+  * Removed regina-normal-mpi, since Regina no longer ships with MPI utilities.
+  * Updated to build against python3 (closes: #938346)
+  * Now build-depends on cmake >= 3.12.
+  * Now requires only the boost headers, not any pre-built boost libraries
+    (closes: #962070).
 
- -- Ben Burton <bab@debian.org>  Sun, 28 Oct 2018 08:17:12 +1000
+ -- Ben Burton <bab@debian.org>  Mon, 21 Dec 2020 16:34:12 +1000
 
 regina-normal (5.1-6) unstable; urgency=low
 

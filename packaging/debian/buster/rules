@@ -17,8 +17,7 @@ DEB_HOST_MULTIARCH ?=$(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 override_dh_auto_configure:
 	dh_auto_configure -- \
 		-DPACKAGE_NAME=regina-normal -DPACKAGING_MODE=1 \
-		-DPYTHON_EXECUTABLE=/usr/bin/python${pyver} \
-		-DPYTHON_LIBRARY=/usr/lib/$(DEB_HOST_MULTIARCH)/libpython${pyver}.so \
+		-DPython_EXECUTABLE=/usr/bin/python${pyver} \
 		-DDISABLE_RPATH=1
 
 override_dh_auto_build:

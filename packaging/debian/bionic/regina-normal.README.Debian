@@ -25,7 +25,4 @@ For C++ headers and other development files required to build Regina's
 calculation engine directly into your own projects, see the package
 regina-normal-dev.
 
-For MPI-enable components that can run on high-performance clusters,
-see the package regina-normal-mpi.
-
- -- Ben Burton <bab@debian.org>, Mon, 19 Mar 2018 07:03:12 +1000
+ -- Ben Burton <bab@debian.org>, Mon, 21 Dec 2020 16:34:12 +1000

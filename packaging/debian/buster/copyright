@@ -18,7 +18,7 @@ Upstream Authors:
 Copyright:
 
   Regina - Software for low-dimensional topology
-  Copyright (c) 1999-2016, The Regina development team
+  Copyright (c) 1999-2020, The Regina development team
 
 
   CITATION:
@@ -28,7 +28,7 @@ Copyright:
 
     Benjamin A. Burton, Ryan Budney, William Pettersson, et al.,
     "Regina: Software for low-dimensional topology",
-    http://regina-normal.github.io/, 1999-2016.
+    http://regina-normal.github.io/, 1999-2020.
 
 
   COPYING AND MODIFICATION:
@@ -72,11 +72,11 @@ Copyright:
 
   Regina includes portions of the SnapPea kernel and its successor SnapPy,
   which it uses for some geometric calculations.  The SnapPea kernel was
-  originally written by Jeff Weeks.  SnapPy, where this kernel is now
-  maintained, is primarily developed by Marc Culler and Nathan Dunfield,
-  with contributions from many people.  SnapPy and the corresponding SnapPea
-  kernel are distributed under the terms of the GNU General Public License,
-  version 2 or any later version, as published by the Free Software Foundation.
+  originally written by Jeff Weeks.  SnapPy, where this kernel is now maintained,
+  is primarily developed by Marc Culler and Nathan Dunfield, with contributions
+  from many people.  SnapPy and the corresponding SnapPea kernel are distributed
+  under the terms of the GNU General Public License, version 2 or any later
+  version, as published by the Free Software Foundation.
 
 
   NORMALIZ LIBRARY:
@@ -86,6 +86,14 @@ Copyright:
   Bruns, Bogdan Ichim and Christof Soeger.  It is distributed under the terms of
   the GNU General Public License as published by the Free Software Foundation,
   either version 3 of the License, or (at your option) any later version.
+
+
+  PYBIND11:
+
+  Regina includes a copy of pybind11, which it uses to generate python bindings
+  for Regina's native C++ code.  The pybind11 library was written by
+  Wenzel Jakob, and is distributed under a BSD-style license that is shipped
+  with Regina's source code in the file python/pybind11/LICENSE.
 
 
   ORB KERNEL:
@@ -99,9 +107,10 @@ Copyright:
 
   SYNTAX HIGHLIGHTING:
 
-  Regina's graphical user interface includes the PythonSyntaxHighlighter class
-  by Frankie Simon and others, which it uses for highlighting Python scripts.
-  This class is distributed under the X11 license.
+  Regina's graphical user interfaces incorporate a modified version of the KDE
+  syntax-highlighting framework, which they use for highlighting Python scripts.
+  This framework is distributed under the GNU Library General Public License,
+  version 2 or any later version, as published by the Free Software Foundation.
 
 
   ICONS:

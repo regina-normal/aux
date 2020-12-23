@@ -11,7 +11,7 @@ set -e
 # (at your option) any later version.
 
 host=people.debian.org
-suites="stretch buster bionic cosmic disco"
+suites="buster bionic"
 
 for suite in $suites; do
   echo "--------------------"
