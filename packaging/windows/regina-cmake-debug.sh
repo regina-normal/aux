@@ -1,14 +1,14 @@
 #!/bin/sh
 set -e
 
-qtver=5.12.3
+qtver=5.15.2
 # gvdir="/c/Program Files/Graphviz2.38"
 arch=`uname -m`
 
 if [ "$arch" = x86_64 ]; then
-  qtdir="/c/Qt/$qtver/mingw73_64"
+  qtdir="/c/Qt/$qtver/mingw81_64"
 elif [ "$arch" = i686 ]; then
-  qtdir="/c/Qt/$qtver/mingw73_32"
+  qtdir="/c/Qt/$qtver/mingw81_32"
 else
   echo "ERROR: Unknown architecture: $arch"
   exit 1
