@@ -1,6 +1,6 @@
 Source: regina-normal
 Section: math
-Priority: extra
+Priority: optional
 Maintainer: Ben Burton <bab@debian.org>
 Homepage: http://regina-normal.github.io/
 Build-Depends:
