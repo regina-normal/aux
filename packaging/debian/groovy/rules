@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 %:
-	dh $@ --with python2
+	dh $@ --with python3
 
 # Upgrade optimisation flags:
 export DEB_CFLAGS_MAINT_STRIP = -O2 -g
@@ -10,7 +10,7 @@ export DEB_CXXFLAGS_MAINT_APPEND = -O3 -DNDEBUG
 
 # Find the default python version so we can pass it to cmake.  This 
 # keeps things sane when multiple python*-dev packages are installed.
-pyver = $(subst python,,$(shell /usr/bin/pyversions --default))
+pyver = $(subst python,,$(shell /usr/bin/py3versions --default))
 
 DEB_HOST_MULTIARCH ?=$(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 

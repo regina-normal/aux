@@ -18,7 +18,7 @@ Build-Depends:
     libtokyocabinet-dev,
     libxml2-dev,
     pkg-config,
-    python-dev (>= 2.7.3-10~),
+    python3-all-dev,
     qtbase5-dev,
     shared-mime-info,
     xsltproc,
@@ -33,7 +33,7 @@ Pre-Depends: ${misc:Pre-Depends}
 Depends:
     ${shlibs:Depends},
     ${perl:Depends},
-    ${python:Depends},
+    ${python3:Depends},
     ${misc:Depends}
 Recommends: regina-normal-doc (>= 5.96-0), gap, evince | pdf-viewer
 Suggests: regina-normal-dev
