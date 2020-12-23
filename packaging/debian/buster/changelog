@@ -1,4 +1,4 @@
-regina-normal (5.96-1~buster.1) unstable; urgency=low
+regina-normal (5.96-1~buster.1) buster; urgency=low
 
   * New upstream release, packaged for buster.
   * Fixed crash in Link::homfly() on some 32-bit architectures.
