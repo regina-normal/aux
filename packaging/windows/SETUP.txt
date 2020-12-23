@@ -98,14 +98,16 @@ To run the test suite (requires "make install" first):
 
 To run locally:
 
-  Copy all necessary DLLs into software/bin.
+  - Update the Regina version and any other configuration variables
+    at the top of ./helper.pl.
 
-  - All DLLs come from /mingw{64,32}/bin/ or the Qt installation.
+  - Run "./helper.pl dlls" from this directory to copy all necessary DLLs
+    from /mingw{64,32}/bin/ and the Qt installation into software/bin.
 
-  Copy python libraries into software/lib/regina/python:
+  - Copy python libraries into software/lib/regina/python:
 
-    ~/python/python38.zip
-    /mingw{64,32}/lib/python3.8/lib-dynload/zlib-cpython-38.dll
+      ~/python/python38.zip
+      /mingw{64,32}/lib/python3.8/lib-dynload/zlib-cpython-38.dll
 
 ----------------------
 BUILDING THE INSTALLER
@@ -114,7 +116,7 @@ BUILDING THE INSTALLER
 Update the installer scripts:
 
   - Update the Regina version and any other configuration variables
-    at the top of ./helper.pl.
+    at the top of ./helper.pl (if not done already).
 
   - If this release installs new files, add them to Regina.wxs.template.
 
@@ -126,7 +128,7 @@ Build the installer:
   - Run "make install" from the source tree, ensuring that ~/software is
     clean of any old Regina files.
 
-  - Run "./mkinstaller" from this directory to build the MSI installer.
+  - Run "./helper.pl msi" from this directory to build the MSI installer.
 
 To package the installer as an ISO image for VirtualBox:
 
