@@ -22,6 +22,9 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	dh_auto_build -- VERBOSE=1
+	# The python debug symbols are obscenely large and are
+	# filling my virtual hard drive.
+	strip "obj-${DEB_BUILD_GNU_TYPE}"/python/regina/engine.so
 
 override_dh_auto_test:
 	dh_auto_test -- ARGS=-V
