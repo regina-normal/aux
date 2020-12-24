@@ -39,13 +39,16 @@ Recommends: regina-normal-doc (>= 5.96-0), gap, evince | pdf-viewer
 Suggests: regina-normal-dev
 Description: mathematical software for low-dimensional topology
  Regina is a software package for 3-manifold and 4-manifold topologists,
- with a focus on triangulations, normal surfaces and angle structures.
+ with a focus on triangulations, knots and links, normal surfaces, and
+ angle structures.
  .
  For 3-manifolds, it includes high-level tasks such as 3-sphere recognition,
  connected sum decomposition and Hakenness testing, comes with a rich
  database of census manifolds, and incorporates the SnapPea kernel for
  working with hyperbolic manifolds.  For 4-manifolds, it offers a range of
  combinatorial and algebraic tools, plus support for normal hypersurfaces.
+ For knots and links, Regina can perform combinatorial manipulation,
+ compute knot polynomials, and work with several import/export formats.
  .
  Regina comes with a full graphical user interface, as well as Python bindings
  and a low-level C++ programming interface.
@@ -74,9 +77,9 @@ Description: development files for Regina, the topology software
  API documentation, see the package regina-normal-doc.
  .
  Regina focuses on the study of 3-manifold and 4-manifold triangulations,
- normal surfaces, and angle structures.  For Regina's standard graphical
- user interface, and for more information about what Regina can do, see
- the package regina-normal.
+ knots and links, normal surfaces, and angle structures.  For Regina's
+ standard graphical user interface, and for more information about what
+ Regina can do, see the package regina-normal.
 
 Package: regina-normal-doc
 Architecture: all
@@ -94,6 +97,6 @@ Description: documentation for Regina, the topology software
  Regina's XML data file format.
  .
  Regina focuses on the study of 3-manifold and 4-manifold triangulations,
- normal surfaces, and angle structures.  For Regina's standard graphical
- user interface, and for more information about what Regina can do, see
- the package regina-normal.
+ knots and links, normal surfaces, and angle structures.  For Regina's
+ standard graphical user interface, and for more information about what
+ Regina can do, see the package regina-normal.
