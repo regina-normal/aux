@@ -25,36 +25,8 @@ import os, sys, re, commands
 from math import ceil
 
 name = "Regina"
-version = "5.1"
+version = "5.96"
 
-allow64 = commands.getstatusoutput('sysctl -n hw.optional.x86_64')[1]
-if allow64 == '1':
-    arch = 'x86_64'
-else:
-    arch = 'i386'
-
-kernel = commands.getstatusoutput('uname -r | cut -d. -f1')[1]
-if kernel == '9':
-    osver = 'Leopard'
-elif kernel == '10':
-    osver = 'SnowLeopard'
-elif kernel == '11':
-    osver = 'Lion'
-elif kernel == '12':
-    osver = 'MountainLion'
-elif kernel == '13':
-    osver = 'Mavericks'
-elif kernel == '14':
-    osver = 'Yosemite'
-elif kernel == '15':
-    osver = 'El Capitan'
-elif kernel == '16':
-    osver = 'Sierra'
-else:
-    print 'Unknown MacOS kernel version:', kernel
-    sys.exit(1)
-
-# dmg_real = name + "-" + version + "_" + osver + "-" + arch + ".dmg";
 dmg_real = name + "-" + version + ".dmg";
 dmg_tmp = name + "-" + version + "-tmp.dmg";
 dist_dir = "dist"
