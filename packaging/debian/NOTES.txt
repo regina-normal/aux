@@ -1,15 +1,14 @@
 Notes for building Debian-based packages
 ----------------------------------------
 
-- To avoid automatic -dbgsym packages, set DEB_BUILD_OPTIONS=noautodbgsym.
-- To finish a build without cleaning first, call debuild -nc.
-- To skip the "make check", set DEB_BUILD_OPTIONS=nocheck.
+- To avoid automatic -dbgsym packages: DEB_BUILD_OPTIONS=noautodbgsym
+- To skip the "make check": DEB_BUILD_OPTIONS=nocheck
+- To finish a build without cleaning first: debuild -nc
+- To build a source-only package (required for testing migration): debuild -S
+- To build only architecture-dependent binary packages: debuild -B
+- To force the .orig.tar.gz to be uploaded (not just the diff): debuild -sa
 
 DEB_BUILD_OPTIONS should be space-separated.
-
----
-SID
----
 
 To build in a clean chroot:
 
@@ -27,22 +26,6 @@ To build in a clean chroot:
     $ pdebuild
     $ cd /var/cache/pbuilder/results
     ... and fetch the resulting build.
-
----------------
-STABLE / UBUNTU
----------------
-
-To build only architecture-dependent binary packages;
-
-    debuild -B
-
-To build only a source package:
-
-    debuild -S
-
-To force the .orig.tar.gz to be uploaded (not just the diff):
-
-    debuild -sa
 
 ---------
 OLD NOTES
