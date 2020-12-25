@@ -1,6 +1,5 @@
 # Known to work for:
 # - openSuSE Leap 15.2 (x86_64)
-# - openSuSE Leap 15.1 (x86_64)
 
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
@@ -15,7 +14,7 @@ Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Requires: mimehandler(application/pdf)
-Requires: python2
+Requires: python3
 Conflicts: regina
 
 BuildRequires: boost-devel >= 1.55
@@ -37,7 +36,7 @@ BuildRequires: libxml2-devel
 BuildRequires: libxslt-tools
 BuildRequires: pkg-config
 BuildRequires: popt-devel
-BuildRequires: python2-devel
+BuildRequires: python3-devel
 BuildRequires: shared-mime-info
 BuildRequires: zlib-devel
 
@@ -71,7 +70,7 @@ mkdir build
 cd build
 export LIB_SUFFIX=$(echo %_lib | cut -b4-)
 
-cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX -DPACKAGING_MODE=1 -DPython_EXECUTABLE=/usr/bin/python2 ..
+cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX -DPACKAGING_MODE=1 -DPython_EXECUTABLE=/usr/bin/python3 ..
 
 %make_jobs
 
@@ -119,7 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
-%{_libdir}/python2.7/site-packages/regina/
+%{_prefix}/lib/python3.6/site-packages/regina/
 %{_mandir}/*/*
 
 %changelog
