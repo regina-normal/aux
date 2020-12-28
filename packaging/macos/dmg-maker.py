@@ -27,8 +27,6 @@ from math import ceil
 name = "Regina"
 version = "5.96"
 
-dmg_real = name + "-" + version + ".dmg";
-dmg_tmp = name + "-" + version + "-tmp.dmg";
 dist_dir = "dist"
 
 def main():
@@ -51,6 +49,31 @@ def main():
     app = sys.argv[1]
     if app[-1:] == '/':
         app = app[:-1]
+
+    # Detect the custom python version, if any.
+    pyType = ''
+    rePyVersion = re.compile('^(\\d+)\\.(\\d+)$')
+    for fwName in [ 'Python', 'Python3', 'Python2' ]:
+        pyVersions = app + '/Contents/Frameworks/' + \
+            fwName + '.framework/Versions'
+        if os.path.exists(pyVersions):
+            # Note: os.scandir() does not exist in python2.
+            for i in os.listdir(pyVersions):
+                m = rePyVersion.match(i)
+                if m:
+                    print "Detected Python " + i
+                    pyMajor = m.group(1)
+                    pyMinor = m.group(2)
+                    pyType = '_py' + str(pyMajor) + str(pyMinor)
+                    break
+            else:
+                print 'Python framework has unknown version'
+                sys.exit(1)
+            break
+
+    # Choose sensible names for the final DMGs.
+    dmg_real = name + "-" + version + pyType + ".dmg";
+    dmg_tmp = name + "-" + version + pyType + "-tmp.dmg";
 
     # If there is already a sandbox, be a coward and back out.
     if os.path.exists(dist_dir):
