@@ -15,7 +15,14 @@ Preparing, building and installing:
   - Build (rpmbuild -ba <spec-file>)
   - Install (rpm -Uvh <rpm-file>)
 
+Note that openSUSE no longer ships with tokyocabinet.
+However, you can install it from their experimental repositories:
+
+  zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/openSUSE_Leap_15.2/devel:libraries:c_c++.repo
+  zypper refresh
+  zypper install libtokyocabinet9 libtokyocabinet-devel
+
 If you are interested in helping package Regina for one or more
 distributions, please contact the author at the address below.
 
- -- Ben Burton <bab@debian.org>, Wed, 26 Mar 2008 06:45:23 +1100
+ -- Ben Burton <bab@debian.org>, Thu, 24 Dec 2020 21:29:44 +1000
