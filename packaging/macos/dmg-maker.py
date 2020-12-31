@@ -65,6 +65,10 @@ def main():
                     pyMajor = m.group(1)
                     pyMinor = m.group(2)
                     pyType = '_py' + str(pyMajor) + str(pyMinor)
+                    # The sandboxed bundles strip out the python bin/ folder.
+                    if not os.path.exists(pyVersions + '/' + m.group(0) + '/bin'):
+                        print "Detected sandboxing"
+                        pyType = pyType + '_sandbox'
                     break
             else:
                 print 'Python framework has unknown version'
