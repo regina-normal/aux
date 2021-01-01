@@ -1,0 +1,36 @@
+diff --git a/qtui/Regina.entitlements b/qtui/Regina.entitlements
+index 0c67376eb..11fa75ebf 100644
+--- a/qtui/Regina.entitlements
++++ b/qtui/Regina.entitlements
+@@ -1,5 +1,12 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+ <plist version="1.0">
+-<dict/>
++<dict>
++	<key>com.apple.security.app-sandbox</key>
++	<true/>
++	<key>com.apple.security.files.downloads.read-write</key>
++	<true/>
++	<key>com.apple.security.files.user-selected.read-write</key>
++	<true/>
++</dict>
+ </plist>
+diff --git a/utils/bundle/Utils.entitlements b/utils/bundle/Utils.entitlements
+index 0c67376eb..11fa75ebf 100644
+--- a/utils/bundle/Utils.entitlements
++++ b/utils/bundle/Utils.entitlements
+@@ -1,5 +1,12 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+ <plist version="1.0">
+-<dict/>
++<dict>
++	<key>com.apple.security.app-sandbox</key>
++	<true/>
++	<key>com.apple.security.files.downloads.read-write</key>
++	<true/>
++	<key>com.apple.security.files.user-selected.read-write</key>
++	<true/>
++</dict>
+ </plist>
