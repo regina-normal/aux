@@ -1,7 +1,7 @@
 regina-normal (5.97-1) unstable; urgency=low
 
   * New upstream release.
-  * Bumped standards-version to 4.5.1.0 (no changes required).
+  * Bumped standards-version to 4.5.1 (no changes required).
 
  -- Ben Burton <bab@debian.org>  Tue, 22 Dec 2020 22:19:10 +1000
 
