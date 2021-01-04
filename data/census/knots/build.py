@@ -10,7 +10,7 @@ desc = Text()
 desc.setLabel('Description')
 
 desc.setText('This is an initial portion of the census of all prime non-trivial knots with ≤ 19 crossings, as tabulated using Regina [1].\n\n' +
-    'This file covers only ≤ 14 crossings, since the full census is too large to ship with a default Regina installation.  You can download the full 19-crossing census from http://regina.sourceforge.net/data.html .\n\n' +
+    'This file covers only ≤ ' + str(nCrossings) + ' crossings, since the full census is too large to ship with a default Regina installation.  You can download the full 19-crossing census from http://regina.sourceforge.net/data.html .\n\n' +
     'The census is split into sections according to number of crossings, and then by knot type.\n\n' +
     'The name of each knot is of the form \'9nh_2 (DT: 9n_5)\'. Here 9nh_2 is the name from Regina\'s larger 19-crossing knot tables, and 9n_5 is the Dowker-Thistlethwaite name that appears in other online sources such as Knotinfo or Knotscape. For knots with ≥ 13 crossings, only Regina\'s name is listed.\n\n' +
     'For more information on Regina, see http://regina-normal.github.io/ .\n\n' +
