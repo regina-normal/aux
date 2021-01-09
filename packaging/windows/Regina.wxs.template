@@ -126,8 +126,7 @@
                     <Component Id='PythonModule'
                      Guid='08F2657D-7CD7-4343-87A3-935CDA64C286'>
                       <File Name='engine.pyd' KeyPath='yes'/>
-                      <File Name='__init__.py'/>
-                      <File Name='purePyMethods.py'/>
+                      <File Name='*.py'/>
                     </Component>
                   </Directory>
                 </Directory>
