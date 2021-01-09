@@ -1,9 +1,9 @@
-regina-normal (5.97-1) unstable; urgency=low
+regina-normal (6.0-1) unstable; urgency=low
 
   * New upstream release.
   * Bumped standards-version to 4.5.1 (no changes required).
 
- -- Ben Burton <bab@debian.org>  Tue, 22 Dec 2020 22:19:10 +1000
+ -- Ben Burton <bab@debian.org>  Sat,  9 Jan 2021 12:12:06 +1000
 
 regina-normal (5.96-1) unstable; urgency=low
 
