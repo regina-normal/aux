@@ -25,7 +25,6 @@ import os, sys, re, commands
 from math import ceil
 
 name = "Regina"
-version = "5.96"
 
 dist_dir = "dist"
 
@@ -49,6 +48,25 @@ def main():
     app = sys.argv[1]
     if app[-1:] == '/':
         app = app[:-1]
+
+    # Detect the app version.
+    appVersion = ''
+    reAppVersion = re.compile('<key>CFBundleShortVersionString</key>\\s+<string>([0-9a-z._-]+)</string>')
+    infoFile = app + '/Contents/Info.plist'
+    try:
+        f = open(infoFile, 'r')
+        data = ' '.join(f.readlines())
+        f.close()
+    except exc:
+        print "Could not read info file: " + infoFile
+        sys.exit(1)
+    m = reAppVersion.search(data)
+    if m:
+        appVersion = m.group(1)
+    else:
+        print "Could not parse info file: " + infoFile
+        sys.exit(1)
+    print "Detected Regina version " + appVersion
 
     # Detect the custom python version, if any.
     pyType = ''
@@ -76,8 +94,8 @@ def main():
             break
 
     # Choose sensible names for the final DMGs.
-    dmg_real = name + "-" + version + pyType + ".dmg";
-    dmg_tmp = name + "-" + version + pyType + "-tmp.dmg";
+    dmg_real = name + "-" + appVersion + pyType + ".dmg";
+    dmg_tmp = name + "-" + appVersion + pyType + "-tmp.dmg";
 
     # If there is already a sandbox, be a coward and back out.
     if os.path.exists(dist_dir):
