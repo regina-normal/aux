@@ -192,7 +192,7 @@
                            Icon='manual.ico'
                            Advertise='yes'/>
                         </File>
-                        <File Name='*.{html,png,css}'/>
+                        <File Name='*.{html,png,css,js}'/>
                   </Component>
                 </Directory>
 
