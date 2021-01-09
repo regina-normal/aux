@@ -8,15 +8,12 @@ etc., as Apple's security requirements change over time.
 
 To build MacOS binaries for distribution through the Regina website:
 
-- In Xcode, go to the "Regina for macOS" target and remove the app sandbox
-  entitlement. The effect should be that qtui/Regina.entitlements becomes
-  an empty dictionary. DO NOT COMMIT THIS CHANGE TO GIT.
+- Apply patches/sandbox.diff to enable sandboxing.
+  DO NOT COMMIT THIS CHANGE TO GIT.
 
 - Select the macOS scheme and build an archive. Check that the archive
   includes both x86_64 and arm64 binaries, submit it for notarisation,
   and then export the resulting notarised Regina.app to the hard drive.
-
-- Check that the app version is correct in dmg-maker.py.
 
 - Move into this directory and run: ./dmg_maker.py path/to/Regina.app
 
