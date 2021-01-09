@@ -1,6 +1,12 @@
-regina-normal (5.96-1ubuntu1~bionic1) bionic; urgency=low
+regina-normal (6.0-1ubuntu1~bionic1) bionic; urgency=low
 
   * New upstream release, packaged for bionic.
+
+ -- Ben Burton <bab@debian.org>  Sat,  9 Jan 2021 12:12:06 +1000
+
+regina-normal (5.96-1) unstable; urgency=low
+
+  * New upstream release.
   * Fixed crash in Link::homfly() on some 32-bit architectures.
 
  -- Ben Burton <bab@debian.org>  Tue, 22 Dec 2020 22:19:10 +1000
