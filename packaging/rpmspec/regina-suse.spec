@@ -17,7 +17,6 @@ Requires: mimehandler(application/pdf)
 Requires: python3
 Conflicts: regina
 
-BuildRequires: boost-devel >= 1.55
 BuildRequires: cmake
 BuildRequires: cppunit-devel
 BuildRequires: doxygen

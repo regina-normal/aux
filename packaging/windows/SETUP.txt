@@ -30,7 +30,6 @@ Install build dependencies from mingw-w64:
 
   pacman -S make libxslt texinfo
   pacman -S mingw-w64-{x86_64,i686}-toolchain
-  pacman -S mingw-w64-{x86_64,i686}-boost
   pacman -S mingw-w64-{x86_64,i686}-cmake
   pacman -S mingw-w64-{x86_64,i686}-cppunit
   pacman -S mingw-w64-{x86_64,i686}-doxygen
