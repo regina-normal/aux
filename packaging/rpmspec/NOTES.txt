@@ -26,3 +26,30 @@ If you are interested in helping package Regina for one or more
 distributions, please contact the author at the address below.
 
  -- Ben Burton <bab@debian.org>, Thu, 24 Dec 2020 21:29:44 +1000
+
+
+Setting up Parallels virtual machines
+-------------------------------------
+
+Configuration:
+- Options / Sharing (nothing but Public/ and Drop Box/)
+- Options / Applications (no sharing, just full-screen apps)
+
+Installer notes:
+- openSUSE installer: select KDE plasma desktop
+- openSUSE installer: disable online repositories when asked
+
+Disable updates:
+- Fedora in /etc/yum.repos.d (set enabled=0 in updates repos)
+- openSUSE via yast, then check via "zypper repos"
+
+Check for unwanted newer packages:
+- Fedora:
+  * Run rpm-versions-fedora, copied from this directory
+- openSUSE:
+  * zypper refresh
+  * zypper packages -r repo-oss -r repo-non-oss -i | grep ^v
+
+Desktop tweaks:
+- Fedora: put Terminal in sidebar
+- All: disable screen saver (but this does not seem to work for openSUSE)
