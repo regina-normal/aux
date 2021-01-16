@@ -52,4 +52,5 @@ Check for unwanted newer packages:
 
 Desktop tweaks:
 - Fedora: put Terminal in sidebar
-- All: disable screen saver (but this does not seem to work for openSUSE)
+- All: disable screen saver
+- openSUSE: disable screen locking (Settings / Workspace Behaviour)
