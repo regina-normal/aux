@@ -6,7 +6,7 @@ The macOS app bundle is now exclusively built through Xcode, since this
 causes much less drama in bundling frameworks, code signing, notarising,
 etc., as Apple's security requirements change over time.
 
-To build MacOS binaries for distribution through the Regina website:
+To build macOS binaries for distribution through the Regina website:
 
 - Apply patches/sandbox.diff to enable sandboxing.
   DO NOT COMMIT THIS CHANGE TO GIT.

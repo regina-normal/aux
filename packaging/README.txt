@@ -9,35 +9,23 @@ Only the package maintainer(s) for Regina should need to use these files.
 
 Subdirectories include:
 
-Packaging and Uploads
----------------------
-
-- debian/ contains packaging for debian-based distributions,
+- debian/ contains packaging for debian-based GNU/Linux distributions,
   such as Debian and Ubuntu.
 
-- rpmspec/ contains packaging for RPM-based distributions, such
-  as Fedora, Mandriva and SuSE.
+- rpmspec/ contains packaging for RPM-based GNU/Linux distributions,
+  such as Fedora and openSUSE.
 
-- finkinfo/ contains packaging for MacOSX/Fink.
+- macos/ contains helper tools for distributing macOS app bundles, though
+  the app bundles themselves should be built through Xcode.
 
-- readmes/ contains README files that are uploaded to the Regina download
-  site (such as package installation instructions for debian, ubuntu and
-  fink).  Many are text versions of the web pages in regina/www/install/.
+- windows/ contains helper tools for building Regina on Windows and
+  packaging it into a Windows installer.
 
-Installation of GNU/Linux Distributions
----------------------------------------
-
-- chroots/ contains documentation for installing many different GNU/Linux
-  distributions into chroots on a single master machine.  These notes
-  are specific to the developers' hardware and setup, and are not intended
-  for general use.
-
-- standalone/ contains documentation for installing different GNU/Linux
-  distributions into their own partitions for separate booting.  Again
-  these notes are specific to the developers' hardware and setup.
+- checks/ contains some files to copy onto target machines to help test
+  that Regina is working correctly.
 
 
-If you are interested in helping package Regina for one or more
-distributions, please contact the author at the address below.
+If you are interested in helping package Regina for other distributions or
+platforms, please contact the author at the address below.
 
- -- Ben Burton <bab@debian.org>, Thu,  8 Sep 2011 14:15:23 +1000
+ -- Ben Burton <bab@debian.org>, Tue, 19 Jan 2021 09:45:11 +1000
