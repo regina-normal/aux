@@ -1,13 +1,14 @@
 #!/bin/sh
 
-# This is a variant of debsign designed to work on MacOS with Fink.
+# This is a variant of debsign designed to work on macOS with MacPorts.
 #
 # This script is taken from devscripts 2.18.1 (6 March 2018), with the
 # following changes:
 #
-# - sha1sum and sha256sum have changed to gsha1sum and gsha256sum.
+# - sha1sum and sha256sum have changed to /usr/bin/shasum -aXXX.
 #
-# - getopt has been changed to /opt/sw/bin/getopt.
+# - getopt has been changed to /opt/local/bin/getopt, since macOS ships
+#   with BSD getopt which is not compatible.
 #
 # - the default keyid is set to my 4096-bit key from the Debian keyring
 #   (instead of the empty string, which is now commented out far below).
@@ -351,7 +352,7 @@ else
     fi
 fi
 
-TEMP=$(/opt/sw/bin/getopt -n "$PROGNAME" -o 'p:m:e:k:Sa:t:r:h' \
+TEMP=$(/opt/local/bin/getopt -n "$PROGNAME" -o 'p:m:e:k:Sa:t:r:h' \
 	      -l 'multi,re-sign,no-re-sign,debs-dir:' \
 	      -l 'noconf,no-conf,help,version' \
 	      -- "$@") || (rc=$?; usage >&2; exit $rc)
@@ -436,8 +437,8 @@ fixup_control() {
     }
 
     local md5=$(md5sum "$child" | cut -d' ' -f1)
-    local sha1=$(gsha1sum "$child" | cut -d' ' -f1)
-    local sha256=$(gsha256sum "$child" | cut -d' ' -f1)
+    local sha1=$(/usr/bin/shasum -a1 "$child" | cut -d' ' -f1)
+    local sha256=$(/usr/bin/shasum -a256 "$child" | cut -d' ' -f1)
     perl -i -pe 'BEGIN {
     '" \$file=\"$child\"; \$md5=\"$md5\"; "'
     '" \$sha1=\"$sha1\"; \$sha256=\"$sha256\"; "'
