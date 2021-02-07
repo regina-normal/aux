@@ -1,0 +1,18 @@
+Doxygen versions seen in the wild:
+
+1.9.1:
+  - Debian bullseye (Feb 2021, may change before bullseye release)
+  - Debian sid (Feb 2021)
+  - MacPorts (Feb 2021)
+  - MSYS2 (Feb 2021)
+1.8.20:
+  - Fedora 33
+1.8.18:
+  - Ubuntu groovy (20.10)
+1.8.17:
+  - Fedora 32
+  - Ubuntu focal (20.04 LTS)
+1.8.14:
+  - openSUSE Leap 15.2
+1.8.13:
+  - Debian buster
