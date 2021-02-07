@@ -1,0 +1,55 @@
+GCC versions seen in the wild:
+
+10.2.1:
+  - Debian sid (Feb 2021)
+  - Fedora 33
+10.2.0:
+  - MSYS2 (Feb 2021)
+  - Ubuntu groovy (20.10)
+10.0.1:
+  - Fedora 32
+9.3.0:
+  - Ubuntu focal (20.04 LTS)
+8.3.0:
+  - Debian buster
+7.5.0:
+  - openSUSE Leap 15.2
+7.4.0:
+  - Ubuntu bionic (18.04 LTS)
+
+Clang versions seen in the wild:
+
+11.0:
+  - Debian sid (Feb 2021)
+  - Fedora 33
+  - MSYS2 (Feb 2021)
+  - Ubuntu groovy (20.10)
+10.0:
+  - Fedora 32
+  - Ubuntu focal (20.04 LTS)
+9.0:
+  - openSUSE Leap 15.2
+7.0:
+  - Debian buster
+6.0:
+  - Ubuntu bionic (18.04 LTS)
+
+Doxygen versions seen in the wild:
+
+1.9.1:
+  - Debian bullseye (Feb 2021, may change before bullseye release)
+  - Debian sid (Feb 2021)
+  - MacPorts (Feb 2021)
+  - MSYS2 (Feb 2021)
+1.8.20:
+  - Fedora 33
+1.8.18:
+  - Ubuntu groovy (20.10)
+1.8.17:
+  - Fedora 32
+  - Ubuntu focal (20.04 LTS)
+1.8.14:
+  - openSUSE Leap 15.2
+1.8.13:
+  - Debian buster
+  - Ubuntu bionic (18.04 LTS)
