@@ -22,6 +22,9 @@ Features: test-name=utils-trisetcmp
 Test-Command: debian/tests/python-test alltypes
 Features: test-name=python-alltypes
 
+Test-Command: debian/tests/python-test constructors
+Features: test-name=python-constructors
+
 Test-Command: debian/tests/python-test embeddings
 Features: test-name=python-embeddings
 
