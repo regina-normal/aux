@@ -8,6 +8,7 @@ Build-Depends:
     dh-python,
     cmake (>= 3.12),
     doxygen,
+    libboost-dev,
     libcppunit-dev (>= 1.10.2-4),
     libgmp-dev (>= 4.1.4-10),
     libgraphviz-dev,
@@ -62,6 +63,7 @@ Architecture: any
 Section: libdevel
 Depends:
     regina-normal (= ${binary:Version}),
+    libboost-dev,
     libgmp-dev,
     libxml2-dev,
     zlib1g-dev,
