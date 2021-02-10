@@ -3,7 +3,7 @@
 
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 6.0
+Version: 6.0.1
 Release: 1.%{_vendor}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
@@ -121,6 +121,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Mon Feb 12 2021 Ben Burton <bab@debian.org> 6.0.1
+- New upstream release.
+
 * Mon Jan 11 2021 Ben Burton <bab@debian.org> 6.0
 - New upstream release.
 
