@@ -7,6 +7,7 @@ Notes for building Debian-based packages
 - To build a source-only package (required for testing migration): debuild -S
 - To build only architecture-dependent binary packages: debuild -B
 - To force the .orig.tar.gz to be uploaded (not just the diff): debuild -sa
+- To run autopkgtests from the source tree: autopkgtest -B -- null
 
 DEB_BUILD_OPTIONS should be space-separated.
 
