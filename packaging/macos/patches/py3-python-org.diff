@@ -1,5 +1,5 @@
 diff --git a/Regina.xcodeproj/project.pbxproj b/Regina.xcodeproj/project.pbxproj
-index 2a8a3caf7..fa83cfa5c 100644
+index adea0f139..6f72d0c3a 100644
 --- a/Regina.xcodeproj/project.pbxproj
 +++ b/Regina.xcodeproj/project.pbxproj
 @@ -1369,7 +1369,6 @@
@@ -19,7 +19,7 @@ index 2a8a3caf7..fa83cfa5c 100644
  		05B14EB519B4240D002138C0 /* mkcensusdb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05B14EB419B4240D002138C0 /* mkcensusdb.cpp */; };
  		05B1EF181C54299C008E7B49 /* boundary4chooser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05B1EF141C542991008E7B49 /* boundary4chooser.cpp */; };
  		05B22D0F22D486200099008B /* pysage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05B22D0A22D485ED0099008B /* pysage.cpp */; };
-@@ -2474,6 +2475,7 @@
+@@ -2472,6 +2473,7 @@
  				057ED8F72581B49E004F0068 /* QtDBus.framework in Embed Frameworks */,
  				057EDBD22581EAA4004F0068 /* jansson.xcframework in Embed Frameworks */,
  				057ED8F32581B49E004F0068 /* QtPrintSupport.framework in Embed Frameworks */,
@@ -27,7 +27,7 @@ index 2a8a3caf7..fa83cfa5c 100644
  				057EDBAE2581EA83004F0068 /* libtokyocabinet.xcframework in Embed Frameworks */,
  				057ED8FB2581B49E004F0068 /* QtWidgets.framework in Embed Frameworks */,
  				057ED8F52581B49E004F0068 /* QtNetwork.framework in Embed Frameworks */,
-@@ -4821,8 +4823,8 @@
+@@ -4820,8 +4822,8 @@
  				057EDBBF2581EA9D004F0068 /* libgmpxx.xcframework in Frameworks */,
  				057ED8F42581B49E004F0068 /* QtNetwork.framework in Frameworks */,
  				05E0F1532582426400965440 /* libxml2.tbd in Frameworks */,
@@ -73,7 +73,7 @@ index 2a8a3caf7..fa83cfa5c 100644
  				INFOPLIST_FILE = qtui/src/regina.plist;
  				INFOPLIST_PREFIX_HEADER = "preconfig/osx-xcode5/regina-config.h";
 @@ -11724,7 +11727,7 @@
- 				MARKETING_VERSION = 6.0;
+ 				MARKETING_VERSION = 6.0.1;
  				PRODUCT_BUNDLE_IDENTIFIER = net.sourceforge.regina.macos.Regina;
  				PRODUCT_NAME = Regina;
 -				REGINA_PYTHON_FRAMEWORK = "";
@@ -99,7 +99,7 @@ index 2a8a3caf7..fa83cfa5c 100644
  				INFOPLIST_FILE = qtui/src/regina.plist;
  				INFOPLIST_PREFIX_HEADER = "preconfig/osx-xcode5/regina-config.h";
 @@ -11775,7 +11779,7 @@
- 				MARKETING_VERSION = 6.0;
+ 				MARKETING_VERSION = 6.0.1;
  				PRODUCT_BUNDLE_IDENTIFIER = net.sourceforge.regina.macos.Regina;
  				PRODUCT_NAME = Regina;
 -				REGINA_PYTHON_FRAMEWORK = "";
