@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+files="*.msi *.dmg *.tar.gz *.rpm"
+
+export GPG_TTY=$(tty)
+shasum $files | gpg --clearsign > SHA1SUMS-signed.txt
+shasum -a256 $files | gpg --clearsign > SHA256SUMS-signed.txt
