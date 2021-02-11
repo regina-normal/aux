@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+name="$1"
+shift
+
+test="debian/tests/$name.test"
+out="$AUTOPKGTEST_ARTIFACTS/utils-$name.out"
+expect="debian/tests/$name.out"
+
+debian/tests/"$name.test" > "$out" 2>&1
+diff "$out" "$expect" 1>&2
+exit $?

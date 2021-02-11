@@ -2,13 +2,15 @@
 
 # This is a variant of debsign designed to work on macOS with MacPorts.
 #
-# This script is taken from devscripts 2.18.1 (6 March 2018), with the
+# This script is taken from devscripts 2.20.5 (Nov 2020), with the
 # following changes:
 #
 # - sha1sum and sha256sum have changed to /usr/bin/shasum -aXXX.
 #
 # - getopt has been changed to /opt/local/bin/getopt, since macOS ships
 #   with BSD getopt which is not compatible.
+#
+# - sed has been changed to gsed, for similar reasons.
 #
 # - the default keyid is set to my 4096-bit key from the Debian keyring
 #   (instead of the empty string, which is now commented out far below).
@@ -24,7 +26,7 @@
 # (Ben Burton, March 2018)
 #
 # DEFAULT_DEBSIGN_KEYID=36B861C1
-DEFAULT_DEBSIGN_KEYID=542D38D9
+DEFAULT_DEBSIGN_KEYID=70A6BEDF542D38D9
 
 # This program is designed to GPG sign .dsc, .buildinfo, or .changes
 # files (or any combination of these) in the form needed for a legal
@@ -59,7 +61,7 @@ NUM_SIGNED=0
 signingdir=""
 remotefilesdir=""
 
-trap "cleanup_tmpdir" EXIT HUP INT QUIT KILL SEGV PIPE TERM
+trap cleanup_tmpdir EXIT
 
 # --- Functions
 
@@ -119,7 +121,7 @@ $MODIFIED_CONF_MSG"
 
 version () {
     echo \
-"This is debsign, from the Debian devscripts package, version ###VERSION###
+"This is debsign, from the Debian devscripts package, version 2.20.5
 This code is copyright 1999 by Julian Gilbey, all rights reserved.
 This program comes with ABSOLUTELY NO WARRANTY.
 You are free to redistribute this code under the terms of the
@@ -242,7 +244,7 @@ file_is_already_signed() {
 unsignfile() {
     UNSIGNED_FILE="$(temp_filename "$1" "unsigned")"
 
-    sed -e '1,/^$/d; /^$/,$d' "$1" > "$UNSIGNED_FILE"
+    gsed -e '1,/^$/d; /^$/,$d' "$1" > "$UNSIGNED_FILE"
     movefile "$UNSIGNED_FILE" "$1"
 }
 
@@ -287,6 +289,7 @@ unset GREP_OPTIONS
 DEFAULT_DEBSIGN_ALWAYS_RESIGN=
 DEFAULT_DEBSIGN_PROGRAM=
 DEFAULT_DEBSIGN_MAINT=
+# DEFAULT_DEBSIGN_KEYID=
 DEFAULT_DEBRELEASE_DEBS_DIR=..
 VARS="DEBSIGN_ALWAYS_RESIGN DEBSIGN_PROGRAM DEBSIGN_MAINT"
 VARS="$VARS DEBSIGN_KEYID DEBRELEASE_DEBS_DIR"
@@ -318,7 +321,7 @@ else
 
     # We do not replace this with a default directory to avoid accidentally
     # signing a broken package
-    DEBRELEASE_DEBS_DIR="$(echo "${DEBRELEASE_DEBS_DIR%/}" | sed -e 's%/\+%/%g')"
+    DEBRELEASE_DEBS_DIR="$(echo "${DEBRELEASE_DEBS_DIR%/}" | gsed -e 's%/\+%/%g')"
 
     # set config message
     MODIFIED_CONF=''
@@ -383,7 +386,7 @@ do
 		;;
 	--debs-dir)
 	    shift
-	    opt_debsdir="$(echo "${1%/}" | sed -e 's%/\+%/%g')"
+	    opt_debsdir="$(echo "${1%/}" | gsed -e 's%/\+%/%g')"
 	    debsdir_warning="could not find directory $opt_debsdir!"
 	    ;;
 	--no-conf|--noconf)
@@ -403,6 +406,15 @@ debsdir=${opt_debsdir:-$debsdir}
 if [ -z "$signcommand" ]; then
     echo "Could not find a signing program!" >&2
     exit 1
+fi
+
+if echo "${signkey}" | grep -E -qs '^(0x)?[a-zA-Z0-9]{8}$'; then
+    echo "Refusing to sign with short key ID '$signkey'!" >&2
+    exit 1
+fi
+
+if echo "${signkey}" | grep -E -qs '^(0x)?[a-zA-Z0-9]{16}$'; then
+    echo "long key IDs are discouraged; please use key fingerprints instead" >&2
 fi
 
 ensure_local_copy() {
@@ -437,11 +449,11 @@ fixup_control() {
     }
 
     local md5=$(md5sum "$child" | cut -d' ' -f1)
-    local sha1=$(/usr/bin/shasum -a1 "$child" | cut -d' ' -f1)
-    local sha256=$(/usr/bin/shasum -a256 "$child" | cut -d' ' -f1)
+    local sha1=$(shasum -a1 "$child" | cut -d' ' -f1)
+    local sha256=$(shasum -a256 "$child" | cut -d' ' -f1)
     perl -i -pe 'BEGIN {
-    '" \$file=\"$child\"; \$md5=\"$md5\"; "'
-    '" \$sha1=\"$sha1\"; \$sha256=\"$sha256\"; "'
+    '" \$file='$child'; \$md5='$md5'; "'
+    '" \$sha1='$sha1'; \$sha256='$sha256'; "'
     $size=(-s $file); ($base=$file) =~ s|.*/||;
     $infiles=0; $inmd5=0; $insha1=0; $insha256=0; $format="";
     }
@@ -519,10 +531,10 @@ guess_signas() {
     if [ -n "$maint" ]
     then maintainer="$maint"
     # Try the new "Changed-By:" field first
-    else maintainer=`sed -n 's/^Changed-By: //p' $1`
+    else maintainer=`gsed -n 's/^Changed-By: //p' $1`
     fi
     if [ -z "$maintainer" ]
-    then maintainer=`sed -n 's/^Maintainer: //p' $1`
+    then maintainer=`gsed -n 's/^Maintainer: //p' $1`
     fi
 
     echo "${signkey:-$maintainer}"
@@ -698,7 +710,7 @@ for valid format" >&2;
 	if [ -n "$maint" ]
 	then maintainer="$maint"
 	else
-            maintainer=`sed -n 's/^Uploader: //p' $commands`
+            maintainer=`gsed -n 's/^Uploader: //p' $commands`
             if [ -z "$maintainer" ]
             then
 		echo "Unable to parse Uploader, .commands file invalid."
@@ -763,7 +775,7 @@ derive_childfile() {
     local ext="$2"
 
     local fname dir
-    fname="$(sed -n '/^\(Checksum\|Files\)/,/^\(Checksum\|Files\)/s/.*[ 	]\([^ ]*\.'"$ext"'\)$/\1/p' "$base" | head -n1)"
+    fname="$(gsed -n '/^\(Checksum\|Files\)/,/^\(Checksum\|Files\)/s/.*[ 	]\([^ ]*\.'"$ext"'\)$/\1/p' "$base" | head -n1)"
     if [ -n "$fname" ]
     then
 	get_dirname "$base" dir

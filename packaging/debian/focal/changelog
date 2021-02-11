@@ -1,6 +1,20 @@
-regina-normal (6.0-1ubuntu1~focal1) focal; urgency=low
+regina-normal (6.1-1ubuntu1~focal1) focal; urgency=low
 
   * New upstream release, packaged for focal.
+
+ -- Ben Burton <bab@debian.org>  Sat,  9 Jan 2021 12:12:06 +1000
+
+regina-normal (6.0-2) unstable; urgency=low
+
+  * Added autopkgtests: these test the mathematical engine, the python
+    bindings, and the command-line utilities.
+
+ -- Ben Burton <bab@debian.org>  Sun,  7 Feb 2021 18:16:33 +1000
+
+regina-normal (6.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Bumped standards-version to 4.5.1 (no changes required).
 
  -- Ben Burton <bab@debian.org>  Sat,  9 Jan 2021 12:12:06 +1000
 
