@@ -11,7 +11,7 @@ set -e
 # (at your option) any later version.
 
 host=people.debian.org
-suites="buster focal groovy"
+suites="buster bionic focal groovy"
 
 for suite in $suites; do
   echo "--------------------"
