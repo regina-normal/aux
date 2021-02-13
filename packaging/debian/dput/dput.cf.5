@@ -1,0 +1,179 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.TH dput.cf 5 "April 8, 2001"
+.SH NAME
+.B dput.cf
+\- Debian package upload tool configuration file
+
+.SH DESCRIPTION
+This manpage gives a brief overview of dput's configuration file and the
+available options in it.
+\fBdput\fP is a tool to upload Debian packages to the archive.
+.PP
+
+.SH FORMAT
+dput.cf consists of different groups of configuration options, one for each
+host where you want to be able to upload packages. Hosts are defined using an
+identifier header with a short name for the host, enclosed in square brackets.
+Note that only if multiple such headers are encountered in the
+configuration, only the group following the last header is considered. This
+is done to avoid confusion when overriding a global configuration file with
+a user-specific one.
+There's a special identifier, [DEFAULT], which holds default parameters for
+all the hosts. The defaults can be overridden by redefining them again in
+each host section. The available parameters are listed below:
+.TP
+.B fqdn
+This is the fully qualified domain name that will be used (can be specified
+as host:port for HTTP, HTTPS and FTP).
+.TP
+.B login
+Your login on the machine named before. A single asterisk \fB*\fR will
+cause the scp and rsync uploaders to not use supply a login name when
+calling to ssh, scp, and rsync.
+.TP
+.B incoming
+The directory that you should upload the files to.
+.TP
+.B method
+The method that you want to use for uploading the files.
+Currently, dput accepts the following values for \fBmethod\fR:
+.RS
+.TP
+.I ftp
+the package will be uploaded via ftp, either anonymously or using a
+login/password. Note that ftp is unencrypted so you should not use
+password authentication with this.
+.TP
+\fIhttp\fR and \fIhttps\fR
+the package will be uploaded via http or https using the PUT method
+as specified in WebDAV. The upload method will prompt for a password
+if necessary.
+.TP
+.I scp
+the package will be uploaded using ssh's scp. This transfers files using a
+secure ssh tunnel, and needs an account on the upload machine.
+.TP
+.I rsync
+the package will be uploaded using rsync over ssh. This is similar to scp,
+but can save some bandwidth if the destination file already exists on the
+upload server. It also needs a login on the remote machine as it uses ssh.
+.TP
+.I local
+the package will be "uploaded" locally using /usr/bin/install.  This
+transfers files to a local incoming directory, and needs appropriate
+permissions set on that directory.
+.RE
+.TP
+.B hash
+The hash algorithm that should be used in calculating the checksum of
+the files before uploading them. Currently, dput accepts the following values
+for \fBhash\fR:
+.RS
+.TP
+.I md5
+use the md5 algorithm for calculation
+.TP
+.I sha
+use the sha algorithm for calculation
+.RE
+.TP
+.B allow_unsigned_uploads
+This defines if you are allowed to upload files without a GnuPG
+signature to this host or not.
+.TP
+.B allow_dcut
+This defines if you are allowed to upload a dcut changes file to the
+queue to remove or move files.
+.TP
+.B distributions
+This defines a comma-separated list of distributions that this host accepts,
+used to guess the host to use when none is given on the command line.
+.TP
+.B allowed_distributions
+A regular expression (of Python \fBre\fR module syntax) that the
+distribution field must match or dput will refuse the upload.
+.TP
+.B delayed
+Set a numeric default parameter for delayed uploads (i.e. uploads to this
+queue will be delayed the specified number of days. Defaults to the
+empty string, meaning no delay. This only works with upload queues
+that support delayed uploads.
+.TP
+.B run_lintian
+This option defines if lintian should be run before the package will 
+be uploaded or not. If the package is not lintian clean, the upload will
+not happen.
+.TP
+.B run_dinstall
+This options defines if dinstall \-n should be run after the package has
+been uploaded or not. This is an easy way to test if your package would be 
+installed into the archive or not.
+.TP
+.B check_version
+This option defines if dput should check if the user has installed the package 
+in his system for testing it before putting it into the archive. If the
+user has not installed and tested it, dput will reject the upload.
+.TP
+.B passive_ftp
+This option defines if dput should use passive ftp or active ftp for uploading
+a package to one of the upload queues. By default, dput uses passive ftp
+connections. If you need to use active ftp connections, set
+passive_ftp to 0.
+.TP
+.B progress_indicator
+This integer option defines if dput should display a progress indicator for
+the upload. (Currently implemented in ftp only.)
+.br
+Supported values: 0 (default) \- no progress, 1 \- rotating progress
+indicator, and 2 \- kilobyte counter.
+.TP
+.B scp_compress
+This option defines if the scp upload to the host will be compressed, or not.
+This option is only used for the 'scp' upload method, and has been found to
+decrease upload time for slow links, and increase upload times for faster
+links.
+.TP
+.B ssh_config_options
+The arguments of this config options should be ssh config file options in
+the style documented in \&\fBssh_config\fR\|(5). They will be passed to all
+automatic invocations of \fIssh\fR and \fIscp\fR by dput. Note that you can
+define multiline (dput) configuration options by indenting the second
+line with whitespace (i.e. similar to RFC822 header continuations).
+.TP
+.B post_upload_command
+This option defines a command to be run by dput after a successful upload.
+.TP
+.B pre_upload_command
+This option defines a command to be run by dput before a upload happens.
+.TP
+.B default_host_main
+This defines the default host for packages that are allowed to be uploaded
+to the main archive. This variable is used when guessing the host to upload to.
+
+.SH BUGS
+.P
+Please send bug reports to the author.
+
+.SH FILES
+.TP
+.I /etc/dput.cf
+global dput configuration file
+.TP
+.I ~/.dput.cf
+peruser dput configuration file
+
+.SH AUTHOR
+Christian Kurz. Updated by Thomas Viehmann <\fBtv@beamnet.de\fR>.
+
+Many other people have contributed to this code. See the
+Thanks file.
+
+.SH SEE ALSO
+.PD 0
+.TP
+\&\fBdput\fR\|(1)
+.TP
+\fI/usr/share/doc/dput\fP
+
+.SH COMMENTS
+The author appreciates comments and suggestions from you, if any.

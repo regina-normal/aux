@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+cat << __END__
+Do NOT upload a package to the security upload queues without prior 
+authorization from the security team.
+See the following URL for instructions:
+http://www.debian.org/doc/developers-reference/pkgs#bug-security
+Please enter "really upload" (without the quotes) to proceed with the
+upload.
+__END__
+
+read really_upload
+
+[ "xreally upload" = "x${really_upload}" ]

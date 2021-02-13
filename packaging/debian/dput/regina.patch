@@ -1,0 +1,33 @@
+diff --git a/packaging/debian/dput/dput b/packaging/debian/dput/dput
+index 8b6c105..db1d14c 100755
+--- a/packaging/debian/dput/dput
++++ b/packaging/debian/dput/dput
+@@ -25,7 +25,7 @@ from hashlib import md5, sha1
+ # Now import our modules
+ import ConfigParser
+ 
+-sys.path.insert(0,'/usr/share/dput/helper')
++sys.path.insert(0, os.path.dirname(sys.argv[0]) + '/helper')
+ import dputhelper
+ 
+ dput_version = "dput 0.9.6"
+@@ -42,7 +42,7 @@ dput_modules = ('')
+ # Function to import files from the /usr/share/dput and make them available
+ # to this script
+ def import_upload_functions():
+-    files_to_import = glob.glob('/usr/share/dput/*.py')
++    files_to_import = glob.glob(os.path.dirname(sys.argv[0]) + '/*.py')
+     for file in files_to_import:
+         if debug: print "D: File: %s" % file
+         base = os.path.basename(file)
+@@ -189,8 +189,8 @@ def checksum_test(filename,hash):
+ # Verify the GnuPG signature on a file.
+ def check_signature(filename):
+     if os.access(filename, os.R_OK):
+-        if os.access("/usr/bin/gpg", os.X_OK):
+-            stream = os.popen("/usr/bin/gpg --status-fd 1 --verify --batch %s" % filename).read()
++        if os.access("/opt/local/bin/gpg", os.X_OK):
++            stream = os.popen("/opt/local/bin/gpg --status-fd 1 --verify --batch %s" % filename).read()
+             if stream.count('[GNUPG:] GOODSIG'):
+                 print "Good signature on %s." % filename
+             elif stream.count('[GNUPG:] BADSIG'):
