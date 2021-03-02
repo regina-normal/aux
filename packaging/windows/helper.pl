@@ -9,13 +9,13 @@ use Cwd qw(cwd);
 #
 # You should check and/or edit these before each build.
 # ------------------------------------------------------------------------
-my $regina_version = '6.0.1';
-my $regina_build = '6.0.1.0';
+my $regina_version = '6.0.2';
+my $regina_build = '6.0.2.0';
 my $qtver = '5.15.2';
 my $mingwver = '81';
 my $wixver = '3.11';
 # my $srctree = '/home/bab/git/regina';
-my $srctree = '/home/bab/software/regina-6.0.1';
+my $srctree = '/home/bab/software/regina-6.1';
 my $installtree = '/home/bab/software';
 # ------------------------------------------------------------------------
 # End manual configuration variables
