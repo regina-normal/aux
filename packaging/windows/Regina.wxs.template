@@ -212,9 +212,9 @@
                 </Directory>
 
                 <Directory Id='PKGDATADIR_icons' Name='icons'>
-                  <Directory Id='PKGDATADIR_icons_oxygen' Name='oxygen'>
-                    <Component Id='IconsOxygen'
-                     Guid='03A55226-8477-4348-93D0-EB8AC080595A'>
+                  <Directory Id='PKGDATADIR_icons_system' Name='system'>
+                    <Component Id='IconsSystem'
+                     Guid='8d052881-67c6-4f47-82a9-3f94ebfa2e3a'>
                       <File Name='*.png'/>
                     </Component>
                   </Directory>
@@ -304,8 +304,8 @@
         <ComponentRef Id='QtStyles'/>
         <ComponentRef Id='Examples'/>
         <ComponentRef Id='Syntax'/>
-        <ComponentRef Id='IconsOxygen'/>
         <ComponentRef Id='IconsRegina'/>
+        <ComponentRef Id='IconsSystem'/>
         <ComponentRef Id='CensusData'/>
         <ComponentRef Id='SnapPeaData'/>
         <ComponentRef Id='ProgramMenuDir'/>
