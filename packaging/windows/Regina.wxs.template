@@ -118,9 +118,8 @@
                 <Directory Id='PYLIBDIR' Name='python'>
                   <Component Id='PythonCoreLibs'
                    Guid='F8BD8335-473C-4406-9F86-CEBB40CD2752'>
-                    <File Source='$msys\home\bab\python\python38.zip'
-                     KeyPath='yes'/>
-                    <File Source='$mingw\lib\python3.8\lib-dynload\zlib-cpython-38.dll'/>
+                    <File Source='$python_core' KeyPath='yes'/>
+                    <File Source='$python_zlib'/>
                   </Component>
                   <Directory Id='PYMODULEDIR' Name='regina'>
                     <Component Id='PythonModule'

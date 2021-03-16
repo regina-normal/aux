@@ -45,6 +45,7 @@ my $mingw;
 my $programfiles;
 my $wixarch;
 my $pyver;
+my $pyver_short;
 my $qt;
 my $wix;
 my @sys_dll_paths;
@@ -69,7 +70,10 @@ if ($arch eq 'x86_64') {
 $pyver = `python --version`;
 $pyver =~ /^Python (\d+\.\d+)\.\d+\s*$/ or die;
 $pyver = $1;
+$pyver_short = $pyver;
+$pyver_short =~ s/\.//;
 -d "$mingw/lib/python$pyver" or die "ERROR: Missing Python $pyver";
+
 
 foreach (glob('/c/Qt/*/mingw*')) {
     /^(\/c\/Qt\/\d+\.\d+\.\d+\/mingw\d+_\d+)\s*$/ or next;
@@ -296,15 +300,12 @@ sub cleandlls {
 # ------------------------------------------------------------------------
 
 sub copypython {
-    my $pyshort = $pyver;
-    $pyshort =~ s/\.//;
-
     my $destDir = "$installtree/lib/regina/python";
     if (! -d "$destDir") {
         make_path "$destDir" or die;
     }
 
-    my $zip = "$destDir/python$pyshort.zip";
+    my $zip = "$destDir/python$pyver_short.zip";
     if (-e $zip) {
         print "Replacing: $zip\n";
     } else {
@@ -316,7 +317,7 @@ sub copypython {
     });
     $z->writeToFileNamed($zip);
 
-    my $dll = "zlib-cpython-$pyshort.dll";
+    my $dll = "zlib-cpython-$pyver_short.dll";
     my $dllSrc = "$mingw/lib/python$pyver/lib-dynload/$dll";
     my $dllDest = "$destDir/$dll";
     if (-e $dllDest) {
@@ -371,6 +372,9 @@ sub mkwxs {
     my $mingw_ms = path_for_mswin($mingw);
     my $qt_ms = path_for_mswin($qt);
     my $srctree_ms = path_for_mswin($srctree);
+    my $pydir = "$installtree/lib/regina/python";
+    my $python_core_ms = path_for_mswin("$pydir/python$pyver_short.zip");
+    my $python_zlib_ms = path_for_mswin("$pydir/zlib-cpython-$pyver_short.dll");
 
     my @core_dlls = sort values %{${&find_dlls}[0]};
 
@@ -396,6 +400,8 @@ sub mkwxs {
         s/\$qt/$qt_ms/g;
         s/\$programfiles/$programfiles/g;
         s/\$srctree/$srctree_ms/g;
+        s/\$python_zlib/$python_zlib_ms/g;
+        s/\$python_core/$python_core_ms/g;
 
         />.*</ and die;
 
