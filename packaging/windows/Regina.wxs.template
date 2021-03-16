@@ -34,7 +34,7 @@
       <Directory Id='$programfiles' Name='PFiles'>
         <Directory Id='Regina' Name='Regina'>
           <Directory Id='INSTALLDIR' Name='Regina $regina_version'
-           FileSource='$msys\home\bab\software'>
+           FileSource='$installtree'>
 
             <Directory Id='BINDIR' Name='bin'>
               <Component Id='MainExecutable'

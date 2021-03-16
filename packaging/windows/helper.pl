@@ -9,11 +9,19 @@ use Cwd qw(abs_path cwd);
 # ------------------------------------------------------------------------
 # Begin manual configuration variables
 # ------------------------------------------------------------------------
-my $installtree = '/home/bab/software';
+my $installtree = "$ENV{HOME}/software";
 my $regina_build_suffix = 0;
 # ------------------------------------------------------------------------
 # End manual configuration variables
 # ------------------------------------------------------------------------
+
+# Sanity checking:
+if (not -e "$installtree/bin/regfiledump.exe") {
+    print "ERROR: Your install tree does not seem to be set correctly.\n";
+    print "The current setting is: $installtree\n";
+    print "You can edit this at the top of helper.pl.\n";
+    exit 1;
+}
 
 # Constants and commands:
 my $regina_wxs = 'Regina.wxs';
@@ -408,6 +416,7 @@ sub mkwxs {
     my $mingw_ms = path_for_mswin($mingw);
     my $qt_ms = path_for_mswin($qt);
     my $srctree_ms = path_for_mswin($srctree);
+    my $installtree_ms = path_for_mswin($installtree);
     my $pydir = "$installtree/lib/regina/python";
     my $python_core_ms = path_for_mswin("$pydir/python$pyver_short.zip");
     my $python_zlib_ms = path_for_mswin("$pydir/zlib-cpython-$pyver_short.dll");
@@ -436,6 +445,7 @@ sub mkwxs {
         s/\$qt/$qt_ms/g;
         s/\$programfiles/$programfiles/g;
         s/\$srctree/$srctree_ms/g;
+        s/\$installtree/$installtree_ms/g;
         s/\$python_zlib/$python_zlib_ms/g;
         s/\$python_core/$python_core_ms/g;
 
