@@ -7,17 +7,16 @@ use Cwd qw(cwd);
 
 # ------------------------------------------------------------------------
 # Begin manual configuration variables
-#
-# You should check and/or edit these before each build.
 # ------------------------------------------------------------------------
-my $regina_version = '6.0.2';
-my $regina_build = '6.0.2.0';
-# my $srctree = '/home/bab/git/regina';
-my $srctree = "/home/bab/software/regina-$regina_version";
+my $srctree = '/home/bab/git/regina';
 my $installtree = '/home/bab/software';
+my $regina_build_suffix = 0;
 # ------------------------------------------------------------------------
 # End manual configuration variables
 # ------------------------------------------------------------------------
+
+# Detect the Regina version by looking inside the source tree:
+my $regina_version = &detect_regina_version;
 
 # Constants and commands:
 my $regina_wxs = 'Regina.wxs';
@@ -391,7 +390,7 @@ sub mkwxs {
     my ($name, $prefix, $suffix);
     while (<TEMPLATE>) {
         s/\$regina_version/$regina_version/g;
-        s/\$regina_build/$regina_build/g;
+        s/\$regina_build/$regina_version.$regina_build_suffix/g;
         s/\$msys/$msys/g;
         s/\$mingw/$mingw_ms/g;
         s/\$qt/$qt_ms/g;
@@ -513,5 +512,18 @@ sub mkmsi {
         'Regina.wixobj', 'WixUI_Regina.wixobj' and die;
 
     print "\nSUCCESS: $msi\n";
+}
+
+sub detect_regina_version {
+    my $ans;
+    open(CMAKE, '<', "$srctree/CMakeLists.txt") or die;
+    while (<CMAKE>) {
+        if (/^\s*SET\s*\(PACKAGE_VERSION\s+([0-9.]+)\)\s*$/) {
+            $ans = $1;
+            last;
+        }
+    }
+    close(CMAKE);
+    return $ans;
 }
 

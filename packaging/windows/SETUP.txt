@@ -79,18 +79,20 @@ BUILDING REGINA
 
 To build regina and test it directly from the source tree:
 
-  cd ~/software/regina-X.Y/build
+  cd ~/git/regina/build
   path/to/regina-cmake.sh
   make
   make test ARGS=-V
 
 To run locally:
 
-  - Run "make install" in ~/software/regina-X.Y/build
+  - Run "make install" in ~/git/regina/build
 
-  - Update the Regina version and any other configuration variables at the top
-    of ./helper.pl, and then run "./helper.pl dlls" from this directory to copy
-    all necessary MinGW/Qt/Python DLLs, plugins, etc. into the install tree.
+  - Run "./helper.pl dlls" from this directory to copy all necessary
+    MinGW/Qt/Python DLLs, plugins, etc. into the install tree.
+
+Note that helper.pl assumes the source tree is in ~/git/regina/.  This can be
+changed by editing the configuration variables at the top of helper.pl.
 
 ----------------------
 BUILDING THE INSTALLER
@@ -98,8 +100,7 @@ BUILDING THE INSTALLER
 
 Update the installer scripts:
 
-  - Update the Regina version and any other configuration variables at the top
-    of ./helper.pl (if not done already).
+  - Check that the source/install paths are correct at the top of ./helper.pl.
 
   - If this release installs new files, add them to Regina.wxs.template.
 
