@@ -4,10 +4,21 @@ set -e
 name="$1"
 shift
 
-test="debian/tests/$name.test"
+test="utils/testsuite/$name.test"
 out="$AUTOPKGTEST_ARTIFACTS/utils-$name.out"
-expect="debian/tests/$name.out"
+expect="utils/testsuite/$name.out"
+filter="utils/testsuite/$name.filter"
 
-debian/tests/"$name.test" > "$out" 2>&1
+export testdir=
+export bindir=/usr/bin
+export testout="$AUTOPKGTEST_TMP/test.rga"
+export invalidfile=
+export badfile=
+
+if [ -e "$filter" ]; then
+	utils/testsuite/runtest.sh "$test" "$filter" > "$out"
+else
+	utils/testsuite/runtest.sh "$test" > "$out"
+fi
 diff "$out" "$expect" 1>&2
 exit $?
