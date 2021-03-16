@@ -12,12 +12,8 @@ use Cwd qw(cwd);
 # ------------------------------------------------------------------------
 my $regina_version = '6.0.2';
 my $regina_build = '6.0.2.0';
-my $qtver = '5.15.2';
-my $pyver = '3.8';
-my $mingwver = '81';
-my $wixver = '3.11';
 # my $srctree = '/home/bab/git/regina';
-my $srctree = '/home/bab/software/regina-6.1';
+my $srctree = "/home/bab/software/regina-$regina_version";
 my $installtree = '/home/bab/software';
 # ------------------------------------------------------------------------
 # End manual configuration variables
@@ -47,10 +43,11 @@ my %minor_commands = (
 # Automatically deduced configuration variables:
 my $msys;
 my $mingw;
-my $qt;
-my $wix;
 my $programfiles;
 my $wixarch;
+my $pyver;
+my $qt;
+my $wix;
 my @sys_dll_paths;
 
 my $arch = `uname -m`;
@@ -58,25 +55,38 @@ chomp $arch;
 if ($arch eq 'x86_64') {
     $msys = 'c:\msys64';
     $mingw = '/mingw64';
-    $qt = "/c/Qt/$qtver/mingw${mingwver}_64";
-    $wix = "/c/Program Files (x86)/WiX Toolset v$wixver";
     $programfiles = 'ProgramFiles64Folder';
     $wixarch = 'x64';
 } elsif ($arch eq 'i686') {
     $msys = 'c:\msys32';
     $mingw = '/mingw32';
-    $qt = "/c/Qt/$qtver/mingw${mingwver}_32";
-    $wix = "/c/Program Files/WiX Toolset v$wixver";
     $programfiles = 'ProgramFilesFolder';
     $wixarch = 'x86';
 } else {
     die "Unknown architecture: $arch";
 }
-@sys_dll_paths = ("$mingw/bin", "$qt/bin");
-
 -d $mingw or die "ERROR: Missing MinGW: $mingw";
--d $qt or die "ERROR: Missing Qt: $qt";
--d $wix or die "ERROR: Missing WiX: $wix";
+
+$pyver = `python --version`;
+$pyver =~ /^Python (\d+\.\d+)\.\d+\s*$/ or die;
+$pyver = $1;
+-d "$mingw/lib/python$pyver" or die "ERROR: Missing Python $pyver";
+
+foreach (glob('/c/Qt/*/mingw*')) {
+    /^(\/c\/Qt\/\d+\.\d+\.\d+\/mingw\d+_\d+)\s*$/ or next;
+    $qt and die "ERROR: Multiple Qt installations detected";
+    $qt = $1;
+}
+(defined $qt and -d $qt) or die "ERROR: No Qt installation found";
+
+foreach (glob('"/c/Program Files*/WiX Toolset v*"')) {
+    /^(\/c\/Program Files.*\/WiX Toolset v[0-9.]+)\s*/ or next;
+    $wix and die "ERROR: Multiple WiX installations detected";
+    $wix = $1;
+}
+(defined $wix and -d $wix) or die "ERROR: No WiX installation found";
+
+@sys_dll_paths = ("$mingw/bin", "$qt/bin");
 
 sub path_for_mswin {
     my $arg = shift;
