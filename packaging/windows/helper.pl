@@ -1,7 +1,8 @@
 #!/usr/bin/perl -w
 use strict;
+use Archive::Zip;
 use File::Copy qw(copy);
-use File::Path qw(remove_tree);
+use File::Path qw(make_path remove_tree);
 use Cwd qw(cwd);
 
 # ------------------------------------------------------------------------
@@ -12,6 +13,7 @@ use Cwd qw(cwd);
 my $regina_version = '6.0.2';
 my $regina_build = '6.0.2.0';
 my $qtver = '5.15.2';
+my $pyver = '3.8';
 my $mingwver = '81';
 my $wixver = '3.11';
 # my $srctree = '/home/bab/git/regina';
@@ -26,8 +28,8 @@ my $regina_wxs = 'Regina.wxs';
 my @plugins = ( "platforms/qwindows.dll", "styles/qwindowsvistastyle.dll" );
 
 my %major_commands = (
-    'dlls' => 'update mingw/qt DLLs and plugins in the install tree (cleandlls + copydlls)',
-    'msi' => 'all steps to create a full installer (mkwxs + mkmsi)',
+    'dlls' => 'update DLLs/plugins/etc. in the install tree (cleandlls + copydlls + cleanpython + copypython)',
+    'msi' => 'all steps to create a full installer (copypython + mkwxs + mkmsi)',
 );
 
 my %minor_commands = (
@@ -38,6 +40,8 @@ my %minor_commands = (
     'listdlls' => 'list all mingw/qt DLLs that need to ship with Regina',
     'copydlls' => 'copy/replace all mingw/qt DLLs and plugins into the install tree',
     'cleandlls' => 'clean all mingw/qt DLLs and plugins from the install tree',
+    'copypython' => 'copy/replace the python core distribution into the install tree',
+    'cleanpython' => 'clean the python core distribution from the install tree',
 );
 
 # Automatically deduced configuration variables:
@@ -113,7 +117,13 @@ if ($ARGV[0] eq 'dlls') {
     &cleandlls;
     print "\n";
     &copydlls;
+    print "\n";
+    &cleanpython;
+    print "\n";
+    &copypython;
 } elsif ($ARGV[0] eq 'msi') {
+    &copypython;
+    print "\n";
     &mkwxs;
     print "\n";
     &mkmsi;
@@ -131,6 +141,10 @@ if ($ARGV[0] eq 'dlls') {
     &copydlls;
 } elsif ($ARGV[0] eq 'cleandlls') {
     &cleandlls;
+} elsif ($ARGV[0] eq 'copypython') {
+    &copypython;
+} elsif ($ARGV[0] eq 'cleanpython') {
+    &cleanpython;
 } else {
     &usage;
 }
@@ -219,32 +233,30 @@ sub copydlls {
         my $dest = "$installtree/bin/$dll_cases->{$_}";
         if (-e $dest) {
             print "Replacing: $dll_cases->{$_}  <-  $src\n";
-            copy $src, $dest or die;
         } else {
             print "Copying: $dll_cases->{$_}  <-  $src\n";
-            copy $src, $dest or die;
         }
+        copy $src, $dest or die;
     }
 
     my $pluginDir = "$installtree/bin/plugins";
     if (! -d "$pluginDir") {
-        mkdir "$pluginDir" or die;
+        make_path "$pluginDir" or die;
     }
     foreach (@plugins) {
         my $src = "$qt/plugins/$_";
         my $dest = "$pluginDir/$_";
         if (-e $dest) {
             print "Replacing plugin: $_  <-  $src\n";
-            copy $src, $dest or die;
         } else {
             my $destdir = `dirname "$dest"`;
             chomp $destdir;
             if (! -d "$destdir") {
-                mkdir $destdir or die;
+                make_path $destdir or die;
             }
             print "Copying plugin: $_  <-  $src\n";
-            copy $src, $dest or die;
         }
+        copy $src, $dest or die;
     }
 }
 
@@ -268,6 +280,57 @@ sub cleandlls {
         print "Purging plugins: $pluginDir";
         remove_tree($pluginDir, { safe => 1}) or die;
     }
+}
+
+# ------------------------------------------------------------------------
+# Commands: copypython / cleanpython
+# ------------------------------------------------------------------------
+
+sub copypython {
+    my $pyshort = $pyver;
+    $pyshort =~ s/\.//;
+
+    my $destDir = "$installtree/lib/regina/python";
+    if (! -d "$destDir") {
+        make_path "$destDir" or die;
+    }
+
+    my $zip = "$destDir/python$pyshort.zip";
+    if (-e $zip) {
+        print "Replacing: $zip\n";
+    } else {
+        print "Copying: $zip\n";
+    }
+    my $z = Archive::Zip->new();
+    $z->addTree("$mingw/lib/python$pyver", '', sub {
+        not (/\/distutils(\/|$)/ or /\.py[co]$/);
+    });
+    $z->writeToFileNamed($zip);
+
+    my $dll = "zlib-cpython-$pyshort.dll";
+    my $dllSrc = "$mingw/lib/python$pyver/lib-dynload/$dll";
+    my $dllDest = "$destDir/$dll";
+    if (-e $dllDest) {
+        print "Replacing: $dll  <-  $dllSrc\n";
+    } else {
+        print "Copying: $dll  <-  $dllSrc\n";
+    }
+    copy $dllSrc, $dllDest or die;
+}
+
+sub cleanpython {
+    my @zips = glob("$installtree/lib/regina/python/python*.zip");
+    my @dlls = glob("$installtree/lib/regina/python/*-cpython-*.dll");
+
+    my @burn = @zips;
+    push @burn, @dlls;
+
+    foreach (@burn) {
+        my $name = `basename $_`;
+        chomp $name;
+        print "Removing: $name\n";
+    }
+    unlink @burn;
 }
 
 # ------------------------------------------------------------------------

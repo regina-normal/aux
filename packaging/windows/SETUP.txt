@@ -20,7 +20,8 @@ Install MSYS2:
 
 Install basic utilities from MSYS2:
 
-  pacman -S diffutils git man-db patch perl openssh tar unzip vim wget zip
+  pacman -S diffutils git man-db patch perl perl-Archive-Zip openssh \
+      tar unzip vim wget zip
 
   Edit ~/.bashrc to add the line:
 
@@ -76,31 +77,20 @@ To build qdbm, which replaces tokyocabinet for MinGW (verified for v1.8.78):
 BUILDING REGINA
 ---------------
 
-To package the python system library for shipping:
-
-  cd /mingw{64,32}/lib/python3.8
-  zip -r ~/python/python38.zip . -x distutils/\* -x \*.pyc -x \*.pyo
-
-To build regina:
+To build regina and test it directly from the source tree:
 
   cd ~/software/regina-X.Y/build
   path/to/regina-cmake.sh
   make
   make test ARGS=-V
-  make install
 
 To run locally:
 
-  - Update the Regina version and any other configuration variables
-    at the top of ./helper.pl.
+  - Run "make install" in ~/software/regina-X.Y/build
 
-  - Run "./helper.pl dlls" from this directory to copy all necessary DLLs
-    from /mingw{64,32}/bin/ and the Qt installation into software/bin.
-
-  - Copy python libraries into software/lib/regina/python:
-
-      ~/python/python38.zip
-      /mingw{64,32}/lib/python3.8/lib-dynload/zlib-cpython-38.dll
+  - Update the Regina version and any other configuration variables at the top
+    of ./helper.pl, and then run "./helper.pl dlls" from this directory to copy
+    all necessary MinGW/Qt/Python DLLs, plugins, etc. into the install tree.
 
 ----------------------
 BUILDING THE INSTALLER
@@ -108,8 +98,8 @@ BUILDING THE INSTALLER
 
 Update the installer scripts:
 
-  - Update the Regina version and any other configuration variables
-    at the top of ./helper.pl (if not done already).
+  - Update the Regina version and any other configuration variables at the top
+    of ./helper.pl (if not done already).
 
   - If this release installs new files, add them to Regina.wxs.template.
 
