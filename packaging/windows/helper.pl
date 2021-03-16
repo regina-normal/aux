@@ -1,22 +1,19 @@
 #!/usr/bin/perl -w
 use strict;
 use Archive::Zip;
+use File::Basename;
 use File::Copy qw(copy);
 use File::Path qw(make_path remove_tree);
-use Cwd qw(cwd);
+use Cwd qw(abs_path cwd);
 
 # ------------------------------------------------------------------------
 # Begin manual configuration variables
 # ------------------------------------------------------------------------
-my $srctree = '/home/bab/git/regina';
 my $installtree = '/home/bab/software';
 my $regina_build_suffix = 0;
 # ------------------------------------------------------------------------
 # End manual configuration variables
 # ------------------------------------------------------------------------
-
-# Detect the Regina version by looking inside the source tree:
-my $regina_version = &detect_regina_version;
 
 # Constants and commands:
 my $regina_wxs = 'Regina.wxs';
@@ -39,7 +36,11 @@ my %minor_commands = (
     'cleanpython' => 'clean the python core distribution from the install tree',
 );
 
-# Automatically deduced configuration variables:
+# Configuration variables that are detected later, on demand:
+my $srctree;
+my $regina_version;
+
+# Configuration variables that are detected automatically, now:
 my $msys;
 my $mingw;
 my $programfiles;
@@ -74,7 +75,6 @@ $pyver_short = $pyver;
 $pyver_short =~ s/\.//;
 -d "$mingw/lib/python$pyver" or die "ERROR: Missing Python $pyver";
 
-
 foreach (glob('/c/Qt/*/mingw*')) {
     /^(\/c\/Qt\/\d+\.\d+\.\d+\/mingw\d+_\d+)\s*$/ or next;
     $qt and die "ERROR: Multiple Qt installations detected";
@@ -103,10 +103,44 @@ sub path_for_mswin {
     }
 }
 
-sub ensure_this_dir {
-    (-e 'helper.pl' and -e "$regina_wxs.template") and return;
-    print "ERROR: Please run this script from the directory containing it.\n";
-    exit 1;
+sub ensure_paths {
+    # Sets $srctree and $regina_version based on the current directory,
+    # and then changes into the directory containing helper.pl.
+
+    if (defined $srctree) {
+        # We have already done this.
+        return;
+    }
+
+    # Determine the source tree from the current path.
+    if (-e 'CMakeLists.txt' and -e 'engine/regina-core.h') {
+        $srctree = abs_path();
+    } elsif (-e '../CMakeLists.txt' and -e '../engine/regina-core.h') {
+        $srctree = abs_path('..');
+    } else {
+        print "ERROR: Please run this script from Regina's source tree.";
+        exit 1;
+    }
+    print "Running from source tree: $srctree\n";
+
+    # Detect the Regina version by looking inside the source tree:
+    open(CMAKE, '<', "$srctree/CMakeLists.txt") or die;
+    while (<CMAKE>) {
+        if (/^\s*SET\s*\(PACKAGE_VERSION\s+([0-9.]+)\)\s*$/) {
+            $regina_version = $1;
+            last;
+        }
+    }
+    close(CMAKE);
+    defined $regina_version or die "ERROR: Could not determine Regina version";
+    print "Regina version: $regina_version\n";
+
+    # Where does this script live:
+    my $helperdir = abs_path(dirname($0));
+    print "Windows packaging files: $helperdir\n\n";
+
+    chdir $helperdir or die "Could not chdir to $helperdir";
+    (-e 'helper.pl' and -e "$regina_wxs.template") or die;
 }
 
 sub usage {
@@ -135,6 +169,8 @@ if ($ARGV[0] eq 'dlls') {
     print "\n";
     &copypython;
 } elsif ($ARGV[0] eq 'msi') {
+    &ensure_paths;
+
     &copypython;
     print "\n";
     &mkwxs;
@@ -262,7 +298,7 @@ sub copydlls {
         if (-e $dest) {
             print "Replacing plugin: $_  <-  $src\n";
         } else {
-            my $destdir = `dirname "$dest"`;
+            my $destdir = dirname($dest);
             chomp $destdir;
             if (! -d "$destdir") {
                 make_path $destdir or die;
@@ -348,7 +384,7 @@ sub cleanpython {
 # ------------------------------------------------------------------------
 
 sub cleanwxs {
-    &ensure_this_dir;
+    &ensure_paths;
 
     if (-e $regina_wxs) {
         print "Removing old $regina_wxs...\n";
@@ -357,7 +393,7 @@ sub cleanwxs {
 }
 
 sub cleanmsi {
-    &ensure_this_dir;
+    &ensure_paths;
 
     print "Cleaning old WiX output...\n";
     foreach (glob("*.wixobj *.wixpdb *.msi")) {
@@ -367,7 +403,7 @@ sub cleanmsi {
 }
 
 sub mkwxs {
-    &ensure_this_dir;
+    &ensure_paths;
 
     my $mingw_ms = path_for_mswin($mingw);
     my $qt_ms = path_for_mswin($qt);
@@ -501,7 +537,7 @@ sub mkwxs {
 }
 
 sub mkmsi {
-    &ensure_this_dir;
+    &ensure_paths;
 
     &cleanmsi;
 
@@ -518,18 +554,5 @@ sub mkmsi {
         'Regina.wixobj', 'WixUI_Regina.wixobj' and die;
 
     print "\nSUCCESS: $msi\n";
-}
-
-sub detect_regina_version {
-    my $ans;
-    open(CMAKE, '<', "$srctree/CMakeLists.txt") or die;
-    while (<CMAKE>) {
-        if (/^\s*SET\s*\(PACKAGE_VERSION\s+([0-9.]+)\)\s*$/) {
-            $ans = $1;
-            last;
-        }
-    }
-    close(CMAKE);
-    return $ans;
 }
 

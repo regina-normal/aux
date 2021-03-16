@@ -80,27 +80,24 @@ BUILDING REGINA
 To build regina and test it directly from the source tree:
 
   cd ~/git/regina/build
-  path/to/regina-cmake.sh
+  .../windows/regina-cmake.sh
   make
   make test ARGS=-V
 
-To run locally:
+To run locally from the install tree:
 
   - Run "make install" in ~/git/regina/build
 
-  - Run "./helper.pl dlls" from this directory to copy all necessary
+  - Run ".../windows/helper.pl dlls" to copy all necessary
     MinGW/Qt/Python DLLs, plugins, etc. into the install tree.
 
-Note that helper.pl assumes the source tree is in ~/git/regina/.  This can be
-changed by editing the configuration variables at the top of helper.pl.
+Note that helper.pl hard-codes the location of the install tree.
 
 ----------------------
 BUILDING THE INSTALLER
 ----------------------
 
 Update the installer scripts:
-
-  - Check that the source/install paths are correct at the top of ./helper.pl.
 
   - If this release installs new files, add them to Regina.wxs.template.
 
@@ -112,7 +109,7 @@ Build the installer:
   - Run "make install" from the source tree, ensuring that ~/software is
     clean of any old Regina files.
 
-  - Run "./helper.pl msi" from this directory to build the MSI installer.
+  - Run ".../windows/helper.pl msi" from the source tree to build the installer.
 
 To package the installer as an ISO image for VirtualBox:
 
