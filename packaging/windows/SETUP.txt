@@ -25,7 +25,7 @@ Install basic utilities from MSYS2:
 
   Edit ~/.bashrc to add the line:
 
-    export PKG_CONFIG_PATH="$PKG_CONFIG_PATH":/home/bab/software/lib/pkgconfig
+    export PKG_CONFIG_PATH="$PKG_CONFIG_PATH":~/software/lib/pkgconfig
 
 Install build dependencies from mingw-w64:
 
@@ -68,7 +68,7 @@ HAND-ROLLED DEPENDENCIES
 To build qdbm, which replaces tokyocabinet for MinGW (verified for v1.8.78):
 
   (download from fallabs.com/qdbm/)
-  ./configure --prefix=/home/bab/software
+  ./configure --prefix=$HOME/software
   make ; make install
 
   (Note: tokyocabinet does not build because glob.h is missing.)
