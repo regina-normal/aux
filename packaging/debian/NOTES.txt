@@ -11,23 +11,6 @@ Notes for building Debian-based packages
 
 DEB_BUILD_OPTIONS should be space-separated.
 
-To build in a clean chroot:
-
-- Ensure the user (e.g., bab) is in sudoers:
-
-    $ su
-    # visudo
-
-- Once only, as root:
-
-    # pbuilder create --debootstrapopts --variant=buildd
-
-- For each package build, as the user:
-
-    $ pdebuild
-    $ cd /var/cache/pbuilder/results
-    ... and fetch the resulting build.
-
 The version of dput contained in this directory is dput-0.9.6.4+deb8u1, taken
 from debian jessie.  This is the last dput that was easy to install standalone,
 without requiring more complex debian-specific python dependencies.
@@ -58,46 +41,4 @@ Check for unwanted newer packages:
 Desktop tweaks:
 - Put Terminal in sidebar
 - Disable screen saver
-
-
----------
-OLD NOTES
----------
-
-To build binary packages only on debian sid from a .dsc:
-
-    sbuild -d sid *.dsc
-
-To build in a clean chroot:
-
-- Install schroot
-- If desired, edit /etc/schroot/mount-defaults for safer /home mounting,
-  as described in ../chroots/0_init_schroot.txt
-- Create /var/chroot
-- Add schroot entries:
-
-    [sid]
-    type=directory
-    description=Debian sid (unstable)
-    directory=/var/chroot/sid
-    users=bab
-    root-users=root
-
-- Create /var/chroot/sid/home/bab and chown to bab.bab
-- If making an ubuntu chroot, add universe to <chroot>/etc/apt/sources.list
-- Install the core distribution:
-
-    sudo debootstrap --include=fakeroot --variant=buildd sid /var/chroot/sid
-
-- Install build-depends:
-
-    sudo schroot -c sid -- apt-get update
-    sudo schroot -c sid -- apt-get install --no-install-recommends <build-deps>
-
-- Install helper tools:
-
-    sudo schroot -c sid -- apt-get install --no-install-recommends \
-      devscripts lintian dput
-
-- Enter the chroot and build.
 
