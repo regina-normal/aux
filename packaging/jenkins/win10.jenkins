@@ -16,7 +16,7 @@ pipeline {
         stage('VM') {
             steps {
                 dir ('vagrant') {
-                    sh 'cp -f ../aux/packaging/jenkins/win10.vagrant Vagrantfile'
+                    sh 'cp -f ../aux/packaging/jenkins/vagrant/win10.vagrant Vagrantfile'
                     sh 'vagrant up'
                 }
             }
