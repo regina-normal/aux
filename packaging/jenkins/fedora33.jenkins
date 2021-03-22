@@ -1,0 +1,63 @@
+pipeline {
+    agent { docker { image 'regina/fedora:33' } }
+
+    stages {
+        stage('Git') {
+            steps {
+                git 'https://github.com/regina-normal/regina.git'
+            }
+        }
+
+        stage('Configure') {
+            steps {
+                sh 'rm -rf build'
+                sh 'mkdir build'
+                sh 'cd build && cmake -DPython_EXECUTABLE=/usr/bin/python3 -DPACKAGING_MODE=1 -DDISABLE_RPATH=1 ..'
+            }
+        }
+
+        stage('Environment') {
+            steps {
+                sh 'cd build && make env'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'cd build && make'
+            }
+        }
+
+        stage('Verify') {
+            steps {
+                script {
+                    if (! fileExists('build/utils/regfiledump')) {
+                        error 'Utilities not built.'
+                    }
+                    if (! fileExists('build/python/regina/engine.so')) {
+                        error 'Python module not built.'
+                    }
+                    if (! fileExists('build/qtui/src/regina-gui')) {
+                        error 'GUI not built.'
+                    }
+                    if (! fileExists('build/testsuite/regtestsuite')) {
+                        error 'Test suite not built.'
+                    }
+                    if (! fileExists('build/docs/engine/index.html')) {
+                        error 'API docs not built.'
+                    }
+                    if (! fileExists('build/qtui/doc/regina/index.html')) {
+                        error 'User handbook not built.'
+                    }
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'cd build && make test ARGS=-V'
+            }
+        }
+    }
+}
+
