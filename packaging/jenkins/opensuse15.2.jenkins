@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'regina/fedora:33' } }
+    agent { docker { image 'regina/opensuse:15.2' } }
 
     stages {
         stage('Git') {
@@ -17,7 +17,7 @@ pipeline {
                     sh 'mkdir build'
                 }
                 dir ('regina/build') {
-                    sh 'cmake -DPython_EXECUTABLE=/usr/bin/python3 -DPACKAGING_MODE=1 -DDISABLE_RPATH=1 ..'
+                    sh 'cmake -DPython_EXECUTABLE=/usr/bin/python3 -DPACKAGING_MODE=1 -DREGINA_ENGINE_DOCS=/usr/local/regina/apidocs-sample.zip -DDISABLE_RPATH=1 ..'
                 }
             }
         }
