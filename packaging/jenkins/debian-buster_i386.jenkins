@@ -4,6 +4,9 @@ pipeline {
     stages {
         stage('Git') {
             steps {
+                dir ('aux') {
+                    git 'https://github.com/regina-normal/aux.git'
+                }
                 dir ('regina') {
                     git 'https://github.com/regina-normal/regina.git'
                 }
