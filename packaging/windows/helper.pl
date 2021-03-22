@@ -9,14 +9,30 @@ use Cwd qw(abs_path cwd);
 # ------------------------------------------------------------------------
 # Begin manual configuration variables
 # ------------------------------------------------------------------------
-my $installtree = "$ENV{HOME}/software";
+my $installtree_suffix = 'software'; # must be within the home directory
 my $regina_build_suffix = 0;
 # ------------------------------------------------------------------------
 # End manual configuration variables
 # ------------------------------------------------------------------------
 
+# We jump through hoops here because, if we start bash via cmd.exe,
+# then HOME will be set to the windows home directory c:\Users\$USER
+# and not the MSYS2 home directory /home/$USER .
+my $installtree;
+if ($ENV{USER}) {
+    $installtree = "/home/$ENV{USER}/$installtree_suffix";
+} elsif ($ENV{USERNAME}) {
+    $installtree = "/home/$ENV{USERNAME}/$installtree_suffix";
+} elsif ($ENV{HOME}) {
+    $installtree = "$ENV{HOME}/$installtree_suffix";
+}
+
 # Sanity checking:
-if (not -e "$installtree/bin/regfiledump.exe") {
+if (not defined $installtree) {
+    print "ERROR: I could not determine your MSYS2 home directory.\n";
+    print "Please set \$HOME accordingly.\n";
+    exit 1;
+} elsif (not -e "$installtree/bin/regfiledump.exe") {
     print "ERROR: Your install tree does not seem to be set correctly.\n";
     print "The current setting is: $installtree\n";
     print "You can edit this at the top of helper.pl.\n";
