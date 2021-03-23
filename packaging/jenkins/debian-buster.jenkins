@@ -44,26 +44,7 @@ pipeline {
         stage('Verify') {
             steps {
                 dir ('regina/build') {
-                    script {
-                        if (! fileExists('utils/regfiledump')) {
-                            error 'Utilities not built.'
-                        }
-                        if (! fileExists('python/regina/engine.so')) {
-                            error 'Python module not built.'
-                        }
-                        if (! fileExists('qtui/src/regina-gui')) {
-                            error 'GUI not built.'
-                        }
-                        if (! fileExists('testsuite/regtestsuite')) {
-                            error 'Test suite not built.'
-                        }
-                        if (! fileExists('docs/engine/index.html')) {
-                            error 'API docs not built.'
-                        }
-                        if (! fileExists('qtui/doc/regina/index.html')) {
-                            error 'User handbook not built.'
-                        }
-                    }
+                    sh 'make verify_build'
                 }
             }
         }
