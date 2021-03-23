@@ -52,7 +52,7 @@ pipeline {
 
         stage('Verify') {
             steps {
-                dir ('regina/build') {
+                dir ('vagrant') {
                     sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"cd /c/regina/build && make verify_build\"\''
                 }
             }
