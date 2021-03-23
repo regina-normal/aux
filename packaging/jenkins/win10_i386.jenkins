@@ -29,7 +29,7 @@ pipeline {
                     sh 'mkdir build'
                 }
                 dir ('vagrant') {
-                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/workspace/regina/build && ../../aux/packaging/windows/regina-cmake.sh\"\''
+                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/regina/build && /c/packaging/windows/regina-cmake.sh\"\''
                 }
             }
         }
@@ -37,7 +37,7 @@ pipeline {
         stage('Environment') {
             steps {
                 dir ('vagrant') {
-                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/workspace/regina/build && make env\"\''
+                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/regina/build && make env\"\''
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir ('vagrant') {
-                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/workspace/regina/build && make\"\''
+                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/regina/build && make\"\''
                 }
             }
         }
@@ -53,7 +53,7 @@ pipeline {
         stage('Verify') {
             steps {
                 dir ('regina/build') {
-                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/workspace/regina/build && make verify_build\"\''
+                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/regina/build && make verify_build\"\''
                 }
             }
         }
@@ -61,7 +61,7 @@ pipeline {
         stage('Test') {
             steps {
                 dir ('vagrant') {
-                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/workspace/regina/build && make test ARGS=-V\"\''
+                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/regina/build && make test ARGS=-V\"\''
                 }
             }
         }
@@ -69,8 +69,8 @@ pipeline {
         stage('Package') {
             steps {
                 dir ('vagrant') {
-                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/workspace/regina/build && make install\"\''
-                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/workspace/regina/build && ../../aux/packaging/windows/helper.pl msi\"\''
+                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/regina/build && make install\"\''
+                    sh 'vagrant ssh -c \'c:\\msys32\\usr\\bin\\env MSYSTEM=MINGW32 /usr/bin/bash -l -c \"cd /c/regina/build && /c/packaging/windows/helper.pl msi\"\''
                 }
             }
         }
