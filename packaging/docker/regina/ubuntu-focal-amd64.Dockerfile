@@ -24,4 +24,3 @@ RUN apt-get install -y --no-install-recommends \
 	xsltproc \
 	zlib1g-dev
 RUN apt-get clean
-ADD finite-math.diff /usr/local/regina/
