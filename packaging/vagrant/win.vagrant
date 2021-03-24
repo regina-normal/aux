@@ -1,0 +1,18 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+local_user = `whoami`.strip
+
+Vagrant.configure("2") do |config|
+  config.vm.guest = :windows
+
+  config.vm.communicator = :winssh
+  config.ssh.username = "virtualbox"
+  config.ssh.private_key_path = "/usr/local/virtualbox/vbox-key-#{local_user}"
+  config.ssh.insert_key = false
+  config.ssh.extra_args = ["-t"]
+
+  # config.vm.communicator = :winrm
+  # config.winrm.username = "virtualbox"
+  # config.winrm.password = "INSERT_PASSWORD_HERE"
+end

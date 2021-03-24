@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+vagrantfile=win.vagrant
+
+if [ ! -e "$vagrantfile" ]; then
+  echo "ERROR: Please run from the directory containing this script."
+  exit 1
+fi
+
+for box in win10 win10_i386; do
+  echo "Cleaning $box..."
+  vagrant box remove $box || true
+  rm -f $box
+
+  echo "Packaging $box..."
+  vagrant package --base $box --output $box.box --vagrantfile "$vagrantfile"
+  vagrant box add $box.box --name regina/$box
+done
+
