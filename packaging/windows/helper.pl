@@ -121,6 +121,9 @@ sub path_for_mswin {
         $arg =~ s/^\/c/c:/;
         $arg =~ tr/\//\\/;
         return $arg;
+    } elsif ($arg =~ /^\/\//) {
+        $arg =~ tr/\//\\/;
+        return $arg;
     } else {
         $arg =~ tr/\//\\/;
         return ($msys . $arg);
