@@ -1,0 +1,10 @@
+libvirt over TLS:
+- Set up certificates in /etc/pki/ as in https://libvirt.org/tlscerts.html
+- Mask all libvirt*.socket units in systemd, so that TLS is enabled
+- Edit /etc/default/libvirtd to enable --listen
+- Edit /etc/libvirt/libvirtd.conf to set listen_addr to 127.0.0.1
+
+Jenkins:
+- Configure clouds as QEMU, no credentials (but this is not using TLS?)
+
+

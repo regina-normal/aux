@@ -1,0 +1,13 @@
+/usr/sbin/debootstrap --variant=buildd --arch=amd64 buster /var/chroot/buster-amd64
+/usr/sbin/debootstrap --variant=buildd --arch=i386 buster /var/chroot/buster-i386
+
+cd /var/chroot
+tar -f buster-amd64.tar -C buster-amd64 -c .
+tar -f buster-i386.tar -C buster-i386 -c .
+
+(as user)
+
+docker import /var/chroot/buster-amd64.tar buster-amd64
+docker import /var/chroot/buster-i386.tar buster-i386
+
+docker run -it buster-amd64 bash
