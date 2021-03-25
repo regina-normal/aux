@@ -132,7 +132,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
-* Mon Feb 12 2021 Ben Burton <bab@debian.org> 6.0.1
+* Fri Feb 12 2021 Ben Burton <bab@debian.org> 6.0.1
 - New upstream release.
 
 * Mon Jan 11 2021 Ben Burton <bab@debian.org> 6.0
