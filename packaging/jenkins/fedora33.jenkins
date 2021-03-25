@@ -50,7 +50,7 @@ pipeline {
             steps {
                 dir ('rpmbuild/SPECS') {
                     sh 'cat ../../aux/packaging/rpmspec/regina-fedora.spec | ../../aux/packaging/jenkins/fix_rpm_version ../../regina > regina-fedora.spec'
-                    sh 'rpmbuild --define "_topdir .." -ba regina-fedora.spec'
+                    sh 'rpmbuild --define "_topdir `pwd`/.." -ba regina-fedora.spec'
                 }
             }
         }
