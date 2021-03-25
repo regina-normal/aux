@@ -49,8 +49,8 @@ pipeline {
         stage('Build RPM') {
             steps {
                 dir ('rpmbuild/SPECS') {
-                    sh 'cp ../../aux/packaging/rpmspec/regina-fedora.spec .'
-                    sh 'rpmbuild --define "topdir .." -ba regina-fedora.spec'
+                    sh 'cat ../../aux/packaging/rpmspec/regina-fedora.spec | ../../aux/packaging/jenkins/fix_rpm_version ../../regina > regina-fedora.spec'
+                    sh 'rpmbuild --define "_topdir .." -ba regina-fedora.spec'
                 }
             }
         }
