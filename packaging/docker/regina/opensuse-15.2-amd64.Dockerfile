@@ -40,3 +40,4 @@ RUN zypper clean
 ADD apidocs-sample.zip /usr/local/regina/
 RUN zypper install -y --no-recommends unzip
 RUN zypper clean
+RUN echo '%_vendor opensuse15.2' > /etc/rpm/macros

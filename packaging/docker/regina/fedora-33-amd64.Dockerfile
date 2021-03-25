@@ -25,3 +25,4 @@ RUN dnf install -y -b --setopt=install_weak_deps=False \
 	tokyocabinet-devel \
 	zlib-devel
 RUN dnf clean all
+RUN echo '%_vendor fedora33' > /etc/rpm/macros
