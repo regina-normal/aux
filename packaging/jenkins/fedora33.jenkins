@@ -35,21 +35,25 @@ pipeline {
 
         stage('Package Source') {
             steps {
+                sh 'rm -rf rpmbuild'
+                sh 'mkdir rpmbuild'
+                sh 'mkdir rpmbuild/SOURCES'
+                sh 'echo "%_topdir /workspace/rpmbuild" >> /etc/rpm/macros'
                 dir ('regina/build') {
                     sh 'make package_source'
-
-                    sh 'mkdir -p ~/rpmbuild/SOURCES'
-                    sh 'cp regina-*.tar.gz ~/rpmbuild/SOURCES'
+                    sh 'cp regina-*.tar.gz /workspace/rpmbuild/SOURCES'
                 }
             }
         }
 
         stage('Build RPM') {
             steps {
+                sh 'cp regina-fedora.spec ~/rpmbuild/SPECS'
                 dir ('aux/packaging/rpmspec') {
-                    sh 'mkdir -p ~/rpmbuild/SPECS'
-                    sh 'cp regina-fedora.spec ~/rpmbuild/SPECS'
-                    sh 'cd ~/rpmbuild/SPECS && rpmbuild -ba regina-fedora.spec'
+                    sh 'mkdir -p /workspace/rpmbuild/SPECS'
+                }
+                dir ('rpmbuild/SPECS') {
+                    sh 'rpmbuild -ba regina-fedora.spec'
                 }
             }
         }
