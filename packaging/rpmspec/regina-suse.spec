@@ -3,7 +3,7 @@
 
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 6.0.1
+Version: 6.1
 Release: 1.%{_vendor}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
