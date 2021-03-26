@@ -25,4 +25,5 @@ RUN dnf install -y -b --setopt=install_weak_deps=False \
 	tokyocabinet-devel \
 	zlib-devel
 RUN dnf clean all
-RUN echo '%_vendor fedora33' > /etc/rpm/macros
+ADD redhat.macros /etc/rpm/macros
+RUN echo '%_vendor fedora33' >> /etc/rpm/macros
