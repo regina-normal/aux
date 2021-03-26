@@ -1,0 +1,9 @@
+# Work around a bug in /usr/lib/rpm/platform/*/macros as shipped with openSUSE.
+# The upstream versions come without quotes around `dirname ...`.
+
+%__spec_build_pre %{___build_pre}\
+%{?buildroot:  %__rm -rf "$RPM_BUILD_ROOT"\
+  %__mkdir_p "`dirname "$RPM_BUILD_ROOT"`"\
+  %__mkdir "$RPM_BUILD_ROOT"\
+}
+

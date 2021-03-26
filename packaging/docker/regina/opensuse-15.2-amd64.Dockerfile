@@ -47,4 +47,5 @@ RUN zypper removerepo devel_tools
 RUN zypper refresh
 RUN zypper clean
 
-RUN echo '%_vendor opensuse15.2' > /etc/rpm/macros
+ADD suse.macros /etc/rpm/macros
+RUN echo '%_vendor opensuse15.2' >> /etc/rpm/macros
