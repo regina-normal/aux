@@ -50,7 +50,7 @@ pipeline {
             steps {
                 dir ('rpmbuild/SPECS') {
                     sh 'cp ../../aux/packaging/rpmspec/regina-fedora.spec .'
-                    sh 'rpmbuild --define "_topdir `pwd`/.." -ba regina-fedora.spec'
+                    sh 'RPM_BUILD_NCPUS=2 rpmbuild --define "_topdir `pwd`/.." -ba regina-fedora.spec'
                 }
             }
         }
