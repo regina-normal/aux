@@ -33,26 +33,24 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Package Source') {
             steps {
                 dir ('regina/build') {
-                    sh 'make'
+                    sh 'make package_source'
+                }
+                sh 'rm -rf rpmbuild'
+                sh 'mkdir rpmbuild'
+                dir ('rpmbuild/SOURCES') {
+                    sh 'cp ../../regina/build/regina-*.tar.gz .'
                 }
             }
         }
 
-        stage('Verify') {
+        stage('Build RPM') {
             steps {
-                dir ('regina/build') {
-                    sh 'make verify_build'
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                dir ('regina/build') {
-                    sh 'make test ARGS=-V'
+                dir ('rpmbuild/SPECS') {
+                    sh 'cp ../../aux/packaging/rpmspec/regina-fedora.spec .'
+                    sh 'rpmbuild --define "_topdir `pwd`/.." -ba regina-fedora.spec'
                 }
             }
         }
