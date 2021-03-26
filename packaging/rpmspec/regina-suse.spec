@@ -99,7 +99,7 @@ popd
 %icon_theme_cache_postun
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf "$RPM_BUILD_ROOT"
 
 %files
 %defattr(-,root,root)

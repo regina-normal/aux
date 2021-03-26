@@ -81,11 +81,11 @@ make %{?_smp_mflags} -C %{_target_platform}
 make %{?_smp_mflags} -C %{_target_platform} test ARGS=-V
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install/fast DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
+rm -rf "$RPM_BUILD_ROOT"
+make install/fast DESTDIR="$RPM_BUILD_ROOT" -C %{_target_platform}
 
 desktop-file-validate \
-  $RPM_BUILD_ROOT%{_datadir}/applications/regina.desktop ||:
+  "$RPM_BUILD_ROOT%{_datadir}/applications/regina.desktop" ||:
 
 %post
 /sbin/ldconfig
@@ -106,7 +106,7 @@ if [ $1 -eq 0 ]; then
 fi
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf "$RPM_BUILD_ROOT"
 
 %files
 %defattr(-,root,root)
