@@ -7,8 +7,3 @@
     mkdir "$RPM_BUILD_ROOT"\
 %{nil}
 
-# Fedora's /usr/lib/rpm/redhat/brp-python-bytecompile is also broken, and this
-# is more difficult to fix because it uses the pattern "for i in `find ...`".
-# Just disable byte-compilation instead.
-
-%py_auto_byte_compile 0
