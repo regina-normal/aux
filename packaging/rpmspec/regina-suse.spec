@@ -109,16 +109,16 @@ rm -rf "$RPM_BUILD_ROOT"
 %docdir %{_datadir}/regina/docs/en/regina
 %docdir %{_datadir}/regina/docs/en/regina-xml
 %docdir %{_datadir}/regina/engine-docs
-%{_bindir}/*
+%{_bindir}/
 %{_datadir}/applications/regina.desktop
-%{_datadir}/icons/hicolor/*/*/*
+%{_datadir}/icons/hicolor/
 %{_datadir}/mime/packages/regina.xml
 %{_datadir}/regina/
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
 %{_prefix}/lib/python3.6/site-packages/regina/
-%{_mandir}/*/*
+%{_mandir}/
 
 %changelog
 * Fri Feb 12 2021 Ben Burton <bab@debian.org> 6.0.1
