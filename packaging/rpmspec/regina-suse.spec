@@ -103,9 +103,9 @@ rm -rf "$RPM_BUILD_ROOT"
 
 %files
 %defattr(-,root,root)
-%doc CHANGES.txt
-%doc HIGHLIGHTS.txt
-%doc LICENSE.txt
+# %doc CHANGES.txt
+# %doc HIGHLIGHTS.txt
+# %doc LICENSE.txt
 %docdir %{_datadir}/regina/docs/en/regina
 %docdir %{_datadir}/regina/docs/en/regina-xml
 %docdir %{_datadir}/regina/engine-docs
