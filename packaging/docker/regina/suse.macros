@@ -7,3 +7,7 @@
   %__mkdir "$RPM_BUILD_ROOT"\
 }
 
+# Likewise, /usr/lib/rpm/suse_macros ships a %makeinstall with missing quotes.
+# Fix this also.
+
+%makeinstall make DESTDIR="%{?buildroot:%{buildroot}}" install
