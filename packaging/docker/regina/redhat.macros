@@ -7,3 +7,8 @@
     mkdir "$RPM_BUILD_ROOT"\
 %{nil}
 
+# Fedora's rpm also cannot handle spaces in directories when creating
+# and packaging its automatical .build-id debug files.
+
+%_build_id_links none
+
