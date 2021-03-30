@@ -40,9 +40,7 @@ pipeline {
                 }
                 sh 'rm -rf debian'
                 dir ('debian') {
-                    sh 'cp ../regina/build/regina-*.tar.gz .'
-                    sh 'for i in *.tar.gz; do mv $i ${i/regina-/regina-normal_}; done'
-                    sh 'for i in *.tar.gz; do mv $i ${i/.tar.gz/.orig.tar.gz}; done'
+                    sh '../aux/packaging/jenkins/copy_orig_tarball ../regina/build/regina-*.tar.gz'
                 }
             }
         }
