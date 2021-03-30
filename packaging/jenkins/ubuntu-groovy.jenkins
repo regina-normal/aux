@@ -52,7 +52,7 @@ pipeline {
                 dir ('debian/regina') {
                     sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
                     sh 'cp -pR ../../aux/packaging/debian/groovy debian'
-                    sh 'debuild --no-sign'
+                    sh 'DEB_BUILD_OPTIONS="noautodbgsym,parallel=2" debuild --no-sign'
                 }
             }
         }
