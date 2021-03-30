@@ -86,8 +86,8 @@ popd
 
 # Install extra documentation ourselves, to work around the fact that
 # rpm's %doc directive cannot handle spaces in %_topdir.
-mkdir -p %{buildroot}%{_defaultdocdir}/%{name}
-cp -a CHANGES.txt HIGHLIGHTS.txt LICENSE.txt %{buildroot}%{_defaultdocdir}/%{name}
+mkdir -p "%{buildroot}%{_defaultdocdir}/%{name}"
+cp -a CHANGES.txt HIGHLIGHTS.txt LICENSE.txt "%{buildroot}%{_defaultdocdir}/%{name}"
 
 %post
 /sbin/ldconfig
