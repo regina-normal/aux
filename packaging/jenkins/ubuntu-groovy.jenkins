@@ -33,26 +33,26 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Package Source') {
             steps {
                 dir ('regina/build') {
-                    sh 'make'
+                    sh 'make package_source'
+                }
+                sh 'rm -rf debian'
+                dir ('debian') {
+                    sh 'cp ../regina/build/regina-*.tar.gz .'
+                    sh 'for i in *.tar.gz; do mv $i ${i/regina-/regina-normal_}; done'
+                    sh 'for i in *.tar.gz; do mv $i ${i/.tar.gz/.orig.tar.gz}; done'
                 }
             }
         }
 
-        stage('Verify') {
+        stage('Build DEB') {
             steps {
-                dir ('regina/build') {
-                    sh 'make verify_build'
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                dir ('regina/build') {
-                    sh 'make test ARGS=-V'
+                dir ('debian/regina') {
+                    sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
+                    sh 'cp -pR ../../aux/packaging/debian/groovy debian'
+                    sh 'debuild --no-sign'
                 }
             }
         }
