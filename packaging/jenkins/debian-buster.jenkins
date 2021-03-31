@@ -20,7 +20,7 @@ pipeline {
                     sh 'mkdir build'
                 }
                 dir ('regina/build') {
-                    sh 'cmake -DPACKAGING_MODE=1 -DREGINA_ENGINE_DOCS=/usr/local/regina/apidocs-sample.zip -DDISABLE_RPATH=1 ..'
+                    sh 'cmake -DPACKAGING_MODE=1 -DDISABLE_RPATH=1 ..'
                 }
             }
         }
@@ -33,26 +33,24 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Package Source') {
             steps {
                 dir ('regina/build') {
-                    sh 'make'
+                    sh 'make package_source'
+                }
+                sh 'rm -rf debian'
+                dir ('debian') {
+                    sh '../aux/packaging/jenkins/copy_orig_tarball ../regina/build/regina-*.tar.gz'
                 }
             }
         }
 
-        stage('Verify') {
+        stage('Build DEB') {
             steps {
-                dir ('regina/build') {
-                    sh 'make verify_build'
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                dir ('regina/build') {
-                    sh 'make test ARGS=-V'
+                dir ('debian/regina') {
+                    sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
+                    sh 'cp -pR ../../aux/packaging/debian/buster debian'
+                    sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild --no-sign -j2'
                 }
             }
         }
