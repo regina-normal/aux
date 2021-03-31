@@ -24,5 +24,10 @@ RUN apt-get install -y --no-install-recommends \
 	xsltproc \
 	unzip \
 	zlib1g-dev
+ADD regina-key.asc /usr/local/regina/
+RUN apt-get install -y --no-install-recommends software-properties-common
+RUN apt-key add /usr/local/regina/regina-key.asc
+RUN apt-add-repository -y 'deb https://people.debian.org/~bab/doxygen buster/'
+RUN apt-get update
+RUN apt-get dist-upgrade -y
 RUN apt-get clean
-ADD apidocs-sample.zip /usr/local/regina/
