@@ -2,6 +2,8 @@ regina-normal (6.1-1) unstable; urgency=low
 
   * New upstream release.
   * Removed build-depends on libboost-dev, since upstream no longer requires it.
+  * Build-depends on cmake (>= 3.12) and doxygen (>= 1.8.17), following the
+    new requirements from upstream.
 
  -- Ben Burton <bab@debian.org>  Sat,  9 Jan 2021 12:12:06 +1000
 

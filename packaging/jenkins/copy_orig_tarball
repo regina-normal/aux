@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+if [ ! -e "$1" ]; then
+  echo "Usage: $0 <path/to/regina-X.Y.tar.gz>"
+  echo
+  echo "Copies the given file to ./regina-normal_X.Y.orig.tar.gz to help with"
+  echo "debian packaging."
+  exit 1
+fi
+
+name="`basename $1`"
+name="${name/regina-/regina-normal_}"
+name="${name/.tar.gz/.orig.tar.gz}"
+cp -p "$1" "$name"
