@@ -36,7 +36,7 @@ pipeline {
         stage('Package Source') {
             steps {
                 dir ('regina/build') {
-                    sh 'make package_source'
+                    sh 'cpack --config CPackSourceConfig.cmake'
                 }
                 sh 'rm -rf debian'
                 dir ('debian') {
