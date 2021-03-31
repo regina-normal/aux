@@ -24,11 +24,12 @@ RUN apt-get install -y --no-install-recommends \
 	xsltproc \
 	zlib1g-dev
 ADD kitware-key.asc /usr/local/regina/
+ADD regina-key.asc /usr/local/regina/
 RUN apt-get install -y --no-install-recommends software-properties-common
 RUN apt-key add /usr/local/regina/kitware-key.asc
+RUN apt-key add /usr/local/regina/regina-key.asc
 RUN apt-add-repository -y 'deb https://apt.kitware.com/ubuntu/ bionic main'
+RUN apt-add-repository -y 'deb https://people.debian.org/~bab/doxygen bionic/'
 RUN apt-get update
 RUN apt-get dist-upgrade -y
-RUN apt-get install -y --no-install-recommends unzip
 RUN apt-get clean
-ADD apidocs-sample.zip /usr/local/regina/
