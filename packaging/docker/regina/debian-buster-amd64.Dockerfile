@@ -27,7 +27,7 @@ RUN apt-get install -y --no-install-recommends \
 ADD regina-key.asc /usr/local/regina/
 RUN apt-get install -y --no-install-recommends software-properties-common
 RUN apt-key add /usr/local/regina/regina-key.asc
-RUN apt-add-repository -y 'deb https://people.debian.org/~bab/doxygen buster/'
+RUN apt-add-repository -y 'deb https://people.debian.org/~bab/backports buster/'
 RUN apt-get update
 RUN apt-get dist-upgrade -y
 RUN apt-get clean

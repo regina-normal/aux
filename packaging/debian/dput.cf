@@ -6,12 +6,12 @@ incoming = /home/bab/public_html/regina/mini-dinstall/incoming
 post_upload_command = ssh people.debian.org /usr/bin/mini-dinstall -b
 default_host_main =
 
-[doxygen]
+[backports]
 fqdn = people.debian.org
 method = scp
 login = *
-incoming = /home/bab/public_html/doxygen/mini-dinstall/incoming
-post_upload_command = ssh people.debian.org /usr/bin/mini-dinstall -c .mini-dinstall.doxygen.conf -b
+incoming = /home/bab/public_html/backports/mini-dinstall/incoming
+post_upload_command = ssh people.debian.org /usr/bin/mini-dinstall -c .mini-dinstall.backports.conf -b
 default_host_main =
 
 [ftp-master]

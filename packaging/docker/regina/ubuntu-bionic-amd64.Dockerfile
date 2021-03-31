@@ -29,7 +29,7 @@ RUN apt-get install -y --no-install-recommends software-properties-common
 RUN apt-key add /usr/local/regina/kitware-key.asc
 RUN apt-key add /usr/local/regina/regina-key.asc
 RUN apt-add-repository -y 'deb https://apt.kitware.com/ubuntu/ bionic main'
-RUN apt-add-repository -y 'deb https://people.debian.org/~bab/doxygen bionic/'
+RUN apt-add-repository -y 'deb https://people.debian.org/~bab/backports bionic/'
 RUN apt-get update
 RUN apt-get dist-upgrade -y
 RUN apt-get clean

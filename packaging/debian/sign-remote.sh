@@ -5,7 +5,7 @@ set -e
 # Modified by Ben Burton to make this specific to signing Regina's
 # debian/ubuntu package repository.
 #
-# Usage: sign-remote.sh [regina|doxygen]
+# Usage: sign-remote.sh [regina|backports]
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,11 +22,11 @@ case "$repo" in
   regina )
     suites="buster bionic focal groovy"
     ;;
-  doxygen )
+  backports )
     suites="buster bionic"
     ;;
   * )
-    echo "Usage: $0 [regina|doxygen]"
+    echo "Usage: $0 [regina|backports]"
     exit 1
     ;;
 esac
