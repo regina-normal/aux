@@ -38,7 +38,6 @@ pipeline {
             steps {
                 dir ('vagrant') {
                     sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"cd /c/regina/build && make env\"\''
-                    sh 'vagrant ssh -c systeminfo'
                 }
             }
         }
