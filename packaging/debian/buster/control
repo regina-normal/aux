@@ -23,7 +23,7 @@ Build-Depends:
     xsltproc,
     zlib1g-dev,
     dpkg-dev (>= 1.16.0)
-Build-Conflicts: python3.7-dev, python3-dev, python3.7-minimal
+Build-Conflicts: python3.7-dev, python3-dev
 Standards-Version: 4.3.0
 
 Package: regina-normal
