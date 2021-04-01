@@ -20,7 +20,7 @@ pipeline {
                     sh 'mkdir build'
                 }
                 dir ('regina/build') {
-                    sh 'cmake -DPython_EXECUTABLE=/usr/bin/python3 -DPACKAGING_MODE=1 -DDISABLE_RPATH=1 ..'
+                    sh 'cmake -DPACKAGING_MODE=1 -DDISABLE_RPATH=1 ..'
                 }
             }
         }
