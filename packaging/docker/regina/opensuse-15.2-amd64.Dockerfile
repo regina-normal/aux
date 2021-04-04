@@ -18,6 +18,7 @@ RUN zypper install -y --no-recommends \
 	libstdc++-devel \
 	libxml2-devel \
 	libxslt-tools \
+	lmdb-devel \
 	pkg-config \
 	popt-devel \
 	python3-devel \
@@ -29,15 +30,9 @@ RUN zypper clean
 # for gcc8 and gcc9.  We are not (currently) installing or using them.
 
 # We also need to install packages from additional development repositories:
-# - tokyocabinet, whose packages are not shipped with openSUSE 15.2 at all;
 # - doxygen, whose openSUSE 15.2 packages are too old.
 ADD opensuse-devel.key /usr/local/regina/
 RUN rpm --import /usr/local/regina/opensuse-devel.key
-
-RUN zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/openSUSE_Leap_15.2/devel:libraries:c_c++.repo
-RUN zypper refresh
-RUN zypper install -y --no-recommends libtokyocabinet9 libtokyocabinet-devel
-RUN zypper removerepo devel_libraries_c_c++
 
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:tools/openSUSE_Leap_15.2/devel:tools.repo
 RUN zypper refresh
