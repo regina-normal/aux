@@ -54,7 +54,6 @@ Install MSYS2:
 
 Install Qt (via online installer) and WiX
 
-Build qdbm and install in ~/software
 Add the candle/light aliases and PKG_CONFIG_PATH to ~/.bashrc
 
 Create SSH keys on the host:
