@@ -31,7 +31,7 @@ else
 fi
 
 cmake -G 'MSYS Makefiles' -DPACKAGING_MODE=1 \
-  -DQDBM=1 \
+  -DREGINA_KVSTORE=qdbm \
   -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_PREFIX_PATH="$qtdir" \
   -DCMAKE_INSTALL_PREFIX="$PREFIX" \
