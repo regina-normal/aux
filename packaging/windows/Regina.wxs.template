@@ -245,8 +245,8 @@
                  <Directory Id='PKGDATADIR_data_census' Name='census'>
                    <Component Id='CensusData'
                     Guid='C4C8C04A-F2E3-4051-8EFD-DD555A661F2F'>
-                     <File Name='cusped-hyp-or-census-9.qdb' KeyPath='yes'/>
-                     <File Name='*.qdb'/>
+                     <File Name='cusped-hyp-or-census-9.lmdb' KeyPath='yes'/>
+                     <File Name='*.lmdb'/>
                    </Component>
                  </Directory>
                  <Directory Id='PKGDATADIR_data_snappea' Name='snappea'>
