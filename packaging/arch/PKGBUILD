@@ -6,18 +6,29 @@ pkgdesc="Mathematical software for low-dimensional topology"
 arch=('x86_64')
 url="https://regina-normal.github.io/"
 license=('GPL')
-depends=(graphviz
+# The Arch Linux packaging guidelines say *not* to rely on transitive
+# dependencies.  So, although namcap complains about them, we include
+# them here nevertheless.  They include:
+#   - gmp (<- coreutils <- base)
+#   - libxml2 (<- shared-mime-info)
+#   - perl (<- netpbm <- gts <- graphviz)
+#   - popt (<- cryptsetup <- systemd <- base)
+#   - qt5-base (<- qt5-svg)
+#   - shared-mime-info (<- qt5-base)
+#   - zlib (<- python)
+depends=(gmp
+         graphviz
          jansson
          hicolor-icon-theme
+         libxml2
          lmdb
+         perl
+         popt
          python
-         qt5-svg)
-# There are other dependencies, but namcap complains that they are redundant:
-#   - base brings in popt (via systemd and cryptsetup), gmp (via coreutils)
-#   - graphviz brings in perl (via gts and netpbm)
-#   - python brings in zlib
-#   - qt5-svg brings in qt5-base, shared-mime-info
-#   - shared-mime-info brings in libxml2
+         qt5-base
+         qt5-svg
+         shared-mime-info
+         zlib)
 makedepends=(cmake
              cppunit
              doxygen
