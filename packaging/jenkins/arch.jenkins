@@ -44,6 +44,15 @@ pipeline {
                 }
             }
         }
+
+        stage('Build Package') {
+            steps {
+                dir ('arch') {
+                    sh 'cp ../aux/packaging/arch/PKGBUILD .'
+                    sh 'MAKEARGS=-j2 makepkg'
+                }
+            }
+        }
     }
 }
 
