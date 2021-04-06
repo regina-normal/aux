@@ -1,7 +1,7 @@
 FROM bab/arch
 RUN pacman --noconfirm --noprogressbar -Syy
 RUN pacman --noconfirm --noprogressbar -Syu
-RUN pacman --noconfirm --noprogressbar -S vim git base-devel namcap
+RUN pacman --noconfirm --noprogressbar -S vim git base-devel devtools namcap
 RUN pacman --noconfirm --noprogressbar -S \
 	cmake \
 	cppunit \
