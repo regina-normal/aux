@@ -1,0 +1,44 @@
+# Maintainer: Ben Burton <bab@debian.org>
+pkgname=regina-normal
+pkgver=6.1
+pkgrel=1
+epoch=
+pkgdesc="Mathematical software for low-dimensional topology"
+arch=('x86_64')
+url="https://regina-normal.github.io/"
+license=('GPL')
+groups=()
+depends=(desktop-file-utils gmp graphviz jansson hicolor-icon-theme libxml2 lmdb popt python qt5-base qt5-svg shared-mime-info zlib)
+makedepends=(cmake cppunit doxygen libxslt)
+checkdepends=(cppunit)
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install=
+changelog=
+source=("regina-$pkgver.tar.gz")
+noextract=()
+sha256sums=(SKIP)
+validpgpkeys=()
+
+build() {
+	cd "regina-$pkgver"
+	rm -rf build
+	mkdir build
+	cd build
+	cmake -DPACKAGE_NAME=regina-normal -DCMAKE_INSTALL_PREFIX=/usr -DPython_EXECUTABLE=/usr/bin/python3 -DPACKAGING_MODE=1 -DDISABLE_RPATH=1 ..
+	make
+}
+
+check() {
+	cd "regina-$pkgver/build"
+	make test ARGS=-V
+}
+
+package() {
+	cd "regina-$pkgver/build"
+	make DESTDIR="$pkgdir/" install
+}
