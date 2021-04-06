@@ -8,18 +8,18 @@ arch=('x86_64')
 url="https://regina-normal.github.io/"
 license=('GPL')
 groups=()
-depends=(gmp
-         graphviz
+depends=(graphviz
          jansson
          hicolor-icon-theme
-         libxml2
          lmdb
-         popt
          python
-         qt5-base
-         qt5-svg
-         shared-mime-info
-         zlib)
+         qt5-svg)
+# There are other dependencies, but namcap complains that they are redundant:
+#   - base brings in popt (via systemd and cryptsetup), gmp (via coreutils)
+#   - graphviz brings in perl (via gts and netpbm)
+#   - python brings in zlib
+#   - qt5-svg brings in qt5-base, shared-mime-info
+#   - shared-mime-info brings in libxml2
 makedepends=(cmake
              cppunit
              doxygen
