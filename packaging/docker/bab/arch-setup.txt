@@ -42,7 +42,7 @@ As root:
 
 - As an ORDINARY USER, build the docker image (this will first require changing
   ownership on tmp, which is not shown here):
-    host$ cp arch.Dockerfile tmp
+    host$ cp arch.Dockerfile tmp/Dockerfile
     host$ docker build -t bab/arch tmp
     host$ rm -rf tmp
 
