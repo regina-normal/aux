@@ -49,7 +49,7 @@ pipeline {
             steps {
                 dir ('arch') {
                     sh 'cp ../aux/packaging/arch/PKGBUILD .'
-                    sh 'MAKEARGS=-j2 makepkg'
+                    sh 'MAKEFLAGS=-j2 makepkg'
                 }
             }
         }
