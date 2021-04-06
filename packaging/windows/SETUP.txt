@@ -1,6 +1,6 @@
------------------------
-READY-MADE DEPENDENCIES
------------------------
+------------
+DEPENDENCIES
+------------
 
 Install MSYS2:
 
@@ -37,6 +37,7 @@ Install build dependencies from mingw-w64:
   pacman -S mingw-w64-{x86_64,i686}-graphviz
   pacman -S mingw-w64-{x86_64,i686}-jansson
   pacman -S mingw-w64-{x86_64,i686}-libxml2
+  pacman -S mingw-w64-{x86_64,i686}-lmdb
   pacman -S mingw-w64-{x86_64,i686}-popt
   pacman -S mingw-w64-{x86_64,i686}-python
   pacman -S mingw-w64-{x86_64,i686}-python2
@@ -61,18 +62,6 @@ Ensure the following are UNINSTALLED:
   Python2.7 (from python.org) - causes problems with MinGW's math.h
 
 NOTE: To put gcc on the path, you need to run the mingw{64,32} shell, not msys2.
-
-------------------------
-HAND-ROLLED DEPENDENCIES
-------------------------
-
-To build qdbm, which replaces tokyocabinet for MinGW (verified for v1.8.78):
-
-  (download from fallabs.com/qdbm/)
-  ./configure --prefix=$HOME/software
-  make ; make install
-
-  (Note: tokyocabinet does not build because glob.h is missing.)
 
 ---------------
 BUILDING REGINA
