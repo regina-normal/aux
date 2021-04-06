@@ -1,0 +1,44 @@
+To create a base docker image for Arch Linux, from a debian host:
+
+Download bootstrap image (archlinux-bootstrap-DATE-x86_64.tar.gz) from a mirror
+under the directory archlinux/iso/latest and verify the GPG signature.
+
+As root:
+
+- Extract the tarball and uncomment the nearest mirror:
+    host$ tar -zxf archlinux-bootstrap-DATE-x86_64.tar.gz
+    host$ vi root.x86_64/etc/pacman.d/mirrorlist
+
+- Enter the chroot:
+    host$ root.x86_64/bin/arch-chroot root.x86_64
+
+- Initialise pacman inside the chroot:
+    chroot$ pacman-key --init
+    chroot$ pacman-key --populate archlinux
+    chroot$ exit
+
+- From the host, work around chroot directory problems:
+    host$ mount --bind root.x86_64 root.x86_64
+
+- Inside the chroot, update the system:
+    chroot$ pacman -Syy
+    chroot$ pacman -Syu
+    chroot$ pacman -Scc
+
+- Undo the workaround from above:
+    host$ umount root.x86_64
+
+- Remove /proc and /dev from the chroot, since docker will mount these:
+    host$ rmdir root.x86_64/proc root.x86_64/dev
+
+- Prepare the image tarball:
+    host$ mkdir tmp
+    host$ tar -c -f tmp/rootfs.tar.xz --numeric-owner --auto-compress -C root.x86_64 --transform='s,^./,,' .
+    host$ rm -rf root.x86_64
+
+- As an ORDINARY USER, build the docker image (this will first require changing
+  ownership on tmp, which is not shown here):
+    host$ cp arch.Dockerfile tmp
+    host$ docker build -t bab/arch tmp
+    host$ rm -rf tmp
+
