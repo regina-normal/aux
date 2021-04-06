@@ -18,6 +18,7 @@ pipeline {
                 dir ('vagrant') {
                     sh 'cp -f ../aux/packaging/jenkins/vagrant/win10.vagrant Vagrantfile'
                     sh 'vagrant up'
+                    sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"pacman -S --noconfirm --noprogressbar mingw-w64-x86_64-lmdb\"\''
                 }
             }
         }
