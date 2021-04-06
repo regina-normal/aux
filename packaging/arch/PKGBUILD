@@ -34,6 +34,7 @@ makedepends=(cmake
              doxygen
              libxslt)
 checkdepends=(cppunit)
+provides=("libregina-engine.so=$pkgver-64")
 source=("regina-$pkgver.tar.gz")
 sha256sums=(SKIP)
 
