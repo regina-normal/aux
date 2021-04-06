@@ -21,3 +21,4 @@ RUN pacman --noconfirm --noprogressbar -S \
 	shared-mime-info \
 	zlib
 RUN pacman --noconfirm --noprogressbar -Scc
+RUN echo 'PACKAGER="Ben Burton <bab@debian.org>"' >> /etc/makepkg.conf
