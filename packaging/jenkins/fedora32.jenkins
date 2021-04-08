@@ -50,6 +50,8 @@ pipeline {
             steps {
                 dir ('rpmbuild/SPECS') {
                     sh 'cp ../../aux/packaging/rpmspec/regina-fedora.spec .'
+                    // For the python byte-compilation issue, see:
+                    // https://bugzilla.redhat.com/show_bug.cgi?id=1947416
                     sh 'RPM_BUILD_NCPUS=2 rpmbuild --undefine py_auto_byte_compile --define "_topdir `pwd`/.." -ba regina-fedora.spec'
                 }
             }

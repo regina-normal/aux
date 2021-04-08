@@ -89,6 +89,8 @@ desktop-file-validate \
 
 # Install extra documentation ourselves, to work around the fact that
 # rpm's %doc directive cannot handle spaces in %_topdir.
+#
+# See: https://bugzilla.redhat.com/show_bug.cgi?id=1947404
 mkdir -p "%{buildroot}%{_defaultdocdir}/%{name}"
 cp -a CHANGES.txt HIGHLIGHTS.txt LICENSE.txt "%{buildroot}%{_defaultdocdir}/%{name}"
 

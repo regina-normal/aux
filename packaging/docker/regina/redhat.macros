@@ -1,5 +1,7 @@
 # Work around a bug in /usr/lib/rpm/redhat/macros as shipped with Fedora.
 # The upstream version comes without quotes around `dirname ...`.
+#
+# See: https://bugzilla.redhat.com/show_bug.cgi?id=1947416
 
 %__spec_install_pre %{___build_pre}\
     [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf "${RPM_BUILD_ROOT}"\
