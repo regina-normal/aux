@@ -33,4 +33,4 @@ ADD bab-fedora-32.repo /etc/yum.repos.d
 RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
 RUN dnf clean all
 
-# RUN echo '%_vendor fedora32' >> /etc/rpm/macros
+RUN echo '%_vendor fedora32' >> /etc/rpm/macros
