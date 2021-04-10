@@ -42,6 +42,7 @@ mirror=`dirname $mirror`
 mv ${prefix}/etc/yum.repos.d ${prefix}/etc/yum.repos.d.orig
 
 update_mirror=`echo "$mirror" | sed -e 's#/releases/#/updates/#' -e 's#/os$##'`
+source_mirror=`echo "$mirror" | sed -e "s#/$arch/os#/source/tree#"`
 
 mkdir ${prefix}/etc/yum.repos.d
 cat > ${prefix}/etc/yum.repos.d/rinse.repo <<EOF
@@ -56,6 +57,12 @@ name=Fedora
 baseurl=$mirror
 enabled=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-$dist-$arch
+
+[source]
+name=Source
+baseurl=$source_mirror
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-$dist-primary
 
 [updates]
 name=Updates
