@@ -25,5 +25,12 @@ RUN dnf install -y -b --setopt=install_weak_deps=False \
 	tokyocabinet-devel \
 	zlib-devel
 RUN dnf clean all
-ADD redhat.macros /etc/rpm/macros
-RUN echo '%_vendor fedora32' >> /etc/rpm/macros
+
+# Patch RPM and friends to work when topdir contains spaces:
+ADD regina-key.asc /usr/local/regina/
+RUN rpm --import /usr/local/regina/regina-key.asc
+ADD bab-fedora-32.repo /etc/yum.repos.d
+RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
+RUN dnf clean all
+
+# RUN echo '%_vendor fedora32' >> /etc/rpm/macros

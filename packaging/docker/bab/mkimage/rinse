@@ -11,7 +11,9 @@ shift
 	rinse --directory "$rootfsDir" --arch amd64 "$@"
 )
 
-"$(dirname "$BASH_SOURCE")/.febootstrap-minimize" "$rootfsDir"
+# Do not strip anything out of the image.
+# In practice this doesn't actually seem to cost us much (if anything).
+# "$(dirname "$BASH_SOURCE")/.febootstrap-minimize" "$rootfsDir"
 
 if [ -d "$rootfsDir/etc/sysconfig" ]; then
 	# allow networking init scripts inside the container to work without extra steps
@@ -22,4 +24,5 @@ fi
 (
 	set -x
 	chroot "$rootfsDir" yum update -y
+	chroot "$rootfsDir" yum clean all
 )
