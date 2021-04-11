@@ -29,11 +29,17 @@ RUN zypper clean
 # Note: openSUSE 15.2 ships with gcc7 by default, but it also has packages
 # for gcc8 and gcc9.  We are not (currently) installing or using them.
 
-# We also need to install packages from additional development repositories:
-# - doxygen, whose openSUSE 15.2 packages are too old.
+# Install my own patched RPM, to support %_topdir with spaces.
+ADD regina-key.asc /usr/local/regina/
+RUN rpm --import /usr/local/regina/regina-key.asc
+RUN zypper addrepo https://people.debian.org/~bab/opensuse/15.2/patches.repo
+RUN zypper refresh
+RUN zypper update -y --no-recommends --allow-vendor-change
+
+# We also need to install packages from additional openSUSE repositories:
+# - doxygen (from devel:tools), since the openSUSE 15.2 packages are too old.
 ADD opensuse-devel.key /usr/local/regina/
 RUN rpm --import /usr/local/regina/opensuse-devel.key
-
 RUN zypper addrepo https://download.opensuse.org/repositories/devel:tools/openSUSE_Leap_15.2/devel:tools.repo
 RUN zypper refresh
 RUN zypper update -y --no-recommends --allow-vendor-change doxygen
@@ -42,5 +48,4 @@ RUN zypper removerepo devel_tools
 RUN zypper refresh
 RUN zypper clean
 
-ADD suse.macros /etc/rpm/macros
 RUN echo '%_vendor opensuse15.2' >> /etc/rpm/macros
