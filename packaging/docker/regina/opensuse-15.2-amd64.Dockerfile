@@ -32,7 +32,7 @@ RUN zypper clean
 # Install my own patched RPM, to support %_topdir with spaces.
 ADD regina-key.asc /usr/local/regina/
 RUN rpm --import /usr/local/regina/regina-key.asc
-RUN zypper addrepo https://people.debian.org/~bab/opensuse/15.2/patches.repo
+RUN zypper addrepo https://people.debian.org/~bab/rpm/rpm-patches/opensuse/15.2/rpm-patches.repo
 RUN zypper refresh
 RUN zypper update -y --no-recommends --allow-vendor-change
 
@@ -47,5 +47,3 @@ RUN zypper removerepo devel_tools
 
 RUN zypper refresh
 RUN zypper clean
-
-RUN echo '%_vendor opensuse15.2' >> /etc/rpm/macros

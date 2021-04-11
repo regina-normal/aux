@@ -33,6 +33,7 @@ cat > "$dir/Dockerfile" <<EOF
 FROM scratch
 ADD $(basename "$tarFile") /
 CMD ["/bin/bash"]
+RUN echo '%vendor Regina' >> /etc/rpm/macros
 EOF
 
 echo '----- Bundling filesystem -----'

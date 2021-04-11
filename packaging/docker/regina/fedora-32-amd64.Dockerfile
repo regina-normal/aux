@@ -1,7 +1,7 @@
 FROM bab/fedora:32
 RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
 RUN dnf install -y -b --setopt=install_weak_deps=False \
-	rpm-build \
+	dnf-utils rpm-build \
 	cmake \
 	cppunit-devel \
 	desktop-file-utils \
@@ -29,8 +29,6 @@ RUN dnf clean all
 # Patch RPM and friends to work when topdir contains spaces:
 ADD regina-key.asc /usr/local/regina/
 RUN rpm --import /usr/local/regina/regina-key.asc
-ADD bab-fedora-32.repo /etc/yum.repos.d
+RUN dnf config-manager --add-repo https://people.debian.org/~bab/rpm/rpm-patches/fedora/32/rpm-patches.repo
 RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
 RUN dnf clean all
-
-RUN echo '%_vendor fedora32' >> /etc/rpm/macros
