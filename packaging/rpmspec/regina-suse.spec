@@ -4,7 +4,13 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 6.1
-Release: 1.%{_vendor}
+%if 0%{?sle_version} >= 150000 && 0%{?is_opensuse}
+%define leap_major %(echo %sle_version | sed -e 's/^\\(..\\)....$/\\1/' -e 's/^0\\+//')
+%define leap_minor %(echo %sle_version | sed -e 's/^..\\(..\\)..$/\\1/' -e 's/^0\\+//')
+Release: lp%{leap_major}%{leap_minor}.1
+%else
+Release: 1
+%endif
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -36,6 +42,7 @@ BuildRequires: lmdb-devel
 BuildRequires: pkg-config
 BuildRequires: popt-devel
 BuildRequires: python3-devel
+BuildRequires: sed
 BuildRequires: shared-mime-info
 BuildRequires: zlib-devel
 
