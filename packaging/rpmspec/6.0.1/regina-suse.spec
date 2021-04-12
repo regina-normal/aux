@@ -7,7 +7,7 @@ Version: 6.0.1
 %if 0%{?sle_version} >= 150000 && 0%{?is_opensuse}
 %define leap_major %(echo %sle_version | sed -e 's/^\\(..\\)....$/\\1/' -e 's/^0\\+//')
 %define leap_minor %(echo %sle_version | sed -e 's/^..\\(..\\)..$/\\1/' -e 's/^0\\+//')
-Release: lp%{leap_major}%{leap_minor}.1
+Release: lp%{leap_major}%{leap_minor}.2
 %else
 Release: 2
 %endif
