@@ -1,0 +1,12 @@
+--- a/template/bin/perl.req	2021-04-09 07:45:43.916180793 +1000
++++ b/template/bin/perl.req	2021-04-09 07:45:38.082344265 +1000
+@@ -409,7 +409,8 @@
+ 
+   return if (! $HAVE_PROV);
+ 
+-  my @result = readpipe( "$prov_script $file" );
++  $file =~ s/'/'"'"'/g;
++  my @result = readpipe( "$prov_script '$file'" );
+   foreach my $prov (@result) {
+     $provide{$1} = undef if $prov =~ /perl\(([_:a-zA-Z0-9]+)\)/;
+   }

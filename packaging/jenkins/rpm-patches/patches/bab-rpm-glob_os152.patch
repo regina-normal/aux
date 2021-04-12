@@ -1,0 +1,52 @@
+diff --git a/build/files.c b/build/files.c
+index 3e74c001b..e35f61e01 100644
+--- a/build/files.c
++++ b/build/files.c
+@@ -2187,7 +2187,37 @@ static rpmRC processBinaryFile(Package pkg, FileList fl, const char * fileName)
+ 	    goto exit;
+ 	}
+ 
+-	if (rpmGlob(diskPath, &argc, &argv) == 0 && argc >= 1) {
++	/* For globbing, we need a "partially escaped" variant of diskPath
++	   where special glob characters are escaped in the buildRoot component
++	   but not the fileName component.  The code below that does this is
++	   modified from rpmEscapeSpaces(). */
++
++	const char * se;
++	char * te;
++	size_t nb = 0;
++
++	for (se = fl->buildRoot; *se; se++) {
++	    if (isspace(*se) || *se == '*' || *se == '?' ||
++			*se == '[' || *se == ']' || *se == '\\')
++		nb++;
++	    nb++;
++	}
++	nb++;
++
++	char* ebuildRoot = te = xmalloc(nb);
++	for (se = fl->buildRoot; *se; se++) {
++	    if (isspace(*se) || *se == '*' || *se == '?' ||
++			*se == '[' || *se == ']' || *se == '\\')
++		*te++ = '\\';
++	    *te++ = *se;
++	}
++	*te = '\0';
++
++	char *ediskPath = rpmGenPath(ebuildRoot, NULL, fileName);
++	if (fl->cur.isDir)
++	    ediskPath = rstrcat(&ediskPath, "/");
++
++	if (rpmGlob(ediskPath, &argc, &argv) == 0) {
+ 	    for (i = 0; i < argc; i++) {
+ 		rc = addFile(fl, argv[i], NULL);
+ 	    }
+@@ -2201,6 +2231,8 @@ static rpmRC processBinaryFile(Package pkg, FileList fl, const char * fileName)
+ 	    rpmlog(RPMLOG_DEBUG, msg, diskPath);
+ 	    rc = addFile(fl, diskPath, NULL);
+ 	}
++	free(ediskPath);
++	free(ebuildRoot);
+     } else {
+ 	rc = addFile(fl, diskPath, NULL);
+     }

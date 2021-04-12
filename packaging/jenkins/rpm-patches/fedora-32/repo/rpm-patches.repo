@@ -1,0 +1,7 @@
+[rpm-patches]
+name=RPM Patches
+baseurl=https://people.debian.org/~bab/rpm/rpm-patches/fedora/32/
+enabled=1
+repo_gpgcheck=0
+gpgcheck=1
+gpgkey=https://people.debian.org/~bab/regina-key.txt

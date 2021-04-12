@@ -1,0 +1,41 @@
+--- brp-python-bytecompile.orig	2020-02-21 16:18:17.000000000 +0000
++++ brp-python-bytecompile	2021-04-10 06:16:28.017314304 +0000
+@@ -28,7 +28,7 @@
+     local options=$1
+     local python_binary=$2
+     local exclude=$3
+-    local python_libdir=$4
++    local python_libdir="$4"
+     local depth=$5 # Not used for Python >= 3.4
+     local real_libdir=$6 # Not used for Python >= 3.4
+ 
+@@ -48,7 +48,7 @@
+ 		# -x and -e together implements the same functionality as the Filter class below
+ 		# -s strips $RPM_BUILD_ROOT from the path
+ 		# -p prepends the leading slash to the path to make it absolute
+-		PYTHONPATH=/usr/lib/rpm/redhat/ $python_binary -B $options -m compileall2 -q -f $exclude -s $RPM_BUILD_ROOT -p / -e $RPM_BUILD_ROOT $python_libdir
++		PYTHONPATH=/usr/lib/rpm/redhat/ $python_binary -B $options -m compileall2 -q -f $exclude -s "$RPM_BUILD_ROOT" -p / -e "$RPM_BUILD_ROOT" "$python_libdir"
+ 	else
+ #
+ # Python 3.3 and lower (incl. Python 2)
+@@ -90,9 +90,9 @@
+ # and below /usr/lib/python3.1/, we're targeting /usr/bin/python3.1
+ 
+ shopt -s nullglob
+-for python_libdir in `find "$RPM_BUILD_ROOT" -type d|grep -E "/usr/lib(64)?/python[0-9]\.[0-9]$"`;
++while IFS= read -r -d '' python_libdir;
+ do
+-	python_binary=/usr/bin/$(basename $python_libdir)
++	python_binary=/usr/bin/$(basename "$python_libdir")
+ 	real_libdir=${python_libdir/$RPM_BUILD_ROOT/}
+ 	echo "Bytecompiling .py files below $python_libdir using $python_binary"
+ 
+@@ -109,7 +109,7 @@
+ 		# One or more of the files had a syntax error
+ 		exit 1
+ 	fi
+-done
++done < <(find "$RPM_BUILD_ROOT" -type d -print0|grep -z -E "/usr/lib(64)?/python[0-9]\.[0-9]$")
+ 
+ 
+ # Handle other locations in the filesystem using the default python implementation

@@ -1,0 +1,11 @@
+--- suse_macros.orig	2019-12-31 14:36:59.000000000 +0000
++++ suse_macros	2021-04-11 01:53:23.357820749 +0000
+@@ -11,7 +11,7 @@
+ 
+ # package build macros
+ %make_install           make install DESTDIR=%{?buildroot}
+-%makeinstall            make DESTDIR=%{?buildroot:%{buildroot}} install
++%makeinstall            make DESTDIR="%{?buildroot:%{buildroot}}" install
+ %insserv_prereq         insserv sed
+ %fillup_prereq          fillup coreutils grep diffutils
+ %install_info_prereq    info

@@ -1,0 +1,25 @@
+diff --git a/build/files.c b/build/files.c
+index 4328e7eaf..3e74c001b 100644
+--- a/build/files.c
++++ b/build/files.c
+@@ -2367,7 +2367,7 @@ static void processSpecialDir(rpmSpec spec, Package pkg, FileList fl,
+ {
+     const char *sdenv = (sd->sdtype == RPMFILE_DOC) ? "DOCDIR" : "LICENSEDIR";
+     const char *sdname = (sd->sdtype == RPMFILE_DOC) ? "%doc" : "%license";
+-    char *mkdocdir = rpmExpand("%{__mkdir_p} $", sdenv, NULL);
++    char *mkdocdir = rpmExpand("%{__mkdir_p} \"$", sdenv, "\"", NULL);
+     StringBuf docScript = newStringBuf();
+     char *basepath, **files;
+     int fi;
+@@ -2385,9 +2385,9 @@ static void processSpecialDir(rpmSpec spec, Package pkg, FileList fl,
+ 	char *efn = rpmEscapeSpaces(*fn);
+ 	appendStringBuf(docScript, "cp -pr ");
+ 	appendStringBuf(docScript, efn);
+-	appendStringBuf(docScript, " $");
++	appendStringBuf(docScript, " \"$");
+ 	appendStringBuf(docScript, sdenv);
+-	appendLineStringBuf(docScript, " ||:");
++	appendLineStringBuf(docScript, "\" ||:");
+ 	free(efn);
+     }
+ 

@@ -1,0 +1,11 @@
+--- macros.orig	2021-04-08 14:37:35.053226713 +1000
++++ macros	2021-04-08 14:38:57.917794374 +1000
+@@ -219,7 +219,7 @@
+ 
+ %__spec_install_pre %{___build_pre}\
+     [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf "${RPM_BUILD_ROOT}"\
+-    mkdir -p `dirname "$RPM_BUILD_ROOT"`\
++    mkdir -p "`dirname "$RPM_BUILD_ROOT"`"\
+     mkdir "$RPM_BUILD_ROOT"\
+ %{nil}
+ 

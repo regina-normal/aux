@@ -1,0 +1,10 @@
+--- platform.in.orig	2021-04-11 02:05:16.078620691 +0000
++++ platform.in	2021-04-11 02:03:27.471684908 +0000
+@@ -96,6 +96,6 @@
+ @suse@#
+ @suse@%__spec_build_pre %{___build_pre}\
+ @suse@%{?buildroot:  %__rm -rf "$RPM_BUILD_ROOT"\
+-@suse@  %__mkdir_p `dirname "$RPM_BUILD_ROOT"`\
++@suse@  %__mkdir_p "`dirname "$RPM_BUILD_ROOT"`"\
+ @suse@  %__mkdir "$RPM_BUILD_ROOT"\
+ @suse@}

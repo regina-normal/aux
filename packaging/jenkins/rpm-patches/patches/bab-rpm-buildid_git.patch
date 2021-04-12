@@ -1,0 +1,30 @@
+diff --git a/build/files.c b/build/files.c
+index e35f61e01..bac3e3b48 100644
+--- a/build/files.c
++++ b/build/files.c
+@@ -1676,7 +1676,24 @@ static void argvAddAttr(ARGV_t *filesp, rpmfileAttrs attrs, const char *path)
+ 	if (vfa->flag & attrs)
+ 	    line = rstrscat(&line, vfa->attribute, " ", NULL);
+     }
+-    line = rstrscat(&line, path, NULL);
++
++    /* The line we are building should be parseable by strtokWithQuotes().
++       In particular, we need the path to be treated as a single token.
++
++       If path does not contain a double quote then we can solve this by
++       double-quoting the entire path.
++
++       If path contains a double quote but no whitespace then it is already
++       a single token, and we can leave it alone.
++
++       If path contains both a double quote *and* whitespace then there is
++       nothing we can do to make strtokWithQuotes() process it correctly,
++       so we leave it alone in this case also. */
++    if (strchr(path, '"') == NULL)
++	line = rstrscat(&line, "\"", path, "\"", NULL);
++    else
++	line = rstrscat(&line, path, NULL);
++
+     argvAdd(filesp, line);
+     free(line);
+ }
