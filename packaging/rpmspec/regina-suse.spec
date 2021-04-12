@@ -91,11 +91,6 @@ pushd build
 %makeinstall
 popd
 
-# Install extra documentation ourselves, to work around the fact that
-# rpm's %doc directive cannot handle spaces in %_topdir.
-mkdir -p "%{buildroot}%{_defaultdocdir}/%{name}"
-cp -a CHANGES.txt HIGHLIGHTS.txt LICENSE.txt "%{buildroot}%{_defaultdocdir}/%{name}"
-
 %post
 /sbin/ldconfig
 
@@ -115,21 +110,22 @@ rm -rf "$RPM_BUILD_ROOT"
 
 %files
 %defattr(-,root,root)
+%doc CHANGES.txt
+%doc HIGHLIGHTS.txt
+%doc LICENSE.txt
 %docdir %{_datadir}/regina/docs/en/regina
 %docdir %{_datadir}/regina/docs/en/regina-xml
 %docdir %{_datadir}/regina/engine-docs
-%docdir %{_defaultdocdir}/%{name}
-%{_bindir}/
+%{_bindir}/*
 %{_datadir}/applications/regina.desktop
-%{_datadir}/icons/hicolor/
+%{_datadir}/icons/hicolor/*/*/*
 %{_datadir}/mime/packages/regina.xml
 %{_datadir}/regina/
-%{_defaultdocdir}/%{name}
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
 %{_prefix}/lib/python3.6/site-packages/regina/
-%{_mandir}/
+%{_mandir}/*/*
 
 %changelog
 * Fri Feb 12 2021 Ben Burton <bab@debian.org> 6.0.1
