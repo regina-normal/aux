@@ -43,7 +43,6 @@ BuildRequires:  patch
 BuildRequires:  perl-base
 BuildRequires:  popt-devel
 BuildRequires:  rpm-build
-BuildRequires:  which
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 %if 0%{?sle_version} >= 150200

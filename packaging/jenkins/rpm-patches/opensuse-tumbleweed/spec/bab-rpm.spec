@@ -47,7 +47,6 @@ BuildRequires:  patch
 BuildRequires:  perl-base
 BuildRequires:  popt-devel
 BuildRequires:  rpm-build
-BuildRequires:  which
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 BuildRequires:  pkgconfig(libzstd)
