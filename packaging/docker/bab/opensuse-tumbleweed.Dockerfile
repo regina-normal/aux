@@ -28,4 +28,10 @@ RUN mv /usr/lib/sysimage/rpm /usr/lib/sysimage/rpm.tmp && \
   rpm --rebuilddb
 
 RUN zypper dist-upgrade -y --allow-vendor-change
+
+# rpm-build needs gzip, not busybox-gzip, and this requires a zypper
+# conflict resolution.  Do this now so we don't have to do it every time
+# we want to build an RPM.
+RUN zypper install -y --no-recommends --force-resolution gzip
+
 RUN zypper clean

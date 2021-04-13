@@ -60,7 +60,7 @@ Summary:        The RPM Package Manager
 License:        GPL-2.0-or-later
 Group:          System/Packages
 Version:        4.16.0
-Release:        4.1.1
+Release:        4.1
 URL:            https://rpm.org/
 #Git-Clone:     https://github.com/rpm-software-management/rpm
 Source:         http://ftp.rpm.org/releases/rpm-4.16.x/rpm-%{version}.tar.bz2
@@ -130,10 +130,6 @@ Patch128:       empty_dbbackend.diff
 Patch129:       ndbglue.diff
 Patch130:       dwarf5.diff
 Patch6464:      auto-config-update-aarch64-ppc64le.diff
-Patch9000:      bab-rpm-doc_git.patch
-Patch9001:      bab-rpm-glob_git.patch
-Patch9002:      bab-rpm-buildid_git.patch
-Patch9011:      bab-rpm-platformin.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 #
 # avoid bootstrapping problem
@@ -265,11 +261,6 @@ cp build-aux/config.guess build-aux/config.sub db/dist/
 %ifarch aarch64 ppc64le riscv64
 %patch6464
 %endif
-
-%patch9000 -p1
-%patch9001 -p1
-%patch9002 -p1
-%patch9011 -p0
 
 tar -xjvf %{SOURCE1}
 rm -f m4/libtool.m4

@@ -2,9 +2,6 @@ FROM bab/opensuse:tumbleweed
 RUN zypper refresh
 RUN zypper dist-upgrade -y
 
-# rpm-build needs gzip, not busybox-gzip, which requires a juggle.
-RUN zypper install -y --no-recommends --force-resolution gzip
-
 RUN zypper install -y --no-recommends \
 	rpm-build \
 	cmake \
@@ -32,7 +29,7 @@ RUN zypper install -y --no-recommends \
 # Install my own patched RPM, to support %_topdir with spaces.
 ADD regina-key.asc /usr/local/regina/
 RUN rpm --import /usr/local/regina/regina-key.asc
-# RUN zypper addrepo https://people.debian.org/~bab/rpm/rpm-patches/opensuse/15.2/rpm-patches.repo
+RUN zypper addrepo https://people.debian.org/~bab/rpm/rpm-patches/opensuse/tumbleweed/rpm-patches.repo
 RUN zypper refresh
 RUN zypper update -y --no-recommends --allow-vendor-change
 
