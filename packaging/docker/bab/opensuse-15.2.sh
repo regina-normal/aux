@@ -17,6 +17,10 @@ rinse --directory "$rootfsDir" --arch "$arch" --distribution "$distribution"
 
 echo '----- Updating distribution -----'
 
+# It seems zypper does not know that rpm and zypper are installed.
+# This leads to some serious problems with system upgrades down the line.
+chroot "$rootfsDir" zypper install -y rpm zypper
+
 chroot "$rootfsDir" zypper refresh
 chroot "$rootfsDir" zypper update -y
 chroot "$rootfsDir" zypper clean
