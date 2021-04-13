@@ -2,9 +2,6 @@ FROM bab/opensuse:tumbleweed
 RUN zypper refresh
 RUN zypper dist-upgrade -y
 
-# rpm-build needs gzip, not busybox-gzip, which requires a juggle.
-RUN zypper install -y --no-recommends --force-resolution gzip
-
 RUN zypper install -y --no-recommends \
 	rpm-build \
 	cmake \
