@@ -117,8 +117,20 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
-%{_prefix}/lib/python3.6/site-packages/regina/
 %{_mandir}/*/*
+
+%if 0%{?suse_version} > 1500
+# tumbleweed
+%{_prefix}/lib/python3.8/site-packages/regina/
+%else
+%if 0%{?sle_version} == 150200 && 0%{?is_opensuse}
+# leap 15.x
+%{_prefix}/lib/python3.6/site-packages/regina/
+%else
+# force a meaningful error
+%{_prefix}/lib/unsupported_opensuse_release
+%endif
+%endif
 
 %changelog
 * Fri Feb 12 2021 Ben Burton <bab@debian.org> 6.0.1
