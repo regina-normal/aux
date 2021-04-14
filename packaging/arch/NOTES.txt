@@ -107,3 +107,7 @@ Installation, stage 2 (from inside the chroot):
   $ pacman -S install base-devel namcap
 
 Then exit the chroot and reboot!
+
+Desktop tweaks:
+
+- Applications / Settings / Power Manager: disable screen lock and suspend
