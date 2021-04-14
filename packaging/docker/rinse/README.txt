@@ -1,4 +1,4 @@
-Patches required for rinse to support newer fedora releases:
+Patches required for rinse to support newer fedora and opensuse releases:
 
 --------------------------------------------------------------------------
 
@@ -16,8 +16,8 @@ mirror       = http://fedora.mirror.digitalpacific.com.au/linux/releases/33/Ever
 
 Add the *.packages files from this directory to /etc/rinse/ .
 
-These were created as described on the rinse manpage: start a VM with the
-corresponding distribution installed and run:
+For fedora, these were created as described on the rinse manpage: start a VM
+with the corresponding distribution installed and run:
 
   repoquery --requires --resolve --recursive dnf yum rpm | \
     perl -pe 's/(.*)-.*?-.*?$/$1/g' | sort -u \
@@ -26,7 +26,7 @@ corresponding distribution installed and run:
 --------------------------------------------------------------------------
 
 Beneath /usr/lib/rinse, create a directory for each new distribution
-with a corresponding post-install.sh.  For fedora-32 and fedora-33, the
-correct post-install script is included here (just install it as
-fedora-32/post_install.sh, and make fedora-33/post_install.sh a symlink).
-
+containing a script post-install.sh.  These should be copies of:
+- fedora-32 -> fedora_3x_post-install.sh
+- fedora-33 -> fedora_3x_post-install.sh (can be a symlink into fedora-32)
+- opensuse-15.2 -> opensuse_post-install.sh (replace the rinse version)

@@ -1,7 +1,7 @@
 #
 # spec file for package rpm
 #
-# Copyright (c) 2018 SUSE LINUX GmbH, Nuernberg, Germany.
+# Copyright (c) 2021 SUSE LLC
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -19,6 +19,9 @@
 #Compat macro for new _fillupdir macro introduced in Nov 2017
 %{?!_fillupdir:%define _fillupdir /var/adm/fillup-templates}
 
+%global librpmsover 9
+%global without_bdb 1
+
 Name:           rpm
 BuildRequires:  binutils
 BuildRequires:  bzip2
@@ -33,6 +36,7 @@ BuildRequires:  libbz2-devel
 BuildRequires:  libcap-devel
 BuildRequires:  libdw-devel
 BuildRequires:  libelf-devel
+BuildRequires:  libgcrypt-devel
 BuildRequires:  libselinux-devel
 BuildRequires:  libsemanage-devel
 BuildRequires:  libtool
@@ -45,43 +49,33 @@ BuildRequires:  popt-devel
 BuildRequires:  rpm-build
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
-%if 0%{?sle_version} >= 150200
-BuildRequires:  libgcrypt-devel
-%endif
-%if (0%{?is_opensuse} && (0%{?sle_version} >= 150000 || 0%{?suse_version} >= 1500)) || 0%{?sle_version} >= 150200
-BuildRequires:  libzstd-devel
-%endif
+BuildRequires:  pkgconfig(libzstd)
 #!BuildIgnore:  rpmlint-Factory
 Provides:       rpminst
-Enhances:       glibc
 Requires(post): %fillup_prereq
+Requires:       rpm-config-SUSE
+# awk is needed for rpm --last
+Requires:       /usr/bin/awk
 Summary:        The RPM Package Manager
 License:        GPL-2.0-or-later
 Group:          System/Packages
-Version:        4.14.1
-Release:        lp152.17.5.1
-Source:         http://ftp.rpm.org/releases/rpm-4.14.x/rpm-%{version}.tar.bz2
+Version:        4.16.0
+Release:        4.1
+URL:            https://rpm.org/
+#Git-Clone:     https://github.com/rpm-software-management/rpm
+Source:         http://ftp.rpm.org/releases/rpm-4.16.x/rpm-%{version}.tar.bz2
 Source1:        RPM-HOWTO.tar.bz2
-Source4:        rpm-suse_macros
 Source5:        rpmsort
-Source6:        symset-table
 Source8:        rpmconfigcheck
 Source9:        sysconfig.services-rpm
-Source10:       beecrypt-4.1.2.tar.bz2
 Source11:       db-4.8.30.tar.bz2
 Source12:       baselibs.conf
 Source13:       rpmconfigcheck.service
-Source14:       find-provides.ksyms
-Source15:       find-requires.ksyms
-Patch1:         beecrypt.diff
 Patch2:         db.diff
-Patch3:         rpm-4.12.0.1-fix-bashisms.patch
 Patch5:         usr-lib-sysimage-rpm.patch
 # quilt patches start here
-Patch11:        debugedit.diff
 Patch13:        ignore-auxv.diff
 Patch12:        localetag.diff
-Patch14:        nameversioncompare.diff
 Patch15:        dbfsync.diff
 Patch16:        dbrointerruptable.diff
 Patch18:        refreshtestarch.diff
@@ -91,10 +85,8 @@ Patch24:        brp.diff
 Patch25:        brpcompress.diff
 Patch26:        checkfilesnoinfodir.diff
 Patch27:        finddebuginfo.diff
-Patch28:        findksyms.diff
 Patch29:        findlang.diff
 Patch30:        macrosin.diff
-Patch31:        modalias.diff
 Patch32:        platformin.diff
 Patch33:        rpmpopt.diff
 Patch34:        rpmrc.diff
@@ -106,17 +98,12 @@ Patch45:        whatrequires-doc.diff
 Patch46:        remove-brp-strips.diff
 Patch47:        requires-ge-macro.diff
 Patch49:        finddebuginfo-absolute-links.diff
-Patch50:        firmware.diff
 Patch51:        specfilemacro.diff
-Patch52:        modalias-encode.diff
-Patch53:        disttag-macro.diff
 Patch55:        debugsubpkg.diff
 Patch56:        debuglink.diff
 Patch57:        debuginfo-mono.patch
-Patch58:        lazystatfs.diff
 Patch60:        safeugid.diff
 Patch61:        noprereqdeprec.diff
-Patch65:        initscriptsprov.diff
 Patch66:        remove-translations.diff
 Patch67:        headeradddb.diff
 Patch68:        dbprivate.diff
@@ -124,7 +111,6 @@ Patch69:        nobuildcolor.diff
 Patch70:        fileattrs.diff
 Patch71:        nomagiccheck.diff
 Patch73:        assumeexec.diff
-Patch74:        mono-find-requires.diff
 Patch75:        rpm-deptracking.patch
 Patch77:        langnoc.diff
 Patch78:        headerchk2.diff
@@ -135,27 +121,15 @@ Patch99:        enable-postin-scripts-error.diff
 Patch100:       rpm-findlang-inject-metainfo.patch
 Patch102:       emptymanifest.diff
 Patch103:       find-lang-qt-qm.patch
-Patch108:       debugedit-macro.diff
 Patch109:       pythondistdeps.diff
-Patch111:       debugedit-bnc1076819.diff
-Patch112:       hardlinks.diff
-Patch113:       debugedit-riscv.patch
-Patch114:       source_date_epoch_buildtime.diff
-Patch115:       safesymlinks.diff
-Patch116:       verifynodup.diff
-Patch117:       ndb-backport.diff
-Patch118:       disable-bdb.diff
-Patch119:       libgcrypt.diff
-Patch120:       gcryptdsa2.diff
-Patch121:       ndb_backport2.diff
-Patch122:       reproducible-debuginfo.patch
+Patch117:       findsupplements.diff
+Patch122:       db_conversion.diff
+Patch123:       nextiteratorheaderblob.diff
+Patch127:       finddebuginfo-check-res-file.patch
+Patch128:       empty_dbbackend.diff
+Patch129:       ndbglue.diff
+Patch130:       dwarf5.diff
 Patch6464:      auto-config-update-aarch64-ppc64le.diff
-Patch6465:      auto-config-update-riscv64.diff
-Patch9000:      bab-rpm-doc_git.patch
-Patch9001:      bab-rpm-glob_os152.patch
-Patch9002:      bab-rpm-buildid_git.patch
-Patch9010:      bab-rpm-macros.patch
-Patch9011:      bab-rpm-platformin.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 #
 # avoid bootstrapping problem
@@ -169,6 +143,15 @@ RPM can be used to install and remove software packages. With rpm, it
 is easy to update packages.  RPM keeps track of all these manipulations
 in a central database.	This way it is possible to get an overview of
 all installed packages.  RPM also supports database queries.
+
+%package -n librpmbuild%{librpmsover}
+Summary:        Library for building RPM packages
+# Was part of rpm before
+Group:          System/Libraries
+Conflicts:      rpm < %{version}
+
+%description -n librpmbuild%{librpmsover}
+Thie package contains a library with functions for building RPM packages.
 
 %package devel
 Summary:        Development files for librpm
@@ -209,7 +192,6 @@ Requires:       grep
 Requires:       gzip
 Requires:       make
 Requires:       patch
-Requires:       perl-base
 Requires:       sed
 Requires:       systemd-rpm-macros
 Requires:       tar
@@ -219,19 +201,39 @@ Requires:       xz
 # drop candidates
 Requires:       cpio
 Requires:       file
+# Mandatory generators
+Requires:       (%{name}-build-perl if perl-base)
+Requires:       (%{name}-build-python if python3-base)
+# The point of the split
+Conflicts:      rpm < 4.15.0
 
 %description build
 If you want to build a rpm, you need this package. It provides rpmbuild
 and requires some packages that are usually required.
 
+%package build-python
+Summary:        RPM dependency generator for Python
+Group:          Development/Languages/Python
+Requires:       python3-base
+# To avoid widespread breakage by package mistakenly ignoring
+# their requirement of python-rpm-macros (bsc#1180125)
+Requires:       python-rpm-macros
+
+%description build-python
+Provides and requires generator for .py files and modules.
+
+%package build-perl
+Summary:        RPM dependency generator for Perl
+Group:          Development/Languages/Perl
+Requires:       perl-base
+
+%description build-perl
+Provides and requires generator for .pl files and modules.
+
 %prep
 %setup -q -n rpm-%{version}
-rm -rf sqlite beecrypt
-%if 0%{?sle_version} < 150200
-tar xjf %{SOURCE10}
-%patch1
-ln -s beecrypt-4.1.2 beecrypt
-%endif
+rm -rf sqlite
+%if 0%{?!without_bdb:1}
 tar xjf %{SOURCE11}
 ln -s db-4.8.30 db
 cd db
@@ -239,55 +241,28 @@ cd db
 cd ..
 chmod -R u+w db/*
 rm -f rpmdb/db.h
-%patch3 -p1
+cp build-aux/config.guess build-aux/config.sub db/dist/
+%endif
 %patch5 -p1
-%patch       -P 11 -P 12 -P 13 -P 14 -P 15 -P 16       -P 18
-%patch -P 20 -P 21             -P 24 -P 25 -P 26 -P 27 -P 28 -P 29
-%patch -P 30 -P 31 -P 32 -P 33 -P 34 -P 35 -P 36       -P 38
+%patch       -P 12 -P 13       -P 15 -P 16       -P 18
+%patch -P 20 -P 21             -P 24 -P 25 -P 26 -P 27       -P 29
+%patch -P 30       -P 32 -P 33 -P 34 -P 35 -P 36       -P 38
 %patch                   -P 43       -P 45 -P 46 -P 47       -P 49
-%patch -P 50 -P 51 -P 52 -P 53       -P 55 -P 56 -P 57 -P 58
-%patch -P 60 -P 61                   -P 65 -P 66 -P 67 -P 68 -P 69
-%patch -P 70 -P 71       -P 73 -P 74 -P 75       -P 77 -P 78
+%patch       -P 51                   -P 55 -P 56 -P 57
+%patch -P 60 -P 61                         -P 66 -P 67 -P 68 -P 69
+%patch -P 70 -P 71       -P 73       -P 75       -P 77 -P 78
 %patch                               -P 85
 %patch                   -P 93 -P 94                         -P 99
-%patch -P 100        -P 102 -P 103                             -P 108
-%patch -P 109 -P 111 -P 112 -P 113 -P 114 -P 115 -P 116 -P 117 -P 118
-%patch -P 119 -P 120 -P 121 -P 122
+%patch -P 100        -P 102 -P 103
+%patch -P 109                                           -P 117
+%patch -P 122 -P 123 -P 127 -P 128 -P 129
+%patch130 -p1
 
 %ifarch aarch64 ppc64le riscv64
 %patch6464
 %endif
-%ifarch riscv64
-%patch6465
-%endif
 
-%patch9000 -p1
-%patch9001 -p1
-%patch9002 -p1
-%patch9011 -p0
-
-cp config.guess config.sub db/dist/
-cp %{SOURCE14} %{SOURCE15} scripts/
-#chmod 755 scripts/find-supplements{,.ksyms}
-chmod 755 scripts/find-provides.ksyms scripts/find-requires.ksyms
-#chmod 755 scripts/firmware.prov
-#chmod 755 scripts/debuginfo.prov
 tar -xjvf %{SOURCE1}
-sed -e 's/@suse_version@/%{?suse_version}%{!?suse_version:0}/' \
-    -e 's/@sles_version@/%{?sles_version}%{!?sles_version:0}/' \
-    -e 's/@ul_version@/%{?ul_version}%{!?ul_version:0}/' \
-    -e '/@is_opensuse@%{?is_opensuse:nomatch}/d' \
-    -e 's/@is_opensuse@/%{?is_opensuse}%{!?is_opensuse:0}/' \
-    -e '/@leap_version@%{?leap_version:nomatch}/d' \
-    -e 's/@leap_version@/%{?leap_version}%{!?leap_version:0}/' \
-%if 0%{?is_opensuse}
-    -e '/@sle_version@%{?sle_version:nomatch}/d' \
-    -e 's/@sle_version@/%{?sle_version}%{!?sle_version:0}/' \
-%else
-    -e '/@sle_version@/d' \
-%endif
-  < %{SOURCE4} > suse_macros
-%patch9010 -p0
 rm -f m4/libtool.m4
 rm -f m4/lt*.m4
 
@@ -304,32 +279,21 @@ BUILDTARGET="--build=%{_target_cpu}-suse-linux-gnueabi"
 BUILDTARGET="--build=%{_target_cpu}-suse-linux"
 %endif
 
-%if 0%{?sle_version} < 150200
-cp config.guess config.sub autogen.sh beecrypt
-pushd beecrypt
-./autogen.sh --disable-dependency-tracking --with-pic --without-python $BUILDTARGET
-make %{?_smp_mflags}
-popd
-%endif
-
 autoreconf -fi
 ./configure --disable-dependency-tracking --prefix=%{_prefix} --mandir=%{_mandir} --infodir=%{_infodir} \
---libdir=%{_libdir} --sysconfdir=/etc --localstatedir=/var --sharedstatedir=/var/lib --with-lua \
---without-external-db \
---enable-ndb \
+--libdir=%{_libdir} --sysconfdir=/etc --localstatedir=/var --sharedstatedir=/var/lib \
+--with-lua \
 --with-vendor=suse \
 --with-rundir=/run \
 --without-archive \
-%if 0%{?sle_version} < 150200
---with-internal-beecrypt \
-%else
---with-crypto=libgcrypt \
-%endif
 --with-selinux \
---with-acl --with-cap --enable-shared \
-%if (0%{?is_opensuse} && (0%{?sle_version} >= 150000 || 0%{?suse_version} >= 1500)) || 0%{?sle_version} >= 150200
+--with-crypto=libgcrypt \
+--with-acl \
+--with-cap \
+--enable-shared \
+--enable-ndb \
+--enable-bdb-ro \
 --enable-zstd \
-%endif
 %{?without_bdb: --enable-bdb=no} \
 %{?with_python: --enable-python} \
 $BUILDTARGET
@@ -343,7 +307,9 @@ mkdir -p %{buildroot}/usr/share/locale
 ln -s ../share/locale %{buildroot}/usr/lib/locale
 %make_install
 mkdir -p %{buildroot}/bin
+%if !0%{?usrmerged}
 ln -s /usr/bin/rpm %{buildroot}/bin/rpm
+%endif
 %if 0%{?!without_bdb:1}
 install -m 644 db3/db.h %{buildroot}/usr/include/rpm
 %endif
@@ -356,10 +322,8 @@ mkdir -p %{buildroot}/usr/sbin
 install -m 755 %{SOURCE8} %{buildroot}/usr/sbin
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 644 %{SOURCE13} %{buildroot}/usr/lib/systemd/system/
-cp -a suse_macros %{buildroot}/usr/lib/rpm
 mkdir -p %{buildroot}/usr/lib/rpm/macros.d
 mkdir -p %{buildroot}/usr/lib/rpm/suse
-ln -s ../suse_macros %{buildroot}/usr/lib/rpm/suse/macros
 for d in BUILD RPMS SOURCES SPECS SRPMS BUILDROOT ; do
   mkdir -p %{buildroot}/usr/src/packages/$d
   chmod 755 %{buildroot}/usr/src/packages/$d
@@ -371,7 +335,6 @@ for d in %{buildroot}/usr/lib/rpm/platform/*-linux/macros ; do
   chmod 755 %{buildroot}/usr/src/packages/RPMS/$dd
 done
 mkdir -p %{buildroot}/usr/lib/sysimage/rpm
-mkdir -p %{buildroot}/var/lib/rpm
 gzip -9 %{buildroot}/%{_mandir}/man[18]/*.[18]
 export RPM_BUILD_ROOT
 %ifarch s390x
@@ -386,10 +349,6 @@ mkdir -p %{buildroot}%{_fillupdir}
 install -c -m0644 %{SOURCE9} %{buildroot}%{_fillupdir}/
 rm -f %{buildroot}/usr/lib/rpm/cpanflute %{buildroot}/usr/lib/rpm/cpanflute2
 install -m 755 %{SOURCE5} %{buildroot}/usr/lib/rpm
-install -m 755 %{SOURCE6} %{buildroot}/usr/lib/rpm
-install -m 755 scripts/find-supplements{,.ksyms} %{buildroot}/usr/lib/rpm
-install -m 755 scripts/firmware.prov %{buildroot}/usr/lib/rpm
-install -m 755 scripts/debuginfo.prov %{buildroot}/usr/lib/rpm
 rm -f %{buildroot}/usr/lib/locale %{buildroot}/usr/lib/rpmrc
 mkdir -p %{buildroot}/etc/rpm
 chmod 755 %{buildroot}/etc/rpm
@@ -410,8 +369,8 @@ for i in /usr/share/automake-*/*; do
 done
 popd
 %ifarch aarch64 ppc64le riscv64
-install -m 755 config.guess %{buildroot}/usr/lib/rpm
-install -m 755 config.sub %{buildroot}/usr/lib/rpm
+install -m 755 build-aux/config.guess %{buildroot}/usr/lib/rpm
+install -m 755 build-aux/config.sub %{buildroot}/usr/lib/rpm
 %endif
 rm -rf %{buildroot}/%{_libdir}/python%{py_ver}
 rm -f %{buildroot}%{_libdir}/*.la
@@ -422,6 +381,11 @@ sh %{buildroot}/usr/lib/rpm/find-lang.sh %{buildroot} rpm
 # rpm is using the host_cpu as default for the platform, but armv6/7hl is not known by the kernel.
 # so we need to enforce the platform here.
 echo -n "%{_target_cpu}-suse-linux-gnueabi" > %{buildroot}/etc/rpm/platform
+%endif
+%if 0%{?without_bdb:1}
+# make ndb the default database backend
+echo "setting the default database backend to 'ndb'"
+sed -i -e '/_db_backend/s/bdb/ndb/' %{buildroot}/usr/lib/rpm/macros
 %endif
 
 %post
@@ -436,6 +400,7 @@ if test ! -L var/lib/rpm -a ! -f usr/lib/sysimage/rpm/Packages -a ! -f usr/lib/s
 fi
 
 test -f usr/lib/sysimage/rpm/Packages -o -f usr/lib/sysimage/rpm/Packages.db || rpmdb --initdb
+test -e var/lib/rpm || ln -s ../../usr/lib/sysimage/rpm var/lib/rpm
 
 %posttrans
 # var/lib/rpm migration
@@ -455,7 +420,8 @@ if test ! -L var/lib/rpm ; then
     mv -f var/lib/rpm/.[!.]* usr/lib/sysimage/rpm/
     mv -f var/lib/rpm/* usr/lib/sysimage/rpm/
   fi
-  rmdir var/lib/rpm && ln -s ../../usr/lib/sysimage/rpm var/lib/rpm
+  test -d var/lib/rpm && rmdir var/lib/rpm
+  test -e var/lib/rpm || ln -s ../../usr/lib/sysimage/rpm var/lib/rpm
 fi
 
 %files -f rpm.lang
@@ -464,21 +430,40 @@ fi
 %doc 	doc/manual
 %doc    RPM-HOWTO
 	/etc/rpm
+%if !0%{?usrmerged}
 	/bin/rpm
-	/usr/bin/*
-        %exclude /usr/bin/rpmbuild
+%endif
+	%{_bindir}/gendiff
+	%{_bindir}/rpm
+	%{_bindir}/rpm2cpio
+	%{_bindir}/rpmdb
+	%{_bindir}/rpmgraph
+	%{_bindir}/rpmkeys
+	%{_bindir}/rpmqpack
+	%{_bindir}/rpmquery
+	%{_bindir}/rpmsign
+	%{_bindir}/rpmverify
 	/usr/sbin/rpmconfigcheck
 	/usr/lib/systemd/system/rpmconfigcheck.service
-	/usr/lib/rpm
+	%dir /usr/lib/rpm
+	/usr/lib/rpm/macros
+	/usr/lib/rpm/macros.d/
+	/usr/lib/rpm/platform/
+	/usr/lib/rpm/rpm.supp
+	/usr/lib/rpm/rpmdb_*
+	/usr/lib/rpm/rpmpopt-*
+	/usr/lib/rpm/rpmrc
+	/usr/lib/rpm/rpmsort
+	/usr/lib/rpm/suse
+	/usr/lib/rpm/tgpg
 	%{_libdir}/rpm-plugins
 	%{_libdir}/librpm.so.*
-	%{_libdir}/librpmbuild.so.*
 	%{_libdir}/librpmio.so.*
 	%{_libdir}/librpmsign.so.*
 %doc	%{_mandir}/man[18]/*.[18]*
 %dir 	/usr/lib/sysimage
 %dir 	/usr/lib/sysimage/rpm
-%dir 	/var/lib/rpm
+%ghost	/var/lib/rpm
 %dir 	%attr(755,root,root) /usr/src/packages/BUILD
 %dir 	%attr(755,root,root) /usr/src/packages/SPECS
 %dir 	%attr(755,root,root) /usr/src/packages/SOURCES
@@ -488,69 +473,291 @@ fi
 %dir	%attr(755,root,root) /usr/src/packages/RPMS/*
 	%{_fillupdir}/sysconfig.services-rpm
 
+%files -n librpmbuild%{librpmsover}
+%{_libdir}/librpmbuild.so.%{librpmsover}
+%{_libdir}/librpmbuild.so.%{librpmsover}.*
+
 %files build
 %defattr(-,root,root)
 /usr/bin/rpmbuild
+/usr/lib/rpm/libtooldeps.sh
+/usr/lib/rpm/pkgconfigdeps.sh
+/usr/lib/rpm/ocamldeps.sh
+/usr/lib/rpm/elfdeps
+/usr/lib/rpm/rpmdeps
+/usr/lib/rpm/debugedit
+/usr/lib/rpm/sepdebugcrcfix
+/usr/bin/rpmspec
+/usr/lib/rpm/brp-*
+/usr/lib/rpm/check-*
+/usr/lib/rpm/*find*
+/usr/lib/rpm/fileattrs/
+%exclude /usr/lib/rpm/fileattrs/pythondist.attr
+%exclude /usr/lib/rpm/fileattrs/perl*.attr
+/usr/lib/rpm/*.prov
+%exclude /usr/lib/rpm/perl.prov
+/usr/lib/rpm/*.req
+%exclude /usr/lib/rpm/perl.req
+%ifarch aarch64 ppc64le riscv64
+/usr/lib/rpm/config.guess
+/usr/lib/rpm/config.sub
+%endif
+
+%files build-python
+%defattr(-,root,root)
+/usr/lib/rpm/fileattrs/pythondist.attr
+/usr/lib/rpm/pythondistdeps.py
+
+%files build-perl
+%defattr(-,root,root)
+/usr/lib/rpm/fileattrs/perl*.attr
+/usr/lib/rpm/perl.prov
+/usr/lib/rpm/perl.req
 
 %files devel
 %defattr(644,root,root,755)
-	/usr/include/rpm
-        %{_libdir}/librpm.so
-        %{_libdir}/librpmbuild.so
-        %{_libdir}/librpmio.so
-        %{_libdir}/librpmsign.so
-        %{_libdir}/pkgconfig/rpm.pc
+/usr/include/rpm
+%{_libdir}/librpm.so
+%{_libdir}/librpmbuild.so
+%{_libdir}/librpmio.so
+%{_libdir}/librpmsign.so
+%{_libdir}/pkgconfig/rpm.pc
 
 %changelog
-* Sun May 24 2020 Bernhard Wiedemann <bwiedemann@suse.com>
-- Add reproducible-debuginfo.patch to generate debuginfo
-  in a reproducible way [bsc#1172173]
+* Mon Feb 22 2021 Martin Liška <mliska@suse.cz>
+- Remove debugedit.diff and include dwarf5.diff in order to support
+  debug DWARF 5 that will be added with GCC 11.
+* Mon Feb  8 2021 Andreas Schwab <schwab@suse.de>
+- Use shipped config.sub/config.guess instead of stone-aged from libtool
+- auto-config-update-aarch64-ppc64le.diff: update grep regex
+* Thu Jan 14 2021 Matej Cepl <mcepl@suse.com>
+- Add explicit requirement on python-rpm-macros to avoid widespread
+  breakage by package mistakenly ignoring their requirement of
+  python-rpm-macros (bsc#1180125).
+* Mon Dec 21 2020 mls@suse.de
+- fix potential access of freed mem in ndb's glue code [bnc#1179416]
+  * new patch: ndbglue.diff
+* Wed Nov 18 2020 mls@suse.de
+- allow opening the rpm database with an unset db_backend
+  * new patch: empty_dbbackend.diff
+* Tue Oct 27 2020 Callum Farmer <callumjfarmer13@gmail.com>
+- RPM no longer ships config.sub and config.guess, just copy it
+  from Libtool since it is identical
+* Tue Oct 27 2020 mls@suse.de
+- update to rpm-4.16.0
+  * powerful macro and %%if expressions including ternary operator
+    and native version comparison
+  * optional MIME type based file classification
+  * dependency generation by parametric macros
+  * a new version parsing and comparison API in C and Python
+  * parallelise test-suite execution
+  * clarify RPM license
+- add method to iterate over header blobs
+  * new patch: nextiteratorheaderblob.diff
+- modified patches:
+  * brpcompress.diff
+  * brp-compress-no-img.patch
+  * brp.diff
+  * checkfilesnoinfodir.diff
+  * db_conversion.diff
+  * dbrointerruptable.diff
+  * findsupplements.diff
+  * ignore-auxv.diff
+  * macrosin.diff
+  * nobuildcolor.diff
+  * nomagiccheck.diff
+  * platformin.diff
+  * rpmqpack.diff
+  * rpm-shorten-changelog.diff
+  * suspendlock.diff
+- dropped patches:
+  * rpm-4.12.0.1-fix-bashisms.patch
+  * lazystatfs.diff
+  * db_ops_name.diff
+  * bdb_ro.diff
+  * disable_bdb.diff
+  * ndb_backport.diff
+  * initgcrypt.diff
+  * gcryptdsa2.diff
+  * ndb_backport2.diff
+  * touch_backport.diff
+* Mon Oct 19 2020 mls@suse.de
+- Backport FA_TOUCH fixes from upsteam [bnc#1175025] [bnc#1177428]
+  * new patch: touch_backport.diff
+* Fri Oct 16 2020 Ludwig Nussel <lnussel@suse.de>
+- prepare usrmerge (boo#1029961)
+* Fri Oct  9 2020 Guillaume GARDET <guillaume.gardet@opensuse.org>
+- Add patch to fix finddebuginfo when no res.* file are found:
+  * finddebuginfo-check-res-file.patch
+* Mon Jul  6 2020 Martin Liška <mliska@suse.cz>
+- Default to zstd compression (level 19).
+  * modified patch: macrosin.diff
+* Mon Jul  6 2020 Neal Gompa <ngompa13@gmail.com>
+- Set %%_libexecdir to /usr/libexec
+  * modified patch: platformin.diff
+* Thu Jun 18 2020 Dirk Mueller <dmueller@suse.com>
+- temporarily back out change of  %%_libexecdir to /usr/libexec
+* Mon May  4 2020 Dominique Leuenberger <dimstar@opensuse.org>
+- Update rpmconfigcheck: Remove bashism and use /bin/sh instead of
+  /bin/bash.
+* Thu Apr 30 2020 Dirk Mueller <dmueller@suse.com>
+- update auto-config-update-aarch64-ppc64le.diff (bsc#1170849):
+  * only update if hostarch isn't there
 * Tue Apr 14 2020 mls@suse.de
-- Do not map the index database read-write all the time [bnc#1168735]
-  * new patch: ndb_backport2.diff
-* Wed Apr  8 2020 mls@suse.de
 - Fix verification of DSA2 signatures with libgrcypt [bnc#1165731]
   * new patch: gcryptdsa2.diff
+- Do not map the index database read-write all the time
+  * new patch: ndb_backport2.diff
+* Tue Apr 14 2020 Fabian Vogt <fvogt@suse.com>
+- Fix name of Packages DB file in rpmconfigcheck
+* Fri Apr  3 2020 mls@suse.de
+- Initialize the libgcrypt library [bnc#1167343]
+  * new patch: initgcrypt.diff
+* Tue Mar 24 2020 mls@suse.de
+- Follow one level of symlink indirection when converting the rpm
+  database [bnc#1167537]
+  * modified patch: db_conversion.diff
+* Mon Mar 23 2020 Sergio Lindo Mansilla <slindomansilla@suse.com>
+- Add macro for supported ARM 64bit processors
+* Fri Mar 13 2020 Fabian Vogt <fvogt@suse.com>
+- Replace rpmsort with rewrite using Lua (boo#1164553)
+* Wed Feb 26 2020 Fabian Vogt <fvogt@suse.com>
+- Split out perl and python dep generators from rpm-build to avoid
+  pulling in perl and python in all RPM builds
+- Port rpmconfigcheck to pure shell
+- Refactor %%files list of main package to not require %%excludes
+  as those might lead to missing files in the package
 * Thu Feb 20 2020 ohering@suse.de
 - Remove ocaml-find-provides.sh, ocaml-find-requires.sh, fileattrs/ocaml.attr
   ocaml(NAME) = HASH is now handled in ocaml-rpm-macros (bsc#1154874)
-* Thu Jan 16 2020 mls@suse.de
-- Backport more ndb fixes from upstram
-  modified patch: ndb-backport.diff
-- Build with zstd support in openSUSE Leap 15
-  and SLE-15-SP2 [bnc#1162668]
-* Thu Dec 12 2019 mls@suse.de
-- Consolidate beecrypt patches into 'beecrypt.diff'
-  old patches: beecrypt-4.1.2.diff beecrypt-4.1.2-build.diff
-- Use libgcrypt as crypto library for SP2 [jsc#SLE-9552]
-  new patch: libgcrypt.diff
-- Backport ndb fixes and enable ndb support [jsc#SLE-7272]
-  new patch: ndb-backport.diff
-- Allow to disable bdb database support [jsc#SLE-7272]
-  new patch: disable-bdb.diff
+* Fri Jan 17 2020 mls@suse.de
+- Use libgcrypt as crypto library instead of beecrypt
+  * dropped patch: beecrypt-4.1.2-build.diff
+  * dropped patch: beecrypt-4.1.2.diff
 - Rewrite rpmqpack to use rpm's database interface
   modified patch: rpmqpack.diff
-* Fri Nov 15 2019 mls@suse.de
-- Backport lang_package -r fixes from Factory [bnc#1156300]
-  modified: rpm-suse_macros
-* Wed Mar 20 2019 mls@suse.de
-- Backport changelog cutoff date change from Factory (bnc#1129753)
-  modified: macrosin.diff
-* Wed Mar 13 2019 Michal Suchanek <msuchanek@suse.de>
-- Translate dashes to underscores in kmod provides (FATE#326579,
-    jsc#SLE-4117, jsc#SLE-3853, bsc#1119414).
-  refresh: findksyms.diff
-  add: find-provides.ksyms, find-requires.ksyms
-* Fri Feb 22 2019 Michal Suchanek <msuchanek@suse.de>
-- Re-add symset-table from SLE 12 (bsc#1126327).
-  add: symset-table
-* Tue Dec 18 2018 Michal Suchanek <msuchanek@suse.de>
-- Add kmod(module) provides to kernel and KMPs (FATE#326579,
-    jsc#SLE-4117, jsc#SLE-3853).
-  refresh: findksyms.diff
-* Wed Oct 24 2018 msuchanek@suse.de
-- Fix superfluous TOC. dependency (bsc#1113100)
-  refresh: findksyms.diff
+- Backport database detection code from upstream
+  new patch: db_ops_name.diff
+- Backport read-only BerkeleyDB code
+  new patch: bdb_ro.diff
+- Enable ndb backend
+- Backport bdb disabling fix
+  new patch: disable_bdb.diff
+- Backport ndb improvements
+  new patch: ndb_backport.diff
+- Backport automatic db conversion
+  new patch: db_conversion.diff
+- Disable the BerkeleyDB backend and switch over to 'ndb'
+* Fri Dec  6 2019 mls@suse.de
+- disable pythondist requires generator for now
+  * modified patch: fileattrs.diff
+* Wed Nov 20 2019 mls@suse.de
+- drop python3-setuptools dependency from rpm-build, the package
+  is not part of ring-0
+* Tue Nov 19 2019 mls@suse.de
+- update to rpm-4.15.1
+  * bugfix release
+- dropped patches:
+  * fix_lua_cflags.diff
+* Tue Nov  5 2019 Neal Gompa <ngompa13@gmail.com>
+- Fix shebang for pythondistdeps.py to use Python 3
+  + Modify patch: pythondistdeps.diff
+- Move pythondistdeps dependency generator to rpm-build
+- Add python3-setuptools and python3 dependencies to rpm-build for pythondistdeps
+* Tue Oct 29 2019 Ignaz Forster <iforster@suse.com>
+- Declare /var/lib/rpm as a ghost file (it is a link to /usr/lib/sysimage/rpm
+  generated in post script for quite some time now) [boo#1132796]
+* Wed Oct  2 2019 mls@suse.de
+- update to rpm-4.15.0
+  * dynamic build dependencies
+  * support for %%elif, %%elifos and %%elifarch statements in spec
+  * caret version operator (the opposite of tilde)
+  * new %%patchlist and %%sourcelist spec sections
+  * new %%{expr:#} built-in macro for evaluating expressions
+  * new %%dnl macro primitive for comments
+- dropped patches:
+  * 0001-Stop-papering-over-the-security-disaster-known-as-pr.patch
+  * 0002-Fix-use-after-free-introduced-in-0f21bdd0d7b2c45564d.patch
+  * adopt-language-specific-build_fooflags-macros-from-F.patch
+  * auto-config-update-riscv64.diff
+  * debugedit-macro.diff
+  * dwz-compression.patch
+  * getncpus.diff
+  * nameversioncompare.diff
+  * mono-find-requires.diff
+  * rpmfc-push-name-epoch-version-release-macro-before-invoking-depgens.patch
+  * set-flto=auto-by-default.patch
+  * source_date_epoch_buildtime.diff
+- new patches:
+  * fix_lua_cflags.diff
+* Wed Aug 28 2019 Fabian Vogt <fvogt@suse.com>
+- Split librpmbuild into a separate subpackage, it's pulled in by
+  python-rpm
+* Fri Aug 23 2019 Martin Liška <mliska@suse.cz>
+- Add set-flto=auto-by-default.patch in order to utilize -flto=auto.
+* Tue Aug  6 2019 Fabian Vogt <fvogt@suse.com>
+- Move more into rpm-build subpackage:
+  * brp- and -check scripts
+  * .prov and .req files, with *find* scripts
+  * elfdeps, debugedit and sepdebugcrcfix
+  * librpmbuild and dependents
+- Add upstream patches which remove libelf dep from librpmio and plugins:
+  * 0001-Stop-papering-over-the-security-disaster-known-as-pr.patch
+  * 0002-Fix-use-after-free-introduced-in-0f21bdd0d7b2c45564d.patch
+* Fri Jun  7 2019 Jan Engelhardt <jengelh@inai.de>
+- Enable decompression and creation of zstd-based payloads.
+- Add homepage and repo URL.
+* Tue May 14 2019 Martin Liška <mliska@suse.cz>
+- Add adopt-language-specific-build_fooflags-macros-from-F.patch
+  (9a50846ceeef2add2344dd463c5562bd69496a23) from master.
+* Tue Apr 16 2019 Stasiek Michalski <hellcp@mailbox.org>
+- backport "push name/epoch/version/release macro before invoking depgens"
+  change for correct generation of dependencies by other dep generators
+  * new patch: rpmfc-push-name-epoch-version-release-macro-before-invoking-depgens.patch
+* Thu Feb  7 2019 mls@suse.de
+- backport getncpus macro and related changes from upstream
+  * make make_build macro use verbose output
+  * add _smp_build_ncpus macro
+  * add _lto_cflags macro
+  * new patch: getncpus.diff
+* Sun Jan 13 2019 Dirk Mueller <dmueller@suse.com>
+- update macrosin.diff: Set cutoff date to SLE12 GA to remove
+  changelogs from 2009-2014 from the generated RPMs.
+* Mon Oct 22 2018 mls@suse.de
+- update to rpm-4.14.2.1
+  * fix regression in --setperms and --setugids
+* Tue Oct 16 2018 mls@suse.de
+- update to rpm-4.14.2
+  * new configurable, mandatory package verification level
+  * new package verification phase in rpmtsRun()
+  * new --setcaps and --restore options
+  * new --whatobsoletes and --whatconflicts query options
+- dropped patches:
+  * disttag-macro.diff
+  * reproducible-debuginfo.patch
+  * debugedit-bnc1076819.diff
+  * hardlinks.diff
+  * debugedit-riscv.patch
+  * safesymlinks.diff
+  * verifynodup.diff
+* Mon Oct  1 2018 Martin Liška <mliska@suse.cz>
+- Update dwz-compression.patch to latest git trunk
+  (62d901a22b7eb6c86c15290032a41e11427ddf87).
+* Mon Sep 17 2018 Martin Liška <mliska@suse.cz>
+- Add upstream patch that prints dwz compression rate
+  new patch: dwz-compression.patch
+* Wed Aug  8 2018 bwiedemann@suse.com
+- Add reproducible-debuginfo.patch to generate debuginfo
+  in a reproducible way
+* Fri Jul 20 2018 mls@suse.de
+- Require /usr/bin/awk so that 'rpm --last' works [bnc#1101355]
+* Mon Jul  2 2018 mls@suse.de
+- Split SUSE macros and some helpers into rpm-config-SUSE
+  package. This is based on the work of Neal Gompa, thanks!
+  new patch: findsupplements.diff
+  dropped files: rpm-suse_macros
+  dropped patches: findksyms.diff, modalias.diff, firmware.diff,
+    modalias-encode.diff, initscriptsprov.diff
 * Fri Jun 15 2018 msuchanek@suse.com
 - Add kernel export provides on openSUSE (boo#1095148).
 * Fri Jun 15 2018 mls@suse.de

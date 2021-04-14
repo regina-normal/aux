@@ -24,7 +24,6 @@ RUN zypper install -y --no-recommends \
 	python3-devel \
 	shared-mime-info \
 	zlib-devel
-RUN zypper clean
 
 # Note: openSUSE 15.2 ships with gcc7 by default, but it also has packages
 # for gcc8 and gcc9.  We are not (currently) installing or using them.
@@ -44,6 +43,6 @@ RUN zypper addrepo https://download.opensuse.org/repositories/devel:tools/openSU
 RUN zypper refresh
 RUN zypper update -y --no-recommends --allow-vendor-change doxygen
 RUN zypper removerepo devel_tools
-
 RUN zypper refresh
+
 RUN zypper clean
