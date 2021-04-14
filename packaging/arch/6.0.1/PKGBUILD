@@ -1,6 +1,6 @@
 # Maintainer: Ben Burton <bab@debian.org>
 pkgname=regina-normal
-pkgver=6.1
+pkgver=6.0.1
 pkgrel=1
 pkgdesc="Mathematical software for low-dimensional topology"
 arch=('x86_64')
@@ -21,21 +21,22 @@ depends=(gmp
          jansson
          hicolor-icon-theme
          libxml2
-         lmdb
          perl
          popt
          python
          qt5-base
          qt5-svg
          shared-mime-info
+         tokyocabinet
          zlib)
-makedepends=(cmake
+makedepends=(boost
+             cmake
              cppunit
              doxygen
              libxslt)
 checkdepends=(cppunit)
-source=("regina-$pkgver.tar.gz")
-sha256sums=(SKIP)
+source=("https://github.com/regina-normal/regina/releases/download/regina-$pkgver/regina-$pkgver.tar.gz")
+sha256sums=('afdba96812bb0187db10b6f0285e4657809d31fda23868f984663f06edc1537a')
 
 build() {
     cd "$srcdir/regina-$pkgver"
