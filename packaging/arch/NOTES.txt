@@ -1,0 +1,109 @@
+Notes for building Arch Linux packages
+--------------------------------------
+
+This list of notes is simply to help the author build Arch Linux packages
+for Regina without forgetting anything.
+
+Basic pacman usage:
+
+  pacman -Qe             # list installed packages with versions
+  pacman -Syu            # full system update
+  pacman -S foo bar baz  # install one or more packages by name
+  pacman -U foo.zst      # install a locally downloaded package
+  pacman -R foo bar baz  # remove one of more packages
+  pacman -Ss foo         # search for package whose name contains "foo"
+  pacman -Scc            # empty the package cache to free disk space
+  pacman -Qm             # list packages not in any repository
+  pacman -Qdt            # list orphaned packages (no longer required)
+
+To build a signed, package, change into the directory with PKGBUILD and:
+
+  $ makepkg --sign
+  $ namcap PKGBUILD
+  $ namcap *.zst
+
+To create a new repository or add/update packages in an existing repository:
+
+  $ repo-add --sign --verify regina.db.tar.gz *.zst
+
+To set up the repository for use on a user machine:
+
+  $ pacman-key --add /path/to/signing/key
+  $ pacman-key --finger KEYID
+  $ pacman-key --lsign KEYID
+
+  + Add to /etc/pacman.conf a section of the following form:
+
+    [regina]
+    Server = https://people.debian.org/~bab/archlinux/$repo/$arch
+
+See the RPM notes for how to give a VM access to the private signing key.
+
+
+Setting up Parallels virtual machines
+-------------------------------------
+
+Configuration:
+
+- Options / Sharing (nothing but Public/ and Drop Box/)
+- Options / Applications (no sharing, just full-screen apps)
+- Hardward / Memory (2 CPUs, 4096 MB RAM)
+
+Installation, stage 1 (from the installer):
+
+- Boot from ISO
+- Partition, format and mount the drive:
+  $ fdisk -l (to list drives)
+  $ fdisk /dev/sda -> n (new) -> follow defaults -> w (write)
+  $ mkfs.ext4 /dev/sda1
+  $ mount /dev/sda1 /mnt
+- Install the base system:
+  $ pacstrap /mnt base linux linux-firmware
+- Prepare the filesystem for booting and mounting:
+  $ genfstab -U /mnt >> /mnt/etc/fstab
+- Chroot into the system:
+  $ arch-chroot /mnt
+
+Installation, stage 2 (from inside the chroot):
+
+- Set the timezone:
+  $ ln -sf /usr/share/zoneinfo/Australia/Brisbane /etc/localtime
+- Install helper tools:
+  $ pacman -S vim
+- Generate locales:
+  + Uncomment desired locales from /etc/locale.gen
+  $ locale-gen
+  $ echo "LANG=en_AU.UTF-8" > /etc/locale.conf
+- Set the hostname:
+  $ echo arch > /etc/hostname
+  + Fill /etc/hosts with:
+    127.0.0.1 localhost
+    ::1 localhost
+    127.0.1.1 arch.local arch
+- Set the root password:
+  $ passwd
+- Install a bootloader:
+  $ pacman -S grub
+  $ grub-install /dev/sda
+  $ grub-mkconfig -o /boot/grub/grub.cfg
+- Tweak the mirror list:
+  + Add https://mirror.aarnet.edu.au/pub/archlinux/$repo/os/$arch
+    to the top of /etc/pacman.d/mirrorlist
+- Set up networking:
+  $ pacman -S dhcpcd
+  $ systemctl enable dhcpcd
+- Install other useful tools:
+  $ pacman -S openssh net-tools
+- Create a user account:
+  $ useradd -U -s /bin/bash -m bab
+  $ passwd bab
+- Install a graphical desktop environment:
+  $ pacman -S xorg-server xorg-xinit mesa-libgl xterm xf86-video-vesa xfce4 xfce4-goodies sddm
+  $ pacman -S firefox
+  $ systemctl enable sddm
+- If desired, enable the ssh server:
+  $ systemctl enable sshd
+- If desired, install development files:
+  $ pacman -S install base-devel namcap
+
+Then exit the chroot and reboot!
