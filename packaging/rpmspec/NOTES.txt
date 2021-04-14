@@ -7,12 +7,29 @@ for Regina without forgetting anything.
 Preparing, building and installing:
 
   - Check ~/.rpmmacros (rpm --showrc):
-      %_vendor fedora19 (or whatever)
+      %vendor Regina
   - Create or clean out ~/rpmbuild:
       - Subdirs SOURCES, SPECS, BUILD, SRPMS, RPMS
   - Uninstall (rpm -e regina-normal)
   - Build (rpmbuild -ba <spec-file>)
   - Install (rpm -Uvh <rpm-file>)
+
+To rebuild an RPM from source on Fedora:
+
+  - As root: dnf install dnf-utils rpm-build
+  - As root: yum-builddep <package> (or <path/to/spec>)
+  - As user: dnf download --source <package> ...
+  - As user: rpm -ivh <package.src.rpm> ...
+  - Sources will be extracted under %_topdir
+  - Additional repos can be added with: dnf config-manager --add-repo <url>
+
+To rebuild an RPM from source on openSUSE:
+
+  - As root: zypper addrepo <repo> ; example source repo is:
+      http://download.opensuse.org/source/distribution/leap/15.2/repo/oss/ source
+  - As root: zypper source-install <package>
+  - Build-dependencies will be installed, and sources extracted in the
+    RPM tree at /usr/src/packages/.
 
 Note that openSUSE no longer ships with tokyocabinet.
 However, you can install it from their experimental repositories:
@@ -27,12 +44,64 @@ distributions, please contact the author at the address below.
  -- Ben Burton <bab@debian.org>, Thu, 24 Dec 2020 21:29:44 +1000
 
 
+Setting up a YUM repository
+---------------------------
+
+To create the yum repository:
+
+- Use a machine with rpm and createrepo-c packages installed (debian sid is ok)
+- Ensure the GPG public and private keys are accessible (see below)
+- Put in ~/.rpmmacros the lines:
+    %__gpg /usr/bin/gpg
+    %_gpg_name <public_key_id> (the full 40-char fingerprint is okay)
+- Create whatever directory structure you like
+- Sign the RPMs:
+    rpm --addsign *.rpm
+- Create the repository metadata:
+    createrepo_c path/to/repo/root
+- Sign the repository:
+    gpg --detach-sign --armor path/to/repo/root/repodata/repomd.xml
+- Put a file <repoid>.repo in the root of the repository containing the
+  entry that should be added to the dnf configuration
+- Copy the entire repository with all its files to the desired server
+
+To allow a virtual debian machine to access the host's private GPG keys:
+
+- On the VM, find the gpg-agent socket location:
+    gpgconf --list-dir agent-socket
+- On the host, find the gpg-agent extra socket location:
+    gpgconf --list-dir agent-extra-socket
+- Put a new section in ~/.ssh/config :
+    host gpg
+    hostname <ip-address>
+    user bab
+    remoteforward <vm-agent-socket-location> <host-agent-extra-socket-location>
+- On the host, configure gpg-agent to use a graphical pinentry, since
+  pinentry-curses does not work over ssh; e.g., in ~/.gnupg/gpg-agent.conf put:
+    pinentry-program /Applications/MacPorts/pinentry-mac.app/Contents/MacOS/pinentry-mac
+- On the host, ensure gpg-agent is running; to reload its configuration it
+  can be killed via "gpgconf --kill gpg-agent" or "gpg-connect-agent /bye"
+  or just "pkill gpg-agent"
+- On the VM, likewise kill the gpg-agent if it is running
+- From the host, ssh into the VM
+- If the remote port forwarding fails, try adding to sshd_config on the VM:
+    StreamLocalBindUnlink yes
+
+To import a key on a user machine to verify signatures:
+  rpm --import path/to/regina-key.txt
+This will be used for package signatures (gpgcheck) but not repository
+signatures (repo_gpgcheck); the latter will still ask for confirmation to
+download and use the key each time.  It appears that importing a key for
+repository verification is *still* as of 2021 an open problem.
+
+
 Setting up Parallels virtual machines
 -------------------------------------
 
 Configuration:
 - Options / Sharing (nothing but Public/ and Drop Box/)
 - Options / Applications (no sharing, just full-screen apps)
+- Hardware / Memory (2 CPUs, 4096 MB RAM)
 
 Installer notes:
 - openSUSE installer: select KDE plasma desktop
@@ -40,7 +109,7 @@ Installer notes:
 
 Disable updates:
 - Fedora in /etc/yum.repos.d (set enabled=0 in updates repos)
-- openSUSE via yast, then check via "zypper repos"
+- openSUSE by "zypper repos", then "zypper modifyrepo -d <reponame>"
 
 Check for unwanted newer packages:
 - Fedora:
@@ -51,5 +120,5 @@ Check for unwanted newer packages:
 
 Desktop tweaks:
 - Fedora: put Terminal in sidebar
-- All: disable screen saver
+- All: disable screen saver and automatic suspend
 - openSUSE: disable screen locking (Settings / Workspace Behaviour)
