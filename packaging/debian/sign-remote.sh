@@ -20,7 +20,7 @@ fi
 
 case "$repo" in
   regina )
-    suites="buster bionic focal groovy"
+    suites="bullseye buster bionic focal groovy"
     ;;
   backports )
     suites="buster bionic"
