@@ -50,7 +50,7 @@ pipeline {
                 dir ('debian/regina') {
                     sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
                     sh 'cp -pR ../../aux/packaging/debian/bullseye debian'
-                    sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild -B --no-sign -j2'
+                    sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild -B --no-sign -j1'
                 }
             }
         }
