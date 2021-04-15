@@ -1,7 +1,7 @@
-FROM bab/arch
+FROM rolling/arch
 RUN pacman --noconfirm --noprogressbar -Syy
 RUN pacman --noconfirm --noprogressbar -Syu
-RUN pacman --noconfirm --noprogressbar -S vim git base-devel devtools namcap
+RUN pacman --noconfirm --noprogressbar -S git base-devel devtools namcap
 RUN pacman --noconfirm --noprogressbar -S \
 	cmake \
 	cppunit \
@@ -21,4 +21,3 @@ RUN pacman --noconfirm --noprogressbar -S \
 	shared-mime-info \
 	zlib
 RUN pacman --noconfirm --noprogressbar -Scc
-RUN echo 'PACKAGER="Ben Burton <bab@debian.org>"' >> /etc/makepkg.conf

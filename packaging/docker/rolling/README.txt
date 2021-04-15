@@ -15,3 +15,7 @@ For debian bullseye:
       docker build -t rolling/debian:bullseye_i386 \
         -f debian-bullseye-i386.Dockerfile .
 
+For arch:
+  - To build snapshot/arch, follow the manual instructions in arch-setup.txt.
+  - To build rolling/arch, run as user from this directory:
+      docker build -t rolling/arch -f arch-amd64.Dockerfile .
