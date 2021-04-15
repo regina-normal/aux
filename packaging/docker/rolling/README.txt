@@ -1,5 +1,8 @@
 Build freshly-updated rolling releases from older snapshot versions.
 
+The rolling/* images should be rebuilt regularly, whereas the base
+snapshot/* images can happily remain fixed.
+
 For debian bullseye:
   - Run as root, from ../bab/:
       ./mkimage.sh -t snapshot/debian:bullseye debootstrap \
