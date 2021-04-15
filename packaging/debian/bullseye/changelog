@@ -1,4 +1,4 @@
-regina-normal (6.1-1~bullseye.1) buster; urgency=low
+regina-normal (6.1-1~bullseye.1) bullseye; urgency=low
 
   * New upstream release, packaged for bullseye.
 
