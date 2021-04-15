@@ -1,6 +1,7 @@
 regina-normal (6.1-1ubuntu1~bionic1) bionic; urgency=low
 
-  * New upstream release, packaged for bionic using cmake-3.19.4 from Kitware.
+  * New upstream release, packaged for bionic using a backported cmake
+    and doxygen.
 
  -- Ben Burton <bab@debian.org>  Thu, 11 Feb 2021 09:02:55 +1000
 

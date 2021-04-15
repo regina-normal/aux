@@ -1,6 +1,6 @@
 regina-normal (6.1-1~buster.1) buster; urgency=low
 
-  * New upstream release, packaged for buster.
+  * New upstream release, packaged for buster using a backported doxygen.
 
  -- Ben Burton <bab@debian.org>  Sat,  9 Jan 2021 12:12:06 +1000
 
