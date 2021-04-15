@@ -1,4 +1,4 @@
-FROM bab/opensuse:tumbleweed
+FROM rolling/opensuse:tumbleweed
 RUN zypper refresh
 RUN zypper dist-upgrade -y
 

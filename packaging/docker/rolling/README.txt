@@ -19,3 +19,10 @@ For arch:
   - To build snapshot/arch, follow the manual instructions in arch-setup.txt.
   - To build rolling/arch, run as user from this directory:
       docker build -t rolling/arch -f arch-amd64.Dockerfile .
+
+For opensuse tumbleweed:
+  - Run as user, from this directory:
+      docker build -t snapshot/opensuse:tumbleweed \
+        -f opensuse-tumbleweed-snapshot.Dockerfile .
+      docker build -t rolling/opensuse:tumbleweed \
+        -f opensuse-tumbleweed-rolling.Dockerfile .
