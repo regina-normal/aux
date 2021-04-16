@@ -1,22 +1,17 @@
-FROM rolling/opensuse:tumbleweed
+FROM pkgdev/opensuse:tumbleweed
 RUN zypper refresh
 RUN zypper dist-upgrade -y
 
 RUN zypper install -y --no-recommends \
-	rpm-build \
 	cmake \
 	cppunit-devel \
 	doxygen \
-	gcc \
-	gcc-c++ \
-	glibc-devel \
 	gmp-devel \
 	graphviz-devel \
 	libbz2-devel \
 	libjansson-devel \
 	libqt5-qtbase-devel \
 	libqt5-qtsvg-devel \
-	libstdc++-devel \
 	libxml2-devel \
 	libxslt-tools \
 	lmdb-devel \

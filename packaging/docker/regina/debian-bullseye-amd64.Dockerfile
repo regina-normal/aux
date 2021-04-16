@@ -1,10 +1,7 @@
-FROM rolling/debian:bullseye
+FROM pkgdev/debian:bullseye
 RUN apt-get update
 RUN apt-get dist-upgrade -y
 RUN apt-get install -y --no-install-recommends \
-	build-essential devscripts fakeroot lintian gnupg autopkgtest \
-	gcc-9 gcc-10 \
-	debhelper \
 	dh-python \
 	cmake \
 	doxygen \
