@@ -6,7 +6,7 @@ To build the bab/debian:* and bab/ubuntu:* images, run commands of the
 following type as root from this directory (substituting the correct
 distribution and architecture):
 
-  ./mkimage.sh -t bab/debian:buster debootstrap --variant=buildd --arch=amd64 buster
-  ./mkimage.sh -t bab/ubuntu:groovy_i386 debootstrap --variant=buildd --arch=i386 groovy
+  ./mkimage.sh -t bab/debian:buster debootstrap --arch=amd64 buster
+  ./mkimage.sh -t bab/ubuntu:groovy_i386 debootstrap --arch=i386 groovy
   ...
 

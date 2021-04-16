@@ -196,10 +196,11 @@ if [ -z "$DONT_TOUCH_SOURCES_LIST" ]; then
 			if curl -o /dev/null -s --head --location --fail "http://security.debian.org/dists/$suite/updates/main/binary-$(rootfs_chroot dpkg --print-architecture)/Packages.gz"; then
 				(
 					set -x
-					sed -i "
-						p;
-						s/ $suite / ${suite}-updates /
-					" "$rootfsDir/etc/apt/sources.list"
+					# Disable the updates repository for our docker images.
+					# sed -i "
+					# 	p;
+					# 	s/ $suite / ${suite}-updates /
+					# " "$rootfsDir/etc/apt/sources.list"
 					echo "deb http://security.debian.org $suite/updates main" >> "$rootfsDir/etc/apt/sources.list"
 				)
 			fi
@@ -208,10 +209,15 @@ if [ -z "$DONT_TOUCH_SOURCES_LIST" ]; then
 			# add the updates and security repositories
 			(
 				set -x
+				# For our docker images, use security but not updates.
+				# sed -i "
+				# 	p;
+				# 	s/ $suite / ${suite}-updates /; p;
+				# 	s/ $suite-updates / ${suite}-security /
+				# " "$rootfsDir/etc/apt/sources.list"
 				sed -i "
 					p;
-					s/ $suite / ${suite}-updates /; p;
-					s/ $suite-updates / ${suite}-security /
+					s/ $suite / ${suite}-security /
 				" "$rootfsDir/etc/apt/sources.list"
 			)
 			;;
