@@ -2,7 +2,7 @@ FROM rolling/debian:bullseye_i386
 RUN apt-get update
 RUN apt-get dist-upgrade -y
 RUN apt-get install -y --no-install-recommends \
-	build-essential devscripts fakeroot lintian \
+	build-essential devscripts fakeroot lintian gnupg autopkgtest \
 	gcc-9 gcc-10 \
 	debhelper \
 	dh-python \

@@ -3,7 +3,7 @@ ADD apt-sources/focal /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get dist-upgrade -y
 RUN apt-get install -y --no-install-recommends \
-	build-essential devscripts fakeroot lintian \
+	build-essential devscripts fakeroot lintian gnupg autopkgtest \
 	gcc-7 gcc-8 gcc-9 gcc-10 \
 	debhelper \
 	dh-python \
