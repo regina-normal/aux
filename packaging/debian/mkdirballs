@@ -10,7 +10,7 @@ if [ -e debian ]; then
 fi
 
 for i in *; do
-	if [ -d "$i" ]; then
+	if [ -d "$i" -a -e "$i/control" ]; then
 		echo "Making $i ..."
 		mkdir debian
 		cp -pr $i/* debian
