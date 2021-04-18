@@ -111,6 +111,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_bindir}/*
 %{_datadir}/applications/regina.desktop
 %{_datadir}/icons/hicolor/*/*/*
+%{_datadir}/metainfo/regina.metainfo.xml
 %{_datadir}/mime/packages/regina.xml
 %{_datadir}/regina/
 %{_includedir}/regina/
