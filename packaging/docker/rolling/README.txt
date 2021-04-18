@@ -1,28 +1,57 @@
-Build freshly-updated rolling releases from older snapshot versions.
+Build and continue to update rolling releases.
 
-The rolling/* images should be rebuilt regularly, whereas the base
-snapshot/* images can happily remain fixed.
 
-For debian bullseye:
-  - Run as root, from ../bab/:
-      ./mkimage.sh -t snapshot/debian:bullseye debootstrap \
-        --arch=amd64 bullseye
-      ./mkimage.sh -t snapshot/debian:bullseye_i386 debootstrap \
-        --arch=i386 bullseye
-  - Run as user, from this directory:
-      docker build -t rolling/debian:bullseye \
-        -f debian-bullseye-amd64.Dockerfile .
-      docker build -t rolling/debian:bullseye_i386 \
-        -f debian-bullseye-i386.Dockerfile .
+GENUINE ROLLING RELEASES
+------------------------
 
-For arch:
-  - To build snapshot/arch, follow the manual instructions in arch-setup.txt.
-  - To build rolling/arch, run as user from this directory:
-      docker build -t rolling/arch -f arch-amd64.Dockerfile .
+To build the first image (only needs to be done once):
+  - docker build -t rolling/DIST:VERSION -f DIST-VERSION-init.Dockerfile .
 
-For opensuse tumbleweed:
-  - Run as user, from this directory:
-      docker build -t snapshot/opensuse:tumbleweed \
-        -f opensuse-tumbleweed-snapshot.Dockerfile .
-      docker build -t rolling/opensuse:tumbleweed \
-        -f opensuse-tumbleweed-rolling.Dockerfile .
+To update the existing image (should be done periodically):
+  - docker build -t rolling/DIST:VERSION -f DIST-VERSION-update.Dockerfile .
+
+Here (DIST, VERSION) should be (debian, sid) or (opensuse, tumbleweed).
+
+Each update builds on the previous update, so these should not be done
+very frequently (otherwise the docker image history will become enormous).
+
+
+ARCH LINUX
+----------
+
+This is a special case, since there is no past fixed release that we can
+use as our starting point.
+
+To build an initial snapshot/arch image (only needs to be done once):
+  - follow the manual instructions in arch-setup.txt.
+
+To convert the snapshot into an up-to-date image (should be done periodically):
+  - docker build -t rolling/arch -f arch-amd64.Dockerfile .
+
+Here the updates always build directly from snapshot, so they can be done as
+often as you like.  From time to time it is probably worth deleting everything
+and creating a fresh snapshot from a newer starting point.
+
+
+FORTHCOMING DEBIAN / UBUNTU RELEASES
+------------------------------------
+
+These are images for "real" releases of debian or ubuntu that are still being
+finalised (e.g., debian testing).
+
+Here we begin with a snapshot/DIST:VERSION image and then update this
+with a single rolling/DIST:VERSION image.  The rolling images can be
+rebuilt regularly (since they build directly on the snapshot), and the
+base snapshot image can remain fixed.  Once the distribution is properly
+released, they should all be removed and replaced with a more typical
+"fixed release" docker image as we do for older distributions.
+
+To create the initial snapshot, run as root from the directory ../bab/ :
+  - ./mkimage.sh -t snapshot/DIST:VERSION debootstrap --arch=amd64 VERSION
+  - ./mkimage.sh -t snapshot/DIST:VERSION_i386 debootstrap --arch=i386 VERSION
+
+To create the subsequent up-to-date image, run from this directory as user bab:
+  - docker build -t rolling/DIST:VERSION -f DIST-VERSION-amd64.Dockerfile .
+  - docker build -t rolling/DIST:VERSION_i386 -f DIST-VERSION-i386.Dockerfile .
+
+Currently (DIST, VERSION) must be (debian, bullseye) or (ubuntu, hirsute).
