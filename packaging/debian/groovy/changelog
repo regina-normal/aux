@@ -4,6 +4,12 @@ regina-normal (6.1-1~ubuntu20.10.1~regina1) groovy; urgency=low
 
  -- Ben Burton <bab@debian.org>  Sat,  9 Jan 2021 12:12:06 +1000
 
+regina-normal (6.0.1-2) unstable; urgency=low
+
+  * Added appstream metadata.
+
+ -- Ben Burton <bab@debian.org>  Sun, 18 Apr 2021 12:51:30 +1000
+
 regina-normal (6.0.1-1) unstable; urgency=low
 
   * New upstream bugfix release.
