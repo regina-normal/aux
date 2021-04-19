@@ -58,12 +58,25 @@ To create the yum repository:
 - Sign the RPMs:
     rpm --addsign *.rpm
 - Create the repository metadata:
-    createrepo_c path/to/repo/root
+    createrepo_c path/to/repo_root
 - Sign the repository:
-    gpg --detach-sign --armor path/to/repo/root/repodata/repomd.xml
+    gpg --detach-sign --armor path/to/repo_root/repodata/repomd.xml
 - Put a file <repoid>.repo in the root of the repository containing the
   entry that should be added to the dnf configuration
 - Copy the entire repository with all its files to the desired server
+
+To add appstream metadata to a repository, on a Fedora machine:
+- Install libappstream-glib-builder
+- Extract appstream metadata and icons from RPMs:
+    appstream-builder --origin=regina --basename=appstream --enable-hidpi \
+      --packages-dir=path/to/RPM_folder
+- Add the metadata and icons to the repository:
+    modifyrepo_c path/to/appstream.xml.gz path/to/repo_root/repodata/
+    modifyrepo_c path/to/appstream-icons.tar.gz path/to/repo_root/repodata/
+    gpg --detach-sign --armor path/to/repo_root/repodata/repomd.xml
+- It appears that the same appstream data can be used across all versions
+  of Fedora and openSUSE (though, if run on openSUSE, it adds additional
+  release tags based on the RPM changelog)
 
 To allow a virtual debian machine to access the host's private GPG keys:
 
