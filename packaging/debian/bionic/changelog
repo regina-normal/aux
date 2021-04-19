@@ -5,6 +5,20 @@ regina-normal (6.1-1~ubuntu18.04.1~regina1) bionic; urgency=low
 
  -- Ben Burton <bab@debian.org>  Thu, 11 Feb 2021 09:02:55 +1000
 
+regina-normal (6.0.1-4) unstable; urgency=low
+
+  * Additional polish for the appstream metadata:
+      - move the screenshots to people.debian.org and give them captions;
+      - avoid the <code/> tag, which can cause problems with appstream-glib.
+
+ -- Ben Burton <bab@debian.org>  Mon, 19 Apr 2021 18:07:50 +1000
+
+regina-normal (6.0.1-3) unstable; urgency=low
+
+  * Removed the icon tags from the appstream metadata.
+
+ -- Ben Burton <bab@debian.org>  Mon, 19 Apr 2021 00:23:51 +1000
+
 regina-normal (6.0.1-2) unstable; urgency=low
 
   * Added appstream metadata.
