@@ -54,6 +54,14 @@ pipeline {
                 }
             }
         }
+
+        stage('Appstream Metadata') {
+            steps {
+                dir ('rpmbuild') {
+                    sh 'appstream-builder --origin=regina --basename=appdata --enable-hidpi --packages-dir=RPMS'
+                }
+            }
+        }
     }
 }
 
