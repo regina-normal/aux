@@ -37,7 +37,7 @@ BIG SUR:
 
 1. Create an installer ISO from the installer app:
 
-  hdiutil create -o /tmp/Big\ Sur.cdr -size 12.5g -layout SPUD -fs HFS+J
+  hdiutil create -o /tmp/Big\ Sur.cdr -size 14g -layout SPUD -fs HFS+J
   hdiutil attach /tmp/Big\ Sur.cdr.dmg -noverify -mountpoint /Volumes/install_build
   sudo /Applications/Install\ macOS\ Big\ Sur.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build
   hdiutil detach /Volumes/Install\ macOS\ Big\ Sur
