@@ -2,7 +2,7 @@ FROM bab/opensuse:15.2
 RUN zypper refresh
 RUN zypper dist-upgrade -y
 RUN zypper install -y --no-recommends \
-	rpm-build \
+	rpm-build appstream-glib \
 	gcc gcc-c++ glibc-devel libstdc++-devel \
 	git vim
 

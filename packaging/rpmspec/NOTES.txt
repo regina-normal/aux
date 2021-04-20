@@ -66,6 +66,7 @@ To create the yum repository:
 - Copy the entire repository with all its files to the desired server
 
 To add appstream metadata to a repository, on a Fedora machine:
+
 - Install libappstream-glib-builder
 - Extract appstream metadata and icons from RPMs:
     appstream-builder --origin=regina --basename=appstream --enable-hidpi \
@@ -74,9 +75,18 @@ To add appstream metadata to a repository, on a Fedora machine:
     modifyrepo_c path/to/appstream.xml.gz path/to/repo_root/repodata/
     modifyrepo_c path/to/appstream-icons.tar.gz path/to/repo_root/repodata/
     gpg --detach-sign --armor path/to/repo_root/repodata/repomd.xml
-- It appears that the same appstream data can be used across all versions
-  of Fedora and openSUSE (though, if run on openSUSE, it adds additional
-  release tags based on the RPM changelog)
+- It appears that the same appstream data can be used with all Fedora versions.
+
+To add appstream metadata to a repository, on an openSUSE machine:
+
+- Install libappstream-glib
+- Extract appstream metadata and icons from RPMs:
+    appstream-builder --origin=regina --basename=appdata --enable-hidpi \
+      --packages-dir=path/to/RPM_folder
+- Add the metadata and icons to the repository:
+    modifyrepo_c path/to/appdata.xml.gz path/to/repo_root/repodata/
+    modifyrepo_c path/to/appdata-icons.tar.gz path/to/repo_root/repodata/
+    gpg --detach-sign --armor path/to/repo_root/repodata/repomd.xml
 
 To allow a virtual debian machine to access the host's private GPG keys:
 
