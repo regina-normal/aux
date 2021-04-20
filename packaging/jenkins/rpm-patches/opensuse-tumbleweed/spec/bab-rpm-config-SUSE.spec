@@ -1,7 +1,7 @@
 #
 # spec file for package rpm-config-SUSE
 #
-# Copyright (c) 2020 SUSE LLC
+# Copyright (c) 2021 SUSE LLC
 # Copyright (c) 2018 Neal Gompa <ngompa13@gmail.com>.
 #
 # All modifications and additions to the file contributed by third parties
@@ -18,8 +18,8 @@
 
 
 Name:           rpm-config-SUSE
-Version:        0.g64
-Release:        1.2.1
+Version:        0.g76
+Release:        1.1.1
 Summary:        SUSE specific RPM configuration files
 License:        GPL-2.0-or-later
 Group:          Development/Tools/Building
@@ -50,6 +50,11 @@ sed -e 's/@suse_version@/%{?suse_version}%{!?suse_version:0}/' \
     -e 's/@is_opensuse@/%{?is_opensuse}%{!?is_opensuse:0}/' \
     -e '/@leap_version@%{?leap_version:nomatch}/d' \
     -e 's/@leap_version@/%{?leap_version}%{!?leap_version:0}/' \
+%if 0%{?usrmerged}
+    -e 's/@usrmerged@/%{?usrmerged}/' \
+%else
+    -e '/@usrmerged@/d' \
+%endif
 %if 0%{?is_opensuse}
     -e '/@sle_version@%{?sle_version:nomatch}/d' \
     -e 's/@sle_version@/%{?sle_version}%{!?sle_version:0}/' \
@@ -84,6 +89,15 @@ cp -a macros.d %{buildroot}%{_rpmconfigdir}
 %{_rpmconfigdir}/find-supplements.ksyms
 
 %changelog
+* Fri Mar  5 2021 lnussel@suse.de
+- Update to version 0.g76:
+  * Prepare usrmerge (boo#1029961)
+  * scripts/find-provides.ksyms: Handle XZ compressed kernel (boo#1179251).
+  * find-requires.ksyms: use "if kernel" conditional for modules-load.d
+  * find-requires.ksyms: actually generate modules-load.d dependencies
+  * find-requires.ksyms: Silence the awk warning
+  * find-provides.ksyms: Fix kernel version test
+  * find-provides.ksyms: Fix ksym-provides test
 * Mon Oct 26 2020 lnussel@suse.de
 - Update to version 0.g64:
   * Define a global %%_firmwaredir
