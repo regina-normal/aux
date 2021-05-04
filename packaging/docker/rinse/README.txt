@@ -20,7 +20,7 @@ For fedora, these were created as described on the rinse manpage: start a VM
 with the corresponding distribution installed and run:
 
   repoquery --requires --resolve --recursive dnf yum rpm | \
-    perl -pe 's/(.*)-.*?-.*?$/$1/g' | sort -u \
+    perl -pe 's/(.*)-.*?-.*?$/$1/g' | sort -u | \
     egrep -v 'glibc-all-langpacks|glibc-langpack-'
 
 --------------------------------------------------------------------------
