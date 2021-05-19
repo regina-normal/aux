@@ -59,8 +59,8 @@ Requires:       /usr/bin/awk
 Summary:        The RPM Package Manager
 License:        GPL-2.0-or-later
 Group:          System/Packages
-Version:        4.16.0
-Release:        4.1
+Version:        4.16.1.3
+Release:        2.1
 URL:            https://rpm.org/
 #Git-Clone:     https://github.com/rpm-software-management/rpm
 Source:         http://ftp.rpm.org/releases/rpm-4.16.x/rpm-%{version}.tar.bz2
@@ -125,10 +125,10 @@ Patch109:       pythondistdeps.diff
 Patch117:       findsupplements.diff
 Patch122:       db_conversion.diff
 Patch123:       nextiteratorheaderblob.diff
-Patch127:       finddebuginfo-check-res-file.patch
-Patch128:       empty_dbbackend.diff
 Patch129:       ndbglue.diff
 Patch130:       dwarf5.diff
+Patch131:       posttrans.diff
+Patch132:       add-dwz-single-file-mode-option.patch
 Patch6464:      auto-config-update-aarch64-ppc64le.diff
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 #
@@ -171,6 +171,7 @@ need an intimate knowledge of RPM packages in order to function.
 %package build
 Summary:        Tools and Scripts to create rpm packages
 Group:          System/Packages
+Requires:       librpmbuild%{librpmsover} = %{version}
 Requires:       rpm = %{version}
 Provides:       rpm:%_bindir/rpmbuild
 Provides:       rpmbuild
@@ -255,8 +256,8 @@ cp build-aux/config.guess build-aux/config.sub db/dist/
 %patch                   -P 93 -P 94                         -P 99
 %patch -P 100        -P 102 -P 103
 %patch -P 109                                           -P 117
-%patch -P 122 -P 123 -P 127 -P 128 -P 129
-%patch130 -p1
+%patch -P 122 -P 123 -P 129 -P 130 -P 131
+%patch132 -p1
 
 %ifarch aarch64 ppc64le riscv64
 %patch6464
@@ -524,6 +525,29 @@ fi
 %{_libdir}/pkgconfig/rpm.pc
 
 %changelog
+* Fri Apr 16 2021 Martin Liška <mliska@suse.cz>
+- Use --dwz-single-file-mode for packages that use
+  baselibs.conf mechanism.
+- Add add-dwz-single-file-mode-option.patch patch.
+* Fri Apr  9 2021 mls@suse.de
+- change dump_posttrans mechanism to imply --noposttrans so that
+  libzypp can be compatible with older rpm versions
+  changed patch: posttrans.diff
+* Tue Apr  6 2021 Andreas Schwab <schwab@suse.de>
+- auto-config-update-aarch64-ppc64le.diff: Use timestamp in file instead
+  of searching for arch name, which cannot handle all cases
+* Tue Mar 30 2021 mls@suse.de
+- update to rpm-4.16.1.3
+  * security fixes for CVE-2021-3421, CVE-2021-20271, CVE-2021-20266
+  * fix bdb_ro failing to open database with missing secondary indexes
+  * dropped: finddebuginfo-check-res-file.patch
+  * dropped: empty_dbbackend.diff
+- require the exact version of librpmbuild in the rpm-build
+  package [bnc#1180965]
+- reformat dwarf5.diff
+- add dump_posttrans and --runposttrans options to make it possible
+  for libzypp to implement file triggers
+  new patch: posttrans.diff
 * Mon Feb 22 2021 Martin Liška <mliska@suse.cz>
 - Remove debugedit.diff and include dwarf5.diff in order to support
   debug DWARF 5 that will be added with GCC 11.
