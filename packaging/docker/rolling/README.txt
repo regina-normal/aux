@@ -5,12 +5,12 @@ GENUINE ROLLING RELEASES
 ------------------------
 
 To build the first image (only needs to be done once):
-  - docker build -t rolling/DIST:VERSION -f DIST-VERSION-init.Dockerfile .
+  - docker build -t rolling/debian:sid -f debian-sid-init.Dockerfile .
+  - docker build -t rolling/opensuse:tumbleweed -f opensuse-tumbleweed-init.Dockerfile .
+  - ./fedora-rawhide.sh (as root)
 
 To update the existing image (should be done periodically):
   - docker build --no-cache -t rolling/DIST:VERSION -f DIST-VERSION-update.Dockerfile .
-
-Here (DIST, VERSION) should be (debian, sid) or (opensuse, tumbleweed).
 
 Each update builds on the previous update, so these should not be done
 very frequently (otherwise the docker image history will become enormous).
