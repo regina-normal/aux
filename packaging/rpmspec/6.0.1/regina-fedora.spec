@@ -1,4 +1,5 @@
 # Known to work for:
+# - Fedora 34 (x86_64)
 # - Fedora 33 (x86_64)
 # - Fedora 32 (x86_64)
 
