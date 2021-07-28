@@ -13,10 +13,13 @@ krb5
 libacl1
 libassuan0
 libattr1
+libaudit1
 libaugeas0
+libblkid1
 libboost_system1_66_0
 libboost_thread1_66_0
 libbz2-1
+libcap-ng0
 libcap2
 libcom_err2
 libcrypt1
@@ -24,6 +27,7 @@ libcurl4
 libdw1
 libebl-plugins
 libelf1
+libfdisk1
 libgcc_s1
 libgcrypt20
 libglib-2_0-0
@@ -40,6 +44,7 @@ liblz4-1
 liblzma5
 libmagic1
 libmodman1
+libmount1
 libncurses6
 libnghttp2-14
 libnpth0
@@ -53,6 +58,7 @@ libreadline7
 libsasl2-3
 libselinux1
 libsigc-2_0-0
+libsmartcols1
 libsolv-tools
 libsqlite3-0
 libssh4
@@ -61,6 +67,8 @@ libsystemd0
 libudev1
 libunistring2
 libusb-1_0-0
+libutempter0
+libuuid1
 libverto1
 libxml2-2
 libyaml-cpp0_6
@@ -68,11 +76,16 @@ libz1
 libzio1
 libzstd1
 libzypp
+login_defs
+pam
 perl-base
+permissions
 pinentry
 procps
 rpm
 rpm-config-SUSE
+system-group-hardware
 system-user-root
 terminfo-base
+util-linux
 zypper
