@@ -1,5 +1,7 @@
 GCC versions seen in the wild:
 
+11.0.1:
+  - Fedora 34
 10.2.1:
   - Debian sid (Feb 2021)
   - Fedora 33
@@ -38,6 +40,8 @@ Clang versions seen in the wild:
 
 CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
+3.19.7:
+  - Fedora 34
 3.19.4:
   - MacPorts (Feb 2021)
 3.19.3:
@@ -65,6 +69,7 @@ Doxygen versions [regina needs 1.8.17]
 1.9.1:
   - Debian bullseye (Feb 2021, may change before bullseye release)
   - Debian sid (Feb 2021)
+  - Fedora 34
   - MacPorts (Feb 2021)
   - MSYS2 (Feb 2021)
 1.8.20:

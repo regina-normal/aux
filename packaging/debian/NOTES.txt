@@ -31,7 +31,7 @@ Installer notes:
 
 Disable updates:
 - Debian in /etc/apt/sources.list
-- Ubuntu via the Software app (-security only, not -updates)
+- Ubuntu via the Software app (-security only, not -updates; not auto-install)
 
 Check for unwanted newer packages:
 - Debian/Ubuntu:
