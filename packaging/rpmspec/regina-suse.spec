@@ -1,5 +1,6 @@
 # Known to work for:
 # - openSuSE Leap 15.2 (x86_64)
+# - openSuSE Leap 15.3 (x86_64)
 
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
@@ -123,7 +124,7 @@ rm -rf "$RPM_BUILD_ROOT"
 # tumbleweed
 %{_prefix}/lib/python3.8/site-packages/regina/
 %else
-%if 0%{?sle_version} == 150200 && 0%{?is_opensuse}
+%if (0%{?sle_version} == 150200 || 0%{?sle_version} == 150300) && 0%{?is_opensuse}
 # leap 15.x
 %{_prefix}/lib/python3.6/site-packages/regina/
 %else
