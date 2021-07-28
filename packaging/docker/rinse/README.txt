@@ -12,6 +12,9 @@ mirror       = http://fedora.mirror.digitalpacific.com.au/linux/releases/32/Ever
 # mirror       = http://download.fedoraproject.org/pub/fedora/linux/releases/33/Everything/x86_64/os/Packages/
 mirror       = http://fedora.mirror.digitalpacific.com.au/linux/releases/33/Everything/x86_64/os/Packages/
 
+[opensuse-15.3]
+mirror.amd64 = http://download.opensuse.org/distribution/leap/15.3/repo/oss/x86_64/
+
 --------------------------------------------------------------------------
 
 Add the *.packages files from this directory to /etc/rinse/ .
@@ -22,6 +25,10 @@ with the corresponding distribution installed and run:
   repoquery --requires --resolve --recursive dnf yum rpm | \
     perl -pe 's/(.*)-.*?-.*?$/$1/g' | sort -u | \
     egrep -v 'glibc-all-langpacks|glibc-langpack-'
+
+For opensuse, these were created by manually using
+"zypper info --requires <package> ..." and "rpm -q --whatprovides <dep>"
+to extract the full dependency list for rpm, zypper and util-linux.
 
 --------------------------------------------------------------------------
 
