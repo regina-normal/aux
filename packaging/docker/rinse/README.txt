@@ -28,5 +28,7 @@ with the corresponding distribution installed and run:
 Beneath /usr/lib/rinse, create a directory for each new distribution
 containing a script post-install.sh.  These should be copies of:
 - fedora-32 -> fedora_3x_post-install.sh
-- fedora-33 -> fedora_3x_post-install.sh (can be a symlink into fedora-32)
+- fedora-33 -> fedora_3x_post-install.sh (can symlink into fedora-32)
+- fedora-34 -> fedora_3x_post-install.sh (can symlink into fedora-32)
 - opensuse-15.2 -> opensuse_post-install.sh (replace the rinse version)
+- opensuse-15.3 -> opensuse_post-install.sh (can symlink into opensuse-15.2)
