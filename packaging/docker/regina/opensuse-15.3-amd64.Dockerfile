@@ -27,4 +27,14 @@ RUN zypper addrepo https://people.debian.org/~bab/rpm/rpm-patches/opensuse/15.3/
 RUN zypper refresh
 RUN zypper update -y --no-recommends --allow-vendor-change
 
+# We also need to install packages from additional openSUSE repositories:
+# - doxygen (from devel:tools), since the openSUSE 15.3 packages are too old.
+ADD opensuse-devel.key /usr/local/regina/
+RUN rpm --import /usr/local/regina/opensuse-devel.key
+RUN zypper addrepo https://download.opensuse.org/repositories/devel:tools/openSUSE_Leap_15.3/devel:tools.repo
+RUN zypper refresh
+RUN zypper update -y --no-recommends --allow-vendor-change doxygen
+RUN zypper removerepo devel_tools
+RUN zypper refresh
+
 RUN zypper clean
