@@ -49,8 +49,8 @@ pipeline {
         stage('Build RPM') {
             steps {
                 dir ('rpmbuild/SPECS') {
-                    sh 'cp ../../aux/packaging/rpmspec/regina-suse.spec .'
-                    sh 'RPM_BUILD_NCPUS=2 rpmbuild --define "_topdir `pwd`/.." -ba regina-suse.spec'
+                    sh 'cp ../../aux/packaging/rpmspec/regina-suse-15.2.spec .'
+                    sh 'RPM_BUILD_NCPUS=2 rpmbuild --define "_topdir `pwd`/.." -ba regina-suse-15.2.spec'
                 }
             }
         }
