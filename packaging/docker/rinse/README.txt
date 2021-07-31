@@ -15,6 +15,9 @@ mirror       = http://fedora.mirror.digitalpacific.com.au/linux/releases/33/Ever
 [opensuse-15.3]
 mirror.amd64 = http://download.opensuse.org/distribution/leap/15.3/repo/oss/x86_64/
 
+[opensuse-tumbleweed]
+mirror.amd64 = http://download.opensuse.org/tumbleweed/repo/oss/x86_64/
+
 --------------------------------------------------------------------------
 
 Add the *.packages files from this directory to /etc/rinse/ .
@@ -28,7 +31,9 @@ with the corresponding distribution installed and run:
 
 For opensuse, these were created by manually using
 "zypper info --requires <package> ..." and "rpm -q --whatprovides <dep>"
-to extract the full dependency list for rpm, zypper and util-linux.
+to extract the full dependency list for rpm, zypper, gzip, sed, xz, util-linux.
+We include gzip, sed and xz in this list because otherwise opensuse may try to
+install the busybox variants, which causes problems for rpm-build.
 
 --------------------------------------------------------------------------
 
@@ -39,3 +44,4 @@ containing a script post-install.sh.  These should be copies of:
 - fedora-34 -> fedora_3x_post-install.sh (can symlink into fedora-32)
 - opensuse-15.2 -> opensuse_post-install.sh (replace the rinse version)
 - opensuse-15.3 -> opensuse_post-install.sh (can symlink into opensuse-15.2)
+- opensuse-tumbleweed -> opensuse_tumbleweed_post-install.sh
