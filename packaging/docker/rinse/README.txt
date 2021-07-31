@@ -31,8 +31,8 @@ with the corresponding distribution installed and run:
 
 For opensuse, these were created by using the script opensuse-core.pl
 (found in this directory) to extract a full recursive dependency list for
-rpm, zypper, gzip, sed, xz, and util-linux.  We include gzip, sed and xz
-in this list because otherwise opensuse may try to install the busybox
+rpm, zypper, gzip, grep, sed, xz, and util-linux.  We include gzip, sed, grep
+and xz in this list because otherwise opensuse may try to install the busybox
 variants of these packages, which causes problems for rpm-build later on.
 
 --------------------------------------------------------------------------
