@@ -8,6 +8,7 @@ fillup
 gawk
 glibc
 gpg2
+grep
 gzip
 krb5
 libacl1
