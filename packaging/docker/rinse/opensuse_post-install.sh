@@ -80,6 +80,7 @@ chroot ${prefix} /usr/bin/zypper -n --gpg-auto-import-keys refresh --force-downl
 chroot ${prefix} /usr/bin/zypper -n install aaa_base nano syslog-ng 2>&1
 chroot ${prefix} /usr/bin/zypper -n install rpm zypper 2>&1
 chroot ${prefix} /usr/bin/zypper -n update 2>&1
+chroot ${prefix} /usr/bin/zypper -n verify 2>&1
 chroot ${prefix} /usr/bin/zypper clean
 
 #
