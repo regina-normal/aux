@@ -60,7 +60,7 @@ Summary:        The RPM Package Manager
 License:        GPL-2.0-or-later
 Group:          System/Packages
 Version:        4.16.1.3
-Release:        2.1.1
+Release:        3.1.1
 URL:            https://rpm.org/
 #Git-Clone:     https://github.com/rpm-software-management/rpm
 Source:         http://ftp.rpm.org/releases/rpm-4.16.x/rpm-%{version}.tar.bz2
@@ -534,6 +534,9 @@ fi
 %{_libdir}/pkgconfig/rpm.pc
 
 %changelog
+* Wed May 12 2021 Andreas Schwab <schwab@suse.de>
+- auto-config-update-aarch64-ppc64le.diff: Treat missing timestamp as
+  infinitely old.
 * Fri Apr 16 2021 Martin Liška <mliska@suse.cz>
 - Use --dwz-single-file-mode for packages that use
   baselibs.conf mechanism.
