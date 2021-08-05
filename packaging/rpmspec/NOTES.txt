@@ -141,7 +141,29 @@ Check for unwanted newer packages:
   * zypper refresh
   * zypper packages -r repo-oss -r repo-non-oss -i | grep ^v
 
+GUI breakage:
+- To fix openSUSE Leap 15.3 / aarch64 not starting the graphical desktop:
+  * zypper addrepo \
+      http://download.opensuse.org/update/leap/15.3/sle/ repo-sle-update
+  * zypper refresh
+  * zypper update systemd (also updates systemd-sysvinit, udev)
+  * zypper modifyrepo -d repo-sle-update
+- For reference, there is also a backports repo (which is currently not needed):
+  * zypper addrepo http://download.opensuse.org/update/leap/15.3/backports/ \
+      repo-backports-update
+  * zypper modifyrepo -d repo-backports-update
+
 Desktop tweaks:
 - Fedora: put Terminal in sidebar
 - All: disable screen saver and automatic suspend
 - openSUSE: disable screen locking (Settings / Workspace Behaviour)
+
+Extra packages:
+- openSUSE:
+  * The doxygen packages are too old for openSUSE Leap 15.2 / 15.3.
+    In most cases you can fetch a newer doxygen binary from the devel_tools
+    repository (see the docker image, which also does this).
+    On 15.2/aarch64 you will need to source-install the newer doxygen from
+    devel_tools and then build the binary package yourself.
+    Don't forget to disable the devel_tools repository afterwards.
+
