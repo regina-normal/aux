@@ -1,6 +1,8 @@
 bash
 boost-license1_66_0
 coreutils
+cracklib
+cracklib-dict-full
 diffutils
 file-magic
 filesystem
@@ -8,6 +10,7 @@ fillup
 glibc
 gpg2
 grep
+gzip
 info
 krb5
 libacl1
@@ -22,6 +25,7 @@ libbz2-1
 libcap-ng0
 libcap2
 libcom_err2
+libcrack2
 libcrypt1
 libcurl4
 libdw1
@@ -48,6 +52,7 @@ libmount1
 libncurses6
 libnghttp2-14
 libnpth0
+libnsl2
 libopenssl1_1
 libpcre1
 libpopt0
@@ -57,6 +62,8 @@ libpsl5
 libreadline7
 libsasl2-3
 libselinux1
+libsemanage1
+libsepol1
 libsigc-2_0-0
 libsmartcols1
 libsolv-tools
@@ -64,6 +71,8 @@ libsqlite3-0
 libssh4
 libstdc++6
 libsystemd0
+libtirpc-netconfig
+libtirpc3
 libudev1
 libunistring2
 libusb-1_0-0
@@ -84,8 +93,12 @@ pinentry
 procps
 rpm
 rpm-config-SUSE
+sed
+shadow
 system-group-hardware
 system-user-root
+sysuser-shadow
 terminfo-base
 util-linux
+xz
 zypper

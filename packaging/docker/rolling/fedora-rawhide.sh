@@ -33,6 +33,8 @@ EOF
 echo '----- Updating distribution -----'
 
 chroot "$rootfsDir" dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
+echo 'Looking for unsatisfied dependencies...'
+chroot "$rootfsDir" dnf repoquery --unsatisfied
 chroot "$rootfsDir" dnf clean all
 
 echo '----- Removing /dev and /proc -----'
