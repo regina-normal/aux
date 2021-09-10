@@ -29,8 +29,7 @@ pipeline {
                     sh 'mkdir build'
                 }
                 dir ('vagrant') {
-                    sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"export\"\''
-                    sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"cd /home/virtualbox/software && ls\"\''
+                    sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"cd /home/\$USER/software && find .\"\''
                     sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"cd /c/regina/build && /c/packaging/windows/regina-cmake.sh\"\''
                 }
             }
