@@ -29,6 +29,25 @@ To find all signing identities:
 BUILDING PARALLELS VMs
 ----------------------
 
+MONTEREY:
+
+0. Download the Monterey installer through the App Store:
+
+  https://apps.apple.com/au/app/macos-monterey/id1576738294?mt=12
+
+1. Create an installer ISO from the installer app:
+
+  hdiutil create -o /tmp/Monterey.cdr -size 14g -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/Monterey.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ macOS\ Monterey.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build
+  hdiutil detach /Volumes/Install\ macOS\ Monterey
+  hdiutil convert /tmp/Monterey.cdr.dmg -format UDTO -o Monterey.iso
+  rm /tmp/Monterey.cdr.dmg
+  mv Monterey.iso.cdr Monterey.iso
+
+2. Boot from the ISO and run the GUI installer.
+
+
 BIG SUR:
 
 0. Download the Big Sur installer through the App Store:
