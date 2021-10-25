@@ -2,9 +2,9 @@
 set -e
 
 # TODO: Change these
-tag=rolling/fedora:rawhide
+tag=bab/centos:7
 arch=amd64
-distribution=fedora-rawhide
+distribution=centos-7
 
 dir="$(mktemp -d ${TMPDIR:-/var/tmp}/docker-mkimage.XXXXXXXXXX)"
 rootfsDir="$dir/rootfs"
@@ -32,10 +32,8 @@ EOF
 
 echo '----- Updating distribution -----'
 
-chroot "$rootfsDir" dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
-echo 'Looking for unsatisfied dependencies...'
-chroot "$rootfsDir" dnf repoquery --unsatisfied
-chroot "$rootfsDir" dnf clean all
+chroot "$rootfsDir" yum upgrade -y
+chroot "$rootfsDir" yum clean all
 
 echo '----- Removing /dev and /proc -----'
 

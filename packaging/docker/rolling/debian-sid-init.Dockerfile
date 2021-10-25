@@ -1,4 +1,4 @@
-FROM snapshot/debian:bullseye
+FROM bab/debian:bullseye
 
 ADD apt-sources/sid /etc/apt/sources.list
 RUN apt-get update
