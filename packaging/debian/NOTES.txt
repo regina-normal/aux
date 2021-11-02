@@ -42,3 +42,8 @@ Desktop tweaks:
 - Put Terminal in sidebar
 - Disable screen saver
 
+ARM64 installation:
+- Currently requires a server image from https://cdimage.ubuntu.com/releases/
+- Do not set up LVM groups on the hard drive
+- Do not install server snaps
+- Need to install ubuntu-desktop after initial install
