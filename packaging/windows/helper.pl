@@ -71,6 +71,8 @@ my $programfiles;
 my $wixarch;
 my $pyver;
 my $pyver_short;
+my $pyzlib;
+my $pyzlibdir;
 my $qt;
 my $wix;
 my @sys_dll_paths;
@@ -98,6 +100,13 @@ $pyver = $1;
 $pyver_short = $pyver;
 $pyver_short =~ s/\.//;
 -d "$mingw/lib/python$pyver" or die "ERROR: Missing Python $pyver";
+
+$pyzlibdir = "$mingw/lib/python$pyver/lib-dynload";
+$pyzlib = "zlib-cpython-$pyver_short.dll";
+if (! -e "$pyzlibdir/$pyzlib") {
+    $pyzlib = "zlib$pyver_short-mingw_$arch.dll";
+    -e "$pyzlibdir/$pyzlib" or die "ERROR: Could not find python zlib module";
+}
 
 foreach (glob('/c/Qt/*/mingw*')) {
     /^(\/c\/Qt\/\d+\.\d+\.\d+\/mingw\d+_\d+)\s*$/ or next;
@@ -380,13 +389,12 @@ sub copypython {
     });
     $z->writeToFileNamed($zip);
 
-    my $dll = "zlib-cpython-$pyver_short.dll";
-    my $dllSrc = "$mingw/lib/python$pyver/lib-dynload/$dll";
-    my $dllDest = "$destDir/$dll";
+    my $dllSrc = "$pyzlibdir/$pyzlib";
+    my $dllDest = "$destDir/$pyzlib";
     if (-e $dllDest) {
-        print "Replacing: $dll  <-  $dllSrc\n";
+        print "Replacing: $pyzlib  <-  $dllSrc\n";
     } else {
-        print "Copying: $dll  <-  $dllSrc\n";
+        print "Copying: $pyzlib  <-  $dllSrc\n";
     }
     copy $dllSrc, $dllDest or die;
 }
@@ -438,7 +446,7 @@ sub mkwxs {
     my $installtree_ms = path_for_mswin($installtree);
     my $pydir = "$installtree/lib/regina/python";
     my $python_core_ms = path_for_mswin("$pydir/python$pyver_short.zip");
-    my $python_zlib_ms = path_for_mswin("$pydir/zlib-cpython-$pyver_short.dll");
+    my $python_zlib_ms = path_for_mswin("$pydir/$pyzlib");
 
     my @core_dlls = sort values %{${&find_dlls}[0]};
 
