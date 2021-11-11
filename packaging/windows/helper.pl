@@ -120,7 +120,8 @@ foreach (glob('"/c/Program Files*/WiX Toolset v*"')) {
     $wix and die "ERROR: Multiple WiX installations detected";
     $wix = $1;
 }
-(defined $wix and -d $wix) or die "ERROR: No WiX installation found";
+# Don't complain about a missing WiX unless we are running the command(s)
+# that need it.
 
 @sys_dll_paths = ("$mingw/bin", "$qt/bin");
 
@@ -574,6 +575,8 @@ sub mkwxs {
 }
 
 sub mkmsi {
+    (defined $wix and -d $wix) or die "ERROR: No WiX installation found";
+
     &ensure_paths;
 
     &cleanmsi;
