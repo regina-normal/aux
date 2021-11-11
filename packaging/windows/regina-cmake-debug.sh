@@ -37,7 +37,7 @@ cmake -G 'MSYS Makefiles' -DPACKAGING_MODE=1 \
   -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_PREFIX_PATH="$qtdir" \
   -DCMAKE_INSTALL_PREFIX="$PREFIX" \
-  -DPython_EXECUTABLE="$mingw/python.exe" \
+  -DPython_EXECUTABLE="$mingw/bin/python.exe" \
   -DPYTHON_CORE_IN_ZIP=1 \
   "$@" ..
 
