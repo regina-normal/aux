@@ -104,7 +104,7 @@ $pyver_short =~ s/\.//;
 $pyzlibdir = "$mingw/lib/python$pyver/lib-dynload";
 $pyzlib = "zlib-cpython-$pyver_short.dll";
 if (! -e "$pyzlibdir/$pyzlib") {
-    $pyzlib = "zlib$pyver_short-mingw_$arch.dll";
+    $pyzlib = "zlib.cp$pyver_short-mingw_$arch.pyd";
     -e "$pyzlibdir/$pyzlib" or die "ERROR: Could not find python zlib module";
 }
 
