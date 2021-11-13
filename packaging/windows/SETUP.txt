@@ -129,3 +129,10 @@ Setting up a Windows VM:
     some Windows 10 x86 install media), change the hard drive from NVMe 1 to
     SATA 0:1 (which may require moving the CD/DVD from SATA 0:1 to SATA 0:2).
 
+Building packages locally:
+
+  - pacman -S base-devel
+  - move into the directory containing PKGBUILD
+  - MAKEFLAGS=-j2 makepkg
+  - pacman -U foo.zst
+
