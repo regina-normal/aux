@@ -24,10 +24,6 @@ Install basic utilities from MSYS2:
   pacman -S diffutils git man-db patch perl perl-Archive-Zip openssh \
       tar unzip vim wget zip
 
-  Edit ~/.bashrc to add the line:
-
-    export PKG_CONFIG_PATH="$PKG_CONFIG_PATH":~/software/lib/pkgconfig
-
 Install build dependencies from mingw-w64:
 
   pacman -S make libxslt texinfo
