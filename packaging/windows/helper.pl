@@ -71,6 +71,8 @@ my $programfiles;
 my $wixarch;
 my $pyver;
 my $pyver_short;
+my $pyzlib;
+my $pyzlibdir;
 my $qt;
 my $wix;
 my @sys_dll_paths;
@@ -99,6 +101,13 @@ $pyver_short = $pyver;
 $pyver_short =~ s/\.//;
 -d "$mingw/lib/python$pyver" or die "ERROR: Missing Python $pyver";
 
+$pyzlibdir = "$mingw/lib/python$pyver/lib-dynload";
+$pyzlib = "zlib-cpython-$pyver_short.dll";
+if (! -e "$pyzlibdir/$pyzlib") {
+    $pyzlib = "zlib.cp$pyver_short-mingw_$arch.pyd";
+    -e "$pyzlibdir/$pyzlib" or die "ERROR: Could not find python zlib module";
+}
+
 foreach (glob('/c/Qt/*/mingw*')) {
     /^(\/c\/Qt\/\d+\.\d+\.\d+\/mingw\d+_\d+)\s*$/ or next;
     $qt and die "ERROR: Multiple Qt installations detected";
@@ -111,7 +120,8 @@ foreach (glob('"/c/Program Files*/WiX Toolset v*"')) {
     $wix and die "ERROR: Multiple WiX installations detected";
     $wix = $1;
 }
-(defined $wix and -d $wix) or die "ERROR: No WiX installation found";
+# Don't complain about a missing WiX unless we are running the command(s)
+# that need it.
 
 @sys_dll_paths = ("$mingw/bin", "$qt/bin");
 
@@ -380,13 +390,12 @@ sub copypython {
     });
     $z->writeToFileNamed($zip);
 
-    my $dll = "zlib-cpython-$pyver_short.dll";
-    my $dllSrc = "$mingw/lib/python$pyver/lib-dynload/$dll";
-    my $dllDest = "$destDir/$dll";
+    my $dllSrc = "$pyzlibdir/$pyzlib";
+    my $dllDest = "$destDir/$pyzlib";
     if (-e $dllDest) {
-        print "Replacing: $dll  <-  $dllSrc\n";
+        print "Replacing: $pyzlib  <-  $dllSrc\n";
     } else {
-        print "Copying: $dll  <-  $dllSrc\n";
+        print "Copying: $pyzlib  <-  $dllSrc\n";
     }
     copy $dllSrc, $dllDest or die;
 }
@@ -438,7 +447,7 @@ sub mkwxs {
     my $installtree_ms = path_for_mswin($installtree);
     my $pydir = "$installtree/lib/regina/python";
     my $python_core_ms = path_for_mswin("$pydir/python$pyver_short.zip");
-    my $python_zlib_ms = path_for_mswin("$pydir/zlib-cpython-$pyver_short.dll");
+    my $python_zlib_ms = path_for_mswin("$pydir/$pyzlib");
 
     my @core_dlls = sort values %{${&find_dlls}[0]};
 
@@ -566,6 +575,8 @@ sub mkwxs {
 }
 
 sub mkmsi {
+    (defined $wix and -d $wix) or die "ERROR: No WiX installation found";
+
     &ensure_paths;
 
     &cleanmsi;

@@ -16,9 +16,11 @@ fi
 if [ "$arch" = x86_64 ]; then
   qtdir="/c/Qt/$qtver/mingw81_64"
   msys=/c/msys64
+  mingw=/mingw64
 elif [ "$arch" = i686 ]; then
   qtdir="/c/Qt/$qtver/mingw81_32"
   msys=/c/msys32
+  mingw=/mingw32
 else
   echo "ERROR: Unknown architecture: $arch"
   exit 1
@@ -35,6 +37,7 @@ cmake -G 'MSYS Makefiles' -DPACKAGING_MODE=1 \
   -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_PREFIX_PATH="$qtdir" \
   -DCMAKE_INSTALL_PREFIX="$PREFIX" \
+  -DPython_EXECUTABLE="$mingw/bin/python.exe" \
   -DPYTHON_CORE_IN_ZIP=1 \
-  ..
+  "$@" ..
 

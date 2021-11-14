@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'regina/ubuntu:groovy' } }
+    agent { docker { image 'regina/fedora:35' } }
 
     stages {
         stage('Git') {
@@ -38,19 +38,27 @@ pipeline {
                 dir ('regina/build') {
                     sh 'cpack --config CPackSourceConfig.cmake'
                 }
-                sh 'rm -rf debian'
-                dir ('debian') {
-                    sh '../aux/packaging/jenkins/copy_orig_tarball ../regina/build/regina-*.tar.gz'
+                sh 'rm -rf rpmbuild'
+                sh 'mkdir rpmbuild'
+                dir ('rpmbuild/SOURCES') {
+                    sh 'cp ../../regina/build/regina-*.tar.gz .'
                 }
             }
         }
 
-        stage('Build DEB') {
+        stage('Build RPM') {
             steps {
-                dir ('debian/regina') {
-                    sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
-                    sh 'cp -pR ../../aux/packaging/debian/groovy debian'
-                    sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild --no-sign -j2'
+                dir ('rpmbuild/SPECS') {
+                    sh 'cp ../../aux/packaging/rpmspec/regina-fedora.spec .'
+                    sh 'RPM_BUILD_NCPUS=2 rpmbuild --define "_topdir `pwd`/.." -ba regina-fedora.spec'
+                }
+            }
+        }
+
+        stage('Appstream Metadata') {
+            steps {
+                dir ('rpmbuild') {
+                    sh 'appstream-builder --origin=regina --basename=appstream --enable-hidpi --packages-dir=RPMS'
                 }
             }
         }

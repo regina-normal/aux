@@ -41,8 +41,9 @@ Install build dependencies from mingw-w64:
 
 Install build dependencies with standalone installers:
 
-  Qt5 (from qt-project.org) - use the online installer (which is mandatory
-      for the x86_64 build)
+  Qt5 (from qt-project.org) - use the online installer; this may require
+      the VC++ redistributable:
+      https://www.microsoft.com/en-gb/download/details.aspx?id=48145
   Wix (from wixtoolset.org) - may require .NET to be installed separately;
       on Windows 8 this is done through Control Panel -> Windows Features
 
@@ -127,4 +128,11 @@ Setting up a Windows VM:
   - If the installer complains it cannot create a partition (observed with
     some Windows 10 x86 install media), change the hard drive from NVMe 1 to
     SATA 0:1 (which may require moving the CD/DVD from SATA 0:1 to SATA 0:2).
+
+Building packages locally:
+
+  - pacman -S base-devel
+  - move into the directory containing PKGBUILD
+  - MAKEFLAGS=-j2 makepkg
+  - pacman -U foo.zst
 
