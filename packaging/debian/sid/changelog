@@ -4,6 +4,8 @@ regina-normal (7.0-1) unstable; urgency=low
   * Removed build-depends on libboost-dev, since upstream no longer requires it.
   * Build-depends on cmake (>= 3.12) and doxygen (>= 1.8.17), following the
     new requirements from upstream.
+  * Changed the python build-depends from python3-all-dev to python3-dev
+    (closes: #998455).
   * Downgraded gap from recommends to suggests.
 
  -- Ben Burton <bab@debian.org>  Sat,  9 Jan 2021 12:12:06 +1000
