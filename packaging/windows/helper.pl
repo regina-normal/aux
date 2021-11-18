@@ -511,6 +511,26 @@ sub mkwxs {
             $found_key or die "Could not find KeyPath DLL";
 
             next;
+        } elsif (/^(\s*)\$pythondll\s*$/) {
+            print "Identifying python DLL...\n";
+            my $indent = $1;
+
+            my $found_py = 0;
+            my $path;
+            foreach (@core_dlls) {
+                /\/libpython[^\/\\]+\.dll$/ or next;
+
+                $found_py and die "Found multiple python DLLs";
+                $found_py = 1;
+
+                $path = path_for_mswin($_);
+                print "    $_  (KeyPath)\n";
+                print WXS "$indent<File Source='$path'\n";
+                print WXS "$indent KeyPath='yes'/>\n";
+            }
+            $found_py or die "Could not find python DLL";
+
+            next;
         }
 
         if (not ($partial or /</)) {

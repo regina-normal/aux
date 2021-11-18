@@ -132,7 +132,7 @@ Setting up a Windows VM:
 Building packages locally:
 
   - pacman -S base-devel
-  - move into the directory containing PKGBUILD
-  - MAKEFLAGS=-j2 makepkg
+  - run the msys2 shell (not mingw64) and enter the directory with PKGBUILD
+  - MAKEFLAGS=-j2 MINGW_ARCH=mingw64 makepkg-mingw -sCLf
   - pacman -U foo.zst
 
