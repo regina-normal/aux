@@ -3,7 +3,8 @@ set -e
 
 qtver=5.15.2
 # gvdir="/c/Program Files/Graphviz2.38"
-arch=`uname -m`
+# arch=`uname -m`
+arch="$MSYSTEM_CARCH"
 
 if [ -n "$USER" ]; then
   export PREFIX="/home/$USER/software"
