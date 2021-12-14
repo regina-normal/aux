@@ -6,14 +6,6 @@ qtver=5.15.2
 # arch=`uname -m`
 arch="$MSYSTEM_CARCH"
 
-if [ -n "$USER" ]; then
-  export PREFIX="/home/$USER/software"
-elif [ -n "$USERNAME" ]; then
-  export PREFIX="/home/$USERNAME/software"
-else
-  export PREFIX=~/software
-fi
-
 if [ "$arch" = x86_64 ]; then
   qtdir="/c/Qt/$qtver/mingw81_64"
   msys=/c/msys64
@@ -25,6 +17,14 @@ elif [ "$arch" = i686 ]; then
 else
   echo "ERROR: Unknown architecture: $arch"
   exit 1
+fi
+
+if [ -n "$USER" ]; then
+  export PREFIX="/home/$USER/software-$arch"
+elif [ -n "$USERNAME" ]; then
+  export PREFIX="/home/$USERNAME/software-$arch"
+else
+  export PREFIX=~/"software-$arch"
 fi
 
 if [ -z "$gvdir" ]; then
