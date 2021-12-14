@@ -277,6 +277,7 @@ sub find_dlls {
 
             # Windows core DLLs do not need to be shipped.
             $dll_loc =~ /^\/c\/windows\/system/i and next;
+            $dll_loc =~ /^\/c\/windows\/syswow64/i and next;
 
             my $sys_loc = is_sys_dll($dll_name);
             if (defined $sys_loc) {
