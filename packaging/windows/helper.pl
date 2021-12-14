@@ -41,6 +41,7 @@ my $srctree;
 my $regina_version;
 
 # Configuration variables that are detected automatically, now:
+my $archbits;
 my $msys;
 my $mingw;
 my $programfiles;
@@ -57,11 +58,13 @@ my @sys_dll_paths;
 my $arch = $ENV{MSYSTEM_CARCH};
 chomp $arch;
 if ($arch eq 'x86_64') {
+    $archbits = 64;
     $msys = 'c:\msys64';
     $mingw = '/mingw64';
     $programfiles = 'ProgramFiles64Folder';
     $wixarch = 'x64';
 } elsif ($arch eq 'i686') {
+    $archbits = 32;
     $msys = 'c:\msys32';
     $mingw = '/mingw32';
     $programfiles = 'ProgramFilesFolder';
@@ -107,7 +110,7 @@ if (! -e "$pyzlibdir/$pyzlib") {
 }
 
 foreach (glob('/c/Qt/*/mingw*')) {
-    /^(\/c\/Qt\/\d+\.\d+\.\d+\/mingw\d+_\d+)\s*$/ or next;
+    /^(\/c\/Qt\/\d+\.\d+\.\d+\/mingw\d+_$archbits)\s*$/ or next;
     $qt and die "ERROR: Multiple Qt installations detected";
     $qt = $1;
 }
