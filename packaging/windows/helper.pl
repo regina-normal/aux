@@ -9,35 +9,11 @@ use Cwd qw(abs_path cwd);
 # ------------------------------------------------------------------------
 # Begin manual configuration variables
 # ------------------------------------------------------------------------
-my $installtree_suffix = 'software'; # must be within the home directory
+my $installtree_base = 'software'; # actual tree is ~/${installtree_base}-$arch
 my $regina_build_suffix = 0;
 # ------------------------------------------------------------------------
 # End manual configuration variables
 # ------------------------------------------------------------------------
-
-# We jump through hoops here because, if we start bash via cmd.exe,
-# then HOME will be set to the windows home directory c:\Users\$USER
-# and not the MSYS2 home directory /home/$USER .
-my $installtree;
-if ($ENV{USER}) {
-    $installtree = "/home/$ENV{USER}/$installtree_suffix";
-} elsif ($ENV{USERNAME}) {
-    $installtree = "/home/$ENV{USERNAME}/$installtree_suffix";
-} elsif ($ENV{HOME}) {
-    $installtree = "$ENV{HOME}/$installtree_suffix";
-}
-
-# Sanity checking:
-if (not defined $installtree) {
-    print "ERROR: I could not determine your MSYS2 home directory.\n";
-    print "Please set \$HOME accordingly.\n";
-    exit 1;
-} elsif (not -e "$installtree/bin/regfiledump.exe") {
-    print "ERROR: Your install tree does not seem to be set correctly.\n";
-    print "The current setting is: $installtree\n";
-    print "You can edit this at the top of helper.pl.\n";
-    exit 1;
-}
 
 # Constants and commands:
 my $regina_wxs = 'Regina.wxs';
@@ -69,6 +45,7 @@ my $msys;
 my $mingw;
 my $programfiles;
 my $wixarch;
+my $installtree;
 my $pyver;
 my $pyver_short;
 my $pyzlib;
@@ -77,7 +54,7 @@ my $qt;
 my $wix;
 my @sys_dll_paths;
 
-my $arch = `uname -m`;
+my $arch = $ENV{MSYSTEM_CARCH};
 chomp $arch;
 if ($arch eq 'x86_64') {
     $msys = 'c:\msys64';
@@ -93,6 +70,27 @@ if ($arch eq 'x86_64') {
     die "Unknown architecture: $arch";
 }
 -d $mingw or die "ERROR: Missing MinGW: $mingw";
+
+# We jump through hoops here because, if we start bash via cmd.exe,
+# then HOME will be set to the windows home directory c:\Users\$USER
+# and not the MSYS2 home directory /home/$USER .
+if ($ENV{USER}) {
+    $installtree = "/home/$ENV{USER}/$installtree_base";
+} elsif ($ENV{USERNAME}) {
+    $installtree = "/home/$ENV{USERNAME}/$installtree_base";
+} elsif ($ENV{HOME}) {
+    $installtree = "$ENV{HOME}/$installtree_base";
+}
+if (not defined $installtree) {
+    print "ERROR: I could not determine your MSYS2 home directory.\n";
+    print "Please set \$HOME accordingly.\n";
+    exit 1;
+} elsif (not -e "$installtree/bin/regfiledump.exe") {
+    print "ERROR: Your install tree does not seem to be set correctly.\n";
+    print "The current setting is: $installtree\n";
+    print "You can edit this at the top of helper.pl.\n";
+    exit 1;
+}
 
 $pyver = `python --version`;
 $pyver =~ /^Python (\d+\.\d+)\.\d+\s*$/ or die;
