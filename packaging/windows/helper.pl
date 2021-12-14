@@ -75,11 +75,11 @@ if ($arch eq 'x86_64') {
 # then HOME will be set to the windows home directory c:\Users\$USER
 # and not the MSYS2 home directory /home/$USER .
 if ($ENV{USER}) {
-    $installtree = "/home/$ENV{USER}/$installtree_base";
+    $installtree = "/home/$ENV{USER}/$installtree_base-$arch";
 } elsif ($ENV{USERNAME}) {
-    $installtree = "/home/$ENV{USERNAME}/$installtree_base";
+    $installtree = "/home/$ENV{USERNAME}/$installtree_base-$arch";
 } elsif ($ENV{HOME}) {
-    $installtree = "$ENV{HOME}/$installtree_base";
+    $installtree = "$ENV{HOME}/$installtree_base-$arch";
 }
 if (not defined $installtree) {
     print "ERROR: I could not determine your MSYS2 home directory.\n";
