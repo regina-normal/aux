@@ -1,8 +1,14 @@
 regina-normal (7.0-1~bpo10+1~regina1) buster; urgency=low
 
   * New upstream release, packaged for buster using a backported doxygen.
+  * Removed build-depends on libboost-dev, since upstream no longer requires it.
+  * Build-depends on cmake (>= 3.12) and doxygen (>= 1.8.17), following the
+    new requirements from upstream.
+  * Changed the python build-depends from python3-all-dev to python3-dev
+    (closes: #998455).
+  * Downgraded gap from recommends to suggests.
 
- -- Ben Burton <bab@debian.org>  Sat,  9 Jan 2021 12:12:06 +1000
+ -- Ben Burton <bab@debian.org>  Fri, 17 Dec 2021 23:02:54 +1000
 
 regina-normal (6.0.1-4) unstable; urgency=low
 
