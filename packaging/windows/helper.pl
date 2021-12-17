@@ -444,8 +444,9 @@ sub cleanwxs {
 sub cleanmsi {
     &ensure_paths;
 
+    # If we are cross-compiling, only clean our own arch's installer.
     print "Cleaning old WiX output...\n";
-    foreach (glob("*.wixobj *.wixpdb *.msi")) {
+    foreach (glob("*.wixobj *.wixpdb *-$arch.msi")) {
         print "    $_\n";
         unlink $_ or die;
     }
