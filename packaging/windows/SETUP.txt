@@ -35,6 +35,7 @@ Install build dependencies from mingw-w64:
   pacman -S mingw-w64-{x86_64,i686}-jansson
   pacman -S mingw-w64-{x86_64,i686}-libxml2
   pacman -S mingw-w64-{x86_64,i686}-lmdb
+  pacman -S mingw-w64-{x86_64,i686}-ntldd-git
   pacman -S mingw-w64-{x86_64,i686}-popt
   pacman -S mingw-w64-{x86_64,i686}-python
   pacman -S mingw-w64-{x86_64,i686}-python2
