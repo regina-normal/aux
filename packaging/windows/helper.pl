@@ -62,10 +62,11 @@ if ($arch eq 'x86_64') {
     $msys = 'c:\msys64';
     $mingw = '/mingw64';
     $programfiles = 'ProgramFiles64Folder';
+    # Assume for now that we are cross-compiling from a 64-bit machine.
     $wixarch = 'x64';
 } elsif ($arch eq 'i686') {
     $archbits = 32;
-    $msys = 'c:\msys32';
+    $msys = 'c:\msys64';
     $mingw = '/mingw32';
     $programfiles = 'ProgramFilesFolder';
     $wixarch = 'x86';
@@ -263,21 +264,31 @@ sub find_dlls {
         # print "Analysing $exe_name...\n";
 
         my $use_path = join(':', @sys_dll_paths);
-        open(LDD, "PATH=$use_path /usr/bin/ldd $_ |");
+        open(LDD, "PATH=$use_path $mingw/bin/ntldd -R $_ |");
         while (<LDD>) {
             chomp;
-            /^\S+\.exe:$/ and next;
+            /\.drv => /i and next;
+
+            # ntdll spits out a *lot* of windows internal not-found dlls.
+            # We will optimistically assume that everything that *should*
+            # be found *can* be found, and any missing DLLs should become
+            # apparent at runtime anyway.
+            / not found\s*$/ and next;
+
             /^\s+(\S+\.dll) => (\S+\.dll) /i or
                 die "Cannot interpret ldd output: $_";
             my $dll_name = $1;
             my $dll_loc = $2;
+            $dll_loc =~ s/^C:/\/c/;
+            $dll_loc =~ s/\\/\//g;
 
-            my $dll_lower = $1;
+            my $dll_lower = $dll_name;
             $dll_lower =~ tr/A-Z/a-z/;
 
             # Windows core DLLs do not need to be shipped.
             $dll_loc =~ /^\/c\/windows\/system/i and next;
             $dll_loc =~ /^\/c\/windows\/syswow64/i and next;
+            $dll_loc =~ /^\/c\/windows\/winsxs/i and next;
 
             my $sys_loc = is_sys_dll($dll_name);
             if (defined $sys_loc) {
