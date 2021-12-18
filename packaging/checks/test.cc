@@ -5,8 +5,8 @@
 
 using namespace regina;
 
-bool interesting(Triangulation<3>* t) {
-    return t->isThreeSphere();
+bool interesting(const Triangulation<3>& t) {
+    return t.isSphere();
 }
 
 // Return true iff we didn't just receive a termination request.
@@ -19,12 +19,11 @@ int main() {
         if (feof(stdin) || ! res)
             break;
 
-        Triangulation<3>* t = Triangulation<3>::fromIsoSig(input);
+        Triangulation<3> t = Triangulation<3>::fromIsoSig(input);
         if (interesting(t)) {
             printf("%s\n", input);
             ++tot;
         }
-        delete t;
     }
 
     fprintf(stderr, "Total found: %ld\n", tot);
