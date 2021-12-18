@@ -11,7 +11,8 @@ Preparing, building and installing:
   - Create or clean out ~/rpmbuild:
       - Subdirs SOURCES, SPECS, BUILD, SRPMS, RPMS
   - Uninstall (rpm -e regina-normal)
-  - Build (rpmbuild -ba <spec-file>)
+  - Build binary and source RPMs (rpmbuild -ba <spec-file>)
+  - Build binary RPMs only (rpmbuild -bb <spec-file>)
   - Install (rpm -Uvh <rpm-file>)
 
 To rebuild an RPM from source on Fedora:
