@@ -1,29 +1,38 @@
 Test-Command: debian/tests/utils-test censuslookup
 Features: test-name=utils-censuslookup
+Depends: @, bsdmainutils
 
 Test-Command: debian/tests/utils-test regconcat
 Features: test-name=utils-regconcat
+Depends: @, bsdmainutils
 
 Test-Command: debian/tests/utils-test regconvert
 Features: test-name=utils-regconvert
+Depends: @, bsdmainutils
 
 Test-Command: debian/tests/utils-test regfiledump
 Features: test-name=utils-regfiledump
+Depends: @, bsdmainutils
 
 Test-Command: debian/tests/utils-test regfiletype
 Features: test-name=utils-regfiletype
+Depends: @, bsdmainutils
 
 Test-Command: debian/tests/utils-test retriangulate
 Features: test-name=utils-retriangulate
+Depends: @, bsdmainutils
 
 Test-Command: debian/tests/utils-test sigcensus
 Features: test-name=utils-sigcensus
+Depends: @, bsdmainutils
 
 Test-Command: debian/tests/utils-test tricensus
 Features: test-name=utils-tricensus
+Depends: @, bsdmainutils
 
 Test-Command: debian/tests/utils-test trisetcmp
 Features: test-name=utils-trisetcmp
+Depends: @, bsdmainutils
 
 Test-Command: debian/tests/python-test alltypes
 Features: test-name=python-alltypes

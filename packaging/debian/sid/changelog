@@ -1,3 +1,11 @@
+regina-normal (7.0-2) unstable; urgency=low
+
+  * Fixed the command-line utilities test suite on s390.
+  * Build-depends on bsdextrautils (which provides hexdump), and also made
+    the autopkgtests depend on this for the same reason.
+
+ -- Ben Burton <bab@debian.org>  Mon, 20 Dec 2021 00:02:08 +1000
+
 regina-normal (7.0-1) unstable; urgency=low
 
   * New upstream release.

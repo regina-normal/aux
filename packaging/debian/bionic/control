@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Ben Burton <bab@debian.org>
 Homepage: http://regina-normal.github.io/
 Build-Depends:
+    bsdmainutils,
     debhelper (>= 11),
     dh-python,
     cmake (>= 3.12),
