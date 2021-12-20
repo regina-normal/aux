@@ -33,24 +33,18 @@ pipeline {
             }
         }
 
-        stage('Package Source') {
+        stage('Build') {
             steps {
                 dir ('regina/build') {
-                    sh 'cpack --config CPackSourceConfig.cmake'
-                }
-                sh 'rm -rf debian'
-                dir ('debian') {
-                    sh '../aux/packaging/jenkins/copy_orig_tarball ../regina/build/regina-*.tar.gz'
+                    sh 'make -j2'
                 }
             }
         }
 
-        stage('Build DEB') {
+        stage('Test') {
             steps {
-                dir ('debian/regina') {
-                    sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
-                    sh 'cp -pR ../../aux/packaging/debian/buster debian'
-                    sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild --no-sign -j2'
+                dir ('regina/build') {
+                    sh 'make test ARGS=-V'
                 }
             }
         }
