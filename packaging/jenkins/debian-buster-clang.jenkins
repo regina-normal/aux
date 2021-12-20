@@ -20,7 +20,7 @@ pipeline {
                     sh 'mkdir build'
                 }
                 dir ('regina/build') {
-                    sh 'CC=clang CXX=clang++ cmake -DPACKAGING_MODE=1 -DDISABLE_RPATH=1 ..'
+                    sh 'cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DPACKAGING_MODE=1 -DDISABLE_RPATH=1 ..'
                 }
             }
         }
