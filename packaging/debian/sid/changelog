@@ -1,3 +1,10 @@
+regina-normal (7.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Bumped standards-version to 4.6.0 (no changes required).
+
+ -- Ben Burton <bab@debian.org>  Mon, 20 Dec 2021 00:02:08 +1000
+
 regina-normal (7.0-2) unstable; urgency=low
 
   * Fixed the command-line utilities test suite on s390.
