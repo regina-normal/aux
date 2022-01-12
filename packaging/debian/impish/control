@@ -35,7 +35,7 @@ Depends:
     ${perl:Depends},
     ${python3:Depends},
     ${misc:Depends}
-Recommends: regina-normal-doc (>= 7.0-0), evince | pdf-viewer
+Recommends: regina-normal-doc (>= 7.1-0), evince | pdf-viewer
 Suggests: regina-normal-dev, gap
 Description: mathematical software for low-dimensional topology
  Regina is a software package for 3-manifold and 4-manifold topologists,
