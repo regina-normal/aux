@@ -14,7 +14,7 @@ RUN apt-get install -y --no-install-recommends \
 	libtokyocabinet-dev \
 	libxml2-dev \
 	pkg-config \
-	python-dev \
+	python3-all-dev \
 	qtbase5-dev \
 	shared-mime-info \
 	xsltproc \
@@ -22,8 +22,7 @@ RUN apt-get install -y --no-install-recommends \
 	zlib1g-dev
 
 # Use buster as a platform for testing against old versions of clang.
-# This also requires python3, since clang will not build python2 under C++17.
-RUN apt-get install -y --no-install-recommends clang python3 python3-dev
+RUN apt-get install -y --no-install-recommends clang
 
 ADD regina-key.asc /usr/local/regina/
 RUN apt-get install -y --no-install-recommends software-properties-common
