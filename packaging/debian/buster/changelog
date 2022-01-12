@@ -1,6 +1,7 @@
 regina-normal (7.1-1~bpo10+1~regina1) buster; urgency=low
 
   * New upstream release, packaged for buster using a backported doxygen.
+  * The buster packages now build against python3, not python2.
 
  -- Ben Burton <bab@debian.org>  Fri, 17 Dec 2021 23:02:54 +1000
 

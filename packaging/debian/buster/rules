@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 %:
-	dh $@ --with python2
+	dh $@ --with python3
 
 # Upgrade optimisation flags:
 export DEB_CFLAGS_MAINT_STRIP = -O2
