@@ -14,36 +14,64 @@ GCC versions seen in the wild:
 10.2.0:
   - MSYS2 (Feb 2021)
   - Ubuntu groovy (20.10)
+  - OPTIONAL Ubuntu focal (20.04 LTS)
 10.0.1:
   - Fedora 32
 9.3.0:
+  - OPTIONAL Debian bullseye
   - Ubuntu focal (20.04 LTS)
+8.4.0:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+  - OPTIONAL Ubuntu bionic (18.04 LTS)
 8.3.0:
   - Debian buster
 7.5.0:
   - openSUSE Leap 15.3
   - openSUSE Leap 15.2
+  - OPTIONAL Ubuntu focal (20.04 LTS)
 7.4.0:
+  - OPTIONAL Debian buster
   - Ubuntu bionic (18.04 LTS)
 7.2.0:
   - Rocks 7.0 + gnu/7.2.0 module (e.g., tinaroo)
+6.4.0:
+  - OPTIONAL Ubuntu bionic (18.04 LTS)
+5.5.0:
+  - OPTIONAL Ubuntu bionic (18.04 LTS)
 
 Clang versions seen in the wild:
 
-11.0:
-  - Debian sid (Feb 2021)
+13.0.x:
+  - Ubuntu impish (21.10)
+11.0.x:
+  - Debian bullseye
   - Fedora 33
   - MSYS2 (Feb 2021)
-  - Ubuntu groovy (20.10)
-10.0:
+10.0.x:
   - Fedora 32
   - Ubuntu focal (20.04 LTS)
-9.0:
+  - OPTIONAL Ubuntu bionic (18.04 LTS)
+9.0.x:
+  - OPTIONAL Debian bullseye
   - openSUSE Leap 15.2
-7.0:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+  - OPTIONAL Ubuntu bionic (18.04 LTS)
+8.0.x:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+  - OPTIONAL Ubuntu bionic (18.04 LTS)
+7.0.x:
   - Debian buster
-6.0:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+6.0.x:
+  - OPTIONAL Debian buster
+  - OPTIONAL Ubuntu focal (20.04 LTS)
   - Ubuntu bionic (18.04 LTS)
+5.0.x:
+  - OPTIONAL Ubuntu bionic (18.04 LTS)
+4.0.x:
+  - OPTIONAL Ubuntu bionic (18.04 LTS)
+3.9.x:
+  - OPTIONAL Ubuntu bionic (18.04 LTS)
 
 CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
