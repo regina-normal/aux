@@ -1,11 +1,13 @@
 # Known to work for:
-# - openSuSE Leap 15.2 (x86_64)
-# - openSuSE Leap 15.3 (x86_64)
+# - Fedora 35 (x86_64)
+# - Fedora 34 (x86_64)
+# - Fedora 33 (x86_64)
+# - Fedora 32 (x86_64)
 
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 7.1
-Release: lp153.1
+Version: 7.0
+Release: 1%{?dist}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -20,28 +22,25 @@ Conflicts: regina
 
 BuildRequires: cmake
 BuildRequires: cppunit-devel
+BuildRequires: desktop-file-utils
 BuildRequires: doxygen
 BuildRequires: gcc
 BuildRequires: gcc-c++
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
-BuildRequires: libbz2-devel
-BuildRequires: libjansson-devel
-BuildRequires: libqt5-qtbase-devel
-BuildRequires: libqt5-qtsvg-devel
+BuildRequires: jansson-devel
 BuildRequires: libstdc++-devel
 BuildRequires: libxml2-devel
-BuildRequires: libxslt-tools
-BuildRequires: lmdb-devel
-BuildRequires: pkg-config
+BuildRequires: libxslt
+BuildRequires: pkgconfig
 BuildRequires: popt-devel
 BuildRequires: python3-devel
-BuildRequires: sed
+BuildRequires: qt5-qtbase-devel
+BuildRequires: qt5-qtsvg-devel
 BuildRequires: shared-mime-info
+BuildRequires: tokyocabinet-devel
 BuildRequires: zlib-devel
-
-Prereq: /sbin/ldconfig
 
 %description
 Regina is a software package for 3-manifold and 4-manifold topologists,
@@ -59,38 +58,54 @@ compute knot polynomials, and work with several import/export formats.
 Regina comes with a full graphical user interface, as well as Python bindings
 and a low-level C++ programming interface.
 
-%debug_package
+%global debug_package %{nil}
+
 %prep
 %setup -n regina-%{version}
 
 %build
-export CFLAGS=$RPM_OPT_FLAGS
-export CXXFLAGS=$RPM_OPT_FLAGS
-export LDFLAGS="-Wl,-Bsymbolic-functions $LDFLAGS"
-mkdir build
-cd build
+mkdir -p %{_target_platform}
+pushd %{_target_platform}
+
+export QTDIR="%{_qt5_prefix}"
+export PATH="%{_qt5_bindir}:$PATH"
+export CFLAGS="${CFLAGS:--O2}"
+export CXXFLAGS="${CXXFLAGS:--O2}"
+export FFLAGS="${FFLAGS:--O2}"
 export LIB_SUFFIX=$(echo %_lib | cut -b4-)
+cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX \
+  -DCMAKE_VERBOSE_MAKEFILE=ON -DPACKAGING_MODE=1 \
+  -DPython_EXECUTABLE=/usr/bin/python3 \
+  ..
+popd
 
-cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX -DPACKAGING_MODE=1 -DPython_EXECUTABLE=/usr/bin/python3 -DREGINA_KVSTORE=lmdb ..
-
-%make_jobs
-
-# The debug symbols in regina's python module are so enormous that my VMs
-# run out of space.  Honestly, 2GB should be enough for a package build...
-/usr/bin/strip "`pwd`/python/regina/engine.so"
-
-LD_LIBRARY_PATH="`pwd`/engine:$LD_LIBRARY_PATH" make %{?_smp_mflags} VERBOSE=1 test ARGS=-V
+make %{?_smp_mflags} -C %{_target_platform}
+make %{?_smp_mflags} -C %{_target_platform} test ARGS=-V
 
 %install
-pushd build
-%makeinstall
-popd
+rm -rf "$RPM_BUILD_ROOT"
+make install/fast DESTDIR="$RPM_BUILD_ROOT" -C %{_target_platform}
+
+desktop-file-validate \
+  "$RPM_BUILD_ROOT%{_datadir}/applications/regina.desktop" ||:
 
 %post
 /sbin/ldconfig
+/usr/bin/update-desktop-database &> /dev/null ||:
+/usr/bin/update-mime-database %{_datadir}/mime &> /dev/null ||:
+/bin/touch --no-create %{_datadir}/icons/hicolor &> /dev/null ||:
+
+%posttrans
+/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &> /dev/null ||:
 
 %postun
 /sbin/ldconfig
+/usr/bin/update-desktop-database &> /dev/null ||:
+/usr/bin/update-mime-database %{_datadir}/mime &> /dev/null ||:
+if [ $1 -eq 0 ]; then
+  /bin/touch --no-create %{_datadir}/icons/hicolor &> /dev/null ||:
+  /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &> /dev/null ||:
+fi
 
 %clean
 rm -rf "$RPM_BUILD_ROOT"
@@ -112,13 +127,18 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
+%if 0%{?fedora} >= 35
+%{_prefix}/lib/python3.10/site-packages/regina/
+%else
+%if 0%{?fedora} >= 33
+%{_prefix}/lib/python3.9/site-packages/regina/
+%else
+%{_prefix}/lib/python3.8/site-packages/regina/
+%endif
+%endif
 %{_mandir}/*/*
-%{_prefix}/lib/python3.6/site-packages/regina/
 
 %changelog
-* Sun Dec 19 2021 Ben Burton <bab@debian.org> 7.1
-- New upstream release.
-
 * Sun Dec 19 2021 Ben Burton <bab@debian.org> 7.0
 - New upstream release.
 
@@ -157,20 +177,26 @@ rm -rf "$RPM_BUILD_ROOT"
 - New upstream release.
 - Ported from KDE3 to KDE4, and from autotools to cmake.
 
+* Wed Jul 15 2009 Ben Burton <bab@debian.org> 4.6
+- Built for Fedora 11, which was released last month.
+
 * Sat May 16 2009 Ben Burton <bab@debian.org> 4.6
 - New upstream release.
 
+* Wed Dec 10 2008 Ben Burton <bab@debian.org> 4.5.1
+- Built for Fedora 10, which was released last month.
+
 * Tue Oct 28 2008 Ben Burton <bab@debian.org> 4.5.1
 - New upstream release.
-- Now requires kdegraphics3-pdf, which provides an embedded viewer for
-  Regina's new PDF packets.
-
-* Sun Jun 29 2008 Ben Burton <bab@debian.org> 4.5 (SuSE 11.0)
-- Packaging the 4.5 release (May 2008) for SuSE 11.0.
-- Note that regina-normal needs to be built against boost 1.34.1-42.2 (or
-  later) from the updates repository, since the boost packages originally
-  shipped with SuSE 11.0 are broken.  See
-  https://bugzilla.novell.com/show_bug.cgi?id=401964 for details.
+- It will help to have KPDF installed, which provides an embedded viewer
+  for Regina's new PDF packets.  However, the regina-normal packages for
+  Fedora do not list KPDF as a dependency.  This is because:
+  + Fedora <= 8 only ships KPDF as part of the monolithic kdegraphics
+    package, which is very large.
+  + Fedora >= 9 does not ship KPDF at all, but instead focuses on its KDE 4
+    successor.
+  Regina can find other ways of viewing PDF packets; see Regina's PDF settings
+  for details.
 
 * Sat May 17 2008 Ben Burton <bab@debian.org> 4.5
 - New upstream release.
@@ -178,40 +204,24 @@ rm -rf "$RPM_BUILD_ROOT"
 * Sun Nov 25 2007 Ben Burton <bab@debian.org> 4.4
 - New upstream release.
 - Removed MPI-enabled utilities from packages, since this causes hassles
-  for ordinary desktop users who need to hunt down MPICH dependencies.
+  for ordinary desktop users who need to hunt down LAM dependencies.
 
-* Sun Feb 4 2007 Ben Burton <bab@debian.org> 4.3.1
-- Packaging the 4.3.1 release (May 2006) for SuSE 10.2.
-- Reenabled Python scripting for SuSE 10.1 and 10.2, since SuSE has
-  fixed their boost packages once more.
+* Fri May 5 2006 Ben Burton <bab@debian.org> 4.3.1
+- New upstream release.
 
 * Mon Mar 27 2006 Ben Burton <bab@debian.org> 4.3
 - New upstream release.
-- Python scripting is again disabled because SuSE 10.0's boost packages
-  are broken (https://bugzilla.novell.com/show_bug.cgi?id=137558).
-  SuSE claims that this will be fixed in SuSE 10.1.
 
 * Sun Sep 18 2005 Ben Burton <bab@debian.org> 4.2.1
 - New upstream release.
 
 * Thu Jul 7 2005 Ben Burton <bab@debian.org> 4.2
 - New upstream release.
-- Reenabled Python scripting for SuSE >= 9.2.
 - Note that regina-normal now includes MPI support.  These packages are
-  built against the MPICH implementation of MPI with the ch-p4 device.
+  built against the LAM implementation of MPI.
 
 * Sun Jul 25 2004 Ben Burton <bab@debian.org> 4.1.3
 - New upstream release.
-- Built against an updated popt from YaST online updates.  The earlier
-  popt packages from SuSE used an incorrect soname (libpopt.so.1).  The
-  updated popt packages fix this (they now use libpopt.so.0).  Because
-  this bugfix from SuSE changes the soname, regina-normal will require
-  the updated popt package, and will no longer be able to use the
-  original popt from SuSE 9.1.
 
-* Sun Jun 27 2004 Ben Burton <bab@debian.org> 4.1.2
-- Initial packaging using SuSE 9.1.
-- Python scripting is initially disabled because of bugs in SuSE 9.1's
-  C++ compiler (SuSE applies patches to g++ that inadvertently break
-  Boost.Python).  For a fuller explanation, see:
-  http://mail.python.org/pipermail/c++-sig/2004-June/007561.html
+* Fri Jun 11 2004 Ben Burton <bab@debian.org> 4.1.2
+- Initial packaging using Fedora Core 2.
