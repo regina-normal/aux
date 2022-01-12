@@ -1,6 +1,20 @@
-regina-normal (7.0-1~bpo11+1~regina1) bullseye; urgency=low
+regina-normal (7.1-1~bpo11+1~regina1) bullseye; urgency=low
 
   * New upstream release, packaged for bullseye.
+
+ -- Ben Burton <bab@debian.org>  Fri, 17 Dec 2021 23:02:54 +1000
+
+regina-normal (7.0-2) unstable; urgency=low
+
+  * Fixed the command-line utilities test suite on s390.
+  * Build-depends on bsdextrautils (which provides hexdump), and also made
+    the autopkgtests depend on this for the same reason.
+
+ -- Ben Burton <bab@debian.org>  Mon, 20 Dec 2021 00:02:08 +1000
+
+regina-normal (7.0-1) unstable; urgency=low
+
+  * New upstream release.
   * Removed build-depends on libboost-dev, since upstream no longer requires it.
   * Build-depends on cmake (>= 3.12) and doxygen (>= 1.8.17), following the
     new requirements from upstream.
