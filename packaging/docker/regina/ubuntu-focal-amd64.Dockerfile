@@ -19,4 +19,13 @@ RUN apt-get install -y --no-install-recommends \
 	shared-mime-info \
 	xsltproc \
 	zlib1g-dev
+
+# Use focal as a platform for testing against old versions of clang.
+RUN apt-get install -y --no-install-recommends \
+	clang-10 \
+	clang-9 \
+	clang-8 \
+	clang-7 \
+	clang-6
+
 RUN apt-get clean

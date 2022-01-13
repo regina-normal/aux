@@ -21,9 +21,6 @@ RUN apt-get install -y --no-install-recommends \
 	unzip \
 	zlib1g-dev
 
-# Use buster as a platform for testing against old versions of clang.
-RUN apt-get install -y --no-install-recommends clang
-
 ADD regina-key.asc /usr/local/regina/
 RUN apt-get install -y --no-install-recommends software-properties-common
 RUN apt-key add /usr/local/regina/regina-key.asc
