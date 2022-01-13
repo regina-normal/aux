@@ -26,6 +26,6 @@ RUN apt-get install -y --no-install-recommends \
 	clang-9 \
 	clang-8 \
 	clang-7 \
-	clang-6
+	clang-6.0
 
 RUN apt-get clean
