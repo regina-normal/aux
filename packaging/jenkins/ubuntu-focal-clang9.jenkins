@@ -1,0 +1,53 @@
+pipeline {
+    agent { docker { image 'regina/ubuntu:focal' } }
+
+    stages {
+        stage('Git') {
+            steps {
+                dir ('aux') {
+                    git 'https://github.com/regina-normal/aux.git'
+                }
+                dir ('regina') {
+                    git 'https://github.com/regina-normal/regina.git'
+                }
+            }
+        }
+
+        stage('Configure') {
+            steps {
+                dir ('regina') {
+                    sh 'rm -rf build'
+                    sh 'mkdir build'
+                }
+                dir ('regina/build') {
+                    sh 'cmake -DCMAKE_C_COMPILER=clang-9 -DCMAKE_CXX_COMPILER=clang++-9 -DPython_EXECUTABLE=/usr/bin/python3 -DPACKAGING_MODE=1 -DDISABLE_RPATH=1 ..'
+                }
+            }
+        }
+
+        stage('Environment') {
+            steps {
+                dir ('regina/build') {
+                    sh 'make env'
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir ('regina/build') {
+                    sh 'make -j2'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir ('regina/build') {
+                    sh 'make test ARGS=-V'
+                }
+            }
+        }
+    }
+}
+
