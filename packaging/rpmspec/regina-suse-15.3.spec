@@ -1,7 +1,3 @@
-# Known to work for:
-# - openSuSE Leap 15.2 (x86_64)
-# - openSuSE Leap 15.3 (x86_64)
-
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 7.1

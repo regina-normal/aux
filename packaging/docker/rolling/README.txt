@@ -61,4 +61,4 @@ To create the subsequent up-to-date image, run from this directory as user bab:
   - docker build --no-cache -t rolling/DIST:VERSION -f DIST-VERSION-amd64.Dockerfile .
   - docker build --no-cache -t rolling/DIST:VERSION_i386 -f DIST-VERSION-i386.Dockerfile .
 
-Currently (DIST, VERSION) must be (ubuntu, hirsute).
+Currently (DIST, VERSION) must be (ubuntu, kinetic).

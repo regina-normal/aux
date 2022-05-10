@@ -1,9 +1,3 @@
-# Known to work for:
-# - Fedora 35 (x86_64)
-# - Fedora 34 (x86_64)
-# - Fedora 33 (x86_64)
-# - Fedora 32 (x86_64)
-
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 7.1
