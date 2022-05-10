@@ -1,12 +1,16 @@
 GCC versions seen in the wild:
 
+12 (prerelease):
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
 11.2.1:
   - Fedora 35
 11.2.0:
+  - Ubuntu jammy (22.04 LTS)
   - Ubuntu impish (21.10)
 11.0.1:
   - Fedora 34
 10.3.0:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
   - Ubuntu hirsute (21.04)
 10.2.1:
   - Debian bullseye
@@ -17,6 +21,8 @@ GCC versions seen in the wild:
   - OPTIONAL Ubuntu focal (20.04 LTS)
 10.0.1:
   - Fedora 32
+9.4.0:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
 9.3.0:
   - OPTIONAL Debian bullseye
   - Ubuntu focal (20.04 LTS)
@@ -31,8 +37,15 @@ GCC versions seen in the wild:
 
 Clang versions seen in the wild:
 
+14.0.x:
+  - Ubuntu jammy (22.04 LTS)
 13.0.x:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
   - Ubuntu impish (21.10)
+12.0.x:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+11.1.x:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
 11.0.x:
   - Debian bullseye
   - Fedora 33
@@ -53,6 +66,8 @@ Clang versions seen in the wild:
 
 CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
+3.22.1:
+  - Ubuntu jammy (22.04 LTS)
 3.21.3:
   - Fedora 35
 3.19.7:
@@ -85,8 +100,9 @@ Doxygen versions [regina needs 1.8.17]
   - Fedora 34
   - MacPorts (Feb 2021)
   - MSYS2 (Feb 2021)
-  - Ubuntu hirsute (21.04)
+  - Ubuntu jammy (22.04 LTS)
   - Ubuntu impish (21.10)
+  - Ubuntu hirsute (21.04)
 1.8.20:
   - Fedora 33
 1.8.18:
