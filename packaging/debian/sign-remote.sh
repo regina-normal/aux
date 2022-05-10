@@ -20,10 +20,10 @@ fi
 
 case "$repo" in
   regina )
-    suites="bullseye buster bionic focal hirsute impish"
+    suites="bullseye focal hirsute impish jammy"
     ;;
   backports )
-    suites="buster bionic"
+    suites=""
     ;;
   * )
     echo "Usage: $0 [regina|backports]"

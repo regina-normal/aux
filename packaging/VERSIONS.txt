@@ -22,22 +22,12 @@ GCC versions seen in the wild:
   - Ubuntu focal (20.04 LTS)
 8.4.0:
   - OPTIONAL Ubuntu focal (20.04 LTS)
-  - OPTIONAL Ubuntu bionic (18.04 LTS)
-8.3.0:
-  - Debian buster
 7.5.0:
   - openSUSE Leap 15.3
   - openSUSE Leap 15.2
   - OPTIONAL Ubuntu focal (20.04 LTS)
-7.4.0:
-  - OPTIONAL Debian buster
-  - Ubuntu bionic (18.04 LTS)
 7.2.0:
   - Rocks 7.0 + gnu/7.2.0 module (e.g., tinaroo)
-6.4.0:
-  - OPTIONAL Ubuntu bionic (18.04 LTS)
-5.5.0:
-  - OPTIONAL Ubuntu bionic (18.04 LTS)
 
 Clang versions seen in the wild:
 
@@ -50,28 +40,16 @@ Clang versions seen in the wild:
 10.0.x:
   - Fedora 32
   - Ubuntu focal (20.04 LTS)
-  - OPTIONAL Ubuntu bionic (18.04 LTS)
 9.0.x:
   - OPTIONAL Debian bullseye
   - openSUSE Leap 15.2
   - OPTIONAL Ubuntu focal (20.04 LTS)
-  - OPTIONAL Ubuntu bionic (18.04 LTS)
 8.0.x:
   - OPTIONAL Ubuntu focal (20.04 LTS)
-  - OPTIONAL Ubuntu bionic (18.04 LTS)
 7.0.x:
-  - Debian buster
   - OPTIONAL Ubuntu focal (20.04 LTS)
 6.0.x:
-  - OPTIONAL Debian buster
   - OPTIONAL Ubuntu focal (20.04 LTS)
-  - Ubuntu bionic (18.04 LTS)
-5.0.x:
-  - OPTIONAL Ubuntu bionic (18.04 LTS)
-4.0.x:
-  - OPTIONAL Ubuntu bionic (18.04 LTS)
-3.9.x:
-  - OPTIONAL Ubuntu bionic (18.04 LTS)
 
 CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
@@ -98,10 +76,6 @@ CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
   - Ubuntu groovy (20.10)
 3.15.0:
   - Rocks 7.0 + CMake/3.15.0-gnu-7.2.0 module (e.g., tinaroo)
-3.13.4:
-  - Debian buster
-3.10.2:
-  - Ubuntu bionic (18.04 LTS)
 
 Doxygen versions [regina needs 1.8.17]
 
@@ -123,6 +97,3 @@ Doxygen versions [regina needs 1.8.17]
 1.8.14:
   - openSUSE Leap 15.3
   - openSUSE Leap 15.2
-1.8.13:
-  - Debian buster
-  - Ubuntu bionic (18.04 LTS)
