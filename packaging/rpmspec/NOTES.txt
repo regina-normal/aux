@@ -160,6 +160,9 @@ Desktop tweaks:
 - All: disable screen saver and automatic suspend
 - openSUSE: disable screen locking (Settings / Workspace Behaviour)
 
+Build macros:
+- For a build machine, put in ~/.rpmmacros: %vendor Regina
+
 Extra packages:
 - openSUSE:
   * The doxygen packages are too old for openSUSE Leap 15.2 / 15.3.
