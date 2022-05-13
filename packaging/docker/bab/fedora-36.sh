@@ -41,6 +41,10 @@ echo '----- Removing /dev and /proc -----'
 rm -rf "$rootfsDir/dev" "$rootfsDir/proc"
 mkdir -p "$rootfsDir/dev" "$rootfsDir/proc"
 
+echo '----- Initialising authselect -----'
+
+chroot "$rootfsDir" authselect select minimal --force
+
 echo '----- Creating Dockerfile -----'
 
 cat > "$dir/Dockerfile" <<EOF
