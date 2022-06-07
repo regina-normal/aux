@@ -49,7 +49,7 @@ while ($#latest >= 0) {
                 chomp $pkg;
                 $pkg =~ s/(.*)-.*?-.*?$/$1/g or die "$info -> $dep -> $pkg";
                 $deps{$dep} = $pkg;
-		# print("$target: $dep -> $pkg [new]\n");
+                # print("$target: $dep -> $pkg [new]\n");
                 if (not defined $all{$pkg}) {
                     $all{$pkg} = 1;
                     push @latest, $pkg;
