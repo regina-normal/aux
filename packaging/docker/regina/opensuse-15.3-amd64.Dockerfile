@@ -38,7 +38,7 @@ RUN zypper update -y --no-recommends --allow-vendor-change
 # - doxygen (from devel:tools), since the openSUSE 15.3 packages are too old.
 ADD opensuse-devel.key /usr/local/regina/
 RUN rpm --import /usr/local/regina/opensuse-devel.key
-RUN zypper addrepo https://download.opensuse.org/repositories/devel:tools/openSUSE_Leap_15.3/devel:tools.repo
+RUN zypper addrepo https://download.opensuse.org/repositories/devel:/tools/15.3/devel:tools.repo
 RUN zypper refresh
 RUN zypper update -y --no-recommends --allow-vendor-change doxygen
 RUN zypper removerepo devel_tools
