@@ -1,0 +1,13 @@
+--- a/suse_macros.in	2020-12-08 14:33:12.644884849 +0000
++++ b/suse_macros.in	2021-07-28 07:27:01.662782288 +0000
+@@ -10,8 +10,8 @@
+ %_fillupdir             %{_usr}/share/fillup-templates
+ 
+ # package build macros
+-%make_install           make install DESTDIR=%{?buildroot}
+-%makeinstall            make DESTDIR=%{?buildroot:%{buildroot}} install
++%make_install           make install DESTDIR="%{?buildroot}"
++%makeinstall            make DESTDIR="%{?buildroot:%{buildroot}}" install
+ %insserv_prereq         insserv sed
+ %fillup_prereq          fillup coreutils grep diffutils
+ %install_info_prereq    info
