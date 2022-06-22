@@ -13,8 +13,8 @@ license=('GPL')
 #   - libxml2 (<- shared-mime-info)
 #   - perl (<- netpbm <- gts <- graphviz)
 #   - popt (<- cryptsetup <- systemd <- base)
-#   - qt5-base (<- qt5-svg)
-#   - shared-mime-info (<- qt5-base)
+#   - qt6-base (<- qt6-svg)
+#   - shared-mime-info (<- qt6-base)
 #   - zlib (<- python)
 depends=(gmp
          graphviz
@@ -25,8 +25,8 @@ depends=(gmp
          perl
          popt
          python
-         qt5-base
-         qt5-svg
+         qt6-base
+         qt6-svg
          shared-mime-info
          zlib)
 makedepends=(cmake

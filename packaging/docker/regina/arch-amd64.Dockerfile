@@ -15,8 +15,8 @@ RUN pacman --noconfirm --noprogressbar -S \
 	lmdb \
 	popt \
 	python \
-	qt5-base \
-	qt5-svg \
+	qt6-base \
+	qt6-svg \
 	shared-mime-info \
 	zlib
 RUN pacman --noconfirm --noprogressbar -Scc
