@@ -19,7 +19,7 @@ Build-Depends:
     libxml2-dev,
     pkg-config,
     python3-dev,
-    qtbase6-dev,
+    qt6-base-dev,
     shared-mime-info,
     xsltproc,
     zlib1g-dev,

@@ -15,7 +15,7 @@ RUN apt-get install -y --no-install-recommends \
 	libxml2-dev \
 	pkg-config \
 	python3-all-dev \
-	qtbase6-dev \
+	qt6-base-dev \
 	shared-mime-info \
 	xsltproc \
 	zlib1g-dev
