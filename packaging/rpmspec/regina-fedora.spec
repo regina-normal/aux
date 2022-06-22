@@ -30,8 +30,8 @@ BuildRequires: libxslt
 BuildRequires: pkgconfig
 BuildRequires: popt-devel
 BuildRequires: python3-devel
-BuildRequires: qt5-qtbase-devel
-BuildRequires: qt5-qtsvg-devel
+BuildRequires: qt6-qtbase-devel
+BuildRequires: qt6-qtsvg-devel
 BuildRequires: shared-mime-info
 BuildRequires: tokyocabinet-devel
 BuildRequires: zlib-devel
@@ -61,8 +61,8 @@ and a low-level C++ programming interface.
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
 
-export QTDIR="%{_qt5_prefix}"
-export PATH="%{_qt5_bindir}:$PATH"
+export QTDIR="%{_qt6_prefix}"
+export PATH="%{_qt6_bindir}:$PATH"
 export CFLAGS="${CFLAGS:--O2}"
 export CXXFLAGS="${CXXFLAGS:--O2}"
 export FFLAGS="${FFLAGS:--O2}"

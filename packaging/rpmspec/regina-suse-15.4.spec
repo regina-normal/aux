@@ -24,8 +24,6 @@ BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
 BuildRequires: libbz2-devel
 BuildRequires: libjansson-devel
-BuildRequires: libqt5-qtbase-devel
-BuildRequires: libqt5-qtsvg-devel
 BuildRequires: libstdc++-devel
 BuildRequires: libxml2-devel
 BuildRequires: libxslt-tools
@@ -33,6 +31,8 @@ BuildRequires: lmdb-devel
 BuildRequires: pkg-config
 BuildRequires: popt-devel
 BuildRequires: python3-devel
+BuildRequires: qt6-base-devel
+BuildRequires: qt6-svg-devel
 BuildRequires: sed
 BuildRequires: shared-mime-info
 BuildRequires: zlib-devel
