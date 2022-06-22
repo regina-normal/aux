@@ -27,8 +27,8 @@ To rebuild an RPM from source on Fedora:
 To rebuild an RPM from source on openSUSE:
 
   - As root: zypper addrepo <repo> ; example source repos are:
-      http://download.opensuse.org/source/distribution/leap/15.2/repo/oss/ source
-      http://download.opensuse.org/tumbleweed/repo/src-oss source
+      https://download.opensuse.org/source/distribution/leap/15.2/repo/oss/ source
+      https://download.opensuse.org/tumbleweed/repo/src-oss source
   - As root: zypper source-install <package>
   - Build-dependencies will be installed, and sources extracted in the
     RPM tree at /usr/src/packages/.
@@ -146,12 +146,12 @@ Check for unwanted newer packages:
 GUI breakage:
 - To fix openSUSE Leap 15.3 / aarch64 not starting the graphical desktop:
   * zypper addrepo \
-      http://download.opensuse.org/update/leap/15.3/sle/ repo-sle-update
+      https://download.opensuse.org/update/leap/15.3/sle/ repo-sle-update
   * zypper refresh
   * zypper update systemd (also updates systemd-sysvinit, udev)
   * zypper modifyrepo -d repo-sle-update
 - For reference, there is also a backports repo (which is currently not needed):
-  * zypper addrepo http://download.opensuse.org/update/leap/15.3/backports/ \
+  * zypper addrepo https://download.opensuse.org/update/leap/15.3/backports/ \
       repo-backports-update
   * zypper modifyrepo -d repo-backports-update
 
