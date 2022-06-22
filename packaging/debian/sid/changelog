@@ -1,6 +1,7 @@
 regina-normal (7.1-1) unstable; urgency=low
 
   * New upstream release.
+  * Now builds against Qt6, not Qt5.
   * Bumped standards-version to 4.6.0 (no changes required).
 
  -- Ben Burton <bab@debian.org>  Mon, 20 Dec 2021 00:02:08 +1000

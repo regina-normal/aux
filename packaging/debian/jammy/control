@@ -14,7 +14,7 @@ Build-Depends:
     libgraphviz-dev,
     libjansson-dev,
     libpopt-dev,
-    libqt5svg5-dev,
+    libqt6svg6-dev,
     libtokyocabinet-dev,
     libxml2-dev,
     pkg-config,
