@@ -10,7 +10,6 @@ Build-Depends:
     cmake (>= 3.12),
     doxygen (>= 1.8.17),
     libcppunit-dev (>= 1.10.2-4),
-    libgl-dev,
     libgmp-dev (>= 4.1.4-10),
     libgraphviz-dev,
     libjansson-dev,
