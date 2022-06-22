@@ -6,6 +6,7 @@ RUN apt-get install -y --no-install-recommends \
 	cmake \
 	doxygen \
 	libcppunit-dev \
+	libgl-dev \
 	libgmp-dev \
 	libgraphviz-dev \
 	libjansson-dev \
