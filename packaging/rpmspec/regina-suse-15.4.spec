@@ -17,8 +17,11 @@ Conflicts: regina
 BuildRequires: cmake
 BuildRequires: cppunit-devel
 BuildRequires: doxygen
-BuildRequires: gcc
-BuildRequires: gcc-c++
+# We use gcc11 because the default is gcc7, which cannot work with Qt6 due to
+# its lack of support for std::filesystem.  It would be super nice if, in the
+# year 2022, openSUSE could move to a compiler that is even remotely modern.
+BuildRequires: gcc11
+BuildRequires: gcc11-c++
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
@@ -67,7 +70,7 @@ mkdir build
 cd build
 export LIB_SUFFIX=$(echo %_lib | cut -b4-)
 
-cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX -DPACKAGING_MODE=1 -DPython_EXECUTABLE=/usr/bin/python3 -DREGINA_KVSTORE=lmdb ..
+cmake -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_CXX_COMPILER=g++-11 -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX -DPACKAGING_MODE=1 -DPython_EXECUTABLE=/usr/bin/python3 -DREGINA_KVSTORE=lmdb ..
 
 %make_jobs
 

@@ -1,10 +1,15 @@
 FROM pkgdev/opensuse:15.4
 RUN zypper refresh
 RUN zypper dist-upgrade -y
+
+# Qt6 cannot work with gcc7, which does not support std::filesystem.
+RUN zypper install -y --no-recommends gcc11 gcc11-c++
+
 RUN zypper install -y --no-recommends \
 	cmake \
 	cppunit-devel \
 	doxygen \
+	gcc11 gcc11-c++ \
 	gmp-devel \
 	graphviz-devel \
 	libbz2-devel \
