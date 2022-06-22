@@ -9,8 +9,8 @@ RUN zypper install -y --no-recommends \
 	graphviz-devel \
 	libbz2-devel \
 	libjansson-devel \
-	libqt5-qtbase-devel \
-	libqt5-qtsvg-devel \
+	libqt6-qtbase-devel \
+	libqt6-qtsvg-devel \
 	libxml2-devel \
 	libxslt-tools \
 	lmdb-devel \

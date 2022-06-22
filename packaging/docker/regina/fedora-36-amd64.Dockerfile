@@ -13,8 +13,8 @@ RUN dnf install -y -b --setopt=install_weak_deps=False \
 	pkgconfig \
 	popt-devel \
 	python3-devel \
-	qt5-qtbase-devel \
-	qt5-qtsvg-devel \
+	qt6-qtbase-devel \
+	qt6-qtsvg-devel \
 	shared-mime-info \
 	tokyocabinet-devel \
 	zlib-devel

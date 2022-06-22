@@ -10,12 +10,12 @@ RUN apt-get install -y --no-install-recommends \
 	libgraphviz-dev \
 	libjansson-dev \
 	libpopt-dev \
-	libqt5svg5-dev \
+	libqt6svg6-dev \
 	libtokyocabinet-dev \
 	libxml2-dev \
 	pkg-config \
 	python3-all-dev \
-	qtbase5-dev \
+	qtbase6-dev \
 	shared-mime-info \
 	xsltproc \
 	zlib1g-dev
