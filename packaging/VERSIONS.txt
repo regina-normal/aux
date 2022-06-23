@@ -115,3 +115,24 @@ Doxygen versions [regina needs 1.8.17]
 1.8.14:
   - openSUSE Leap 15.3
   - openSUSE Leap 15.2
+
+Qt versions:
+
+6.2.4:
+  - Ubuntu jammy (22.04 LTS)
+6.2.3:
+  - Fedora 36
+6.2.2:
+  - openSUSE 15.4
+6.1.2:
+  - Fedora 35
+5.15.2:
+  - Debian bullseye
+  - Ubuntu impish (21.10)
+5.12.8:
+  - Ubuntu focal (20.04 LTS)
+5.12.7:
+  - openSUSE 15.3
+5.11.3:
+  - Debian buster
+
