@@ -26,6 +26,7 @@ To prepare a debian host machine for building and using these images:
 - apt-get install docker.io
 - add the ordinary user to the docker group, and log out / log in again
 
+- add the APT source: deb https://people.debian.org/~bab/rinse unstable/
 - apt-get install rinse
 - set up rinse, including package lists in /etc/rinse/*.packages,
   mirror locations in /etc/rinse/rinse.conf, and post-install scripts in
