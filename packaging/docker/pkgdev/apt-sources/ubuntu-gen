@@ -8,8 +8,8 @@ ports=http://ports.ubuntu.com/ubuntu-ports
 
 arch=`uname -m`
 if [ "$arch" = aarch64 ]; then
-  echo deb "$ports" "$suite" main
-  echo deb "$ports" "$suite"-security main
+  echo deb "$ports" "$suite" main universe
+  echo deb "$ports" "$suite"-security main universe
 else
   echo deb "$mirror" "$suite" main universe
   echo deb "$mirror" "$suite"-security main universe

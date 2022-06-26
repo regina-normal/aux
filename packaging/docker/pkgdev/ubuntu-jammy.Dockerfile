@@ -1,5 +1,10 @@
 FROM bab/ubuntu:jammy
-ADD apt-sources/jammy /etc/apt/sources.list
+
+ADD apt-sources/ubuntu-gen /etc/apt/ubuntu-gen
+RUN /etc/apt/ubuntu-gen jammy > /etc/apt/sources.list; \
+    cat /etc/apt/sources.list; \
+    rm /etc/apt/ubuntu-gen
+
 RUN apt-get update
 RUN apt-get dist-upgrade -y
 RUN apt-get install -y --no-install-recommends \
