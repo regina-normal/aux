@@ -3,8 +3,14 @@ set -e
 
 # TODO: Change these
 tag=bab/opensuse:15.3
-arch=amd64
 distribution=opensuse-15.3
+
+myarch="`uname -m`"
+case "$myarch" in
+  x86_64) arch=amd64;;
+  aarch64) arch=arm64;;
+  *) echo "Unknown architecture: $myarch"; exit 1;;
+esac
 
 dir="$(mktemp -d ${TMPDIR:-/var/tmp}/docker-mkimage.XXXXXXXXXX)"
 rootfsDir="$dir/rootfs"
