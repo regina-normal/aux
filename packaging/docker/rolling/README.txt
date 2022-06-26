@@ -33,7 +33,7 @@ To build an initial snapshot/arch image (only needs to be done once):
   - follow the manual instructions in arch-setup.txt.
 
 To convert the snapshot into an up-to-date image (should be done periodically):
-  - docker build --no-cache -t rolling/arch -f arch-amd64.Dockerfile .
+  - docker build --no-cache -t rolling/arch -f arch.Dockerfile .
 
 Here the updates always build directly from snapshot, so they can be done as
 often as you like.  From time to time it is probably worth deleting everything
@@ -58,7 +58,7 @@ To create the initial snapshot, run as root from the directory ../bab/ :
   - ./mkimage.sh -t snapshot/DIST:VERSION_i386 debootstrap --arch=i386 VERSION
 
 To create the subsequent up-to-date image, run from this directory as user bab:
-  - docker build --no-cache -t rolling/DIST:VERSION -f DIST-VERSION-amd64.Dockerfile .
+  - docker build --no-cache -t rolling/DIST:VERSION -f DIST-VERSION.Dockerfile .
   - docker build --no-cache -t rolling/DIST:VERSION_i386 -f DIST-VERSION-i386.Dockerfile .
 
 Currently (DIST, VERSION) must be (ubuntu, kinetic).
