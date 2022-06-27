@@ -18,7 +18,6 @@ case "$myarch" in
 esac
 
 echo "Preparing Fedora $ver ($arch)..."
-exit 0
 
 dir="$(mktemp -d ${TMPDIR:-/var/tmp}/docker-mkimage.XXXXXXXXXX)"
 rootfsDir="$dir/rootfs"
