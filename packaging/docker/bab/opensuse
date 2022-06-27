@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
-# TODO: Change these
-tag=bab/fedora:35
-distribution=fedora-35
+ver="$1"
+case "$ver" in
+  15.[0-9]) ;;
+  *) echo "Invalid openSUSE Leap version: $ver"; exit 1;;
+esac
+
+tag=bab/opensuse:$ver
+distribution=opensuse-$ver
 
 myarch="`uname -m`"
 case "$myarch" in
@@ -11,6 +16,9 @@ case "$myarch" in
   aarch64) arch=arm64;;
   *) echo "Unknown architecture: $myarch"; exit 1;;
 esac
+
+echo "Preparing openSUSE Leap $ver ($arch)..."
+exit 0
 
 dir="$(mktemp -d ${TMPDIR:-/var/tmp}/docker-mkimage.XXXXXXXXXX)"
 rootfsDir="$dir/rootfs"
@@ -21,25 +29,11 @@ echo '----- Bootstrapping distribution -----'
 mkdir -p "$rootfsDir"
 rinse --directory "$rootfsDir" --arch "$arch" --distribution "$distribution"
 
-if [ -d "$rootfsDir/etc/sysconfig" ]; then
-	# allow networking init scripts inside the container to work without extra steps
-	echo 'NETWORKING=yes' > "$rootfsDir/etc/sysconfig/network"
-fi
-
-echo '----- Creating /etc/resolv.conf -----'
-
-# make sure /etc/resolv.conf has something useful in it
-mkdir -p "$rootfsDir/etc"
-rm -f "$rootfsDir/etc/resolv.conf"
-cat > "$rootfsDir/etc/resolv.conf" <<'EOF'
-nameserver 8.8.8.8
-nameserver 8.8.4.4
-EOF
-
 echo '----- Updating distribution -----'
 
-chroot "$rootfsDir" dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
-chroot "$rootfsDir" dnf clean all
+chroot "$rootfsDir" zypper refresh
+chroot "$rootfsDir" zypper update -y
+chroot "$rootfsDir" zypper clean
 
 echo '----- Removing /dev and /proc -----'
 

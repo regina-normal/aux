@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
-# TODO: Change these
-tag=bab/fedora:36
-distribution=fedora-36
+ver="$1"
+case "$ver" in
+  [0-9][0-9]) ;;
+  *) echo "Invalid Fedora version: $ver"; exit 1;;
+esac
+
+tag=bab/fedora:$ver
+distribution=fedora-$ver
 
 myarch="`uname -m`"
 case "$myarch" in
@@ -11,6 +16,9 @@ case "$myarch" in
   aarch64) arch=arm64;;
   *) echo "Unknown architecture: $myarch"; exit 1;;
 esac
+
+echo "Preparing Fedora $ver ($arch)..."
+exit 0
 
 dir="$(mktemp -d ${TMPDIR:-/var/tmp}/docker-mkimage.XXXXXXXXXX)"
 rootfsDir="$dir/rootfs"
@@ -47,9 +55,10 @@ echo '----- Removing /dev and /proc -----'
 rm -rf "$rootfsDir/dev" "$rootfsDir/proc"
 mkdir -p "$rootfsDir/dev" "$rootfsDir/proc"
 
-echo '----- Initialising authselect -----'
-
-chroot "$rootfsDir" authselect select minimal --force
+if [ "$ver" -ge 36 ]; then
+  echo '----- Initialising authselect -----'
+  chroot "$rootfsDir" authselect select minimal --force
+fi
 
 echo '----- Creating Dockerfile -----'
 

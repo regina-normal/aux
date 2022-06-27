@@ -1,6 +1,10 @@
 
 To build the bab/fedora:* and bab/opensuse:* images, run the corresponding
-scripts (fedora-32.sh, opensuse-15.2.sh, etc.) from this directory.
+scripts from this directory, passing the fedora/opensuse version number:
+
+  ./fedora 36
+  ./opensuse 15.4
+  ...
 
 To build the bab/debian:* and bab/ubuntu:* images, run commands of the
 following type as root from this directory (substituting the correct
