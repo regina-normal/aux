@@ -6,7 +6,7 @@ Patches required for rinse to support newer fedora and opensuse releases:
   same post-install script from an earlier version of the same distribution)
 
 These patches are already rolled into Ben's rinse package for recent fedora
-and opensuse releases (suitable for use with debian bullseye/bookwork/sid):
+and opensuse releases (suitable for use with debian bullseye/bookworm/sid):
 
   deb https://people.debian.org/~bab/rinse unstable/
 

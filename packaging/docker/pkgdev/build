@@ -1,0 +1,22 @@
+#!/usr/bin/perl -w
+use strict;
+
+my $dockerfile=$ARGV[0];
+-e $dockerfile or die "Dockerfile not present: $dockerfile";
+
+my $tag;
+
+if ($dockerfile =~ /^([a-z]+)-([a-z0-9.]+)-([a-z0-9]+)\.Dockerfile$/) {
+    $tag="pkgdev/$1:$2_$3";
+} elif ($dockerfile =~ /^([a-z]+)-([a-z0-9.]+)\.Dockerfile$/) {
+    $tag="pkgdev/$1:$2";
+} elif ($dockerfile =~ /^([a-z]+)\.Dockerfile$/) {
+    $tag="pkgdev/$1";
+} else {
+    die "Dockerfile has invalid name: $dockerfile";
+}
+
+print("Preparing $tag ...");
+
+# exec() should terminate this script upon completion.
+exec('docker', 'build', '-t', $tag '-f', $dockerfile, '.');
