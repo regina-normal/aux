@@ -32,7 +32,7 @@ To prepare a debian host machine for building and using these images:
 
 - add the APT source: deb https://people.debian.org/~bab/rinse unstable/
 - apt-get install rinse
-- set up rinse, including package lists in /etc/rinse/*.packages,
+- for newer distros, add extra package lists in /etc/rinse/*.packages,
   mirror locations in /etc/rinse/rinse.conf, and post-install scripts in
   /usr/lib/rinse/
 

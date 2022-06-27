@@ -14,6 +14,8 @@ fi
 arch=i386
 if [ $ARCH = "amd64" ] ; then
     arch=x86_64
+elif [ $ARCH = "arm64" ] ; then
+    arch=aarch64
 fi
 
 #
@@ -41,9 +43,6 @@ mirror=`dirname $mirror`
 # save original yum config
 mv ${prefix}/etc/yum.repos.d ${prefix}/etc/yum.repos.d.orig
 
-update_mirror=`echo "$mirror" | sed -e 's#/releases/#/updates/#' -e 's#/os$##'`
-source_mirror=`echo "$mirror" | sed -e "s#/$arch/os#/source/tree#"`
-
 mkdir ${prefix}/etc/yum.repos.d
 cat > ${prefix}/etc/yum.repos.d/rinse.repo <<EOF
 [main]
@@ -57,18 +56,6 @@ name=Fedora
 baseurl=$mirror
 enabled=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-$dist-$arch
-
-[source]
-name=Source
-baseurl=$source_mirror
-enabled=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-$dist-primary
-
-[updates]
-name=Updates
-baseurl=$update_mirror
-enabled=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-$dist-$arch
 EOF
 
 #
@@ -80,10 +67,15 @@ echo "  Bootstrapping DNF"
 chroot ${prefix} /usr/bin/dnf -y install vim-minimal dhclient
 
 
-# do not restore original yum config, because we do *not* want the
-# updates repo that fedora enables by default.
-# mv ${prefix}/etc/yum.repos.d ${prefix}/etc/yum.repos.d.init
-# mv ${prefix}/etc/yum.repos.d.orig ${prefix}/etc/yum.repos.d
+# restore original yum config
+mv ${prefix}/etc/yum.repos.d ${prefix}/etc/yum.repos.d.rinse
+mv ${prefix}/etc/yum.repos.d.orig ${prefix}/etc/yum.repos.d
+
+
+# If you get this error, then replace https with http in /etc/yum.repos.d/*
+# Error: Cannot retrieve metalink for repository: fedora/19/x86_64. Please verify its path and try again
+#
+#sed -i -e 's/https:/http:/' ${prefix}/etc/yum.repos.d/*
 
 # ensure that https repositories work
 chroot ${prefix} update-ca-trust
@@ -93,6 +85,7 @@ chroot ${prefix} update-ca-trust
 #  5.  Clean up
 #
 chroot ${prefix} /usr/bin/dnf clean all
+rm -rf ${prefix}/etc/yum.repos.d.rinse
 
 umount ${prefix}/proc
 umount ${prefix}/sys

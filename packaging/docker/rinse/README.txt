@@ -1,35 +1,27 @@
 Patches required for rinse to support newer fedora and opensuse releases:
 
---------------------------------------------------------------------------
+- Extra lines for the mirrors in /etc/rinse/rinse.conf
+- A new package list in /etc/rinse/ (*.packages)
+- A new post-install script in /usr/lib/rinse/ (usually a symlink to the
+  same post-install script from an earlier version of the same distribution)
 
-Add the following lines to /etc/rinse/rinse.conf (changing the mirrors if required):
+These patches are already rolled into Ben's rinse package for recent fedora
+and opensuse releases (suitable for use with debian bullseye/bookwork/sid):
 
-[fedora-32]
-# mirror       = http://download.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/
-mirror       = http://fedora.mirror.digitalpacific.com.au/linux/releases/32/Everything/x86_64/os/Packages/
-
-[fedora-33]
-# mirror       = http://download.fedoraproject.org/pub/fedora/linux/releases/33/Everything/x86_64/os/Packages/
-mirror       = http://fedora.mirror.digitalpacific.com.au/linux/releases/33/Everything/x86_64/os/Packages/
-
-[opensuse-15.3]
-mirror.amd64 = http://download.opensuse.org/distribution/leap/15.3/repo/oss/x86_64/
-
-[opensuse-tumbleweed]
-mirror.amd64 = http://download.opensuse.org/tumbleweed/repo/oss/x86_64/
+  deb https://people.debian.org/~bab/rinse unstable/
 
 --------------------------------------------------------------------------
 
-Add the *.packages files from this directory to /etc/rinse/ .
+To create *.packages files for new fedora/opensuse releases:
 
-For fedora, these were created as described on the rinse manpage: start a VM
+For fedora, these are created as described on the rinse manpage: start a VM
 with the corresponding distribution installed and run:
 
   repoquery --requires --resolve --recursive dnf yum rpm | \
     perl -pe 's/(.*)-.*?-.*?$/$1/g' | sort -u | \
     egrep -v 'glibc-all-langpacks|glibc-langpack-'
 
-For opensuse, these were created by using the script opensuse-core.pl
+For opensuse, these are created by using the script opensuse-core.pl
 (found in this directory) to extract a full recursive dependency list for
 rpm, zypper, gzip, grep, sed, xz, and util-linux.  We include gzip, sed, grep
 and xz in this list because otherwise opensuse may try to install the busybox
@@ -37,11 +29,9 @@ variants of these packages, which causes problems for rpm-build later on.
 
 --------------------------------------------------------------------------
 
-Beneath /usr/lib/rinse, create a directory for each new distribution
-containing a script post-install.sh.  These should be copies of:
-- fedora-32 -> fedora_3x_post-install.sh
-- fedora-33 -> fedora_3x_post-install.sh (can symlink into fedora-32)
-- fedora-34 -> fedora_3x_post-install.sh (can symlink into fedora-32)
-- opensuse-15.2 -> opensuse_post-install.sh (replace the rinse version)
-- opensuse-15.3 -> opensuse_post-install.sh (can symlink into opensuse-15.2)
-- opensuse-tumbleweed -> opensuse_tumbleweed_post-install.sh
+Subdirectories:
+
+patched/ - changes that have already been incorporated into Ben's rinse package
+rolling/ - old files for fedora rawhide / opensuse tumbleweed, which are
+           not longer actively maintained or tested
+
