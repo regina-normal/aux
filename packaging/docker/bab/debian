@@ -2,20 +2,21 @@
 set -e
 
 ver="$1"
-case "$ver" in
-  bullseye) ;;
-  *) echo "Unsupported Debian version: $ver"; exit 1;;
-esac
+if [ ! -e "/usr/share/debootstrap/scripts/$ver" ]; then
+  echo "Unsupported Debian version: $ver"; exit 1
+fi
 
 myarch="`uname -m`"
 
 arch="$2"
-case "$arch" in
-  i386) ;;
-  amd64) echo "Cannot explicitly request architecture: $arch"; exit 1;;
-  arm64) echo "Cannot explicitly request architecture: $arch"; exit 1;;
-  *) echo "Unsupported Debian architecture: $arch"; exit 1;;
-esac
+if [ -n "$arch" ]; then
+  case "$arch" in
+    i386) ;;
+    amd64) echo "Cannot explicitly request architecture: $arch"; exit 1;;
+    arm64) echo "Cannot explicitly request architecture: $arch"; exit 1;;
+    *) echo "Unsupported Debian architecture: $arch"; exit 1;;
+  esac
+fi
 
 if [ -n "$arch" ]; then
   tag="bab/debian:${ver}_${arch}"
