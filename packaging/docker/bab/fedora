@@ -46,6 +46,10 @@ EOF
 
 echo '----- Updating distribution -----'
 
+chroot "$rootfsDir" dnf config-manager --set-disabled updates
+chroot "$rootfsDir" dnf config-manager --set-disabled fedora-cisco-openh264
+chroot "$rootfsDir" dnf config-manager --set-enabled fedora-source
+
 chroot "$rootfsDir" dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
 chroot "$rootfsDir" dnf clean all
 
