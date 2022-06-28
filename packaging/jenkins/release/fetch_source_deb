@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+version=7.0
+shasum=fa136c4d089c2b91030a9a836e9c104c0889fac3
+
+src="regina-$version.tar.gz"
+debsrc="regina-normal_$version.orig.tar.gz"
+
+releaseurl="https://github.com/regina-normal/regina/releases/download/regina-$version/$src"
+
+curl --location --output "$debsrc" "$releaseurl"
+
+mysum=`shasum "$debsrc" | cut -f1 -d' '`
+if [ "$mysum" = "$shasum" ]; then
+  echo "Downloaded $debsrc, shasums match"
+else
+  echo "ERROR: Incorrect shasum for $debsrc"
+  exit 1
+fi
+
+exit 0
