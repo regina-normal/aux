@@ -32,6 +32,4 @@ variants of these packages, which causes problems for rpm-build later on.
 Subdirectories:
 
 patched/ - changes that have already been incorporated into Ben's rinse package
-rolling/ - old files for fedora rawhide / opensuse tumbleweed, which are
-           not longer actively maintained or tested
 

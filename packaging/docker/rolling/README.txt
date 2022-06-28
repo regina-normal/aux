@@ -1,26 +1,17 @@
 Build and continue to update rolling releases.
 
 
-GENUINE ROLLING RELEASES
-------------------------
+DEBIAN SID
+----------
 
 To build the first image (only needs to be done once):
   - docker build -t rolling/debian:sid -f debian-sid-init.Dockerfile .
-  - ./fedora-rawhide.sh (as root)
-  - ./opensuse-tumbleweed.sh (as root)
 
 To update the existing image (should be done periodically):
-  - docker build --no-cache -t rolling/DIST:VERSION -f DIST-VERSION-update.Dockerfile .
+  - docker build --no-cache -t rolling/debian:sid -f debian-sid-update.Dockerfile .
 
 Each update builds on the previous update, so these should not be done
 very frequently (otherwise the docker image history will become enormous).
-
-The fedora and opensuse scripts both use rinse, and the corresponding
-package lists in /etc/rinse may need updating from time to time.  When
-regenerating the first image, it is a *very* good idea to empty out
-/var/cache/rinse/<distribution>, since otherwise the cache seems to confuse
-rinse (particularly when either the list of starter packages or the available
-versions of packages has changed).  See ../rinse/README.txt for more details.
 
 
 ARCH LINUX
