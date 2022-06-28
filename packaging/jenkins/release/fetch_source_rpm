@@ -1,12 +1,16 @@
 #!/bin/bash
 set -e
 
-version=7.0
-shasum=fa136c4d089c2b91030a9a836e9c104c0889fac3
+# version=7.0
+# shasum=fa136c4d089c2b91030a9a836e9c104c0889fac3
+
+version=7.1
+shasum=845ef24861ff1679fa0b73241458057acd3ae174
 
 src="regina-$version.tar.gz"
 
-releaseurl="https://github.com/regina-normal/regina/releases/download/regina-$version/$src"
+# releaseurl="https://github.com/regina-normal/regina/releases/download/regina-$version/$src"
+releaseurl="http://www.maths.uq.edu.au/~bab/beta/$src"
 
 curl --location --output "$src" "$releaseurl"
 
