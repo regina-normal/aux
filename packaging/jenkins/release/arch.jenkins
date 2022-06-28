@@ -1,0 +1,27 @@
+pipeline {
+    agent { docker { image 'regina/arch' } }
+
+    stages {
+        stage('Sources') {
+            steps {
+                dir ('aux') {
+                    git 'https://github.com/regina-normal/aux.git'
+                }
+                sh 'rm -rf arch'
+                dir ('arch') {
+                    sh '../../aux/packaging/jenkins/release/fetch_source_rpm'
+                }
+            }
+        }
+
+        stage('Build Package') {
+            steps {
+                dir ('arch') {
+                    sh 'cp ../aux/packaging/arch/PKGBUILD .'
+                    sh 'MAKEFLAGS=-j2 makepkg'
+                }
+            }
+        }
+    }
+}
+
