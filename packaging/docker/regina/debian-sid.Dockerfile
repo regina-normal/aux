@@ -1,7 +1,9 @@
 FROM pkgdev/debian:sid
 RUN apt-get update
 RUN apt-get dist-upgrade -y
+# Note: we need curl to download source tarballs.
 RUN apt-get install -y --no-install-recommends \
+	curl \
 	dh-python \
 	cmake \
 	doxygen \
