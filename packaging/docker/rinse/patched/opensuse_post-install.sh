@@ -12,6 +12,14 @@ fi
 
 
 #
+#  Make sure we have a working /bin/sh, since the alternatives system is
+#  not properly set up yet.  Currently this step is necessary for tumbleweed,
+#  but not any of the 15.x releases (correct as of late June 2022).
+#
+# ln -s /usr/bin/bash ${prefix}/etc/alternatives/sh
+
+
+#
 #  2.  Copy the cached .RPM files into the zypper directory, so that
 #     zypper doesn't need to fetch them again.
 #
