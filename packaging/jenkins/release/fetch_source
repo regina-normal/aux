@@ -12,18 +12,24 @@ src="regina-$version.tar.gz"
 # releaseurl="https://github.com/regina-normal/regina/releases/download/regina-$version/$src"
 releaseurl="http://www.maths.uq.edu.au/~bab/beta/$src"
 
-curl --location --output "$src" "$releaseurl"
+if [ -e /usr/bin/curl ]; then
+  /usr/bin/curl --location --output "$src" "$releaseurl"
+elif [ -e /usr/bin/wget ]; then
+  /usr/bin/wget --output-document="$src" "$releaseurl"
+else
+  echo "ERROR: curl/wget unavailable"
+  exit 1
+fi
 
 if [ -e /usr/bin/shasum ]; then
-  shasumutil=/usr/bin/shasum
+  mysum=`/usr/bin/shasum "$src" | cut -f1 -d' '`
 elif [ -e /usr/bin/sha1sum ]; then
-  shasumutil=/usr/bin/sha1sum
+  mysum=`/usr/bin/sha1sum "$src" | cut -f1 -d' '`
 else
   echo "ERROR: shasum/sha1sum unavailable"
   exit 1
 fi
 
-mysum=`"$shasumutil" "$src" | cut -f1 -d' '`
 if [ "$mysum" = "$shasum" ]; then
   echo "Downloaded $src, shasums match"
 else

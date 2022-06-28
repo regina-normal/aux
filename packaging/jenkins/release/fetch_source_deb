@@ -13,18 +13,24 @@ debsrc="regina-normal_$version.orig.tar.gz"
 # releaseurl="https://github.com/regina-normal/regina/releases/download/regina-$version/$src"
 releaseurl="http://www.maths.uq.edu.au/~bab/beta/$src"
 
-curl --location --output "$debsrc" "$releaseurl"
+if [ -e /usr/bin/curl ]; then
+  /usr/bin/curl --location --output "$debsrc" "$releaseurl"
+elif [ -e /usr/bin/wget ]; then
+  /usr/bin/wget --output-document="$debsrc" "$releaseurl"
+else
+  echo "ERROR: curl/wget unavailable"
+  exit 1
+fi
 
 if [ -e /usr/bin/shasum ]; then
-  shasumutil=/usr/bin/shasum
+  mysum=`/usr/bin/shasum "$debsrc" | cut -f1 -d' '`
 elif [ -e /usr/bin/sha1sum ]; then
-  shasumutil=/usr/bin/sha1sum
+  mysum=`/usr/bin/sha1sum "$debsrc" | cut -f1 -d' '`
 else
   echo "ERROR: shasum/sha1sum unavailable"
   exit 1
 fi
 
-mysum=`"$shasumutil" "$debsrc" | cut -f1 -d' '`
 if [ "$mysum" = "$shasum" ]; then
   echo "Downloaded $debsrc, shasums match"
 else
