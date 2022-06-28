@@ -1,0 +1,36 @@
+pipeline {
+    agent { docker { image 'regina/fedora:35' } }
+
+    stages {
+        stage('Sources') {
+            steps {
+                dir ('aux') {
+                    git 'https://github.com/regina-normal/aux.git'
+                }
+                sh 'rm -rf rpmbuild'
+                sh 'mkdir rpmbuild'
+                dir ('rpmbuild/SOURCES') {
+                    sh '../../aux/packaging/jenkins/release/fetch_source'
+                }
+            }
+        }
+
+        stage('Build RPM') {
+            steps {
+                dir ('rpmbuild/SPECS') {
+                    sh 'cp ../../aux/packaging/rpmspec/regina-fedora.spec .'
+                    sh 'RPM_BUILD_NCPUS=2 rpmbuild --define "_topdir `pwd`/.." -bb regina-fedora.spec'
+                }
+            }
+        }
+
+        stage('Appstream Metadata') {
+            steps {
+                dir ('rpmbuild') {
+                    sh 'appstream-builder --origin=regina --basename=appstream --enable-hidpi --packages-dir=RPMS'
+                }
+            }
+        }
+    }
+}
+
