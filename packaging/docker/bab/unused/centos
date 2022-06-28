@@ -1,10 +1,27 @@
 #!/usr/bin/env bash
 set -e
 
-# TODO: Change these
-tag=bab/centos:7
-arch=amd64
-distribution=centos-7
+ver="$1"
+case "$ver" in
+  [0-9]) ;;
+  *) echo "Invalid CentOS version: $ver"; exit 1;;
+esac
+
+if [ -n "$2" ]; then
+  echo "The centos script does not support custom architectures."; exit 1
+fi
+
+tag=bab/centos:$ver
+distribution=centos-$ver
+
+myarch="`uname -m`"
+case "$myarch" in
+  x86_64) arch=amd64;;
+  aarch64) arch=arm64;;
+  *) echo "Unknown architecture: $myarch"; exit 1;;
+esac
+
+echo "Preparing CentOS $ver ($arch) as $tag ..."
 
 dir="$(mktemp -d ${TMPDIR:-/var/tmp}/docker-mkimage.XXXXXXXXXX)"
 rootfsDir="$dir/rootfs"

@@ -7,6 +7,10 @@ case "$ver" in
   *) echo "Invalid Fedora version: $ver"; exit 1;;
 esac
 
+if [ -n "$2" ]; then
+  echo "The fedora script does not support custom architectures."; exit 1
+fi
+
 tag=bab/fedora:$ver
 distribution=fedora-$ver
 
@@ -17,7 +21,7 @@ case "$myarch" in
   *) echo "Unknown architecture: $myarch"; exit 1;;
 esac
 
-echo "Preparing Fedora $ver ($arch)..."
+echo "Preparing Fedora $ver ($arch) as $tag ..."
 
 dir="$(mktemp -d ${TMPDIR:-/var/tmp}/docker-mkimage.XXXXXXXXXX)"
 rootfsDir="$dir/rootfs"

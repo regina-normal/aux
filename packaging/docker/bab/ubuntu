@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -e
+
+ver="$1"
+if [ ! -e "/usr/share/debootstrap/scripts/$ver" ]; then
+  echo "Unsupported Ubuntu version: $ver"; exit 1
+fi
+
+myarch="`uname -m`"
+
+arch="$2"
+if [ -n "$arch" ]; then
+  case "$arch" in
+    i386) ;;
+    amd64) echo "Cannot explicitly request architecture: $arch"; exit 1;;
+    arm64) echo "Cannot explicitly request architecture: $arch"; exit 1;;
+    *) echo "Unsupported Ubuntu architecture: $arch"; exit 1;;
+  esac
+fi
+
+if [ -n "$arch" ]; then
+  tag="bab/ubuntu:${ver}_${arch}"
+else
+  tag="bab/ubuntu:$ver"
+  arch=`dpkg --print-architecture`
+fi
+
+echo "Preparing Ubuntu $ver ($arch) as $tag ..."
+echo
+./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver"
+
+exit 0
