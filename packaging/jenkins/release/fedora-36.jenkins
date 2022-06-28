@@ -10,7 +10,7 @@ pipeline {
                 sh 'rm -rf rpmbuild'
                 sh 'mkdir rpmbuild'
                 dir ('rpmbuild/SOURCES') {
-                    sh '../../aux/packaging/jenkins/release/fetch_source_rpm'
+                    sh '../../aux/packaging/jenkins/release/fetch_source'
                 }
             }
         }

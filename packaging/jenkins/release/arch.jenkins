@@ -9,7 +9,7 @@ pipeline {
                 }
                 sh 'rm -rf arch'
                 dir ('arch') {
-                    sh '../../aux/packaging/jenkins/release/fetch_source_rpm'
+                    sh '../aux/packaging/jenkins/release/fetch_source'
                 }
             }
         }
