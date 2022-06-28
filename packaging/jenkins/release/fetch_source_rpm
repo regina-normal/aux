@@ -14,7 +14,16 @@ releaseurl="http://www.maths.uq.edu.au/~bab/beta/$src"
 
 curl --location --output "$src" "$releaseurl"
 
-mysum=`shasum "$src" | cut -f1 -d' '`
+if [ -e /usr/bin/shasum ]; then
+  shasumutil=/usr/bin/shasum
+elif [ -e /usr/bin/sha1sum ]; then
+  shasumutil=/usr/bin/sha1sum
+else
+  echo "ERROR: shasum/sha1sum unavailable"
+  exit 1
+fi
+
+mysum=`"$shasumutil" "$src" | cut -f1 -d' '`
 if [ "$mysum" = "$shasum" ]; then
   echo "Downloaded $src, shasums match"
 else
