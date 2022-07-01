@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-qtver=5.15.2
+qtver=6.3.1
 # gvdir="/c/Program Files/Graphviz2.38"
 arch=`uname -m`
 
@@ -14,11 +14,11 @@ else
 fi
 
 if [ "$arch" = x86_64 ]; then
-  qtdir="/c/Qt/$qtver/mingw81_64"
+  qtdir="/c/Qt/$qtver/mingw_64"
   msys=/c/msys64
   mingw=/mingw64
 elif [ "$arch" = i686 ]; then
-  qtdir="/c/Qt/$qtver/mingw81_32"
+  qtdir="/c/Qt/$qtver/mingw_32"
   msys=/c/msys32
   mingw=/mingw32
 else
