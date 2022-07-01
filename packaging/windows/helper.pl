@@ -111,7 +111,7 @@ if (! -e "$pyzlibdir/$pyzlib") {
 }
 
 foreach (glob('/c/Qt/*/mingw*')) {
-    /^(\/c\/Qt\/\d+\.\d+\.\d+\/mingw\d+_$archbits)\s*$/ or next;
+    /^(\/c\/Qt\/\d+\.\d+\.\d+\/mingw\d*_$archbits)\s*$/ or next;
     $qt and die "ERROR: Multiple Qt installations detected";
     $qt = $1;
 }
