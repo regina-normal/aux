@@ -41,8 +41,7 @@ Install build dependencies from mingw-w64:
 
 Install build dependencies with standalone installers:
 
-  Qt5 (from qt-project.org) - use the online installer; this may require
-      the VC++ redistributable:
+  Qt (from qt.io) - the online installer may require the VC++ redistributable:
       https://www.microsoft.com/en-gb/download/details.aspx?id=48145
   Wix (from wixtoolset.org) - may require .NET to be installed separately;
       on Windows 8 this is done through Control Panel -> Windows Features
