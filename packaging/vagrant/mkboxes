@@ -8,13 +8,19 @@ if [ ! -e "$vagrantfile" ]; then
   exit 1
 fi
 
-for box in win10 win10_i386; do
+# for box in win10 win10_i386; do
+for box in win10; do
   echo "Cleaning $box..."
   vagrant box remove $box || true
   rm -f $box
 
   echo "Packaging $box..."
   vagrant package --base $box --output $box.box --vagrantfile "$vagrantfile"
-  vagrant box add $box.box --name regina/$box
+  # vagrant box add $box.box --name regina/$box
+
+  echo
+  echo 'For each user who wishes to use this box, run:'
+  echo "vagrant box add $box.box --name regina/$box"
+  echo
 done
 

@@ -6,6 +6,8 @@ Windows 10 VirtualBox / Vagrant setup
 -------------------------------------
 
 Initial installation:
+- Windows 10 Education
+- 4GB RAM, 100GB dynamically sized hard drive
 - user account: virtualbox
 
 Perform all windows updates
@@ -23,7 +25,7 @@ Set up WinRM:
 - search for "cmd", select "run as administrator"
   > winrm quickconfig
   > sc config WinRM start= auto
-  > winrm set winrm/config/winrs @{MaxMemoryPerShellMB="512"}
+  > winrm set winrm/config/winrs @{MaxMemoryPerShellMB="2048"}
   > winrm set winrm/config @{MaxTimeoutms="1800000"}
   > winrm set winrm/config/service @{AllowUnencrypted="true"}
   > winrm set winrm/config/service/auth @{Basic="true"}
@@ -68,8 +70,8 @@ Install SSH keys onto the guest:
 - Put the public key in \ProgramData\ssh\administrators_authorized_keys
 - Fix the access control list for this file, as required by ssh:
     icacls.exe .\administrators_authorized_keys /inheritance:r
-    icacls.exe .\administrators_authorized_keys /grant SYSTEM:`(F`)
-    icacls.exe .\administrators_authorized_keys /grant BUILTIN\Administrators:`(F`)
+    icacls.exe .\administrators_authorized_keys /grant SYSTEM:(F)
+    icacls.exe .\administrators_authorized_keys /grant BUILTIN\Administrators:(F)
 
 Take a VirtualBox snapshot, named "regina"
 
@@ -88,7 +90,7 @@ Install vagrant plugins:
   is completely optional.
 
 Create and install the vagrant base boxes:
-- From this directory, run: ./mkboxes
+- From this directory, as a regular user, run: ./mkboxes
 
 For ad-hoc use of the vagrant VMs:
 - In a different directory, set up the VM:
