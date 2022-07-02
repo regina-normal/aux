@@ -1,0 +1,83 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Sources') {
+            steps {
+                dir ('aux') {
+                    git 'https://github.com/regina-normal/aux.git'
+                }
+                sh 'rm -rf src'
+                dir ('src') {
+                    sh '../aux/packaging/jenkins/release/fetch_source'
+                }
+                dir ('src/regina') {
+                    sh 'tar --strip-components=1 -zxf ../regina*.tar.gz'
+                }
+            }
+        }
+
+        stage('VM') {
+            steps {
+                dir ('vagrant') {
+                    sh 'cp -f ../aux/packaging/jenkins/release/vagrant/win10.vagrant Vagrantfile'
+                    sh 'vagrant up'
+                }
+            }
+        }
+
+        stage('Configure') {
+            steps {
+                dir ('src/regina') {
+                    sh 'rm -rf build'
+                    sh 'mkdir build'
+                }
+                dir ('vagrant') {
+                    sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"cd /c/src/regina/build && /c/packaging/windows/regina-cmake.sh\"\''
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir ('vagrant') {
+                    sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"cd /c/src/regina/build && make\"\''
+                }
+            }
+        }
+
+        stage('Verify') {
+            steps {
+                dir ('vagrant') {
+                    sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"cd /c/src/regina/build && make verify_build\"\''
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir ('vagrant') {
+                    sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"cd /c/src/regina/build && make test ARGS=-V\"\''
+                }
+            }
+        }
+
+        stage('Package') {
+            steps {
+                dir ('vagrant') {
+                    sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"cd /c/src/regina/build && make install\"\''
+                    sh 'vagrant ssh -c \'c:\\msys64\\usr\\bin\\env MSYSTEM=MINGW64 /usr/bin/bash -l -c \"cd /c/src/regina/build && /c/packaging/windows/helper.pl msi\"\''
+                }
+            }
+        }
+    }
+
+    post {
+        cleanup {
+            dir ('vagrant') {
+                sh 'vagrant destroy --force'
+            }
+        }
+    }
+}
+
