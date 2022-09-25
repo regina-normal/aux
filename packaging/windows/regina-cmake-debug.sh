@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-qtver=6.3.1
+qtver=6.3.2
 # gvdir="/c/Program Files/Graphviz2.38"
 arch=`uname -m`
 
