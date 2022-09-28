@@ -16,13 +16,19 @@ Basic pacman usage:
   pacman -Qm             # list packages not in any repository
   pacman -Qdt            # list orphaned packages (no longer required)
 
-To build a signed, package, change into the directory with PKGBUILD and:
+To build a signed package, change into the directory with PKGBUILD and:
 
   $ makepkg --sign
   $ namcap PKGBUILD
   $ namcap *.zst
 
+To sign a package after it has been built:
+
+  $ gpg --output path/to/package.zst.sig --detach-sig path/to/package.zst
+
 To create a new repository or add/update packages in an existing repository:
+
+  + Move the packages and their signatures into the repository directory
 
   $ repo-add --sign --verify regina.db.tar.gz *.zst
 
