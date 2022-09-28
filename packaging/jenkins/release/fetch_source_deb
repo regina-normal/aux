@@ -1,11 +1,8 @@
 #!/bin/bash
 set -e
 
-# version=7.0
-# shasum=fa136c4d089c2b91030a9a836e9c104c0889fac3
-
 version=7.1
-shasum=845ef24861ff1679fa0b73241458057acd3ae174
+shasum=d392e7fa150508cf5c73fd5b42153284e14ac4f5
 
 src="regina-$version.tar.gz"
 debsrc="regina-normal_$version.orig.tar.gz"

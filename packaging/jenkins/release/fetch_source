@@ -2,7 +2,7 @@
 set -e
 
 version=7.1
-shasum=4a3901a965a4f0cbcae3609072697d2215efe795
+shasum=d392e7fa150508cf5c73fd5b42153284e14ac4f5
 
 src="regina-$version.tar.gz"
 
