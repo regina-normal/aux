@@ -11,6 +11,7 @@ for i in *.test; do
   name="${i/.test/}"
   echo "Test-Command: debian/tests/utils-test $name"
   echo "Features: test-name=utils-$name"
+  echo "Depends: @, bsdextrautils"
   echo
 done
 

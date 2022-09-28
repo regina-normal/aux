@@ -1,6 +1,6 @@
-regina-normal (7.1-1~ubuntu20.04.1~regina1) focal; urgency=low
+regina-normal (7.1-1~ubuntu22.10.1~regina1) kinetic; urgency=low
 
-  * New upstream release, packaged for focal.
+  * New upstream release, packaged for kinetic.
 
  -- Ben Burton <bab@debian.org>  Wed, 28 Sep 2022 10:04:35 +1000
 

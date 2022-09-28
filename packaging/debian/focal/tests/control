@@ -40,6 +40,9 @@ Features: test-name=python-alltypes
 Test-Command: debian/tests/python-test angles
 Features: test-name=python-angles
 
+Test-Command: debian/tests/python-test bool
+Features: test-name=python-bool
+
 Test-Command: debian/tests/python-test bytes
 Features: test-name=python-bytes
 
@@ -54,9 +57,6 @@ Features: test-name=python-clone
 
 Test-Command: debian/tests/python-test constructors
 Features: test-name=python-constructors
-
-Test-Command: debian/tests/python-test deprecated
-Features: test-name=python-deprecated
 
 Test-Command: debian/tests/python-test discs
 Features: test-name=python-discs
@@ -129,6 +129,9 @@ Features: test-name=python-memory3
 
 Test-Command: debian/tests/python-test misc
 Features: test-name=python-misc
+
+Test-Command: debian/tests/python-test operators
+Features: test-name=python-operators
 
 Test-Command: debian/tests/python-test orb python/testsuite
 Features: test-name=python-orb
