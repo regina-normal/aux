@@ -32,6 +32,7 @@ Architecture: any
 Section: math
 Pre-Depends: ${misc:Pre-Depends}
 Depends:
+    qt6-qpa-plugins,
     ${shlibs:Depends},
     ${perl:Depends},
     ${python3:Depends},

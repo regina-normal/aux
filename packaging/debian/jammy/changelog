@@ -1,6 +1,9 @@
 regina-normal (7.1-1~ubuntu22.04.1~regina1) jammy; urgency=low
 
   * New upstream release, packaged for jammy.
+  * Depends on qt6-qpa-plugins, since this is not an automatic dependency on
+    jammy but the GUI crashes on a default ubuntu installation without it.
+    This issue appears to be fixed in the kinetic qt6 packages.
 
  -- Ben Burton <bab@debian.org>  Wed, 28 Sep 2022 10:04:35 +1000
 
