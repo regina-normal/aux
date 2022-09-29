@@ -105,7 +105,7 @@ Installation, stage 2 (from inside the chroot):
   $ passwd bab
 - Install a graphical desktop environment:
   $ pacman -S xorg-server xorg-xinit mesa-libgl xterm xf86-video-vesa xfce4 xfce4-goodies sddm
-  $ pacman -S firefox
+  $ pacman -S firefox wget
   $ systemctl enable sddm
 - If desired, enable the ssh server:
   $ systemctl enable sshd
