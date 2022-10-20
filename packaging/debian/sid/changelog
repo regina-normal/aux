@@ -1,3 +1,9 @@
+regina-normal (7.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Ben Burton <bab@debian.org>  Thu, 20 Oct 2022 17:08:18 +1000
+
 regina-normal (7.1-1) unstable; urgency=low
 
   * New upstream release.

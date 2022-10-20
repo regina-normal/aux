@@ -1,6 +1,14 @@
-regina-normal (7.1-1~bpo11+1~regina1) bullseye; urgency=low
+regina-normal (7.2-1~bpo11+1~regina1) bullseye; urgency=low
 
   * New upstream release, packaged for bullseye.
+
+ -- Ben Burton <bab@debian.org>  Thu, 20 Oct 2022 17:08:18 +1000
+
+regina-normal (7.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Now builds against Qt6, not Qt5.
+  * Bumped standards-version to 4.6.1 (no changes required).
 
  -- Ben Burton <bab@debian.org>  Wed, 28 Sep 2022 10:04:35 +1000
 
