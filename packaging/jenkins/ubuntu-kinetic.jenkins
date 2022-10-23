@@ -1,0 +1,59 @@
+pipeline {
+    agent { docker { image 'regina/ubuntu:kinetic' } }
+
+    stages {
+        stage('Git') {
+            steps {
+                dir ('aux') {
+                    git 'https://github.com/regina-normal/aux.git'
+                }
+                dir ('regina') {
+                    git 'https://github.com/regina-normal/regina.git'
+                }
+            }
+        }
+
+        stage('Configure') {
+            steps {
+                dir ('regina') {
+                    sh 'rm -rf build'
+                    sh 'mkdir build'
+                }
+                dir ('regina/build') {
+                    sh 'cmake -DPython_EXECUTABLE=/usr/bin/python3 -DPACKAGING_MODE=1 -DDISABLE_RPATH=1 ..'
+                }
+            }
+        }
+
+        stage('Environment') {
+            steps {
+                dir ('regina/build') {
+                    sh 'make env'
+                }
+            }
+        }
+
+        stage('Package Source') {
+            steps {
+                dir ('regina/build') {
+                    sh 'cpack --config CPackSourceConfig.cmake'
+                }
+                sh 'rm -rf debian'
+                dir ('debian') {
+                    sh '../aux/packaging/jenkins/copy_orig_tarball ../regina/build/regina-*.tar.gz'
+                }
+            }
+        }
+
+        stage('Build DEB') {
+            steps {
+                dir ('debian/regina') {
+                    sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
+                    sh 'cp -pR ../../aux/packaging/debian/kinetic debian'
+                    sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild --no-sign -j2'
+                }
+            }
+        }
+    }
+}
+
