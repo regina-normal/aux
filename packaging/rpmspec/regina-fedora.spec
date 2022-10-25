@@ -70,6 +70,7 @@ export LIB_SUFFIX=$(echo %_lib | cut -b4-)
 cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX \
   -DCMAKE_VERBOSE_MAKEFILE=ON -DPACKAGING_MODE=1 \
   -DPython_EXECUTABLE=/usr/bin/python3 \
+  -DBUILD_INFO="Upstream Fedora %{fedora} package" \
   ..
 popd
 

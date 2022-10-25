@@ -67,7 +67,12 @@ mkdir build
 cd build
 export LIB_SUFFIX=$(echo %_lib | cut -b4-)
 
-cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX -DPACKAGING_MODE=1 -DPython_EXECUTABLE=/usr/bin/python3 -DREGINA_KVSTORE=lmdb ..
+cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX \
+  -DPACKAGING_MODE=1 \
+  -DPython_EXECUTABLE=/usr/bin/python3 \
+  -DREGINA_KVSTORE=lmdb \
+  -DBUILD_INFO="Upstream openSUSE Leap 15.3 package" \
+  ..
 
 %make_jobs
 
