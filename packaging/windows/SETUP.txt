@@ -67,7 +67,12 @@ BUILDING REGINA
 To build regina and test it directly from the source tree:
 
   cd ~/git/regina/build
-  .../windows/regina-cmake.sh
+
+  .../windows/regina-cmake.sh                (for a standard build)
+    OR
+  .../windows/regina-cmake.sh \
+      -DBUILD_INFO='Upstream Windows build'  (for an official release build)
+
   make
   make test ARGS=-V
 
