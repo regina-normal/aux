@@ -21,6 +21,7 @@ Manual checks:
       - tab completion
       - import snappy
   - tools
+      - tricensus --version (and check build info)
       - regfiledump data file from desktop
       - censuslookup cPcbbbiht
       - /usr/bin/python; import regina
@@ -30,4 +31,4 @@ Manual checks:
 If you are interested in helping package Regina for one or more
 distributions, please contact the author at the address below.
 
- -- Ben Burton <bab@debian.org>, Wed, 28 Aug 2013 14:05:35 +1000
+ -- Ben Burton <bab@debian.org>, Wed, 26 Oct 2022 21:27:00 +1000
