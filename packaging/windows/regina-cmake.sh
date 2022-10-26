@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-qtver=6.3.2
+qtver=6.4.0
 # gvdir="/c/Program Files/Graphviz2.38"
 # arch=`uname -m`
 arch="$MSYSTEM_CARCH"
