@@ -29,6 +29,25 @@ To find all signing identities:
 BUILDING PARALLELS VMs
 ----------------------
 
+VENTURA:
+
+0. Download the Ventura installer through the App Store:
+
+  https://apps.apple.com/au/app/macos-ventura/id1638787999?mt=12
+
+1. Create an installer ISO from the installer app:
+
+  hdiutil create -o /tmp/Ventura.cdr -size 14g -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/Ventura.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ macOS\ Ventura.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build
+  hdiutil detach /Volumes/Install\ macOS\ Ventura
+  hdiutil convert /tmp/Ventura.cdr.dmg -format UDTO -o Ventura.iso
+  rm /tmp/Ventura.cdr.dmg
+  mv Ventura.iso.cdr Ventura.iso
+
+2. Boot from the ISO and run the GUI installer.
+
+
 MONTEREY:
 
 0. Download the Monterey installer through the App Store:
