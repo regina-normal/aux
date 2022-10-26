@@ -52,3 +52,25 @@ index 0c67376eb..11fa75ebf 100644
 +	<true/>
 +</dict>
  </plist>
+diff --git a/Regina.xcodeproj/project.pbxproj b/Regina.xcodeproj/project.pbxproj
+index ac607e0de..962ed8ef1 100644
+--- a/Regina.xcodeproj/project.pbxproj
++++ b/Regina.xcodeproj/project.pbxproj
+@@ -12146,7 +12146,7 @@
+ 				HEADER_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+-					"\"$(SRCROOT)/preconfig/macos\"",
++					"\"$(SRCROOT)/preconfig/macos-appstore\"",
+ 					"\"$(SRCROOT)/engine\"",
+ 					"\"$(SRCROOT)\"",
+ 					/usr/include/libxml2,
+@@ -12204,7 +12204,7 @@
+ 				HEADER_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+-					"\"$(SRCROOT)/preconfig/macos\"",
++					"\"$(SRCROOT)/preconfig/macos-appstore\"",
+ 					"\"$(SRCROOT)/engine\"",
+ 					"\"$(SRCROOT)\"",
+ 					/usr/include/libxml2,
