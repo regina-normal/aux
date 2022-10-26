@@ -28,6 +28,7 @@ Installer notes:
 - Ubuntu: download x.y.0 release from http://old-releases.ubuntu.com/releases/
 - Ubuntu installer: minimal install
 - Ubuntu installer: disable "download updates while installing"
+- Ubuntu kinetic/amd64: desktop fails to partition; need server install like arm64
 
 Disable updates:
 - Debian in /etc/apt/sources.list
