@@ -73,7 +73,8 @@ To add appstream metadata to a repository, on a Fedora machine:
 - Extract appstream metadata and icons from RPMs:
     appstream-builder --origin=regina --basename=appstream --enable-hidpi \
       --packages-dir=path/to/RPM_folder
-- Add the metadata and icons to the repository:
+- Add the metadata and icons to the repository (this copies from the given
+  source location):
     modifyrepo_c path/to/appstream.xml.gz path/to/repo_root/repodata/
     modifyrepo_c path/to/appstream-icons.tar.gz path/to/repo_root/repodata/
     gpg --detach-sign --armor path/to/repo_root/repodata/repomd.xml
