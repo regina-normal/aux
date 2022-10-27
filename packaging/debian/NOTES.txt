@@ -43,6 +43,7 @@ Check for unwanted newer packages:
 Desktop tweaks:
 - Put Terminal in sidebar
 - Disable screen saver
+- On recent Ubuntu, "snap install snap-store" to get the Ubuntu Software app
 
 ARM64 installation:
 - Currently requires a server image from https://cdimage.ubuntu.com/releases/
