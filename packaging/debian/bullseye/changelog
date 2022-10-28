@@ -2,7 +2,7 @@ regina-normal (7.2-1~bpo11+1~regina1) bullseye; urgency=low
 
   * New upstream release, packaged for bullseye.
 
- -- Ben Burton <bab@debian.org>  Thu, 20 Oct 2022 17:08:18 +1000
+ -- Ben Burton <bab@debian.org>  Thu, 27 Oct 2022 08:17:22 +1000
 
 regina-normal (7.1-1) unstable; urgency=low
 
