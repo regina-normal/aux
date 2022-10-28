@@ -1,3 +1,11 @@
+regina-normal (7.2-2) unstable; urgency=low
+
+  * Fix compile error on powerpc due to use of __bool, which is reserved
+    on that platform.
+  * Add additional autopkgtests for the new python tests in Regina 7.2.
+
+ -- Ben Burton <bab@debian.org>  Fri, 28 Oct 2022 15:27:28 +1000
+
 regina-normal (7.2-1) unstable; urgency=low
 
   * New upstream release.

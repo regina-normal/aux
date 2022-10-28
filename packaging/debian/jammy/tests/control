@@ -61,6 +61,9 @@ Features: test-name=python-constructors
 Test-Command: debian/tests/python-test discs
 Features: test-name=python-discs
 
+Test-Command: debian/tests/python-test docstrings
+Features: test-name=python-docstrings
+
 Test-Command: debian/tests/python-test embeddings
 Features: test-name=python-embeddings
 
@@ -84,6 +87,9 @@ Features: test-name=python-faces
 
 Test-Command: debian/tests/python-test file python/testsuite
 Features: test-name=python-file
+
+Test-Command: debian/tests/python-test flype
+Features: test-name=python-flype
 
 Test-Command: debian/tests/python-test generic
 Features: test-name=python-generic
@@ -142,6 +148,9 @@ Features: test-name=python-pdf
 Test-Command: debian/tests/python-test perm
 Features: test-name=python-perm
 
+Test-Command: debian/tests/python-test plantri
+Features: test-name=python-plantri
+
 Test-Command: debian/tests/python-test presentations
 Features: test-name=python-presentations
 
@@ -171,6 +180,9 @@ Features: test-name=python-snapshot
 
 Test-Command: debian/tests/python-test sort
 Features: test-name=python-sort
+
+Test-Command: debian/tests/python-test special
+Features: test-name=python-special
 
 Test-Command: debian/tests/python-test standardtri
 Features: test-name=python-standardtri
