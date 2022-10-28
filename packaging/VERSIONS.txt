@@ -1,5 +1,7 @@
 GCC versions seen in the wild:
 
+12.2.0:
+  - Ubuntu kinetic (22.10)
 12.0.1:
   - Fedora 36
 12 (prerelease):
@@ -8,19 +10,12 @@ GCC versions seen in the wild:
   - Fedora 35
 11.2.0:
   - Ubuntu jammy (22.04 LTS)
-11.0.1:
-  - Fedora 34
 10.3.0:
   - OPTIONAL Ubuntu jammy (22.04 LTS)
 10.2.1:
   - Debian bullseye
-  - Fedora 33
 10.2.0:
-  - MSYS2 (Feb 2021)
-  - Ubuntu groovy (20.10)
   - OPTIONAL Ubuntu focal (20.04 LTS)
-10.0.1:
-  - Fedora 32
 9.4.0:
   - OPTIONAL Ubuntu jammy (22.04 LTS)
 9.3.0:
@@ -62,29 +57,21 @@ Clang versions seen in the wild:
 
 CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
+3.24.2:
+  - Ubuntu kinetic (22.10)
 3.22.2:
   - Fedora 36
 3.22.1:
   - Ubuntu jammy (22.04 LTS)
 3.21.3:
   - Fedora 35
-3.19.7:
-  - Fedora 34
-3.19.4:
-  - MacPorts (Feb 2021)
-3.19.3:
-  - MSYS2 (Feb 2021)
 3.18.4:
   - Debian bullseye
-3.18.3:
-  - Fedora 33
 3.17.0:
-  - Fedora 32
   - openSUSE Leap 15.3
   - openSUSE Leap 15.2
 3.16.3:
   - Ubuntu focal (20.04 LTS)
-  - Ubuntu groovy (20.10)
 3.15.0:
   - Rocks 7.0 + CMake/3.15.0-gnu-7.2.0 module (e.g., tinaroo)
 
@@ -94,17 +81,36 @@ Doxygen versions [regina needs 1.8.17]
   - Debian bullseye
   - Fedora 36
   - Fedora 35
-  - Fedora 34
-  - MacPorts (Feb 2021)
-  - MSYS2 (Feb 2021)
+  - Ubuntu kinetic (22.10)
   - Ubuntu jammy (22.04 LTS)
 1.8.17:
   - Ubuntu focal (20.04 LTS)
 1.8.14:
+  - openSUSE Leap 15.4
+  - openSUSE Leap 15.3
+
+Python versions:
+
+3.10.7:
+  - Ubuntu kinetic (22.10)
+3.10.4:
+  - Fedora 36
+  - Ubuntu jammy (22.04 LTS)
+3.10.0:
+  - Fedora 35
+3.9.2:
+  - Debian bullseye
+3.8.5:
+  - Ubuntu focal (20.04 LTS)
+3.6.15:
+  - openSUSE Leap 15.4
+3.6.13:
   - openSUSE Leap 15.3
 
 Qt versions:
 
+6.3.1:
+  - Ubuntu kinetic (22.10)
 6.2.4:
   - Ubuntu jammy (22.04 LTS)
 6.2.3:
