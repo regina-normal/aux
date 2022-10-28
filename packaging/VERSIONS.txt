@@ -86,10 +86,10 @@ Doxygen versions [regina needs 1.8.17]
 1.8.17:
   - Ubuntu focal (20.04 LTS)
 1.8.14:
-  - openSUSE Leap 15.4
-  - openSUSE Leap 15.3
+  - openSUSE Leap 15.4 (but using 1.9.1 backport)
+  - openSUSE Leap 15.3 (but using 1.9.1 backport)
 
-Python versions:
+Python versions [regina needs 3.6]:
 
 3.10.7:
   - Ubuntu kinetic (22.10)
@@ -125,6 +125,4 @@ Qt versions:
   - Ubuntu focal (20.04 LTS)
 5.12.7:
   - openSUSE 15.3
-5.11.3:
-  - Debian buster
 
