@@ -1,5 +1,10 @@
-The default Xcode build uses the python3 provided with Xcode, and has no
-sandboxing.  This is suitable for distribution through the Regina website.
+The default Xcode build is find for development.
 
-The patches in this directory adjust the Xcode project to add sandboxing,
-as required for distribution through the App Store.
+- To distribute a formal release through the Regina website, apply
+  release.diff.  This merely changes the BUILD_INFO setting.
+
+- To distribute a formal release through the Mac App Store, apply
+  sandbox.diff (which enables sandboxing and changes BUILD_INFO),
+  and for the time being also qt-6.3.2.diff (which downgrades Qt
+  to a version that avoids private API functions forbidden by Apple).
+
