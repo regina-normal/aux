@@ -2,6 +2,11 @@
 #
 # Creates a tarball of each type of debian directory for easy transportation.
 #
+# Usage:
+#    mkdirballs [ <dist> ... ]
+#
+# If no <dist> arguments are given, then all will be generated.
+#
 set -e
 
 if [ -e debian ]; then
@@ -9,12 +14,26 @@ if [ -e debian ]; then
 	exit 1
 fi
 
-for i in *; do
-	if [ -d "$i" -a -e "$i/control" ]; then
-		echo "Making $i ..."
-		mkdir debian
-		cp -pr $i/* debian
-		tar -zcf $i.tgz debian
-		rm -rf debian
+bundle() {
+	if [ ! -e "$1/control" ]; then
+		echo "ERROR: $1 does not look like a debian packaging directory."
+		return
 	fi
-done
+	echo "Making $1 ..."
+	mkdir debian
+	cp -pr $1/* debian
+	tar -zcf $1.tgz debian
+	rm -rf debian
+}
+
+if [ "$#" == 0 ]; then
+	for i in *; do
+		if [ -d "$i" -a -e "$i/control" ]; then
+			bundle "$i"
+		fi
+	done
+else
+	for i in "$@"; do
+		bundle "$i"
+	done
+fi
