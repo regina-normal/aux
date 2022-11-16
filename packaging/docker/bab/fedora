@@ -61,6 +61,14 @@ chroot "$rootfsDir" dnf install -y -b --setopt=install_weak_deps=False \
   dnf-plugins-core
 chroot "$rootfsDir" dnf config-manager --set-enabled fedora-source
 
+# On Fedora 37, curl is broken which means rinse fails to install some helper
+# packages.  The curl error seems to be this one:
+# https://github.com/aarond10/https_dns_proxy/issues/136
+# By this point in the installation, however, things should be working and so
+# we can just install those missing packages now.
+chroot "$rootfsDir" dnf install -y -b --setopt=install_weak_deps=False \
+  vim-minimal dhclient
+
 chroot "$rootfsDir" dnf clean all
 
 echo
