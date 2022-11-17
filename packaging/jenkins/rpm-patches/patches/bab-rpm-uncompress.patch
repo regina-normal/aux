@@ -1,0 +1,22 @@
+diff --git a/build/parsePrep.c b/build/parsePrep.c
+index b704f3e37..4a35dc21e 100644
+--- a/build/parsePrep.c
++++ b/build/parsePrep.c
+@@ -98,7 +98,7 @@ static char *doPatch(rpmSpec spec, uint32_t c, int strip, const char *db,
+     if (notCompressed(fn)) {
+ 	patchcmd = rpmExpand("%{__patch} ", args, " < ", fn, NULL);
+     } else {
+-	patchcmd = rpmExpand("{ %{__rpmuncompress} ", fn, " || echo patch_fail ; } | "
++	patchcmd = rpmExpand("{ %{__rpmuncompress} '", fn, "' || echo patch_fail ; } | "
+                              "%{__patch} ", args, NULL);
+     }
+ 
+@@ -136,7 +136,7 @@ static char *doUntar(rpmSpec spec, uint32_t c, int quietly)
+     }
+ 
+     buf = rpmExpand("%{__rpmuncompress} -x ",
+-		    quietly ? "" : "-v ", sp->path, NULL);
++		    quietly ? "" : "-v '", sp->path, "'", NULL);
+     rstrcat(&buf,
+ 	"\nSTATUS=$?\n"
+ 	"if [ $STATUS -ne 0 ]; then\n"

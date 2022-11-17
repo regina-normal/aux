@@ -65,6 +65,7 @@ Patch907: rpm-4.15.x-ldflags.patch
 Patch1000: bab-rpm-doc_git.patch
 Patch1001: bab-rpm-glob_git.patch
 Patch1002: bab-rpm-buildid_git.patch
+Patch1003: bab-rpm-uncompress.patch
 
 # Partially GPL/LGPL dual-licensed and some bits with BSD
 # SourceLicense: (GPLv2+ and LGPLv2+ with exceptions) and BSD
