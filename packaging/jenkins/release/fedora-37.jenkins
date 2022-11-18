@@ -28,7 +28,7 @@ pipeline {
         stage('Appstream Metadata') {
             steps {
                 dir ('rpmbuild') {
-                    sh 'appstream-builder --origin=regina --basename=appstream --enable-hidpi --packages-dir=RPMS'
+                    sh 'appstream-builder --origin=regina --basename=appstream --packages-dir=RPMS'
                 }
             }
         }
