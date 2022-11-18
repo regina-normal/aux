@@ -1,0 +1,28 @@
+Description: adapt to new configuration style for embedded python 3.11
+Author: Ben Burton <bab@debian.org>
+Origin: upstream
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- regina-normal-7.2/python/pybind11/embed.h
++++ regina-normal-7.2/python/pybind11/embed.h
+@@ -150,6 +150,10 @@ inline void initialize_interpreter(bool init_signal_handlers = true,
+ #else
+     PyConfig config;
+     PyConfig_InitIsolatedConfig(&config);
++#if REGINA_PYTHON_USE_PYTHONPATH
++    config.use_environment = 1;
++    config.isolated = 0;
++#endif
+     config.install_signal_handlers = init_signal_handlers ? 1 : 0;
+ 
+     PyStatus status = PyConfig_SetBytesArgv(&config, argc, const_cast<char *const *>(argv));
+--- regina-normal-7.2/python/testsuite/CMakeLists.txt
++++ regina-normal-7.2/python/testsuite/CMakeLists.txt
+@@ -12,6 +12,7 @@ CONFIGURE_FILE(
+ 
+ # A very basic interpreter to use for testing:
+ INCLUDE_DIRECTORIES(${Python_INCLUDE_DIRS} ${ENGINE_INCLUDES} "${PROJECT_BINARY_DIR}/engine")
++ADD_COMPILE_DEFINITIONS(REGINA_PYTHON_USE_PYTHONPATH=1)
+ ADD_LINK_OPTIONS(${Python_LINK_OPTIONS})
+ add_executable(basic
+   basic.cpp

@@ -9,4 +9,4 @@ RUN dnf clean all
 RUN useradd -U -s /bin/bash -m build
 RUN mkdir /home/build/rpmbuild
 RUN mkdir /home/build/rpmbuild/{SOURCES,SPECS}
-RUN chown -R build.build /home/build/rpmbuild
+RUN chown -R build:build /home/build/rpmbuild
