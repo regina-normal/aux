@@ -1,3 +1,10 @@
+regina-normal (7.2-3) unstable; urgency=low
+
+  * Now builds and runs the test suite correctly under Python 3.11
+    (closes: #1027943).
+
+ -- Ben Burton <bab@debian.org>  Tue, 17 Jan 2023 00:02:27 +1000
+
 regina-normal (7.2-2) unstable; urgency=low
 
   * Fix compile error on powerpc due to use of __bool, which is reserved
