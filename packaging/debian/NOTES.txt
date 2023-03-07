@@ -38,7 +38,7 @@ Disable updates:
 Check for unwanted newer packages:
 - Debian/Ubuntu:
   * apt-get install apt-show-versions
-  * apt-show-versions | fgrep newer
+  * apt-show-versions | grep newer
 
 Desktop tweaks:
 - Put Terminal in sidebar
