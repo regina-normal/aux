@@ -11,6 +11,7 @@ pipeline {
                 sh 'mkdir rpmbuild'
                 dir ('rpmbuild/SOURCES') {
                     sh '../../aux/packaging/jenkins/release/fetch_source'
+                    sh 'cp ../../aux/packaging/rpmspec/release/regina-*.patch .'
                 }
             }
         }
@@ -28,7 +29,7 @@ pipeline {
         stage('Appstream Metadata') {
             steps {
                 dir ('rpmbuild') {
-                    sh 'appstream-builder --origin=regina --basename=appstream --enable-hidpi --packages-dir=RPMS'
+                    sh 'appstream-builder --origin=regina --basename=appstream --packages-dir=RPMS'
                 }
             }
         }
