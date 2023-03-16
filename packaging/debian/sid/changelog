@@ -1,3 +1,9 @@
+regina-normal (7.3-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Ben Burton <bab@debian.org>  Thu, 16 Mar 2023 16:29:13 +1000
+
 regina-normal (7.2-3) unstable; urgency=low
 
   * Fix incompatibility with python 3.11 in the test suite.

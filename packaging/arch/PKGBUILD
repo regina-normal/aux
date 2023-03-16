@@ -1,6 +1,6 @@
 # Maintainer: Ben Burton <bab@debian.org>
 pkgname=regina-normal
-pkgver=7.2
+pkgver=7.3
 pkgrel=1
 pkgdesc="Mathematical software for low-dimensional topology"
 arch=('x86_64')
