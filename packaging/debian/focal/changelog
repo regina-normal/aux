@@ -6,9 +6,10 @@ regina-normal (7.3-1~ubuntu20.04.1~regina1) focal; urgency=low
 
 regina-normal (7.2-3) unstable; urgency=low
 
-  * Fix incompatibility with python 3.11 in the test suite.
+  * Now builds and runs the test suite correctly under Python 3.11
+    (closes: #1027943).
 
- -- Ben Burton <bab@debian.org>  Fri, 18 Nov 2022 07:07:56 +1000
+ -- Ben Burton <bab@debian.org>  Tue, 17 Jan 2023 00:02:27 +1000
 
 regina-normal (7.2-2) unstable; urgency=low
 
