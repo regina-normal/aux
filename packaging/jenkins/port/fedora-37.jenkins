@@ -11,7 +11,6 @@ pipeline {
                 sh 'mkdir rpmbuild'
                 dir ('rpmbuild/SOURCES') {
                     sh '../../aux/packaging/jenkins/release/fetch_source'
-                    sh 'cp ../../aux/packaging/rpmspec/release/regina-*.patch .'
                 }
             }
         }
@@ -20,7 +19,6 @@ pipeline {
             steps {
                 dir ('rpmbuild/SPECS') {
                     sh 'cp ../../aux/packaging/rpmspec/release/regina-fedora.spec .'
-                    sh 'cp ../../aux/packaging/rpmspec/release/regina-*.patch .'
                     sh 'RPM_BUILD_NCPUS=2 rpmbuild --define "_topdir `pwd`/.." -bb regina-fedora.spec'
                 }
             }
