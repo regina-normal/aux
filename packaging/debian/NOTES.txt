@@ -31,14 +31,15 @@ Installer notes:
 - Ubuntu kinetic/amd64: desktop install fails at partitioning stage; need to
     go via server install as on arm64
 
-Disable updates:
+Configure updates:
 - Debian in /etc/apt/sources.list
-- Ubuntu via the Software app (-security only, not -updates; not auto-install)
+- Ubuntu via the Software app (-security always, -updates for test machines
+  but not build machines; -backports never; not auto-install)
 
 Check for unwanted newer packages:
 - Debian/Ubuntu:
   * apt-get install apt-show-versions
-  * apt-show-versions | fgrep newer
+  * apt-show-versions | grep newer
 
 Desktop tweaks:
 - Put Terminal in sidebar

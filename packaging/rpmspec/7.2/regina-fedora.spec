@@ -10,6 +10,8 @@ URL: http://regina-normal.github.io/
 Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
+Patch0: regina-python-3.11.patch
+
 Requires: mimehandler(application/pdf)
 Requires: python3
 Conflicts: regina
@@ -56,6 +58,7 @@ and a low-level C++ programming interface.
 
 %prep
 %setup -n regina-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -122,6 +125,9 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
+%if 0%{?fedora} >= 37
+%{_prefix}/lib/python3.11/site-packages/regina/
+%else
 %if 0%{?fedora} >= 35
 %{_prefix}/lib/python3.10/site-packages/regina/
 %else
@@ -129,6 +135,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_prefix}/lib/python3.9/site-packages/regina/
 %else
 %{_prefix}/lib/python3.8/site-packages/regina/
+%endif
 %endif
 %endif
 %{_mandir}/*/*

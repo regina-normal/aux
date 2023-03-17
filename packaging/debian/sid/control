@@ -24,7 +24,7 @@ Build-Depends:
     xsltproc,
     zlib1g-dev,
     dpkg-dev (>= 1.16.0)
-Standards-Version: 4.6.1
+Standards-Version: 4.6.2
 
 Package: regina-normal
 Architecture: any
@@ -35,7 +35,7 @@ Depends:
     ${perl:Depends},
     ${python3:Depends},
     ${misc:Depends}
-Recommends: regina-normal-doc (>= 7.2-0), evince | pdf-viewer
+Recommends: regina-normal-doc (>= 7.3-0), evince | pdf-viewer
 Suggests: regina-normal-dev, gap
 Description: mathematical software for low-dimensional topology
  Regina is a software package for 3-manifold and 4-manifold topologists,
