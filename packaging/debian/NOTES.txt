@@ -50,3 +50,4 @@ Desktop tweaks:
 - Put Terminal in sidebar
 - Disable screen saver
 - On Ubuntu, "snap install snap-store" to get the Ubuntu Software app
+
