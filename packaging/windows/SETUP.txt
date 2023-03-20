@@ -117,18 +117,6 @@ ADDITIONAL NOTES
 
 Setting up a Windows VM:
 
-  - If the OS is a very old Windows 8.1 (no search button next to the username
-    on the start menu), Windows Update may fail to run.  To fix, manually
-    install the Windows 8.1 Update (KB2919355):
-
-    https://www.microsoft.com/en-US/download/details.aspx?id=42327
-
-    This is a set of 7 patches (to be installed in the correct order),
-    and these rely on the March 2014 servicing stack update (KB2919442)
-    as a prerequisite:
-
-    https://support.microsoft.com/en-us/topic/march-2014-servicing-stack-update-for-windows-8-1-and-windows-server-2012-r2-ebac63da-ae59-c822-e9d2-5bbbdd857de5
-
   - If the installer complains it cannot create a partition (observed with
     some Windows 10 x86 install media), change the hard drive from NVMe 1 to
     SATA 0:1 (which may require moving the CD/DVD from SATA 0:1 to SATA 0:2).

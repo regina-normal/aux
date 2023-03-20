@@ -30,6 +30,11 @@ Installer notes:
 - Ubuntu installer: disable "download updates while installing"
 - Ubuntu kinetic/amd64: desktop install fails at partitioning stage; need to
     go via server install as on arm64
+- Ubuntu */arm64:
+  + Currently requires a server image from https://cdimage.ubuntu.com/releases/
+  + Do not set up LVM groups on the hard drive
+  + Do not install server snaps
+  + Need to install ubuntu-desktop after initial install
 
 Configure updates:
 - Debian in /etc/apt/sources.list
@@ -44,10 +49,4 @@ Check for unwanted newer packages:
 Desktop tweaks:
 - Put Terminal in sidebar
 - Disable screen saver
-- On recent Ubuntu, "snap install snap-store" to get the Ubuntu Software app
-
-ARM64 installation:
-- Currently requires a server image from https://cdimage.ubuntu.com/releases/
-- Do not set up LVM groups on the hard drive
-- Do not install server snaps
-- Need to install ubuntu-desktop after initial install
+- On Ubuntu, "snap install snap-store" to get the Ubuntu Software app

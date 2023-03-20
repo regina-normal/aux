@@ -167,10 +167,8 @@ Build macros:
 
 Extra packages:
 - openSUSE:
-  * The doxygen packages are too old for openSUSE Leap 15.2 / 15.3.
-    In most cases you can fetch a newer doxygen binary from the devel_tools
-    repository (see the docker image, which also does this).
-    On 15.2/aarch64 you will need to source-install the newer doxygen from
-    devel_tools and then build the binary package yourself.
+  * The doxygen packages are too old for openSUSE Leap 15.4.
+    You can fetch a newer doxygen binary from the devel_tools repository
+      (see the docker image, which also does this).
     Don't forget to disable the devel_tools repository afterwards.
 
