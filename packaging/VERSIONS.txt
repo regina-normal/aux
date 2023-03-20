@@ -6,8 +6,6 @@ GCC versions seen in the wild:
   - Fedora 36
 12 (prerelease):
   - OPTIONAL Ubuntu jammy (22.04 LTS)
-11.2.1:
-  - Fedora 35
 11.2.0:
   - Ubuntu jammy (22.04 LTS)
 10.3.0:
@@ -24,8 +22,6 @@ GCC versions seen in the wild:
 8.4.0:
   - OPTIONAL Ubuntu focal (20.04 LTS)
 7.5.0:
-  - openSUSE Leap 15.3
-  - openSUSE Leap 15.2
   - OPTIONAL Ubuntu focal (20.04 LTS)
 7.2.0:
   - Rocks 7.0 + gnu/7.2.0 module (e.g., tinaroo)
@@ -63,13 +59,8 @@ CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
   - Fedora 36
 3.22.1:
   - Ubuntu jammy (22.04 LTS)
-3.21.3:
-  - Fedora 35
 3.18.4:
   - Debian bullseye
-3.17.0:
-  - openSUSE Leap 15.3
-  - openSUSE Leap 15.2
 3.16.3:
   - Ubuntu focal (20.04 LTS)
 3.15.0:
@@ -80,14 +71,12 @@ Doxygen versions [regina needs 1.8.17]
 1.9.1:
   - Debian bullseye
   - Fedora 36
-  - Fedora 35
   - Ubuntu kinetic (22.10)
   - Ubuntu jammy (22.04 LTS)
 1.8.17:
   - Ubuntu focal (20.04 LTS)
 1.8.14:
   - openSUSE Leap 15.4 (but using 1.9.1 backport)
-  - openSUSE Leap 15.3 (but using 1.9.1 backport)
 
 Python versions [regina needs 3.6]:
 
@@ -96,16 +85,12 @@ Python versions [regina needs 3.6]:
 3.10.4:
   - Fedora 36
   - Ubuntu jammy (22.04 LTS)
-3.10.0:
-  - Fedora 35
 3.9.2:
   - Debian bullseye
 3.8.5:
   - Ubuntu focal (20.04 LTS)
 3.6.15:
   - openSUSE Leap 15.4
-3.6.13:
-  - openSUSE Leap 15.3
 
 Qt versions:
 
@@ -117,12 +102,8 @@ Qt versions:
   - Fedora 36
 6.2.2:
   - openSUSE 15.4
-6.1.2:
-  - Fedora 35
 5.15.2:
   - Debian bullseye
 5.12.8:
   - Ubuntu focal (20.04 LTS)
-5.12.7:
-  - openSUSE 15.3
 
