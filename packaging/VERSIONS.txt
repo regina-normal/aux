@@ -1,33 +1,36 @@
 GCC versions seen in the wild:
 
-12.2.0:
+12.2.x:
+  - Fedora 37
   - Ubuntu kinetic (22.10)
-12.0.1:
+12.0.x:
   - Fedora 36
 12 (prerelease):
   - OPTIONAL Ubuntu jammy (22.04 LTS)
-11.2.0:
+11.2.x:
   - Ubuntu jammy (22.04 LTS)
-10.3.0:
+10.3.x:
   - OPTIONAL Ubuntu jammy (22.04 LTS)
-10.2.1:
+10.2.x:
   - Debian bullseye
-10.2.0:
   - OPTIONAL Ubuntu focal (20.04 LTS)
-9.4.0:
+9.4.x:
   - OPTIONAL Ubuntu jammy (22.04 LTS)
-9.3.0:
+9.3.x:
   - OPTIONAL Debian bullseye
   - Ubuntu focal (20.04 LTS)
-8.4.0:
+8.4.x:
   - OPTIONAL Ubuntu focal (20.04 LTS)
-7.5.0:
+7.5.x:
   - OPTIONAL Ubuntu focal (20.04 LTS)
-7.2.0:
+  - openSUSE Leap 15.4
+7.2.x:
   - Rocks 7.0 + gnu/7.2.0 module (e.g., tinaroo)
 
 Clang versions seen in the wild:
 
+15.0.x:
+  - Ubuntu kinetic (22.10)
 14.0.x:
   - Ubuntu jammy (22.04 LTS)
 13.0.x:
@@ -55,10 +58,14 @@ CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
 3.24.2:
   - Ubuntu kinetic (22.10)
+3.24.1:
+  - Fedora 37
 3.22.2:
   - Fedora 36
 3.22.1:
   - Ubuntu jammy (22.04 LTS)
+3.20.4:
+  - openSUSE Leap 15.4
 3.18.4:
   - Debian bullseye
 3.16.3:
@@ -68,6 +75,8 @@ CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
 Doxygen versions [regina needs 1.8.17]
 
+1.9.5:
+  - Fedora 37
 1.9.1:
   - Debian bullseye
   - Fedora 36
@@ -80,6 +89,8 @@ Doxygen versions [regina needs 1.8.17]
 
 Python versions [regina needs 3.6]:
 
+3.11.0:
+  - Fedora 37
 3.10.7:
   - Ubuntu kinetic (22.10)
 3.10.4:
@@ -96,12 +107,13 @@ Qt versions:
 
 6.3.1:
   - Ubuntu kinetic (22.10)
+  - Fedora 37
 6.2.4:
   - Ubuntu jammy (22.04 LTS)
 6.2.3:
   - Fedora 36
 6.2.2:
-  - openSUSE 15.4
+  - openSUSE Leap 15.4
 5.15.2:
   - Debian bullseye
 5.12.8:
