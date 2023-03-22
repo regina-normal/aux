@@ -79,10 +79,7 @@ To add appstream metadata to a repository, on a Fedora machine:
     modifyrepo_c path/to/appstream-icons.tar.gz path/to/repo_root/repodata/
     gpg --detach-sign --armor path/to/repo_root/repodata/repomd.xml
 - It appears that the same appstream data can be used with multiple Fedora
-  versions.  Currently the Fedora 37 appstream data is not being built
-  because gdk-pixbuf2 is broken on a bare build machine (it cannot recognise
-  PNGs, or indeed any image formats) - this still needs to be diagnosed,
-  and in the meantime the Fedora 36 appstream data will do as a substitute.
+  versions, though the <icon/> tag has changed slightly between Fedora 36-37.
 
 To add appstream metadata to a repository, on an openSUSE machine:
 
