@@ -10,3 +10,7 @@ RUN useradd -U -s /bin/bash -m build
 RUN mkdir /home/build/rpmbuild
 RUN mkdir /home/build/rpmbuild/{SOURCES,SPECS}
 RUN chown -R build:build /home/build/rpmbuild
+
+# On Fedora 37, appstream-builder (via gdk-pixbuf) cannot recognise any
+# icon formats at all.  Running update-mime-database seems to fix this.
+RUN /usr/bin/update-mime-database /usr/share/mime
