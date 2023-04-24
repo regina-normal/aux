@@ -1,4 +1,4 @@
-The default Xcode build is find for development.
+The default Xcode build is fine for development.
 
 - To distribute a formal release through the Regina website, apply
   release.diff.  This merely changes the BUILD_INFO setting.
