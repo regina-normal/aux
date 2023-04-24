@@ -1,4 +1,5 @@
-The default Xcode build is fine for development.
+The default Xcode build is fine for development and building ad-hoc
+"git snapshot" app bundles.
 
 - To distribute a formal release through the Regina website, apply
   release.diff.  This merely changes the BUILD_INFO setting.
