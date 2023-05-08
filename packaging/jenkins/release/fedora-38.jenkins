@@ -2,16 +2,14 @@ pipeline {
     agent {
         docker {
             image 'regina/fedora:38'
-            customWorkspace '/jenkins'
+            customWorkspace '/var/lib/jenkins/workspace/Release/fedora-38'
         }
     }
 
     stages {
         stage('Sources') {
             steps {
-                sh 'pwd'
                 dir ('aux') {
-                    sh 'pwd'
                     git 'https://github.com/regina-normal/aux.git'
                 }
                 sh 'rm -rf rpmbuild'
