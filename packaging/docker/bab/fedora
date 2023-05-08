@@ -84,7 +84,7 @@ mkdir -p "$rootfsDir/dev" "$rootfsDir/proc"
 
 if [ "$ver" -ge 36 ]; then
   chroot "$rootfsDir" dnf install -y -b --setopt=install_weak_deps=False \
-    authselect
+    authselect pam
   echo '----- Initialising authselect -----'
   chroot "$rootfsDir" authselect select minimal --force
 fi
