@@ -63,7 +63,7 @@ and a low-level C++ programming interface.
 %global debug_package %{nil}
 
 %prep
-%setup -n regina-%{version}
+%autosetup -v -n regina-%{version}
 
 %build
 mkdir -p %{_target_platform}
