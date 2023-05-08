@@ -17,7 +17,7 @@ pipeline {
         stage('Build Package') {
             steps {
                 dir ('arch') {
-                    sh 'cp ../aux/packaging/arch/PKGBUILD .'
+                    sh 'cp ../aux/packaging/arch/release/PKGBUILD .'
                     sh 'MAKEFLAGS=-j2 makepkg'
                 }
             }

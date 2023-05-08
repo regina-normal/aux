@@ -18,7 +18,7 @@ pipeline {
             steps {
                 dir ('debian/regina') {
                     sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
-                    sh 'cp -pR ../../aux/packaging/debian/jammy debian'
+                    sh 'cp -pR ../../aux/packaging/debian/release/jammy debian'
                     sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild --no-sign -j2'
                 }
             }
