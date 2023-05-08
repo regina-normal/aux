@@ -1,0 +1,16 @@
+diff --git a/build/parsePrep.c b/build/parsePrep.c
+index b704f3e37..393036898 100644
+--- a/build/parsePrep.c
++++ b/build/parsePrep.c
+@@ -96,9 +96,9 @@ static char *doPatch(rpmSpec spec, uint32_t c, int strip, const char *db,
+ 
+     /* Avoid the extra cost of fork and pipe for uncompressed patches */
+     if (notCompressed(fn)) {
+-	patchcmd = rpmExpand("%{__patch} ", args, " < ", fn, NULL);
++	patchcmd = rpmExpand("%{__patch} ", args, " < '", fn, "'", NULL);
+     } else {
+-	patchcmd = rpmExpand("{ %{__rpmuncompress} ", fn, " || echo patch_fail ; } | "
++	patchcmd = rpmExpand("{ %{__rpmuncompress} '", fn, "' || echo patch_fail ; } | "
+                              "%{__patch} ", args, NULL);
+     }
+ 
