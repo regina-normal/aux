@@ -10,10 +10,6 @@ URL: http://regina-normal.github.io/
 Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
-Patch0: gcc13-uint8_t.diff
-Patch1: link-resolve.diff
-Patch2: memory-leak.diff
-
 Requires: mimehandler(application/pdf)
 Requires: python3
 Conflicts: regina
@@ -60,9 +56,6 @@ and a low-level C++ programming interface.
 
 %prep
 %setup -n regina-%{version}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
 mkdir -p %{_target_platform}
