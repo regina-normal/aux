@@ -1,0 +1,30 @@
+--- regina-normal-7.3/engine/triangulation/facepair.h
++++ regina-normal-7.3/engine/triangulation/facepair.h
+@@ -40,6 +40,7 @@
+ #endif
+ 
+ #include "regina-core.h"
++#include <cstdint>
+ #include <iostream>
+ 
+ namespace regina {
+--- regina-normal-7.3/engine/utilities/qitmask.h
++++ regina-normal-7.3/engine/utilities/qitmask.h
+@@ -40,6 +40,7 @@
+ #endif
+ 
+ #include <algorithm>
++#include <cstdint>
+ #include <iostream>
+ 
+ #include "regina-core.h"
+--- regina-normal-7.3/engine/utilities/stringutils.h
++++ regina-normal-7.3/engine/utilities/stringutils.h
+@@ -39,6 +39,7 @@
+ #define __REGINA_STRINGUTILS_H
+ #endif
+ 
++#include <cstdint>
+ #include <string>
+ #include <vector>
+ #include "regina-core.h"
