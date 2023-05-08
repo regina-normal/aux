@@ -3,6 +3,7 @@ GCC versions seen in the wild:
 12.2.x:
   - Fedora 37
   - Ubuntu kinetic (22.10)
+  - Ubuntu lunar (23.04)
 12.0.x:
   - Fedora 36
 12 (prerelease):
@@ -56,6 +57,8 @@ Clang versions seen in the wild:
 
 CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
+3.25.1:
+  - Ubuntu lunar (23.04)
 3.24.2:
   - Ubuntu kinetic (22.10)
 3.24.1:
@@ -77,6 +80,8 @@ Doxygen versions [regina needs 1.8.17]
 
 1.9.5:
   - Fedora 37
+1.9.4:
+  - Ubuntu lunar (23.04)
 1.9.1:
   - Debian bullseye
   - Fedora 36
@@ -89,6 +94,8 @@ Doxygen versions [regina needs 1.8.17]
 
 Python versions [regina needs 3.6]:
 
+3.11.2:
+  - Ubuntu lunar (23.04)
 3.11.0:
   - Fedora 37
 3.10.7:
@@ -105,6 +112,8 @@ Python versions [regina needs 3.6]:
 
 Qt versions:
 
+6.4.2:
+  - Ubuntu lunar (23.04)
 6.3.1:
   - Ubuntu kinetic (22.10)
   - Fedora 37
