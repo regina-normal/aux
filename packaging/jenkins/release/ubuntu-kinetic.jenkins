@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/ubuntu:kinetic' } }
+    agent {
+        docker {
+            image 'regina/ubuntu:kinetic'
+            customWorkspace '/var/lib/jenkins/workspace/release/ubuntu-kinetic'
+        }
+    }
 
     stages {
         stage('Sources') {

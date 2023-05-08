@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/debian:bullseye' } }
+    agent {
+        docker {
+            image 'regina/debian:bullseye'
+            customWorkspace '/var/lib/jenkins/workspace/debian-bullseye'
+        }
+    }
 
     stages {
         stage('Git') {

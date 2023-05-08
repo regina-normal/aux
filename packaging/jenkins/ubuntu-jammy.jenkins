@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/ubuntu:jammy' } }
+    agent {
+        docker {
+            image 'regina/ubuntu:jammy'
+            customWorkspace '/var/lib/jenkins/workspace/ubuntu-jammy'
+        }
+    }
 
     stages {
         stage('Git') {

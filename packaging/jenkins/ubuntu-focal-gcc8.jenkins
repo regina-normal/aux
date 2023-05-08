@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/ubuntu:focal' } }
+    agent {
+        docker {
+            image 'regina/ubuntu:focal'
+            customWorkspace '/var/lib/jenkins/workspace/gcc-8'
+        }
+    }
 
     stages {
         stage('Git') {

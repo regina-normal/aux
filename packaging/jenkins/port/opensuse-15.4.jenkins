@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/opensuse:15.4' } }
+    agent {
+        docker {
+            image 'regina/opensuse:15.4'
+            customWorkspace '/var/lib/jenkins/workspace/port/opensuse-15.4'
+        }
+    }
 
     stages {
         stage('Sources') {

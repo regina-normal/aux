@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/fedora:36' } }
+    agent {
+        docker {
+            image 'regina/fedora:36'
+            customWorkspace '/var/lib/jenkins/workspace/port/fedora-36'
+        }
+    }
 
     stages {
         stage('Sources') {

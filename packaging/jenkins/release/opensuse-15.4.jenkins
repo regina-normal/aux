@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'regina/opensuse:15.4'
-            customWorkspace '/var/lib/jenkins/workspace/Release/opensuse-15.4'
+            customWorkspace '/var/lib/jenkins/workspace/release/opensuse-15.4'
         }
     }
 

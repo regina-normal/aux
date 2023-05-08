@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/ubuntu:lunar' } }
+    agent {
+        docker {
+            image 'regina/ubuntu:lunar'
+            customWorkspace '/var/lib/jenkins/workspace/ubuntu-lunar'
+        }
+    }
 
     stages {
         stage('Git') {

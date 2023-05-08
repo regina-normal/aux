@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/arch' } }
+    agent {
+        docker {
+            image 'regina/arch'
+            customWorkspace '/var/lib/jenkins/workspace/arch'
+        }
+    }
 
     stages {
         stage('Git') {
