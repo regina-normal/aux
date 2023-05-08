@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'regina/fedora:38'
-            customWorkspace '/jenkins'
+            customWorkspace '/var/lib/jenkins/workspace/fedora-38'
         }
     }
 
