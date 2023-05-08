@@ -1,3 +1,11 @@
+regina-normal (7.3-1~bpo11+1~regina2) bullseye; urgency=low
+
+  * Fixed a bug where Link::resolve() would not clear calculated properties,
+    which could result in incorrect link invariants being cached.
+  * Fixed a memory leak in move assignment for triangulations.
+
+ -- Ben Burton <bab@debian.org>  Mon, 08 May 2023 15:55:49 +1000
+
 regina-normal (7.3-1~bpo11+1~regina1) bullseye; urgency=low
 
   * New upstream release, packaged for bullseye.
