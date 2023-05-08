@@ -11,6 +11,7 @@ pipeline {
                 sh 'mkdir rpmbuild'
                 dir ('rpmbuild/SOURCES') {
                     sh '../../aux/packaging/jenkins/release/fetch_source'
+                    sh 'cp ../../aux/packaging/rpmspec/release/*.diff .'
                 }
             }
         }

@@ -36,6 +36,14 @@ BuildRequires: shared-mime-info
 BuildRequires: tokyocabinet-devel
 BuildRequires: zlib-devel
 
+%patchlist
+# Compatibility for gcc13:
+gcc13-uint8_t.diff
+# Ensure that Link::resolve() clears computed properties:
+link-resolve.diff
+# Fix memory leak in Triangulation move assignment:
+memory-leak.diff
+
 %description
 Regina is a software package for 3-manifold and 4-manifold topologists,
 with a focus on triangulations, knots and links, normal surfaces, and
