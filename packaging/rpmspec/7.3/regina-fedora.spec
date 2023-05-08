@@ -10,6 +10,10 @@ URL: http://regina-normal.github.io/
 Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
+Patch0: gcc13-uint8_t.diff
+Patch1: link-resolve.diff
+Patch2: memory-leak.diff
+
 Requires: mimehandler(application/pdf)
 Requires: python3
 Conflicts: regina
@@ -36,14 +40,6 @@ BuildRequires: shared-mime-info
 BuildRequires: tokyocabinet-devel
 BuildRequires: zlib-devel
 
-%patchlist
-# Compatibility for gcc13:
-gcc13-uint8_t.diff
-# Ensure that Link::resolve() clears computed properties:
-link-resolve.diff
-# Fix memory leak in Triangulation move assignment:
-memory-leak.diff
-
 %description
 Regina is a software package for 3-manifold and 4-manifold topologists,
 with a focus on triangulations, knots and links, normal surfaces, and
@@ -63,7 +59,10 @@ and a low-level C++ programming interface.
 %global debug_package %{nil}
 
 %prep
-%autosetup -v -n regina-%{version}
+%setup -n regina-%{version}
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 mkdir -p %{_target_platform}
