@@ -121,7 +121,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_prefix}/lib/python3.6/site-packages/regina/
 
 %changelog
-* Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.4
+* Tue May 9 2023 Ben Burton <bab@debian.org> 7.4
 - New upstream release.
 
 * Tue May 9 2023 Ben Burton <bab@debian.org> 7.3-2
