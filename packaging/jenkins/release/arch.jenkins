@@ -23,6 +23,7 @@ pipeline {
             steps {
                 dir ('arch') {
                     sh 'cp ../aux/packaging/arch/release/PKGBUILD .'
+                    sh 'cp ../aux/packaging/arch/release/*.diff .'
                     sh 'MAKEFLAGS=-j2 makepkg'
                 }
             }
