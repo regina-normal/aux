@@ -19,10 +19,3 @@ RUN dnf install -y -b --setopt=install_weak_deps=False \
 	tokyocabinet-devel \
 	zlib-devel
 RUN dnf clean all
-
-# Patch RPM and friends to work when topdir contains spaces:
-ADD regina-key.asc /usr/local/regina/
-RUN rpm --import /usr/local/regina/regina-key.asc
-RUN dnf config-manager --add-repo https://people.debian.org/~bab/rpm/rpm-patches/fedora/37/rpm-patches.repo
-RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
-RUN dnf clean all
