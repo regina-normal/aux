@@ -32,14 +32,6 @@ RUN zypper install -y --no-recommends \
 RUN zypper install -y --no-recommends ca-certificates ca-certificates-mozilla
 RUN update-ca-certificates
 
-# Install my own patched RPM, to support %_topdir with spaces.
-#
-ADD regina-key.asc /usr/local/regina/
-RUN rpm --import /usr/local/regina/regina-key.asc
-RUN zypper addrepo https://people.debian.org/~bab/rpm/rpm-patches/opensuse/15.4/rpm-patches.repo
-RUN zypper refresh
-RUN zypper update -y --no-recommends --allow-vendor-change
-
 # Install a newer doxygen also.  The one shipped with openSUSE is ancient
 # (so ancient that Regina can't use it).
 #
@@ -54,6 +46,8 @@ RUN zypper update -y --no-recommends --allow-vendor-change
 # I avoid this problematic dependency by building a newer doxygen myself (using
 # an out-of-the-box 15.4 installation as the build machine).
 #
+ADD regina-key.asc /usr/local/regina/
+RUN rpm --import /usr/local/regina/regina-key.asc
 RUN zypper addrepo https://people.debian.org/~bab/rpm/doxygen/opensuse/15.4/doxygen.repo
 RUN zypper refresh
 RUN zypper update -y --no-recommends --allow-vendor-change
