@@ -38,7 +38,7 @@ source=("regina-$pkgver.tar.gz"
         gcc13-uint8_t.diff
         link-resolve.diff
         memory-leak.diff)
-sha256sums=(SKIP)
+sha256sums=(SKIP SKIP SKIP SKIP)
 
 prepare() {
     cd "$srcdir/regina-$pkgver"
