@@ -124,6 +124,13 @@ rm -rf "$RPM_BUILD_ROOT"
 * Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.4
 - New upstream release.
 
+* Tue May 9 2023 Ben Burton <bab@debian.org> 7.3-2
+- Backported some recent fixes from the repository:
+  * Fixed a bug where Link::resolve() would not clear calculated properties,
+    which could result in incorrect link invariants being cached.
+  * Fixed a memory leak in move assignment for triangulations.
+  * Now builds under gcc 13.
+
 * Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.3
 - New upstream release.
 

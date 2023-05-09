@@ -36,6 +36,9 @@ BuildRequires: shared-mime-info
 BuildRequires: tokyocabinet-devel
 BuildRequires: zlib-devel
 
+%patchlist
+# No patches for now.
+
 %description
 Regina is a software package for 3-manifold and 4-manifold topologists,
 with a focus on triangulations, knots and links, normal surfaces, and
@@ -55,7 +58,7 @@ and a low-level C++ programming interface.
 %global debug_package %{nil}
 
 %prep
-%setup -n regina-%{version}
+%autosetup -v -p1 -n regina-%{version}
 
 %build
 mkdir -p %{_target_platform}
@@ -140,6 +143,13 @@ rm -rf "$RPM_BUILD_ROOT"
 %changelog
 * Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.4
 - New upstream release.
+
+* Tue May 9 2023 Ben Burton <bab@debian.org> 7.3-2
+- Backported some recent fixes from the repository:
+  * Fixed a bug where Link::resolve() would not clear calculated properties,
+    which could result in incorrect link invariants being cached.
+  * Fixed a memory leak in move assignment for triangulations.
+  * Now builds under gcc 13.
 
 * Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.3
 - New upstream release.
