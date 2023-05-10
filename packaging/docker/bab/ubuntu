@@ -25,8 +25,25 @@ else
   arch=`dpkg --print-architecture`
 fi
 
-echo "Preparing Ubuntu $ver ($arch) as $tag ..."
-echo
-./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver"
+# Some ubuntu versions live on the old-releases mirror, but debootstrap
+# is not aware of this.  Here are the ones we care about for now...
+archive=0
+case "$ver" in
+  groovy ) archive=1 ;;
+  hirsute ) archive=1 ;;
+  impish ) archive=1 ;;
+  * ) ;;
+esac
+
+if [ "$archive" = 0 ]; then
+  echo "Preparing Ubuntu $ver ($arch) as $tag ..."
+  echo
+  ./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver"
+else
+  echo "Preparing Ubuntu $ver ($arch, archived) as $tag ..."
+  echo
+  ./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver" \
+    http://old-releases.ubuntu.com/ubuntu
+fi
 
 exit 0
