@@ -32,6 +32,9 @@ To create a new repository or add/update packages in an existing repository:
 
   $ repo-add --sign --verify regina.db.tar.gz *.zst
 
+  + BEWARE: symlinks (db/files) seem to break over the UTM virtfs share.
+    Currently these need to be fixed manually.
+
 To set up the repository for use on a user machine:
 
   $ pacman-key --add /path/to/signing/key
