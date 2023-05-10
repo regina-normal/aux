@@ -247,7 +247,13 @@ fi
 	set -x
 
 	# make sure we're fully up-to-date
-	rootfs_chroot sh -xc 'apt-get update && apt-get dist-upgrade -y'
+	#
+	# note: an update now fails on bionic (updated rsyslog will not configure),
+	# but this problem seems to go away after the full docker image is built;
+	# therefore for bionic we leave the update for another time
+	if [ "$suite" != bionic ]; then
+		rootfs_chroot sh -xc 'apt-get update && apt-get dist-upgrade -y'
+	fi
 
 	# delete all the apt list files since they're big and get stale quickly
 	rm -rf "$rootfsDir/var/lib/apt/lists"/*
