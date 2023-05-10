@@ -2,6 +2,7 @@
 use strict;
 
 my $dockerfile=$ARGV[0];
+$dockerfile or die "Usage: ./build <dockerfile>";
 -e $dockerfile or die "Dockerfile not present: $dockerfile";
 
 my $tag;

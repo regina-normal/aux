@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# Usage: apt-line-gen <suite>
+#
+set -e
+
+suite="$1"
+
+echo 'X-Repolib-Name: Regina'
+echo 'Types: deb deb-src'
+echo 'URIs: https://people.debian.org/~bab/regina'
+echo "Suites: $1"
+echo 'Components: main'
+if [ "$suite" = bionic ]; then
+  echo 'Signed-By: /usr/share/keyrings/debian-keyring.gpg'
+else
+  echo 'Signed-By:'
+  echo '  /usr/share/keyrings/debian-keyring.gpg'
+  echo '  519A0009FB50255DDB4E889270A6BEDF542D38D9'
+fi
+

@@ -1,13 +1,13 @@
 This directory contains the scripts, instructions and docker files used
-to create the various bab/* and regina/* docker images.
+to create the various bab/*, regina/*, and other related docker images.
 
-The bab/* images are minimal installations of various GNU/Linux distributions.
-
-The pkgdev/* images extend these to include essential tools for building
-packages.
-
-The regina/* images extend these further to include all of the software
-necessary to build regina.
+bab/* images are minimal installations of various GNU/Linux distributions.
+ |
+ \- user/* extend bab/* to include Regina's repositories (for Regina users).
+ |
+ \- pkgdev/* extend bab/* to include essential tools for building packages.
+     |
+     \- regina/* extend pkgdev/* to include all software for building regina.
 
 ---------------------------------------------------------------------------
 SETTING UP A DOCKER HOST MACHINE
