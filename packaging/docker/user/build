@@ -2,27 +2,28 @@
 use strict;
 
 my $dockerfile = 'Dockerfile';
-my $template = 'Dockerfile.template';
 
 my $suite=$ARGV[0];
 $suite or die "Usage: ./build <suite>";
 -e "/usr/share/debootstrap/scripts/$suite" or
     die "Not a known debian/ubuntu suite: $suite";
 
-(-e 'apt-line-gen' and -e $template) or
-    die "This script must be run from within its own directory";
+-e 'regina-gen' or die "This script must be run from within its own directory";
 
 my $dist;
+my $template;
 open(DEBOOTSTRAP, '<', "/usr/share/debootstrap/scripts/$suite") or die;
 while (<DEBOOTSTRAP>) {
     if (/^keyring .*ubuntu/) {
         print "Ubuntu: $suite\n";
         $dist='ubuntu';
+        $template = 'ubuntu.template';
         last;
     }
     if (/^keyring .*debian/) {
         print "Debian: $suite\n";
         $dist='debian';
+        $template = 'debian.template';
         last;
     }
 }

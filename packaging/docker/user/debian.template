@@ -1,0 +1,18 @@
+FROM bab/debian:SUITE
+
+# Add what we need to get Regina's repository working:
+RUN apt-get update
+RUN apt-get dist-upgrade -y
+RUN apt-get install -y --no-install-recommends \
+    ca-certificates debian-keyring vim
+RUN apt-get clean
+
+# Finally, add Regina's repository:
+ADD regina-gen /etc/apt/regina-gen
+RUN /etc/apt/regina-gen SUITE > /etc/apt/sources.list.d/regina.sources; \
+    cat /etc/apt/sources.list.d/regina.sources; \
+    rm /etc/apt/regina-gen
+RUN apt-get update
+
+# Create an ordinary user:
+RUN useradd -U -s /bin/bash -m user

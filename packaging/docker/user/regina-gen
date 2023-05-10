@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Usage: apt-line-gen <suite>
+# Usage: regina-gen <suite>
 #
 set -e
 
