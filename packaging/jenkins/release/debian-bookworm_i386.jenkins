@@ -1,0 +1,33 @@
+pipeline {
+    agent {
+        docker {
+            image 'regina/debian:bookworm_i386'
+            customWorkspace '/var/lib/jenkins/workspace/release/debian-bookworm_i386'
+        }
+    }
+
+    stages {
+        stage('Sources') {
+            steps {
+                dir ('aux') {
+                    git 'https://github.com/regina-normal/aux.git'
+                }
+                sh 'rm -rf debian'
+                dir ('debian') {
+                    sh '../aux/packaging/jenkins/release/fetch_source_deb'
+                }
+            }
+        }
+
+        stage('Build DEB') {
+            steps {
+                dir ('debian/regina') {
+                    sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
+                    sh 'cp -pR ../../aux/packaging/debian/release/bookworm debian'
+                    sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild -B --no-sign -j2'
+                }
+            }
+        }
+    }
+}
+
