@@ -1,6 +1,9 @@
 GCC versions seen in the wild:
 
+13.0.1:
+  - Fedora 38
 12.2.x:
+  - Debian bookworm
   - Fedora 37
   - Ubuntu kinetic (22.10)
   - Ubuntu lunar (23.04)
@@ -8,6 +11,8 @@ GCC versions seen in the wild:
   - Fedora 36
 12 (prerelease):
   - OPTIONAL Ubuntu jammy (22.04 LTS)
+11.3.x:
+  - OPTIONAL Debian bookworm
 11.2.x:
   - Ubuntu jammy (22.04 LTS)
 10.3.x:
@@ -28,13 +33,17 @@ GCC versions seen in the wild:
 7.2.x:
   - Rocks 7.0 + gnu/7.2.0 module (e.g., tinaroo)
 
-Clang versions seen in the wild:
+Clang versions seen in the wild (debian/ubuntu only):
 
 15.0.x:
+  - OPTIONAL Debian bookworm
+  - Ubuntu lunar (23.04)
   - Ubuntu kinetic (22.10)
 14.0.x:
+  - Debian bookworm
   - Ubuntu jammy (22.04 LTS)
 13.0.x:
+  - OPTIONAL Debian bookworm
   - OPTIONAL Ubuntu jammy (22.04 LTS)
 12.0.x:
   - OPTIONAL Ubuntu jammy (22.04 LTS)
@@ -42,7 +51,6 @@ Clang versions seen in the wild:
   - OPTIONAL Ubuntu jammy (22.04 LTS)
 11.0.x:
   - Debian bullseye
-  - MSYS2 (Feb 2021)
 10.0.x:
   - Ubuntu focal (20.04 LTS)
 9.0.x:
@@ -57,7 +65,10 @@ Clang versions seen in the wild:
 
 CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
+3.26.2:
+  - Fedora 38
 3.25.1:
+  - Debian bookworm
   - Ubuntu lunar (23.04)
 3.24.2:
   - Ubuntu kinetic (22.10)
@@ -78,9 +89,12 @@ CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
 Doxygen versions [regina needs 1.8.17]
 
+1.9.6:
+  - Fedora 38
 1.9.5:
   - Fedora 37
 1.9.4:
+  - Debian bookworm
   - Ubuntu lunar (23.04)
 1.9.1:
   - Debian bullseye
@@ -95,6 +109,8 @@ Doxygen versions [regina needs 1.8.17]
 Python versions [regina needs 3.6]:
 
 3.11.2:
+  - Debian bookworm
+  - Fedora 38
   - Ubuntu lunar (23.04)
 3.11.0:
   - Fedora 37
@@ -112,7 +128,10 @@ Python versions [regina needs 3.6]:
 
 Qt versions:
 
+6.4.3:
+  - Fedora 38
 6.4.2:
+  - Debian bookworm
   - Ubuntu lunar (23.04)
 6.3.1:
   - Ubuntu kinetic (22.10)
