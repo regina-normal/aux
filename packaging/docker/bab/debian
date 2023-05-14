@@ -25,8 +25,39 @@ else
   arch=`dpkg --print-architecture`
 fi
 
-echo "Preparing Debian $ver ($arch) as $tag ..."
-echo
-./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver"
+# Ancient debian versions live on the archive mirror, but debootstrap is not
+# aware of this.  Here are the ones we care about for now...
+archive=0
+oldkey=0
+case "$ver" in
+  squeeze ) archive=1; oldkey=1 ;;
+  wheezy ) archive=1; oldkey=1 ;;
+  jessie ) archive=1; oldkey=1 ;;
+  stretch ) archive=1 ;;
+  * ) ;;
+esac
+
+if [ "$archive" = 0 ]; then
+  echo "Preparing Debian $ver ($arch) as $tag ..."
+  echo
+  if [ "$oldkey" = 0 ]; then
+    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver"
+  else
+    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" \
+      --keyring=/usr/share/keyrings/debian-archive-removed-keys.gpg \
+      "$ver"
+  fi
+else
+  echo "Preparing Debian $ver ($arch, archived) as $tag ..."
+  echo
+  if [ "$oldkey" = 0 ]; then
+    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver" \
+      http://archive.debian.org/debian
+  else
+    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" \
+      --keyring=/usr/share/keyrings/debian-archive-removed-keys.gpg \
+      "$ver" http://archive.debian.org/debian
+  fi
+fi
 
 exit 0
