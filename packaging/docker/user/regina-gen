@@ -31,9 +31,6 @@ aptstyle=
 case "$suite" in
   # Ancient debian:
   stretch ) aptstyle=standalone ;;
-  jessie ) aptstyle=standalone ;;
-  wheezy ) aptstyle=standalone ;;
-  squeeze ) aptstyle=standalone ;;
   # Ancient ubuntu LTS:
   bionic ) aptstyle=nokeyid ;;
   xenial ) aptstyle=standalone ;;
