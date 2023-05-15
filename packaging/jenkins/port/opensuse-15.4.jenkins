@@ -25,7 +25,7 @@ pipeline {
             steps {
                 dir ('rpmbuild/SPECS') {
                     sh 'cp ../../aux/packaging/rpmspec/release/regina-suse-15.4.spec .'
-                    sh 'RPM_BUILD_NCPUS=2 rpmbuild --define "_topdir `pwd`/.." -bb regina-suse-15.4.spec'
+                    sh 'RPM_BUILD_NCPUS=2 rpmbuild --clean --define "_topdir `pwd`/.." -bb regina-suse-15.4.spec'
                 }
             }
         }
