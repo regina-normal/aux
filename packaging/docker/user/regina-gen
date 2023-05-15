@@ -6,6 +6,24 @@ set -e
 
 suite="$1"
 
+# Some ancient distributions where we used separate archives per suite, before
+# moving to a unified archive (dists/, pool/, etc.).
+ancient_debian="stretch jessie wheezy squeeze"
+ancient_ubuntu_lts="xenial trusty precise lucid"
+
+for i in $ancient_debian $ancient_ubuntu_lts; do
+  if [ "$suite" = "$i" ]; then
+    # We have an ancient distribution:
+    echo 'X-Repolib-Name: Regina'
+    echo 'Types: deb deb-src'
+    echo 'URIs: https://people.debian.org/~bab/regina'
+    echo "Suites: $1/"
+    echo 'Signed-By: /usr/share/keyrings/debian-keyring.gpg'
+    exit 0
+  fi
+done
+
+# We have a non-ancient distribution:
 echo 'X-Repolib-Name: Regina'
 echo 'Types: deb deb-src'
 echo 'URIs: https://people.debian.org/~bab/regina'
