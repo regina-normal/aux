@@ -16,7 +16,10 @@ for i in $ancient_debian $ancient_ubuntu_lts; do
     # We have an ancient distribution:
     echo 'X-Repolib-Name: Regina'
     echo 'Types: deb deb-src'
-    echo 'URIs: https://people.debian.org/~bab/regina'
+    # Source the archive from a different location (currently mirrored at UQ),
+    # since p.d.o uses a root certificate that ancient distros cannot verify.
+    # echo 'URIs: https://people.debian.org/~bab/regina'
+    echo 'URIs: https://people.smp.uq.edu.au/BenjaminBurton/archive'
     echo "Suites: $1/"
     echo 'Signed-By: /usr/share/keyrings/debian-keyring.gpg'
     exit 0
