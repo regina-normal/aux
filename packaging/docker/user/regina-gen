@@ -6,37 +6,89 @@ set -e
 
 suite="$1"
 
-# Some ancient distributions where we used separate archives per suite, before
-# moving to a unified archive (dists/, pool/, etc.).
-ancient_debian="stretch jessie wheezy squeeze"
-ancient_ubuntu_lts="xenial trusty precise lucid"
+# aptstyle: indicates how we present our sources.list.
+#
+# Options:
+#
+# - modern : use regina's unified archive (dists/, pool/, etc.), with a
+#   deb822-style *.sources that supports Signed-By with individual fingerprints.
+#
+# - nokeyid : use regina's unified archive (dists/, pool/, etc.), with a
+#   deb822-style *.sources that only supports Signed-By with an entire keyring.
+#
+# - standalone : use regina's legacy standalone suite-specific archives, with a
+#   deb822-style *.sources that only supports Signed-By with an entire keyring.
+#
+# - line : use regina's legacy standalone suite-specific archives, with a
+#   *.list that holds individual apt-lines.  Assumes that
+#   /etc/apt/regina-key.asc is present.
+#
+# Note: for legacy standalone suite-specific archives, we will source these
+# from a different location (currently mirrored at UQ), since p.d.o uses a
+# new SSL root certificate that ancient distros cannot verify.
+aptstyle=
 
-for i in $ancient_debian $ancient_ubuntu_lts; do
-  if [ "$suite" = "$i" ]; then
-    # We have an ancient distribution:
-    echo 'X-Repolib-Name: Regina'
-    echo 'Types: deb deb-src'
-    # Source the archive from a different location (currently mirrored at UQ),
-    # since p.d.o uses a root certificate that ancient distros cannot verify.
-    # echo 'URIs: https://people.debian.org/~bab/regina'
-    echo 'URIs: https://people.smp.uq.edu.au/BenjaminBurton/archive'
-    echo "Suites: $1/"
-    echo 'Signed-By: /usr/share/keyrings/debian-keyring.gpg'
-    exit 0
-  fi
-done
+case "$suite" in
+  # Ancient debian:
+  stretch ) aptstyle=standalone ;;
+  jessie ) aptstyle=standalone ;;
+  wheezy ) aptstyle=standalone ;;
+  squeeze ) aptstyle=standalone ;;
+  # Ancient ubuntu LTS:
+  bionic ) aptstyle=nokeyid ;;
+  xenial ) aptstyle=standalone ;;
+  trusty ) aptstyle=line ;;
+  precise ) aptstyle=line ;;
+  lucid ) aptstyle=line ;;
+  # Default:
+  * ) aptstyle=modern ;;
+esac
 
-# We have a non-ancient distribution:
-echo 'X-Repolib-Name: Regina'
-echo 'Types: deb deb-src'
-echo 'URIs: https://people.debian.org/~bab/regina'
-echo "Suites: $1"
-echo 'Components: main'
-if [ "$suite" = bionic ]; then
-  echo 'Signed-By: /usr/share/keyrings/debian-keyring.gpg'
+echo "Setting up repository for $suite, APT style : $aptstyle"
+
+if [ "$aptstyle" = modern ]; then
+  src=/etc/apt/sources.list.d/regina.sources
+  cat > "$src" <<__END__
+X-Repolib-Name: Regina
+Types: deb deb-src
+URIs: https://people.debian.org/~bab/regina
+Suites: $suite
+Components: main
+Signed-By:
+  /usr/share/keyrings/debian-keyring.gpg
+  519A0009FB50255DDB4E889270A6BEDF542D38D9
+__END__
+elif [ "$aptstyle" = nokeyid ]; then
+  src=/etc/apt/sources.list.d/regina.sources
+  cat > "$src" <<__END__
+X-Repolib-Name: Regina
+Types: deb deb-src
+URIs: https://people.debian.org/~bab/regina
+Suites: $suite
+Components: main
+Signed-By: /usr/share/keyrings/debian-keyring.gpg
+__END__
+elif [ "$aptstyle" = standalone ]; then
+  src=/etc/apt/sources.list.d/regina.sources
+  cat > "$src" <<__END__
+X-Repolib-Name: Regina
+Types: deb deb-src
+URIs: https://people.smp.uq.edu.au/BenjaminBurton/archive
+Suites: $suite/
+Signed-By: /usr/share/keyrings/debian-keyring.gpg
+__END__
+elif [ "$aptstyle" = line ]; then
+  src=/etc/apt/sources.list.d/regina.list
+  apt-key add /etc/apt/regina-key.asc
+  cat > "$src" <<__END__
+deb https://people.smp.uq.edu.au/BenjaminBurton/archive $suite/
+deb-src https://people.smp.uq.edu.au/BenjaminBurton/archive $suite/
+__END__
 else
-  echo 'Signed-By:'
-  echo '  /usr/share/keyrings/debian-keyring.gpg'
-  echo '  519A0009FB50255DDB4E889270A6BEDF542D38D9'
+  echo 'Unknown APT style!'
+  exit 1
 fi
 
+echo --------------------
+cat "$src"
+echo --------------------

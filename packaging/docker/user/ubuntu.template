@@ -15,9 +15,9 @@ RUN apt-get clean
 
 # Finally, add Regina's repository:
 ADD regina-gen /etc/apt/regina-gen
-RUN /etc/apt/regina-gen SUITE > /etc/apt/sources.list.d/regina.sources; \
-    cat /etc/apt/sources.list.d/regina.sources; \
-    rm /etc/apt/regina-gen
+ADD regina-key.asc /etc/apt/regina-key.asc
+RUN /etc/apt/regina-gen SUITE; \
+    rm /etc/apt/regina-gen /etc/apt/regina-key.asc
 RUN apt-get update
 
 # Create an ordinary user:
