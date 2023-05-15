@@ -37,27 +37,18 @@ case "$ver" in
   * ) ;;
 esac
 
-if [ "$archive" = 0 ]; then
-  echo "Preparing Debian $ver ($arch) as $tag ..."
-  echo
-  if [ "$oldkey" = 0 ]; then
-    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver"
-  else
-    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" \
-      --keyring=/usr/share/keyrings/debian-archive-removed-keys.gpg \
-      "$ver"
-  fi
-else
-  echo "Preparing Debian $ver ($arch, archived) as $tag ..."
-  echo
-  if [ "$oldkey" = 0 ]; then
-    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver" \
-      http://archive.debian.org/debian
-  else
-    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" \
-      --keyring=/usr/share/keyrings/debian-archive-removed-keys.gpg \
-      "$ver" http://archive.debian.org/debian
-  fi
+debootstrap_opts="--arch=$arch"
+debootstrap_args="$ver"
+
+if [ "$archive" = 1 ]; then
+  debootstrap_args="$debootstrap_args http://archive.debian.org/debian"
 fi
+if [ "$oldkey" = 1 ]; then
+  debootstrap_opts="$debootstrap_opts --keyring=/usr/share/keyrings/debian-archive-removed-keys.gpg"
+fi
+
+echo "Preparing Debian $ver ($arch) as $tag ..."
+echo
+./mkimage.sh -t "$tag" debootstrap $debootstrap_opts $debootstrap_args
 
 exit 0

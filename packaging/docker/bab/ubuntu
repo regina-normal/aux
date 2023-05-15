@@ -40,27 +40,15 @@ case "$ver" in
   * ) ;;
 esac
 
-if [ "$archive" = 0 ]; then
-  echo "Preparing Ubuntu $ver ($arch) as $tag ..."
-  echo
-  if [ "$oldkey" = 0 ]; then
-    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver"
-  else
-    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" \
-    --keyring=/usr/share/keyrings/ubuntu-archive-removed-keys.gpg \
-    "$ver"
-  fi
-else
-  echo "Preparing Ubuntu $ver ($arch, archived) as $tag ..."
-  echo
-  if [ "$oldkey" = 0 ]; then
-    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver" \
-      http://old-releases.ubuntu.com/ubuntu
-  else
-    ./mkimage.sh -t "$tag" debootstrap --arch="$arch" \
-      --keyring=/usr/share/keyrings/ubuntu-archive-removed-keys.gpg \
-      "$ver" http://old-releases.ubuntu.com/ubuntu
-  fi
+if [ "$archive" = 1 ]; then
+  debootstrap_args="$debootstrap_args http://old-releases.ubuntu.com/ubuntu"
 fi
+if [ "$oldkey" = 1 ]; then
+  debootstrap_opts="$debootstrap_opts --keyring=/usr/share/keyrings/ubuntu-archive-removed-keys.gpg"
+fi
+
+echo "Preparing Ubuntu $ver ($arch) as $tag ..."
+echo
+./mkimage.sh -t "$tag" debootstrap $debootstrap_opts $debootstrap_args
 
 exit 0
