@@ -1,10 +1,12 @@
 FROM bab/debian:SUITE
 
-# Add what we need to get Regina's repository working:
+# Add what we need to get Regina's repository working.
+# Note: some ancient debian distros do not include apt-transport-https
+# out of the box, so we include it explicitly here.
 RUN apt-get update
 RUN apt-get dist-upgrade -y
 RUN apt-get install -y --no-install-recommends \
-    ca-certificates debian-keyring vim
+    apt-transport-https ca-certificates debian-keyring vim
 RUN apt-get clean
 
 # Finally, add Regina's repository:
