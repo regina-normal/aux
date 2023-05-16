@@ -11,10 +11,6 @@ Notes for building Debian-based packages
 
 DEB_BUILD_OPTIONS should be space-separated.
 
-The version of dput contained in this directory is dput-0.9.6.4+deb8u1, taken
-from debian jessie.  This is the last dput that was easy to install standalone,
-without requiring more complex debian-specific python dependencies.
-
 
 Setting up Parallels virtual machines
 -------------------------------------

@@ -34,17 +34,28 @@ suite="$1"
 aptstyle=
 
 case "$suite" in
-  # Ancient debian:
+  # Ancient debian (but with non-expired debian archive keys):
   stretch ) aptstyle=standalone ;;
-  jessie ) aptstyle=standalone ;;
-  wheezy ) aptstyle=standalone ;;
-  squeeze ) aptstyle=standalone ;;
   # Ancient ubuntu LTS:
   bionic ) aptstyle=nokeyid ;;
   xenial ) aptstyle=standalone ;;
   trusty ) aptstyle=line ;;
   precise ) aptstyle=line ;;
   lucid ) aptstyle=line ;;
+  # Ancient ubuntu short-term:
+  disco ) aptstyle=standalone ;;
+  cosmic ) aptstyle=standalone ;;
+  artful ) aptstyle=standalone ;;
+  zesty ) aptstyle=standalone ;;
+  yakkety ) aptstyle=standalone ;;
+  vivid ) aptstyle=line ;;
+  utopic ) aptstyle=line ;;
+  saucy ) aptstyle=line ;;
+  raring ) aptstyle=line ;;
+  quantal ) aptstyle=line ;;
+  oneiric ) aptstyle=line ;;
+  natty ) aptstyle=line ;;
+  maverick ) aptstyle=line ;;
   # Default:
   * ) aptstyle=modern ;;
 esac

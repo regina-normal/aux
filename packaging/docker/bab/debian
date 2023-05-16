@@ -30,9 +30,6 @@ fi
 archive=0
 oldkey=0
 case "$ver" in
-  squeeze ) archive=1; oldkey=1 ;;
-  wheezy ) archive=1; oldkey=1 ;;
-  jessie ) archive=1; oldkey=1 ;;
   stretch ) archive=1 ;;
   * ) ;;
 esac

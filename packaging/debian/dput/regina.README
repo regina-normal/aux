@@ -1,3 +1,0 @@
-Patches for regina:
-- apply regina.patch;
-- move dputhelper.py into a helper/ subdirectory.
