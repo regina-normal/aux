@@ -26,9 +26,11 @@ else
 fi
 
 # Ancient debian versions live on the archive mirror, but debootstrap is not
-# aware of this.  Here are the ones we care about for now...
+# aware of this.  The ones we care about are listed below.
+#
+# Note: *very* ancient debian versions no longer have valid signing keys (they
+# are expired and/or revoked), and so we do not attempt to support those at all.
 archive=0
-oldkey=0
 case "$ver" in
   stretch ) archive=1 ;;
   * ) ;;
@@ -39,9 +41,6 @@ debootstrap_args="$ver"
 
 if [ "$archive" = 1 ]; then
   debootstrap_args="$debootstrap_args http://archive.debian.org/debian"
-fi
-if [ "$oldkey" = 1 ]; then
-  debootstrap_opts="$debootstrap_opts --keyring=/usr/share/keyrings/debian-archive-removed-keys.gpg"
 fi
 
 echo "Preparing Debian $ver ($arch) as $tag ..."

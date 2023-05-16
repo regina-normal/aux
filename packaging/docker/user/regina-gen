@@ -41,7 +41,6 @@ case "$suite" in
   xenial ) aptstyle=standalone ;;
   trusty ) aptstyle=line ;;
   precise ) aptstyle=line ;;
-  lucid ) aptstyle=line ;;
   # Ancient ubuntu short-term:
   disco ) aptstyle=standalone ;;
   cosmic ) aptstyle=standalone ;;
@@ -53,9 +52,6 @@ case "$suite" in
   saucy ) aptstyle=line ;;
   raring ) aptstyle=line ;;
   quantal ) aptstyle=line ;;
-  oneiric ) aptstyle=line ;;
-  natty ) aptstyle=line ;;
-  maverick ) aptstyle=line ;;
   # Default:
   * ) aptstyle=modern ;;
 esac
