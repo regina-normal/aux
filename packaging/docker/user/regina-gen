@@ -12,16 +12,21 @@ suite="$1"
 #
 # - modern : use regina's unified archive (dists/, pool/, etc.), with a
 #   deb822-style *.sources that supports Signed-By with individual fingerprints.
+#   Individual fingerprints *possibly* introduced with apt 1.8 (but not sure).
 #
 # - nokeyid : use regina's unified archive (dists/, pool/, etc.), with a
 #   deb822-style *.sources that only supports Signed-By with an entire keyring.
+#   Unified archive introduced in April 2021, shortly after regina 6.0.1.
 #
 # - standalone : use regina's legacy standalone suite-specific archives, with a
 #   deb822-style *.sources that only supports Signed-By with an entire keyring.
+#   Full support for deb822 introduced with apt 1.1.
 #
 # - line : use regina's legacy standalone suite-specific archives, with a
-#   *.list that holds individual apt-lines.  Assumes that
-#   /etc/apt/regina-key.asc is present.
+#   *.list holding individual apt-lines that only need regina's new key.
+#   Assumes /etc/apt/regina-key.asc is present (this will be given to apt-key).
+#   Note: the warning when release files are double-signed but the old key is
+#   absent was removed in apt 1.2.12.
 #
 # Note: for legacy standalone suite-specific archives, we will source these
 # from a different location (currently mirrored at UQ), since p.d.o uses a
