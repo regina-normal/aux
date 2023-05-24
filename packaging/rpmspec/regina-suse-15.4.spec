@@ -109,9 +109,9 @@ rm -rf "$RPM_BUILD_ROOT"
 %docdir %{_datadir}/regina/docs/en/regina-xml
 %docdir %{_datadir}/regina/engine-docs
 %{_bindir}/*
-%{_datadir}/applications/regina.desktop
+%{_datadir}/applications/org.computop.Regina.desktop
 %{_datadir}/icons/hicolor/*/*/*
-%{_datadir}/metainfo/regina.metainfo.xml
+%{_datadir}/metainfo/org.computop.regina.metainfo.xml
 %{_datadir}/mime/packages/regina.xml
 %{_datadir}/regina/
 %{_includedir}/regina/

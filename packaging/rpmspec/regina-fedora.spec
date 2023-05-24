@@ -85,7 +85,7 @@ rm -rf "$RPM_BUILD_ROOT"
 make install/fast DESTDIR="$RPM_BUILD_ROOT" -C %{_target_platform}
 
 desktop-file-validate \
-  "$RPM_BUILD_ROOT%{_datadir}/applications/regina.desktop" ||:
+  "$RPM_BUILD_ROOT%{_datadir}/applications/org.computop.Regina.desktop" ||:
 
 %post
 /sbin/ldconfig
@@ -117,9 +117,9 @@ rm -rf "$RPM_BUILD_ROOT"
 %docdir %{_datadir}/regina/docs/en/regina-xml
 %docdir %{_datadir}/regina/engine-docs
 %{_bindir}/*
-%{_datadir}/applications/regina.desktop
+%{_datadir}/applications/org.computop.Regina.desktop
 %{_datadir}/icons/hicolor/*/*/*
-%{_datadir}/metainfo/regina.metainfo.xml
+%{_datadir}/metainfo/org.computop.regina.metainfo.xml
 %{_datadir}/mime/packages/regina.xml
 %{_datadir}/regina/
 %{_includedir}/regina/
