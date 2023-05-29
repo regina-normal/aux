@@ -4,6 +4,7 @@ Final regina version in apt/yum/zypper repositories:
 
 Debian:         p.d.o reprepro          p.d.o standalone        debian archive
 
+woody:                                                          n/a
 sarge:                                                          4.1.3
 etch:                                                           4.3.1
 lenny:                                                          4.5
@@ -20,7 +21,9 @@ bookworm:       current                                         7.3
 
 Ubuntu LTS:     p.d.o reprepro          p.d.o standalone        ubuntu archive
 
-lucid:                                  4.93
+dapper:                                                         4.2.1
+hardy:                                                          4.4
+lucid:                                  4.93                    4.6
 ............... ^^^ GLIBC INCOMPATIBILITY (debian #875981) ^^^ ...............
 precise:                                4.96                    4.90
 trusty:                                 5.0                     4.95
@@ -33,20 +36,31 @@ jammy:          current                                         7.0
 
 Ubuntu:         p.d.o reprepro          p.d.o standalone        ubuntu archive
 
-maverick:                               4.93
-natty:                                  4.93
-oneiric:                                4.93
+warty:                                                          4.1.2
+hoary:                                                          4.1.3
+breezy:                                                         4.1.3
+edgy:                                                           4.3.1
+feisty:                                                         4.3.1
+gutsy:                                                          4.3.1
+intrepid:                                                       4.5
+jaunty:                                                         4.5.1
+karmic:                                                         4.6
+maverick:                               4.93                    4.6
+natty:                                  4.93                    4.6
+oneiric:                                4.93                    4.6
 ............... ^^^ GLIBC INCOMPATIBILITY (debian #875981) ^^^ ...............
 quantal:                                4.95                    4.93
 raring:                                 4.95                    4.93
 saucy:                                  4.95                    4.93
 utopic:                                 4.96                    4.95
 vivid:                                  4.96                    4.96
+wily:                                   (no repo)               4.96
 yakkety:                                5.1                     4.96
 zesty:                                  5.1                     5.1
 artful:                                 5.1                     5.1
 cosmic:                                 5.1                     5.1
 disco:                                  5.1                     5.1
+eoan:                                   (no repo)               5.1
 groovy:         6.0.1                   6.0.1                   git snapshot
 hirsute:        7.0                     6.0.1                   6.0.1
 impish:         7.0                                             6.0.1
