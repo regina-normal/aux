@@ -97,6 +97,9 @@ Features: test-name=python-generic
 Test-Command: debian/tests/python-test groups
 Features: test-name=python-groups
 
+Test-Command: debian/tests/python-test hash
+Features: test-name=python-hash
+
 Test-Command: debian/tests/python-test hypersurfaces
 Features: test-name=python-hypersurfaces
 
@@ -123,6 +126,9 @@ Features: test-name=python-listview
 
 Test-Command: debian/tests/python-test lookup
 Features: test-name=python-lookup
+
+Test-Command: debian/tests/python-test lst
+Features: test-name=python-lst
 
 Test-Command: debian/tests/python-test memory1 python/testsuite
 Features: test-name=python-memory1
@@ -180,6 +186,9 @@ Features: test-name=python-snapshot
 
 Test-Command: debian/tests/python-test sort
 Features: test-name=python-sort
+
+Test-Command: debian/tests/python-test spans
+Features: test-name=python-spans
 
 Test-Command: debian/tests/python-test special
 Features: test-name=python-special
