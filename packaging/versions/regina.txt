@@ -1,0 +1,66 @@
+Final regina version in apt/yum/zypper repositories:
+
+==============================================================================
+
+Debian:         p.d.o reprepro          p.d.o standalone        debian archive
+
+sarge:                                                          4.1.3
+etch:                                                           4.3.1
+lenny:                                                          4.5
+squeeze:                                4.95                    4.6
+wheezy:                                 4.96                    4.93
+............... ^^^ GLIBC INCOMPATIBILITY (debian #875981) ^^^ ...............
+jessie:                                 5.1                     4.96
+stretch:                                5.1                     5.1
+buster:         7.0                     6.0.1                   5.1
+bullseye:       current                 6.0.1                   6.0.1
+bookworm:       current                                         7.3
+
+==============================================================================
+
+Ubuntu LTS:     p.d.o reprepro          p.d.o standalone        ubuntu archive
+
+lucid:                                  4.93
+............... ^^^ GLIBC INCOMPATIBILITY (debian #875981) ^^^ ...............
+precise:                                4.96                    4.90
+trusty:                                 5.0                     4.95
+xenial:                                 5.1                     4.96
+bionic:         7.0                     6.0.1                   5.1
+focal:          current                 6.0.1                   5.1
+jammy:          current                                         7.0
+
+==============================================================================
+
+Ubuntu:         p.d.o reprepro          p.d.o standalone        ubuntu archive
+
+maverick:                               4.93
+natty:                                  4.93
+oneiric:                                4.93
+............... ^^^ GLIBC INCOMPATIBILITY (debian #875981) ^^^ ...............
+quantal:                                4.95                    4.93
+raring:                                 4.95                    4.93
+saucy:                                  4.95                    4.93
+utopic:                                 4.96                    4.95
+vivid:                                  4.96                    4.96
+yakkety:                                5.1                     4.96
+zesty:                                  5.1                     5.1
+artful:                                 5.1                     5.1
+cosmic:                                 5.1                     5.1
+disco:                                  5.1                     5.1
+groovy:         6.0.1                   6.0.1                   git snapshot
+hirsute:        7.0                     6.0.1                   6.0.1
+impish:         7.0                                             6.0.1
+kinetic:        current                                         7.1
+lunar:          current                                         7.2
+
+==============================================================================
+
+RPM:            Fedora                  openSUSE
+
+                32: 6.0.1               15.2: 7.0
+                33: 7.0                 15.3: 7.2
+                34: 7.0                 15.4: current
+                35: 7.2
+                36: current
+                37: current
+                38: current
