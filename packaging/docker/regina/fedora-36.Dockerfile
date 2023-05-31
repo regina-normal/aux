@@ -11,7 +11,6 @@ RUN dnf install -y -b --setopt=install_weak_deps=False \
 	libxml2-devel \
 	libxslt \
 	pkgconfig \
-	popt-devel \
 	python3-devel \
 	qt6-qtbase-devel \
 	qt6-qtsvg-devel \
