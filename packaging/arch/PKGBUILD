@@ -12,7 +12,6 @@ license=('GPL')
 #   - gmp (<- coreutils <- base)
 #   - libxml2 (<- shared-mime-info)
 #   - perl (<- netpbm <- gts <- graphviz)
-#   - popt (<- cryptsetup <- systemd <- base)
 #   - qt6-base (<- qt6-svg)
 #   - shared-mime-info (<- qt6-base)
 #   - zlib (<- python)
@@ -23,7 +22,6 @@ depends=(gmp
          libxml2
          lmdb
          perl
-         popt
          python
          qt6-base
          qt6-svg

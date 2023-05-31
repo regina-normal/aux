@@ -28,7 +28,6 @@ BuildRequires: libstdc++-devel
 BuildRequires: libxml2-devel
 BuildRequires: libxslt
 BuildRequires: pkgconfig
-BuildRequires: popt-devel
 BuildRequires: python3-devel
 BuildRequires: qt6-qtbase-devel
 BuildRequires: qt6-qtsvg-devel

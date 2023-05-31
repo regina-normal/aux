@@ -32,7 +32,6 @@ BuildRequires: libxml2-devel
 BuildRequires: libxslt-tools
 BuildRequires: lmdb-devel
 BuildRequires: pkg-config
-BuildRequires: popt-devel
 BuildRequires: python3-devel
 BuildRequires: qt6-base-devel
 BuildRequires: qt6-svg-devel

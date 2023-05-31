@@ -1,6 +1,7 @@
 regina-normal (7.4-1~ubuntu22.10.1~regina1) kinetic; urgency=low
 
   * New upstream release, packaged for kinetic.
+  * No longer build-depends on libpopt-dev.
 
  -- Ben Burton <bab@debian.org>  Thu, 04 May 2023 23:05:55 +1000
 
