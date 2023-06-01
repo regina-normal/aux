@@ -13,7 +13,6 @@ RUN pacman --noconfirm --noprogressbar -S \
 	libxml2 \
 	libxslt \
 	lmdb \
-	popt \
 	python \
 	qt6-base \
 	qt6-svg \

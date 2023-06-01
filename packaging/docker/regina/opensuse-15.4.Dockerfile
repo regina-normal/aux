@@ -18,7 +18,6 @@ RUN zypper install -y --no-recommends \
 	libxslt-tools \
 	lmdb-devel \
 	pkg-config \
-	popt-devel \
 	python3-devel \
 	qt6-base-devel \
 	qt6-svg-devel \

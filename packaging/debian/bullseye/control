@@ -13,7 +13,6 @@ Build-Depends:
     libgmp-dev (>= 4.1.4-10),
     libgraphviz-dev,
     libjansson-dev,
-    libpopt-dev,
     libqt5svg5-dev,
     libtokyocabinet-dev,
     libxml2-dev,
