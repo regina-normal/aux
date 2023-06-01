@@ -12,7 +12,6 @@ Build-Depends:
     libcppunit-dev (>= 1.10.2-4),
     libgmp-dev (>= 4.1.4-10),
     libgraphviz-dev,
-    libjansson-dev,
     libqt5svg5-dev,
     libtokyocabinet-dev,
     libxml2-dev,

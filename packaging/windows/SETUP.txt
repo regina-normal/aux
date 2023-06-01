@@ -32,7 +32,6 @@ Install build dependencies from mingw-w64:
   pacman -S mingw-w64-{x86_64,i686}-cppunit
   pacman -S mingw-w64-{x86_64,i686}-doxygen
   pacman -S mingw-w64-{x86_64,i686}-graphviz
-  pacman -S mingw-w64-{x86_64,i686}-jansson
   pacman -S mingw-w64-{x86_64,i686}-libxml2
   pacman -S mingw-w64-{x86_64,i686}-lmdb
   pacman -S mingw-w64-{x86_64,i686}-ntldd-git

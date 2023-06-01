@@ -17,7 +17,6 @@ license=('GPL')
 #   - zlib (<- python)
 depends=(gmp
          graphviz
-         jansson
          hicolor-icon-theme
          libxml2
          lmdb
