@@ -9,7 +9,6 @@ RUN pacman --noconfirm --noprogressbar -S \
 	gmp \
 	graphviz \
 	hicolor-icon-theme \
-	jansson \
 	libxml2 \
 	libxslt \
 	lmdb \

@@ -10,7 +10,6 @@ RUN apt-get install -y --no-install-recommends \
 	libcppunit-dev \
 	libgmp-dev \
 	libgraphviz-dev \
-	libjansson-dev \
 	libqt5svg5-dev \
 	libtokyocabinet-dev \
 	libxml2-dev \

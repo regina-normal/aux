@@ -13,7 +13,6 @@ RUN zypper install -y --no-recommends \
 	gmp-devel \
 	graphviz-devel \
 	libbz2-devel \
-	libjansson-devel \
 	libxml2-devel \
 	libxslt-tools \
 	lmdb-devel \

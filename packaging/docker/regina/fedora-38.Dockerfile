@@ -7,7 +7,6 @@ RUN dnf install -y -b --setopt=install_weak_deps=False \
 	doxygen \
 	gmp-devel \
 	graphviz-devel \
-	jansson-devel \
 	libxml2-devel \
 	libxslt \
 	pkgconfig \
