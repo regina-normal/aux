@@ -1,7 +1,7 @@
 regina-normal (7.4-1~bpo11+1~regina1) bullseye; urgency=low
 
   * New upstream release, packaged for bullseye.
-  * No longer build-depends on libpopt-dev or libjansson-dev.
+  * No longer build-depends on libpopt-dev, libcppunit-dev or libjansson-dev.
 
  -- Ben Burton <bab@debian.org>  Thu, 04 May 2023 23:05:55 +1000
 

@@ -15,7 +15,6 @@ Requires: python3
 Conflicts: regina
 
 BuildRequires: cmake
-BuildRequires: cppunit-devel
 BuildRequires: desktop-file-utils
 BuildRequires: doxygen
 BuildRequires: gcc

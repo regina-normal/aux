@@ -15,7 +15,6 @@ Requires: python3
 Conflicts: regina
 
 BuildRequires: cmake
-BuildRequires: cppunit-devel
 BuildRequires: doxygen
 # We use gcc11 because the default is gcc7, which cannot work with Qt6 due to
 # its lack of support for std::filesystem.  It would be super nice if, in the

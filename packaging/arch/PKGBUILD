@@ -27,10 +27,8 @@ depends=(gmp
          shared-mime-info
          zlib)
 makedepends=(cmake
-             cppunit
              doxygen
              libxslt)
-checkdepends=(cppunit)
 source=("regina-$pkgver.tar.gz")
 sha256sums=(SKIP)
 
