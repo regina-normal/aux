@@ -7,7 +7,6 @@ RUN apt-get install -y --no-install-recommends \
 	dh-python \
 	cmake \
 	doxygen \
-	libcppunit-dev \
 	libgl-dev \
 	libgmp-dev \
 	libgraphviz-dev \

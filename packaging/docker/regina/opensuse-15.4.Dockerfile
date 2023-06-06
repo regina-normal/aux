@@ -7,7 +7,6 @@ RUN zypper install -y --no-recommends gcc11 gcc11-c++
 
 RUN zypper install -y --no-recommends \
 	cmake \
-	cppunit-devel \
 	doxygen \
 	gcc11 gcc11-c++ \
 	gmp-devel \

@@ -3,7 +3,6 @@ RUN pacman --noconfirm --noprogressbar -Syy
 RUN pacman --noconfirm --noprogressbar -Syu
 RUN pacman --noconfirm --noprogressbar -S \
 	cmake \
-	cppunit \
 	desktop-file-utils \
 	doxygen \
 	gmp \
