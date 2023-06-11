@@ -116,6 +116,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
+%{_libexecdir}/regina-testsuite
 %{_mandir}/*/*
 %{_prefix}/lib/python3.6/site-packages/regina/
 
