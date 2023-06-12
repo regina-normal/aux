@@ -68,8 +68,7 @@ export PATH="%{_qt6_bindir}:$PATH"
 export CFLAGS="${CFLAGS:--O2}"
 export CXXFLAGS="${CXXFLAGS:--O2}"
 export FFLAGS="${FFLAGS:--O2}"
-export LIB_SUFFIX=$(echo %_lib | cut -b4-)
-cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX \
+cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr \
   -DCMAKE_VERBOSE_MAKEFILE=ON -DPACKAGING_MODE=1 \
   -DPython_EXECUTABLE=/usr/bin/python3 \
   -DBUILD_INFO="Upstream Fedora %{fedora} package" \
