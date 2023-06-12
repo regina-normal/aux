@@ -123,7 +123,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
-%{_libexecdir}/regina-testsuite
+%{_libexecdir}/regina/
 %if 0%{?fedora} >= 37
 %{_prefix}/lib/python3.11/site-packages/regina/
 %else
