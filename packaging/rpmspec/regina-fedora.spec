@@ -15,7 +15,6 @@ Requires: python3
 Conflicts: regina
 
 BuildRequires: cmake
-BuildRequires: cppunit-devel
 BuildRequires: desktop-file-utils
 BuildRequires: doxygen
 BuildRequires: gcc
@@ -23,7 +22,6 @@ BuildRequires: gcc-c++
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
-BuildRequires: jansson-devel
 BuildRequires: libstdc++-devel
 BuildRequires: libxml2-devel
 BuildRequires: libxslt

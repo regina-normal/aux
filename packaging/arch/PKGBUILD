@@ -17,7 +17,6 @@ license=('GPL')
 #   - zlib (<- python)
 depends=(gmp
          graphviz
-         jansson
          hicolor-icon-theme
          libxml2
          lmdb
@@ -28,10 +27,8 @@ depends=(gmp
          shared-mime-info
          zlib)
 makedepends=(cmake
-             cppunit
              doxygen
              libxslt)
-checkdepends=(cppunit)
 source=("regina-$pkgver.tar.gz")
 sha256sums=(SKIP)
 

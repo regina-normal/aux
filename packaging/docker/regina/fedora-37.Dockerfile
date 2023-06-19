@@ -2,12 +2,10 @@ FROM pkgdev/fedora:37
 RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
 RUN dnf install -y -b --setopt=install_weak_deps=False \
 	cmake \
-	cppunit-devel \
 	desktop-file-utils \
 	doxygen \
 	gmp-devel \
 	graphviz-devel \
-	jansson-devel \
 	libxml2-devel \
 	libxslt \
 	pkgconfig \

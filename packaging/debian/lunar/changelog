@@ -1,7 +1,7 @@
 regina-normal (7.4-1~ubuntu23.04.1~regina1) lunar; urgency=low
 
   * New upstream release, packaged for lunar.
-  * No longer build-depends on libpopt-dev.
+  * No longer build-depends on libcppunit-dev, libjansson-dev or libpopt-dev.
 
  -- Ben Burton <bab@debian.org>  Thu, 04 May 2023 23:05:55 +1000
 
