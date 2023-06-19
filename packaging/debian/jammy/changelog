@@ -1,7 +1,7 @@
 regina-normal (7.4-1~ubuntu22.04.1~regina1) jammy; urgency=low
 
   * New upstream release, packaged for jammy.
-  * No longer build-depends on libpopt-dev, libcppunit-dev or libjansson-dev.
+  * No longer build-depends on libcppunit-dev, libjansson-dev or libpopt-dev.
   * Depends on qt6-qpa-plugins, since this is not an automatic dependency on
     jammy but the GUI crashes on a default ubuntu installation without it.
     This issue appears to be fixed in the kinetic qt6 packages.

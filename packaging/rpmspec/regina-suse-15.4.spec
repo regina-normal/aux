@@ -65,10 +65,9 @@ export CXXFLAGS=$RPM_OPT_FLAGS
 export LDFLAGS="-Wl,-Bsymbolic-functions $LDFLAGS"
 mkdir build
 cd build
-export LIB_SUFFIX=$(echo %_lib | cut -b4-)
 
 cmake -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_CXX_COMPILER=g++-11 \
-  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX \
+  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBEXECDIR=lib \
   -DPACKAGING_MODE=1 \
   -DPython_EXECUTABLE=/usr/bin/python3 \
   -DBUILD_INFO="Upstream openSUSE Leap 15.4 package" \
@@ -114,6 +113,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
+%{_libexecdir}/regina/
 %{_mandir}/*/*
 %{_prefix}/lib/python3.6/site-packages/regina/
 

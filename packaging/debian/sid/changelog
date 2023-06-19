@@ -1,7 +1,8 @@
 regina-normal (7.4-1) unstable; urgency=low
 
   * New upstream release.
-  * No longer build-depends on libpopt-dev, libcppunit-dev or libjansson-dev.
+  * Now builds under gcc-13 (closes: #1037840).
+  * No longer build-depends on libcppunit-dev, libjansson-dev or libpopt-dev.
 
  -- Ben Burton <bab@debian.org>  Thu, 04 May 2023 23:05:55 +1000
 

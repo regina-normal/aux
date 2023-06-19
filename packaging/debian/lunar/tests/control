@@ -187,9 +187,6 @@ Features: test-name=python-snapshot
 Test-Command: debian/tests/python-test sort
 Features: test-name=python-sort
 
-Test-Command: debian/tests/python-test spans
-Features: test-name=python-spans
-
 Test-Command: debian/tests/python-test special
 Features: test-name=python-special
 
