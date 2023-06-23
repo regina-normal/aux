@@ -1,7 +1,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 7.3
-Release: lp154.1
+Release: lp154.2
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -9,6 +9,10 @@ Source: https://github.com/regina-normal/regina/releases/download/regina-%{versi
 URL: http://regina-normal.github.io/
 Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
+
+Patch0: gcc13-uint8_t.diff
+Patch1: link-resolve.diff
+Patch2: memory-leak.diff
 
 Requires: mimehandler(application/pdf)
 Requires: python3
@@ -61,6 +65,9 @@ and a low-level C++ programming interface.
 %debug_package
 %prep
 %setup -n regina-%{version}
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 export CFLAGS=$RPM_OPT_FLAGS
@@ -121,6 +128,13 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_prefix}/lib/python3.6/site-packages/regina/
 
 %changelog
+* Tue May 9 2023 Ben Burton <bab@debian.org> 7.3-2
+- Backported some recent fixes from the repository:
+  * Fixed a bug where Link::resolve() would not clear calculated properties,
+    which could result in incorrect link invariants being cached.
+  * Fixed a memory leak in move assignment for triangulations.
+  * Now builds under gcc 13.
+
 * Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.3
 - New upstream release.
 

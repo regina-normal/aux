@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/arch' } }
+    agent {
+        docker {
+            image 'regina/arch'
+            customWorkspace '/var/lib/jenkins/workspace/release/arch'
+        }
+    }
 
     stages {
         stage('Sources') {
@@ -17,7 +22,8 @@ pipeline {
         stage('Build Package') {
             steps {
                 dir ('arch') {
-                    sh 'cp ../aux/packaging/arch/PKGBUILD .'
+                    sh 'cp ../aux/packaging/arch/release/PKGBUILD .'
+                    sh 'cp ../aux/packaging/arch/release/*.diff .'
                     sh 'MAKEFLAGS=-j2 makepkg'
                 }
             }

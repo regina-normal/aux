@@ -25,8 +25,46 @@ else
   arch=`dpkg --print-architecture`
 fi
 
+# Some ubuntu versions live on the old-releases mirror and/or use old
+# signing keys, but debootstrap is not aware of this.
+# The ones we care about are listed below.
+#
+# Note: modern kernels are incompatible with glibc < 2.14 (see debian #875981),
+# which means we cannot support any ubuntu earlier than precise.
+archive=0
+oldkey=0
+case "$ver" in
+  # LTS releases:
+  precise ) oldkey=1 ;;
+  # Interim releases:
+  quantal ) archive=1 ;;
+  raring ) archive=1 ;;
+  saucy ) archive=1 ;;
+  utopic ) archive=1 ;;
+  vivid ) archive=1 ;;
+  yakkety ) archive=1 ;;
+  zesty ) archive=1 ;;
+  artful ) archive=1 ;;
+  cosmic ) archive=1 ;;
+  disco ) archive=1 ;;
+  groovy ) archive=1 ;;
+  hirsute ) archive=1 ;;
+  impish ) archive=1 ;;
+  * ) ;;
+esac
+
+debootstrap_opts="--arch=$arch"
+debootstrap_args="$ver"
+
+if [ "$archive" = 1 ]; then
+  debootstrap_args="$debootstrap_args http://old-releases.ubuntu.com/ubuntu"
+fi
+if [ "$oldkey" = 1 ]; then
+  debootstrap_opts="$debootstrap_opts --keyring=/usr/share/keyrings/ubuntu-archive-removed-keys.gpg"
+fi
+
 echo "Preparing Ubuntu $ver ($arch) as $tag ..."
 echo
-./mkimage.sh -t "$tag" debootstrap --arch="$arch" "$ver"
+./mkimage.sh -t "$tag" debootstrap $debootstrap_opts $debootstrap_args
 
 exit 0

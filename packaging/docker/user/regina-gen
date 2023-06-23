@@ -1,0 +1,111 @@
+#!/bin/bash
+#
+# Usage: regina-gen <suite>
+#
+set -e
+
+suite="$1"
+
+# aptstyle: indicates how we present our sources.list.
+#
+# Options:
+#
+# - unified : use regina's unified archive (dists/, pool/, etc.), with a
+#   deb822-style *.sources that supports Signed-By with individual fingerprints.
+#   Individual fingerprints *possibly* introduced with apt 1.8 (but not sure).
+#
+# - unifiednokey : use regina's unified archive (dists/, pool/, etc.), with a
+#   deb822-style *.sources that only supports Signed-By with an entire keyring.
+#   Unified archive introduced in April 2021, shortly after regina 6.0.1.
+#
+# - standalone : use regina's legacy standalone suite-specific archives, with a
+#   deb822-style *.sources that only supports Signed-By with an entire keyring.
+#   Full support for deb822 introduced with apt 1.1.
+#
+# - standaloneline : use regina's legacy standalone suite-specific archives,
+#   with a *.list holding individual apt-lines that only need regina's new key.
+#   Assumes /etc/apt/regina-key.asc is present (this will be given to apt-key).
+#
+# Note: for legacy standalone suite-specific archives, we will source these
+# from a different location (currently mirrored at UQ), since p.d.o uses a
+# new SSL root certificate that ancient distros cannot verify.
+#
+# Some legacy standalone archives were originally signed with the old key
+# (1024-bit DSA).  These have since been double-signed with both keys, using
+# --digest-algo to force a SHA256 hash (since different digest algorithms may
+# mean only the first signature is recognised by gpg).  With apt < 1.2.12, this
+# double signing gives a harmless warning if only one public key is available.
+aptstyle=
+
+case "$suite" in
+  # Ancient debian:
+  jessie ) aptstyle=standaloneline ;;
+  stretch ) aptstyle=standalone ;;
+  # Ancient ubuntu LTS:
+  bionic ) aptstyle=unifiednokey ;;
+  xenial ) aptstyle=standalone ;;
+  trusty ) aptstyle=standaloneline ;;
+  precise ) aptstyle=standaloneline ;;
+  # Ancient ubuntu short-term:
+  disco ) aptstyle=standalone ;;
+  cosmic ) aptstyle=standalone ;;
+  artful ) aptstyle=standalone ;;
+  zesty ) aptstyle=standalone ;;
+  yakkety ) aptstyle=standalone ;;
+  vivid ) aptstyle=standaloneline ;;
+  utopic ) aptstyle=standaloneline ;;
+  saucy ) aptstyle=standaloneline ;;
+  raring ) aptstyle=standaloneline ;;
+  quantal ) aptstyle=standaloneline ;;
+  # Default:
+  * ) aptstyle=unified ;;
+esac
+
+echo "Setting up repository for $suite, APT style : $aptstyle"
+
+if [ "$aptstyle" = unified ]; then
+  src=/etc/apt/sources.list.d/regina.sources
+  cat > "$src" <<__END__
+X-Repolib-Name: Regina
+Types: deb deb-src
+URIs: https://people.debian.org/~bab/regina
+Suites: $suite
+Components: main
+Signed-By:
+  /usr/share/keyrings/debian-keyring.gpg
+  519A0009FB50255DDB4E889270A6BEDF542D38D9
+__END__
+elif [ "$aptstyle" = unifiednokey ]; then
+  src=/etc/apt/sources.list.d/regina.sources
+  cat > "$src" <<__END__
+X-Repolib-Name: Regina
+Types: deb deb-src
+URIs: https://people.debian.org/~bab/regina
+Suites: $suite
+Components: main
+Signed-By: /usr/share/keyrings/debian-keyring.gpg
+__END__
+elif [ "$aptstyle" = standalone ]; then
+  src=/etc/apt/sources.list.d/regina.sources
+  cat > "$src" <<__END__
+X-Repolib-Name: Regina
+Types: deb deb-src
+URIs: https://people.smp.uq.edu.au/BenjaminBurton/archive
+Suites: $suite/
+Signed-By: /usr/share/keyrings/debian-keyring.gpg
+__END__
+elif [ "$aptstyle" = standaloneline ]; then
+  src=/etc/apt/sources.list.d/regina.list
+  apt-key add /etc/apt/regina-key.asc
+  cat > "$src" <<__END__
+deb https://people.smp.uq.edu.au/BenjaminBurton/archive $suite/
+deb-src https://people.smp.uq.edu.au/BenjaminBurton/archive $suite/
+__END__
+else
+  echo 'Unknown APT style!'
+  exit 1
+fi
+
+echo --------------------
+cat "$src"
+echo --------------------

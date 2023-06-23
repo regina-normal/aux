@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/ubuntu:jammy' } }
+    agent {
+        docker {
+            image 'regina/ubuntu:jammy'
+            customWorkspace '/var/lib/jenkins/workspace/release/ubuntu-jammy'
+        }
+    }
 
     stages {
         stage('Sources') {
@@ -18,7 +23,7 @@ pipeline {
             steps {
                 dir ('debian/regina') {
                     sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
-                    sh 'cp -pR ../../aux/packaging/debian/jammy debian'
+                    sh 'cp -pR ../../aux/packaging/debian/release/jammy debian'
                     sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild --no-sign -j2'
                 }
             }

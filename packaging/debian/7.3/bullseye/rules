@@ -1,0 +1,45 @@
+#!/usr/bin/make -f
+%:
+	dh $@ --with python3
+
+# Upgrade optimisation flags:
+export DEB_CFLAGS_MAINT_STRIP = -O2 -g
+export DEB_CXXFLAGS_MAINT_STRIP = -O2 -g
+export DEB_CFLAGS_MAINT_APPEND = -O3 -DNDEBUG
+export DEB_CXXFLAGS_MAINT_APPEND = -O3 -DNDEBUG
+
+# Find the default python version so we can pass it to cmake.  This 
+# keeps things sane when multiple python*-dev packages are installed.
+pyver = $(subst python,,$(shell /usr/bin/py3versions --default))
+
+DEB_HOST_MULTIARCH ?=$(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		-DPACKAGE_NAME=regina-normal -DPACKAGING_MODE=1 \
+		-DPython_EXECUTABLE=/usr/bin/python${pyver} \
+		-DBUILD_INFO="Upstream Debian 11 package" \
+		-DDISABLE_RPATH=1
+
+override_dh_auto_build:
+	dh_auto_build -- VERBOSE=1
+	# The python debug symbols are obscenely large and are
+	# filling my virtual hard drive.
+	strip "obj-${DEB_BUILD_GNU_TYPE}"/python/regina/engine.so
+
+override_dh_auto_test:
+	dh_auto_test -- ARGS=-V
+
+override_dh_missing:
+	dh_missing --fail-missing
+
+override_dh_installchangelogs:
+	dh_installchangelogs CHANGES.txt
+
+override_dh_compress:
+	dh_compress -X.bz2 -X.css -X.docbook -X.rga
+
+override_dh_strip_nondeterminism:
+	# PNGs are not compiled during the build, so do not touch them now.
+	dh_strip_nondeterminism -X.png
+

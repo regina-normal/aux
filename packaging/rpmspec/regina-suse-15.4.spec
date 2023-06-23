@@ -1,6 +1,6 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 7.3
+Version: 7.4
 Release: lp154.1
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
@@ -15,7 +15,6 @@ Requires: python3
 Conflicts: regina
 
 BuildRequires: cmake
-BuildRequires: cppunit-devel
 BuildRequires: doxygen
 # We use gcc11 because the default is gcc7, which cannot work with Qt6 due to
 # its lack of support for std::filesystem.  It would be super nice if, in the
@@ -26,13 +25,11 @@ BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
 BuildRequires: libbz2-devel
-BuildRequires: libjansson-devel
 BuildRequires: libstdc++-devel
 BuildRequires: libxml2-devel
 BuildRequires: libxslt-tools
 BuildRequires: lmdb-devel
 BuildRequires: pkg-config
-BuildRequires: popt-devel
 BuildRequires: python3-devel
 BuildRequires: qt6-base-devel
 BuildRequires: qt6-svg-devel
@@ -68,10 +65,9 @@ export CXXFLAGS=$RPM_OPT_FLAGS
 export LDFLAGS="-Wl,-Bsymbolic-functions $LDFLAGS"
 mkdir build
 cd build
-export LIB_SUFFIX=$(echo %_lib | cut -b4-)
 
 cmake -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_CXX_COMPILER=g++-11 \
-  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX \
+  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBEXECDIR=lib \
   -DPACKAGING_MODE=1 \
   -DPython_EXECUTABLE=/usr/bin/python3 \
   -DBUILD_INFO="Upstream openSUSE Leap 15.4 package" \
@@ -109,18 +105,29 @@ rm -rf "$RPM_BUILD_ROOT"
 %docdir %{_datadir}/regina/docs/en/regina-xml
 %docdir %{_datadir}/regina/engine-docs
 %{_bindir}/*
-%{_datadir}/applications/regina.desktop
+%{_datadir}/applications/org.computop.Regina.desktop
 %{_datadir}/icons/hicolor/*/*/*
-%{_datadir}/metainfo/regina.metainfo.xml
+%{_datadir}/metainfo/org.computop.regina.metainfo.xml
 %{_datadir}/mime/packages/regina.xml
 %{_datadir}/regina/
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
+%{_libexecdir}/regina/
 %{_mandir}/*/*
 %{_prefix}/lib/python3.6/site-packages/regina/
 
 %changelog
+* Tue May 9 2023 Ben Burton <bab@debian.org> 7.4
+- New upstream release.
+
+* Tue May 9 2023 Ben Burton <bab@debian.org> 7.3-2
+- Backported some recent fixes from the repository:
+  * Fixed a bug where Link::resolve() would not clear calculated properties,
+    which could result in incorrect link invariants being cached.
+  * Fixed a memory leak in move assignment for triangulations.
+  * Now builds under gcc 13.
+
 * Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.3
 - New upstream release.
 

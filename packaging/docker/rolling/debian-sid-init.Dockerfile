@@ -1,4 +1,4 @@
-FROM bab/debian:bullseye
+FROM bab/debian:bookworm
 
 ADD apt-sources/sid /etc/apt/sources.list
 RUN apt-get update

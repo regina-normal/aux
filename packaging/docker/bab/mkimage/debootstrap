@@ -246,8 +246,23 @@ fi
 (
 	set -x
 
+	# for ancient debian releases, the archive key may have expired
+	if ( grep archive.debian.org "$rootfsDir/etc/apt/sources.list" >/dev/null 2>/dev/null ); then
+		cp mkimage/gpgvnoexpkeysig "$rootfsDir/usr/local/bin"
+		# Option for APT >= 1.1:
+		echo 'APT::Key::gpgvcommand "/usr/local/bin/gpgvnoexpkeysig";' > "$rootfsDir/etc/apt/apt.conf.d/ancient-archive-key"
+		# Option for APT < 1.1:
+		echo 'Dir::Bin::gpg "/usr/local/bin/gpgvnoexpkeysig";' >> "$rootfsDir/etc/apt/apt.conf.d/ancient-archive-key"
+	fi
+
 	# make sure we're fully up-to-date
-	rootfs_chroot sh -xc 'apt-get update && apt-get dist-upgrade -y'
+	#
+	# note: an update now fails on bionic (updated rsyslog will not configure),
+	# but this problem seems to go away after the full docker image is built;
+	# therefore for bionic we leave the update for another time
+	if [ "$suite" != bionic ]; then
+		rootfs_chroot sh -xc 'apt-get update && apt-get dist-upgrade -y'
+	fi
 
 	# delete all the apt list files since they're big and get stale quickly
 	rm -rf "$rootfsDir/var/lib/apt/lists"/*

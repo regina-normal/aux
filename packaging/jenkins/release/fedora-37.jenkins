@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/fedora:37' } }
+    agent {
+        docker {
+            image 'regina/fedora:37'
+            customWorkspace '/var/lib/jenkins/workspace/release/fedora-37'
+        }
+    }
 
     stages {
         stage('Sources') {
@@ -11,6 +16,7 @@ pipeline {
                 sh 'mkdir rpmbuild'
                 dir ('rpmbuild/SOURCES') {
                     sh '../../aux/packaging/jenkins/release/fetch_source'
+                    sh 'cp ../../aux/packaging/rpmspec/release/*.diff .'
                 }
             }
         }
@@ -19,7 +25,7 @@ pipeline {
             steps {
                 dir ('rpmbuild/SPECS') {
                     sh 'cp ../../aux/packaging/rpmspec/release/regina-fedora.spec .'
-                    sh 'RPM_BUILD_NCPUS=2 rpmbuild --define "_topdir `pwd`/.." -ba regina-fedora.spec'
+                    sh 'RPM_BUILD_NCPUS=2 rpmbuild --clean --define "_topdir `pwd`/.." -ba regina-fedora.spec'
                 }
             }
         }

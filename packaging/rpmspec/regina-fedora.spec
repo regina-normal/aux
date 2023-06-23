@@ -1,6 +1,6 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 7.3
+Version: 7.4
 Release: 1%{?dist}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
@@ -15,7 +15,6 @@ Requires: python3
 Conflicts: regina
 
 BuildRequires: cmake
-BuildRequires: cppunit-devel
 BuildRequires: desktop-file-utils
 BuildRequires: doxygen
 BuildRequires: gcc
@@ -23,18 +22,19 @@ BuildRequires: gcc-c++
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
-BuildRequires: jansson-devel
 BuildRequires: libstdc++-devel
 BuildRequires: libxml2-devel
 BuildRequires: libxslt
 BuildRequires: pkgconfig
-BuildRequires: popt-devel
 BuildRequires: python3-devel
 BuildRequires: qt6-qtbase-devel
 BuildRequires: qt6-qtsvg-devel
 BuildRequires: shared-mime-info
 BuildRequires: tokyocabinet-devel
 BuildRequires: zlib-devel
+
+%patchlist
+# No patches for now.
 
 %description
 Regina is a software package for 3-manifold and 4-manifold topologists,
@@ -55,7 +55,7 @@ and a low-level C++ programming interface.
 %global debug_package %{nil}
 
 %prep
-%setup -n regina-%{version}
+%autosetup -v -p1 -n regina-%{version}
 
 %build
 mkdir -p %{_target_platform}
@@ -66,8 +66,7 @@ export PATH="%{_qt6_bindir}:$PATH"
 export CFLAGS="${CFLAGS:--O2}"
 export CXXFLAGS="${CXXFLAGS:--O2}"
 export FFLAGS="${FFLAGS:--O2}"
-export LIB_SUFFIX=$(echo %_lib | cut -b4-)
-cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX \
+cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr \
   -DCMAKE_VERBOSE_MAKEFILE=ON -DPACKAGING_MODE=1 \
   -DPython_EXECUTABLE=/usr/bin/python3 \
   -DBUILD_INFO="Upstream Fedora %{fedora} package" \
@@ -82,7 +81,7 @@ rm -rf "$RPM_BUILD_ROOT"
 make install/fast DESTDIR="$RPM_BUILD_ROOT" -C %{_target_platform}
 
 desktop-file-validate \
-  "$RPM_BUILD_ROOT%{_datadir}/applications/regina.desktop" ||:
+  "$RPM_BUILD_ROOT%{_datadir}/applications/org.computop.Regina.desktop" ||:
 
 %post
 /sbin/ldconfig
@@ -114,14 +113,15 @@ rm -rf "$RPM_BUILD_ROOT"
 %docdir %{_datadir}/regina/docs/en/regina-xml
 %docdir %{_datadir}/regina/engine-docs
 %{_bindir}/*
-%{_datadir}/applications/regina.desktop
+%{_datadir}/applications/org.computop.Regina.desktop
 %{_datadir}/icons/hicolor/*/*/*
-%{_datadir}/metainfo/regina.metainfo.xml
+%{_datadir}/metainfo/org.computop.regina.metainfo.xml
 %{_datadir}/mime/packages/regina.xml
 %{_datadir}/regina/
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
+%{_libexecdir}/regina/
 %if 0%{?fedora} >= 37
 %{_prefix}/lib/python3.11/site-packages/regina/
 %else
@@ -138,6 +138,16 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_mandir}/*/*
 
 %changelog
+* Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.4
+- New upstream release.
+
+* Tue May 9 2023 Ben Burton <bab@debian.org> 7.3-2
+- Backported some recent fixes from the repository:
+  * Fixed a bug where Link::resolve() would not clear calculated properties,
+    which could result in incorrect link invariants being cached.
+  * Fixed a memory leak in move assignment for triangulations.
+  * Now builds under gcc 13.
+
 * Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.3
 - New upstream release.
 

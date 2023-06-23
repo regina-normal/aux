@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/ubuntu:focal' } }
+    agent {
+        docker {
+            image 'regina/ubuntu:focal'
+            customWorkspace '/var/lib/jenkins/workspace/port/ubuntu-focal'
+        }
+    }
 
     stages {
         stage('Sources') {
@@ -18,7 +23,7 @@ pipeline {
             steps {
                 dir ('debian/regina') {
                     sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
-                    sh 'cp -pR ../../aux/packaging/debian/focal debian'
+                    sh 'cp -pR ../../aux/packaging/debian/release/focal debian'
                     sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild -B --no-sign -j2'
                 }
             }

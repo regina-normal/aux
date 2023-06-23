@@ -1,0 +1,149 @@
+GCC versions seen in the wild:
+
+13.0.1:
+  - Fedora 38
+12.2.x:
+  - Debian bookworm
+  - Fedora 37
+  - Ubuntu kinetic (22.10)
+  - Ubuntu lunar (23.04)
+12.0.x:
+  - Fedora 36
+12 (prerelease):
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+11.3.x:
+  - OPTIONAL Debian bookworm
+11.2.x:
+  - Ubuntu jammy (22.04 LTS)
+10.3.x:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+10.2.x:
+  - Debian bullseye
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+9.4.x:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+9.3.x:
+  - OPTIONAL Debian bullseye
+  - Ubuntu focal (20.04 LTS)
+8.4.x:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+7.5.x:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+  - openSUSE Leap 15.4
+7.2.x:
+  - Rocks 7.0 + gnu/7.2.0 module (e.g., tinaroo)
+
+Clang versions seen in the wild (debian/ubuntu only):
+
+15.0.x:
+  - OPTIONAL Debian bookworm
+  - Ubuntu lunar (23.04)
+  - Ubuntu kinetic (22.10)
+14.0.x:
+  - Debian bookworm
+  - Ubuntu jammy (22.04 LTS)
+13.0.x:
+  - OPTIONAL Debian bookworm
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+12.0.x:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+11.1.x:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+11.0.x:
+  - Debian bullseye
+10.0.x:
+  - Ubuntu focal (20.04 LTS)
+9.0.x:
+  - OPTIONAL Debian bullseye
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+8.0.x:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+7.0.x:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+6.0.x:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+
+CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
+
+3.26.2:
+  - Fedora 38
+3.25.1:
+  - Debian bookworm
+  - Ubuntu lunar (23.04)
+3.24.2:
+  - Ubuntu kinetic (22.10)
+3.24.1:
+  - Fedora 37
+3.22.2:
+  - Fedora 36
+3.22.1:
+  - Ubuntu jammy (22.04 LTS)
+3.20.4:
+  - openSUSE Leap 15.4
+3.18.4:
+  - Debian bullseye
+3.16.3:
+  - Ubuntu focal (20.04 LTS)
+3.15.0:
+  - Rocks 7.0 + CMake/3.15.0-gnu-7.2.0 module (e.g., tinaroo)
+
+Doxygen versions [regina needs 1.8.17]
+
+1.9.6:
+  - Fedora 38
+1.9.5:
+  - Fedora 37
+1.9.4:
+  - Debian bookworm
+  - Ubuntu lunar (23.04)
+1.9.1:
+  - Debian bullseye
+  - Fedora 36
+  - Ubuntu kinetic (22.10)
+  - Ubuntu jammy (22.04 LTS)
+1.8.17:
+  - Ubuntu focal (20.04 LTS)
+1.8.14:
+  - openSUSE Leap 15.4 (but using 1.9.1 backport)
+
+Python versions [regina needs 3.6]:
+
+3.11.2:
+  - Debian bookworm
+  - Fedora 38
+  - Ubuntu lunar (23.04)
+3.11.0:
+  - Fedora 37
+3.10.7:
+  - Ubuntu kinetic (22.10)
+3.10.4:
+  - Fedora 36
+  - Ubuntu jammy (22.04 LTS)
+3.9.2:
+  - Debian bullseye
+3.8.5:
+  - Ubuntu focal (20.04 LTS)
+3.6.15:
+  - openSUSE Leap 15.4
+
+Qt versions:
+
+6.4.3:
+  - Fedora 38
+6.4.2:
+  - Debian bookworm
+  - Ubuntu lunar (23.04)
+6.3.1:
+  - Ubuntu kinetic (22.10)
+  - Fedora 37
+6.2.4:
+  - Ubuntu jammy (22.04 LTS)
+6.2.3:
+  - Fedora 36
+6.2.2:
+  - openSUSE Leap 15.4
+5.15.2:
+  - Debian bullseye
+5.12.8:
+  - Ubuntu focal (20.04 LTS)
+

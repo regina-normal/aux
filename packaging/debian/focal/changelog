@@ -1,6 +1,22 @@
-regina-normal (7.3-1~ubuntu20.04.1~regina1) focal; urgency=low
+regina-normal (7.4-1~ubuntu20.04.1~regina1) focal; urgency=low
 
   * New upstream release, packaged for focal.
+  * No longer build-depends on libcppunit-dev, libjansson-dev or libpopt-dev.
+
+ -- Ben Burton <bab@debian.org>  Thu, 04 May 2023 23:05:55 +1000
+
+regina-normal (7.3-2) unstable; urgency=low
+
+  * Fixed a bug where Link::resolve() would not clear calculated properties,
+    which could result in incorrect link invariants being cached.
+  * Fixed a memory leak in move assignment for triangulations.
+
+ -- Ben Burton <bab@debian.org>  Thu, 04 May 2023 23:05:55 +1000
+
+regina-normal (7.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Bumped standards-version to 4.6.2 (no changes required).
 
  -- Ben Burton <bab@debian.org>  Thu, 16 Mar 2023 16:29:13 +1000
 

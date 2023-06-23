@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/ubuntu:kinetic' } }
+    agent {
+        docker {
+            image 'regina/ubuntu:kinetic'
+            customWorkspace '/var/lib/jenkins/workspace/release/ubuntu-kinetic'
+        }
+    }
 
     stages {
         stage('Sources') {
@@ -18,7 +23,7 @@ pipeline {
             steps {
                 dir ('debian/regina') {
                     sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
-                    sh 'cp -pR ../../aux/packaging/debian/kinetic debian'
+                    sh 'cp -pR ../../aux/packaging/debian/release/kinetic debian'
                     sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild --no-sign -j2'
                 }
             }

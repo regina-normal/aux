@@ -1,7 +1,7 @@
 # Maintainer: Ben Burton <bab@debian.org>
 pkgname=regina-normal
 pkgver=7.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Mathematical software for low-dimensional topology"
 arch=('x86_64')
 url="https://regina-normal.github.io/"
@@ -34,8 +34,18 @@ makedepends=(cmake
              doxygen
              libxslt)
 checkdepends=(cppunit)
-source=("regina-$pkgver.tar.gz")
-sha256sums=(SKIP)
+source=("regina-$pkgver.tar.gz"
+        gcc13-uint8_t.diff
+        link-resolve.diff
+        memory-leak.diff)
+sha256sums=(SKIP SKIP SKIP SKIP)
+
+prepare() {
+    cd "$srcdir/regina-$pkgver"
+    patch -p1 --forward --input="$srcdir/gcc13-uint8_t.diff"
+    patch -p1 --forward --input="$srcdir/link-resolve.diff"
+    patch -p1 --forward --input="$srcdir/memory-leak.diff"
+}
 
 build() {
     cd "$srcdir/regina-$pkgver"

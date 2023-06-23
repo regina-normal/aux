@@ -1,0 +1,24 @@
+FROM bab/ubuntu:SUITE
+
+# Add ubuntu's universe (which we need for debian-keyring):
+RUN sed -i -s 's/ main/ main universe/' /etc/apt/sources.list; \
+    cat /etc/apt/sources.list
+
+# Add what we need to get Regina's repository working.
+# Note: some ancient ubuntu distros do not include apt-transport-https
+# out of the box, so we include it explicitly here.
+RUN apt-get update
+RUN apt-get dist-upgrade -y
+RUN apt-get install -y --no-install-recommends \
+    apt-transport-https ca-certificates debian-keyring vim
+RUN apt-get clean
+
+# Finally, add Regina's repository:
+ADD regina-gen /etc/apt/regina-gen
+ADD regina-key.asc /etc/apt/regina-key.asc
+RUN /etc/apt/regina-gen SUITE; \
+    rm /etc/apt/regina-gen /etc/apt/regina-key.asc
+RUN apt-get update
+
+# Create an ordinary user:
+RUN useradd -U -s /bin/bash -m user

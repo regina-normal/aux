@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/debian:bullseye' } }
+    agent {
+        docker {
+            image 'regina/debian:bullseye'
+            customWorkspace '/var/lib/jenkins/workspace/release/debian-bullseye'
+        }
+    }
 
     stages {
         stage('Sources') {
@@ -18,7 +23,7 @@ pipeline {
             steps {
                 dir ('debian/regina') {
                     sh 'tar --strip-components=1 -zxf ../*.orig.tar.gz'
-                    sh 'cp -pR ../../aux/packaging/debian/bullseye debian'
+                    sh 'cp -pR ../../aux/packaging/debian/release/bullseye debian'
                     sh 'DEB_BUILD_OPTIONS="noautodbgsym" debuild --no-sign -j2'
                 }
             }

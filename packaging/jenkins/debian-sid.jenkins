@@ -1,5 +1,10 @@
 pipeline {
-    agent { docker { image 'regina/debian:sid' } }
+    agent {
+        docker {
+            image 'regina/debian:sid'
+            customWorkspace '/var/lib/jenkins/workspace/debian-sid'
+        }
+    }
 
     stages {
         stage('Git') {

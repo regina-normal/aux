@@ -1,0 +1,50 @@
+#!/usr/bin/perl -w
+use strict;
+
+my $dockerfile = 'Dockerfile';
+
+my $suite=$ARGV[0];
+$suite or die "Usage: ./build <suite>";
+-e "/usr/share/debootstrap/scripts/$suite" or
+    die "Not a known debian/ubuntu suite: $suite";
+
+-e 'regina-gen' or die "This script must be run from within its own directory";
+
+my $dist;
+my $template;
+open(DEBOOTSTRAP, '<', "/usr/share/debootstrap/scripts/$suite") or die;
+while (<DEBOOTSTRAP>) {
+    if (/^keyring .*ubuntu/) {
+        print "Ubuntu: $suite\n";
+        $dist='ubuntu';
+        $template = 'ubuntu.template';
+        last;
+    }
+    if (/^keyring .*debian/) {
+        print "Debian: $suite\n";
+        $dist='debian';
+        $template = 'debian.template';
+        last;
+    }
+}
+close(DEBOOTSTRAP);
+$dist or die "No keyring found in the debootstrap script for $suite";
+
+print("Constructing $dockerfile...\n");
+open(TEMPLATE, '<', $template) or die;
+open(DOCKERFILE, '>', $dockerfile) or die;
+while (<TEMPLATE>) {
+    s/DIST/$dist/;
+    s/SUITE/$suite/;
+    print DOCKERFILE $_;
+}
+close(TEMPLATE);
+close(DOCKERFILE);
+
+my $tag = "user/$dist:$suite";
+print("Building $tag...\n");
+
+system('docker', 'build', '-t', $tag, '-f', $dockerfile, '.') and
+    die "The call to 'docker build ...' failed";
+
+unlink($dockerfile) or die "Could not remove $dockerfile";

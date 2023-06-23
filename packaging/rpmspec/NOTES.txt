@@ -79,7 +79,7 @@ To add appstream metadata to a repository, on a Fedora machine:
     modifyrepo_c path/to/appstream-icons.tar.gz path/to/repo_root/repodata/
     gpg --detach-sign --armor path/to/repo_root/repodata/repomd.xml
 - It appears that the same appstream data can be used with multiple Fedora
-  versions (though the icon image format changes with Fedora 37).
+  versions, though the <icon/> tag has changed slightly between Fedora 36-37.
 
 To add appstream metadata to a repository, on an openSUSE machine:
 
@@ -133,6 +133,10 @@ Configuration:
 Installer notes:
 - openSUSE installer: select KDE plasma desktop
 - openSUSE installer: disable online repositories when asked
+- openSUSE/aarch64 installer via UTM: will not boot past the grub screen.
+  To fix this, install in console mode (remove the display in hardware
+  settings and add a serial console instead).  After installation, remove
+  the serial console and add a display again, and it should boot fine.
 
 Disable updates:
 - Fedora in /etc/yum.repos.d (set enabled=0 in updates repos)
@@ -144,6 +148,7 @@ Check for unwanted newer packages:
 - openSUSE:
   * zypper refresh
   * zypper packages -r repo-oss -r repo-non-oss -i | grep ^v
+    (though this still lists all noarch packages on an aarch64 machine)
 
 GUI breakage:
 - To fix openSUSE Leap 15.3 / aarch64 not starting the graphical desktop:
@@ -171,4 +176,8 @@ Extra packages:
     You can fetch a newer doxygen binary from the devel_tools repository
       (see the docker image, which also does this).
     Don't forget to disable the devel_tools repository afterwards.
+  * Update (March 2023): the devel_tools doxygen now depends on a libstdc++
+    that is newer than was originally shipped with openSUSE Leap 15.4.
+    Use Ben's own doxygen repository instead on people.debian.org, which
+    has a newer doxygen built against an original openSUSE Leap 15.4 install.
 

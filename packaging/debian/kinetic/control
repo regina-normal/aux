@@ -9,11 +9,8 @@ Build-Depends:
     dh-python,
     cmake (>= 3.12),
     doxygen (>= 1.8.17),
-    libcppunit-dev (>= 1.10.2-4),
     libgmp-dev (>= 4.1.4-10),
     libgraphviz-dev,
-    libjansson-dev,
-    libpopt-dev,
     libqt6svg6-dev,
     libtokyocabinet-dev,
     libxml2-dev,
@@ -35,7 +32,7 @@ Depends:
     ${perl:Depends},
     ${python3:Depends},
     ${misc:Depends}
-Recommends: regina-normal-doc (>= 7.3-0), evince | pdf-viewer
+Recommends: regina-normal-doc (>= 7.4-0), evince | pdf-viewer
 Suggests: regina-normal-dev, gap
 Description: mathematical software for low-dimensional topology
  Regina is a software package for 3-manifold and 4-manifold topologists,

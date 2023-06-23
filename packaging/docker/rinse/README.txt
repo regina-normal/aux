@@ -19,7 +19,11 @@ with the corresponding distribution installed and run:
 
   repoquery --requires --resolve --recursive dnf yum rpm | \
     perl -pe 's/(.*)-.*?-.*?$/$1/g' | sort -u | \
-    egrep -v 'glibc-all-langpacks|glibc-langpack-'
+    grep -E -v 'glibc-all-langpacks|glibc-langpack-'
+
+It seems good to then strip out fedora-release-* and generic-release-*, except
+for fedora-release{,-common,-server,-identity-server}.  We should probably
+revisit this decision at a later date to see if it still makes sense.
 
 For opensuse, these are created by using the script opensuse-core.pl
 (found in this directory) to extract a full recursive dependency list for

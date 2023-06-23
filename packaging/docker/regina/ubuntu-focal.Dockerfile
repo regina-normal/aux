@@ -7,11 +7,8 @@ RUN apt-get install -y --no-install-recommends \
 	dh-python \
 	cmake \
 	doxygen \
-	libcppunit-dev \
 	libgmp-dev \
 	libgraphviz-dev \
-	libjansson-dev \
-	libpopt-dev \
 	libqt5svg5-dev \
 	libtokyocabinet-dev \
 	libxml2-dev \
