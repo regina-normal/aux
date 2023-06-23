@@ -1,0 +1,42 @@
+pipeline {
+    agent {
+        docker {
+            image 'regina/opensuse:15.5'
+            customWorkspace '/var/lib/jenkins/workspace/release/opensuse-15.5'
+        }
+    }
+
+    stages {
+        stage('Sources') {
+            steps {
+                dir ('aux') {
+                    git 'https://github.com/regina-normal/aux.git'
+                }
+                sh 'rm -rf rpmbuild'
+                sh 'mkdir rpmbuild'
+                dir ('rpmbuild/SOURCES') {
+                    sh '../../aux/packaging/jenkins/release/fetch_source'
+                    sh 'cp ../../aux/packaging/rpmspec/release/*.diff .'
+                }
+            }
+        }
+
+        stage('Build RPM') {
+            steps {
+                dir ('rpmbuild/SPECS') {
+                    sh 'cp ../../aux/packaging/rpmspec/release/regina-suse-15.5.spec .'
+                    sh 'RPM_BUILD_NCPUS=2 rpmbuild --clean --define "_topdir `pwd`/.." -ba regina-suse-15.5.spec'
+                }
+            }
+        }
+
+        stage('Appstream Metadata') {
+            steps {
+                dir ('rpmbuild') {
+                    sh 'appstream-builder --origin=regina --basename=appdata --enable-hidpi --packages-dir=RPMS'
+                }
+            }
+        }
+    }
+}
+
