@@ -1,0 +1,72 @@
+pipeline {
+    agent {
+        docker {
+            image 'regina/opensuse:15.5'
+            customWorkspace '/var/lib/jenkins/workspace/opensuse-15.5'
+        }
+    }
+
+    stages {
+        stage('Git') {
+            steps {
+                dir ('aux') {
+                    git 'https://github.com/regina-normal/aux.git'
+                }
+                dir ('regina') {
+                    git 'https://github.com/regina-normal/regina.git'
+                }
+            }
+        }
+
+        stage('Configure') {
+            steps {
+                dir ('regina') {
+                    sh 'rm -rf build'
+                    sh 'mkdir build'
+                }
+                dir ('regina/build') {
+                    sh 'cmake -DREGINA_KVSTORE=lmdb -DPython_EXECUTABLE=/usr/bin/python3 -DPACKAGING_MODE=1 -DDISABLE_RPATH=1 ..'
+                }
+            }
+        }
+
+        stage('Environment') {
+            steps {
+                dir ('regina/build') {
+                    sh 'make env'
+                }
+            }
+        }
+
+        stage('Package Source') {
+            steps {
+                dir ('regina/build') {
+                    sh 'cpack --config CPackSourceConfig.cmake'
+                }
+                sh 'rm -rf rpmbuild'
+                sh 'mkdir rpmbuild'
+                dir ('rpmbuild/SOURCES') {
+                    sh 'cp ../../regina/build/regina-*.tar.gz .'
+                }
+            }
+        }
+
+        stage('Build RPM') {
+            steps {
+                dir ('rpmbuild/SPECS') {
+                    sh 'cp ../../aux/packaging/rpmspec/regina-suse-15.5.spec .'
+                    sh 'RPM_BUILD_NCPUS=2 rpmbuild --clean --define "_topdir `pwd`/.." -ba regina-suse-15.5.spec'
+                }
+            }
+        }
+
+        stage('Appstream Metadata') {
+            steps {
+                dir ('rpmbuild') {
+                    sh 'appstream-builder --origin=regina --basename=appdata --enable-hidpi --packages-dir=RPMS'
+                }
+            }
+        }
+    }
+}
+
