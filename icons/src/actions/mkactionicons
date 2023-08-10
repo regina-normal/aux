@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Note: on fink this requires librsvg2-bin.
+# Note: on macports this requires librsvg.
 #
 set -e
 
@@ -11,12 +11,12 @@ function render {
 
     if [ "$size" = 16 -a -e "$src-lores.svg" ]; then
       echo "$filename: using lo-res SVG"
-      rsvg -w$size -h$size $src-lores.svg $filename
+      rsvg-convert -w$size -h$size $src-lores.svg -o $filename
     elif [ -e "$src-$size.svg" ]; then
       echo "$filename: using ${size}x SVG"
-      rsvg -w$size -h$size $src-$size.svg $filename
+      rsvg-convert -w$size -h$size $src-$size.svg -o $filename
     else
-      rsvg -w$size -h$size $src.svg $filename
+      rsvg-convert -w$size -h$size $src.svg -o $filename
     fi
 }
 
