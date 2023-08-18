@@ -6,6 +6,12 @@ if [ ! -e "/usr/share/debootstrap/scripts/$ver" ]; then
   echo "Unsupported Ubuntu version: $ver"; exit 1
 fi
 
+# Support history for architectures in ubuntu:
+# - amd64: supported for all versions
+# - arm64: only supported for >= 13.10 (saucy)
+# - i386:  only full supported as a desktop for <= 17.04 (zesty) and in
+#          any form for <= 19.04 (disco)
+
 myarch="`uname -m`"
 
 arch="$2"
@@ -31,6 +37,7 @@ fi
 #
 # Note: modern kernels are incompatible with glibc < 2.14 (see debian #875981),
 # which means we cannot support any ubuntu earlier than precise.
+#
 archive=0
 oldkey=0
 case "$ver" in
@@ -42,11 +49,13 @@ case "$ver" in
   saucy ) archive=1 ;;
   utopic ) archive=1 ;;
   vivid ) archive=1 ;;
+  wily ) archive=1 ;;
   yakkety ) archive=1 ;;
   zesty ) archive=1 ;;
   artful ) archive=1 ;;
   cosmic ) archive=1 ;;
   disco ) archive=1 ;;
+  eoan ) archive=1 ;;
   groovy ) archive=1 ;;
   hirsute ) archive=1 ;;
   impish ) archive=1 ;;
