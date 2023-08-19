@@ -14,6 +14,13 @@ fi
 tag=bab/opensuse:$ver
 distribution=opensuse-$ver
 
+# Support history for architectures in openSUSE Leap 15.x:
+# - x86_64:  supported for all versions
+# - aarch64: in the main repo for >= 15.3;
+#            in the ports repo for <= 15.2:
+#            http://download.opensuse.org/ports/aarch64/distribution/leap/
+# - i586:    not supported at all
+
 myarch="`uname -m`"
 case "$myarch" in
   x86_64) arch=amd64;;
