@@ -26,6 +26,10 @@ suite="$1"
 #   with a *.list holding individual apt-lines that only need regina's new key.
 #   Assumes /etc/apt/regina-key.asc is present (this will be given to apt-key).
 #
+# - none : a debian or ubuntu distribution for which there was no separate
+#   regina package repository (typically because the version of regina that it
+#   shipped remained current for the lifetime of that distribution).
+#
 # Note: for legacy standalone suite-specific archives, we will source these
 # from a different location (currently mirrored at UQ), since p.d.o uses a
 # new SSL root certificate that ancient distros cannot verify.
@@ -47,11 +51,13 @@ case "$suite" in
   trusty ) aptstyle=standaloneline ;;
   precise ) aptstyle=standaloneline ;;
   # Ancient ubuntu short-term:
+  eoan ) aptstyle=none ;;
   disco ) aptstyle=standalone ;;
   cosmic ) aptstyle=standalone ;;
   artful ) aptstyle=standalone ;;
   zesty ) aptstyle=standalone ;;
   yakkety ) aptstyle=standalone ;;
+  wily ) aptstyle=none ;;
   vivid ) aptstyle=standaloneline ;;
   utopic ) aptstyle=standaloneline ;;
   saucy ) aptstyle=standaloneline ;;
@@ -63,7 +69,10 @@ esac
 
 echo "Setting up repository for $suite, APT style : $aptstyle"
 
-if [ "$aptstyle" = unified ]; then
+if [ "$aptstyle" = none ]; then
+  echo "Regina was installed in $suite only via the main distro repositories."
+  echo "There is no separate regina repository that needs to be added."
+elif [ "$aptstyle" = unified ]; then
   src=/etc/apt/sources.list.d/regina.sources
   cat > "$src" <<__END__
 X-Repolib-Name: Regina
@@ -102,7 +111,7 @@ deb https://people.smp.uq.edu.au/BenjaminBurton/archive $suite/
 deb-src https://people.smp.uq.edu.au/BenjaminBurton/archive $suite/
 __END__
 else
-  echo 'Unknown APT style!'
+  echo 'ERROR: Unknown APT style'
   exit 1
 fi
 
