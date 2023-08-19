@@ -20,7 +20,7 @@ To prepare a debian/stable host machine for building and using these images:
 
 - set up a backports source in /etc/apt/sources.list, and fix priorities
   for debootstrap in /etc/apt/preferences to use this source
-- apt-get install debootstrap zstd
+- apt-get install debootstrap zstd curl
 - apt-get install debian-keyring (should already be present)
 - manually install a recent ubuntu-keyring package from an ubuntu mirror
 
