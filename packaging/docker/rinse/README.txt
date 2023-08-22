@@ -10,6 +10,8 @@ and opensuse releases (suitable for use with debian bullseye/bookworm/sid):
 
   deb https://people.debian.org/~bab/rinse unstable/
 
+If/when this package is updated, don't forget to update $RELEASE in bin/rinse.
+
 --------------------------------------------------------------------------
 
 To create *.packages files for new fedora/opensuse releases:
@@ -17,13 +19,15 @@ To create *.packages files for new fedora/opensuse releases:
 For fedora, these are created as described on the rinse manpage: start a VM
 with the corresponding distribution installed and run:
 
-  repoquery --requires --resolve --recursive dnf yum rpm | \
+  dnf repoquery --disablerepo fedora-source \
+    --requires --resolve --recursive dnf | \
     perl -pe 's/(.*)-.*?-.*?$/$1/g' | sort -u | \
     grep -E -v 'glibc-all-langpacks|glibc-langpack-'
 
-It seems good to then strip out fedora-release-* and generic-release-*, except
-for fedora-release{,-common,-server,-identity-server}.  We should probably
-revisit this decision at a later date to see if it still makes sense.
+Then add dnf (which is not included in the list), and strip out all
+fedora-release-* and generic-release-*, except for
+fedora-release{,-common,-server,-identity-server}.  We should probably
+revisit this latter decision at a later date to see if it still makes sense.
 
 For opensuse, these are created by using the script opensuse-core.pl
 (found in this directory) to extract a full recursive dependency list for
