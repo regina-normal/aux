@@ -1,6 +1,24 @@
 The rinse binary here is currently synced with upstream rinse 4.1, and has
 been patched to support verifying signatures on the downloaded RPMs.
 
+Upstream rinse has the following copyright notice:
+
+  Copyright 2007-2010 Steve Kemp <steve@steve.org.uk>
+  Copyright 2011-2022 Thomas Lange <lange@cs.uni-koeln.de>
+
+  License:
+
+  This program is free software, you can redistribute it and/or modify it under
+  the same terms as Perl itself.
+
+  Perl is distributed under licenses:
+
+      a) the GNU General Public License as published by the Free Software
+         Foundation; either version 1, or (at your option) any later
+         version, or
+
+      b) the "Artistic License" which comes with Perl.
+
 --------------------------------------------------------------------------
 
 To create *.packages files for new fedora/opensuse releases:
