@@ -35,6 +35,8 @@ rpm, zypper, gzip, grep, sed, xz, and util-linux.  We include gzip, sed, grep
 and xz in this list because otherwise opensuse may try to install the busybox
 variants of these packages, which causes problems for rpm-build later on.
 
+Note: dnf repoquery --recursive is only supported since Fedora 26.
+
 --------------------------------------------------------------------------
 
 Subdirectories:
