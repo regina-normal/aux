@@ -1,4 +1,5 @@
-The rinse binary here is currently synced with upstream rinse 4.1.
+The rinse binary here is currently synced with upstream rinse 4.1, and has
+been patched to support verifying signatures on the downloaded RPMs.
 
 --------------------------------------------------------------------------
 

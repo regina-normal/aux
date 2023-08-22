@@ -42,6 +42,9 @@ rinse - RPM Installation Entity.
                          (Default is /etc/rinse/rinse.conf)
    --pkgs-dir            Specify a different directory containing
                          <distribution>.packages files.
+   --keys-dir            Specify a different directory containing
+                         <distribution>.keys files.
+                         (Default is /etc/rinse/keys)
    --mirror              Specify the URL of the mirror.
                          (Default is to read it from /etc/rinse/rinse.conf)
    --list-distributions  Show installable distributions.
@@ -214,6 +217,7 @@ use File::Copy;
 use File::Path;
 use File::Find;
 use File::Basename;
+use File::Temp;
 use Getopt::Long;
 use Pod::Usage;
 use LWP::UserAgent;
@@ -222,7 +226,7 @@ use FindBin '$Bin';
 #
 # Release number.
 #
-my $RELEASE = 'XXUNRELEASEDXX';
+my $RELEASE = '4.1+bab';
 
 
 #
@@ -244,6 +248,7 @@ if ( !-d $configdir ) {
   $configdir = "/etc/rinse";
 }
 $CONFIG{ 'pkgs-dir' }  = $configdir;
+$CONFIG{ 'keys-dir' }  = "$configdir/keys";
 $CONFIG{ 'config' }    = "$configdir/rinse.conf";
 
 my $scriptsdir = "$Bin/../scripts";
@@ -327,6 +332,13 @@ if ( !$CONFIG{'mirror'} ) {
 #
 downloadPackagesToDirectory( $CONFIG{ 'directory' },
                              $CONFIG{ 'mirror' }, @packages );
+
+
+#
+#
+#  Verify the integrity of the downloaded packages, if possible
+#
+verifyPackageIntegrity( $CONFIG{'distribution'}, $CONFIG{ 'directory' } );
 
 
 #  If we're only printing then exit here.
@@ -431,6 +443,7 @@ sub parseCommandLineArguments {
         # configuration options
         "config=s",   \$CONFIG{ 'config' },
         "pkgs-dir=s", \$CONFIG{ 'pkgs-dir' },
+        "keys-dir=s", \$CONFIG{ 'keys-dir' },
 
         # Main options
         "arch=s",         \$CONFIG{ 'arch' },
@@ -970,6 +983,65 @@ sub downloadPackagesToDirectory {
 }
 
 
+
+=begin doc
+
+  Verify signatures stored in the downloaded RPMs, if we have the
+ matching public key(s).
+
+=end doc
+
+=cut
+
+sub verifyPackageIntegrity {
+
+    my ($distribution, $dir) = (@_);
+
+    my $keyfile = "$CONFIG{'keys-dir'}/$distribution.keys";
+    if ( ! -e $keyfile ) {
+      print <<EOF;
+
+  ---------------------------------------------------------------------
+  WARNING: Unable to verify the integrity of the downloaded RPMs, since
+  no public keys for the distribution $distribution are available.
+
+  Public keys should be located in the file: $keyfile
+  ---------------------------------------------------------------------
+
+EOF
+      return;
+    }
+
+    print("Verifying package integrity...\n");
+
+    my $cache = "$CONFIG{'cache-dir'}/$CONFIG{'distribution'}.$CONFIG{'arch'}/";
+    my $rpmkeys = '/usr/bin/rpmkeys';
+    my $rpmdb = File::Temp->newdir(TMPDIR => 1, TEMPLATE => 'rpmdbXXXX');
+    my $rpmdirname = $rpmdb->dirname;
+
+    my @args = ($rpmkeys, "--dbpath=$rpmdirname", '--import', $keyfile);
+    system(@args) and die;
+
+    my $failures = 0;
+    my $count = 0;
+
+    foreach my $rpm (glob( "$dir/*.rpm" )) {
+      $count = $count + 1;
+      my $output = `$rpmkeys --dbpath='$rpmdirname' --checksig '$rpm'`;
+      chomp $output;
+      if ($output ne "$rpm: digests signatures OK") {
+        print("$output\n");
+        $failures = 1;
+      }
+    }
+
+    if ($failures) {
+      print "ERROR: One or more packages failed the integrity test.\n";
+      exit;
+    }
+
+    print("All $count RPMs successfully verified.\n\n");
+}
 
 =begin doc
 
