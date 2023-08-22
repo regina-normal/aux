@@ -19,6 +19,8 @@ Upstream rinse has the following copyright notice:
 
       b) the "Artistic License" which comes with Perl.
 
+Dependencies: wget libterm-size-perl libwww-perl perl rpm cpio rpm2cpio
+
 --------------------------------------------------------------------------
 
 To create *.packages files for new fedora/opensuse releases:
