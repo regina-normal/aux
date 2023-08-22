@@ -12,20 +12,13 @@ fi
 
 
 #
-#  Make sure we have a working /bin/sh, since the alternatives system is
-#  not properly set up yet.  Currently this step is necessary for tumbleweed,
-#  but not any of the 15.x releases (correct as of late June 2022).
-#
-# ln -s /usr/bin/bash ${prefix}/etc/alternatives/sh
-
-
-#
 #  2.  Copy the cached .RPM files into the zypper directory, so that
 #     zypper doesn't need to fetch them again.
 #
 
 mkdir -p ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH}
-cp -p ${cache_dir}/${dist}.${ARCH}/* ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH}
+mv ${prefix}/*.rpm ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH}
+cp -pu ${cache_dir}/${dist}.${ARCH}/* ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH}
 
 #
 #  3.  Ensure that zypper has a working configuration file.
@@ -46,8 +39,8 @@ gpgcheck=1
 EOF
 
 if [ $ARCH = "i386" ] ; then
-	echo "  Setting architecture to i686"
-	sed -i 's/\(# \)\?arch = .*/arch = i686/' ${prefix}/etc/zypp/zypp.conf
+    echo "  Setting architecture to i686"
+    sed -i 's/\(# \)\?arch = .*/arch = i686/' ${prefix}/etc/zypp/zypp.conf
 fi
 
 
@@ -81,14 +74,14 @@ dialout:x:16:
 lock:x:54:
 EOT
 
-# Need key trusted to prevent warnings during package install
-chroot ${prefix} /usr/bin/zypper -n --gpg-auto-import-keys refresh --force-download
+chroot ${prefix} /usr/bin/zypper -n refresh --force-download
 
-# The base system
-chroot ${prefix} /usr/bin/zypper -n install aaa_base nano syslog-ng 2>&1
-chroot ${prefix} /usr/bin/zypper -n install rpm zypper 2>&1
-chroot ${prefix} /usr/bin/zypper -n update 2>&1
-chroot ${prefix} /usr/bin/zypper -n verify 2>&1
+# reinstall rpm packages via zypper, so the packge list for rpm and zypper are in sync
+cd ${prefix}; ls var/cache/zypp/packages/opensuse/suse/${ARCH}/*.rpm > ${prefix}/tmp/rpm.list
+cd /
+chroot ${prefix} zypper --non-interactive in --no-recommends -f `cat ${prefix}/tmp/rpm.list`
+
+chroot ${prefix} /usr/bin/zypper -n update       2>&1
 chroot ${prefix} /usr/bin/zypper clean
 
 #
@@ -101,7 +94,7 @@ umount ${prefix}/sys
 #  6.  Remove the .rpm files from the prefix root.
 #
 
-rm -f  ${prefix}/*.rpm ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH}
+rm -f  ${prefix}/*.rpm ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH} ${prefix}/tmp/rpm.list
 
 find ${prefix} -name '*.rpmorig' -delete
 find ${prefix} -name '*.rpmnew' -delete

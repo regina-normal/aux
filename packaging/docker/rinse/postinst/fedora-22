@@ -24,11 +24,7 @@ fi
 #
 echo "  Setting up DNF cache"
 mkdir -p ${prefix}/var/cache/yum/core/packages/
-
-for i in ${prefix}/*.rpm ; do
-    cp -p $i ${prefix}/var/cache/yum/core/packages/
-done
-
+mv ${prefix}/*.rpm  ${prefix}/var/cache/yum/core/packages/
 cp -pu $cache_dir/$dist.$ARCH/* ${prefix}/var/cache/yum/core/packages/
 
 
@@ -64,7 +60,7 @@ EOF
 
 echo "  Bootstrapping DNF"
 
-chroot ${prefix} /usr/bin/dnf -y install vim-minimal dhclient
+chroot ${prefix} /usr/bin/dnf -y --setopt=install_weak_deps=False install vim-minimal dhclient
 
 
 # restore original yum config
@@ -80,6 +76,8 @@ mv ${prefix}/etc/yum.repos.d.orig ${prefix}/etc/yum.repos.d
 # ensure that https repositories work
 chroot ${prefix} update-ca-trust
 
+echo "  Updating packages"
+chroot ${prefix} /usr/bin/dnf -y update
 
 #
 #  5.  Clean up
