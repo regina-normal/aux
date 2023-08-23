@@ -19,11 +19,11 @@ distribution=fedora-$ver
 # - aarch64: only supported for >= 28
 # - i386:    only supported for <= 25
 
-myarch="`uname -m`"
-case "$myarch" in
-  x86_64) arch=amd64;;
-  aarch64) arch=arm64;;
-  *) echo "Unknown architecture: $myarch"; exit 1;;
+arch="`uname -m`"
+case "$arch" in
+  x86_64) ;;
+  aarch64) ;;
+  *) echo "Unknown architecture: $arch"; exit 1;;
 esac
 
 echo "Preparing Fedora $ver ($arch) as $tag ..."
@@ -33,10 +33,20 @@ dir="$(mktemp -d ${TMPDIR:-/var/tmp}/docker-mkimage.XXXXXXXXXX)"
 rootfsDir="$dir/rootfs"
 tarFile="$dir/rootfs.tar.xz"
 
+if [ "$ver" -ge 37 ]; then
+  mirror="http://mirror.aarnet.edu.au/pub/fedora/linux/releases/$ver/Everything/$arch/os/Packages/"
+else
+  mirror="http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/$ver/Everything/$arch/os/Packages/"
+fi
+
 echo '----- Bootstrapping distribution -----'
 
 mkdir -p "$rootfsDir"
-rinse --directory "$rootfsDir" --arch "$arch" --distribution "$distribution"
+../rinse/rinse \
+  --directory "$rootfsDir" --arch "$arch" --distribution "$distribution" \
+  --pkgs-dir ../rinse/packages --keys-dir ../rinse/keys \
+  --post-install ../rinse/postinst/fedora-22 \
+  --mirror "$mirror"
 
 if [ -d "$rootfsDir/etc/sysconfig" ]; then
 	# allow networking init scripts inside the container to work without extra steps
