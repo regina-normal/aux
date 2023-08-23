@@ -47,7 +47,7 @@ echo '----- Bootstrapping distribution -----'
 mkdir -p "$rootfsDir"
 ../rinse/rinse \
   --directory "$rootfsDir" --arch "$arch" --distribution "$distribution" \
-  --pkgs-dir ../rinse/packages --keys-dir ../rinse/keys \
+  --pkgs-dir ../rinse/packages --keyfile "../rinse/keys/$distribution" \
   --before-post-install ../rinse/postinst/common/run_all \
   --post-install ../rinse/postinst/fedora-22 \
   --mirror "$mirror"

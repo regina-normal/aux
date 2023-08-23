@@ -42,9 +42,9 @@ rinse - RPM Installation Entity.
                          (Default is /etc/rinse/rinse.conf)
    --pkgs-dir            Specify a different directory containing
                          <distribution>.packages files.
-   --keys-dir            Specify a different directory containing
-                         <distribution>.keys files.
-                         (Default is /etc/rinse/keys)
+   --keyfile             Specify a file containing the signing key(s) for
+                         the requested distribution.
+                         (Default is /etc/rinse/keys/<distribution.keys>)
    --mirror              Specify the URL of the mirror.
                          (Default is to read it from /etc/rinse/rinse.conf)
    --list-distributions  Show installable distributions.
@@ -248,7 +248,6 @@ if ( !-d $configdir ) {
   $configdir = "/etc/rinse";
 }
 $CONFIG{ 'pkgs-dir' }  = $configdir;
-$CONFIG{ 'keys-dir' }  = "$configdir/keys";
 $CONFIG{ 'config' }    = "$configdir/rinse.conf";
 
 my $scriptsdir = "$Bin/../scripts";
@@ -443,7 +442,7 @@ sub parseCommandLineArguments {
         # configuration options
         "config=s",   \$CONFIG{ 'config' },
         "pkgs-dir=s", \$CONFIG{ 'pkgs-dir' },
-        "keys-dir=s", \$CONFIG{ 'keys-dir' },
+        "keyfile=s",  \$CONFIG{ 'keyfile' },
 
         # Main options
         "arch=s",         \$CONFIG{ 'arch' },
@@ -997,15 +996,14 @@ sub verifyPackageIntegrity {
 
     my ($distribution, $dir) = (@_);
 
-    my $keyfile = "$CONFIG{'keys-dir'}/$distribution";
-    if ( ! -e $keyfile ) {
+    if ( ! $CONFIG{'keyfile'} ) {
       print <<EOF;
 
   ---------------------------------------------------------------------
   WARNING: Unable to verify the integrity of the downloaded RPMs, since
-  no public keys for the distribution $distribution are available.
+  no public keys for the distribution $distribution were specified.
 
-  Public keys should be located in the file: $keyfile
+  Public keys can be passed using the --keyfile option.
   ---------------------------------------------------------------------
 
 EOF
@@ -1019,7 +1017,7 @@ EOF
     my $rpmdb = File::Temp->newdir(TMPDIR => 1, TEMPLATE => 'rpmdbXXXX');
     my $rpmdirname = $rpmdb->dirname;
 
-    my @args = ($rpmkeys, "--dbpath=$rpmdirname", '--import', $keyfile);
+    my @args = ($rpmkeys, "--dbpath=$rpmdirname", '--import', $CONFIG{'keyfile'});
     system(@args) and die;
 
     my $failures = 0;
@@ -1350,16 +1348,15 @@ sub unpackPackages {
     # If we have a signing key, import this now before we start installing
     # RPMs inside the chroot.
     #
-    my $keyfile = "$CONFIG{'keys-dir'}/$CONFIG{'distribution'}";
-    if (-e $keyfile ) {
-      my $cmd =
-        "cp $keyfile $CONFIG{'directory'}/tmp/key ; chroot $CONFIG{'directory'} rpmkeys --import /tmp/key ; rm $CONFIG{'directory'}/tmp/key";
-      if ($CONFIG{ 'verbose' }) {
-        print "Execute key import command $cmd\n";
-      } else {
-        print "Importing signing key(s)\n";
-      }
-      system($cmd);
+    if ($CONFIG{'keyfile'}) {
+      print "Importing signing key(s)\n";
+
+      my $keyfile_in_chroot = '/tmp/key';
+      my $keyfile_in_host = "$CONFIG{'directory'}/$keyfile_in_chroot";
+
+      copy($CONFIG{'keyfile'}, $keyfile_in_host) or die;
+      system("chroot $CONFIG{'directory'} rpmkeys --import $keyfile_in_chroot") and die;
+      unlink $keyfile_in_host;
     }
 
     #
