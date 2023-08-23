@@ -35,7 +35,7 @@ For new fedora, we begin with the processs described on the rinse manpage
 
 Then add dnf (which is not included in the list), and strip out all
 fedora-release-* and generic-release-*, except for
-fedora-release{,-common,-server,-identity-server}.  We should probably
+fedora-release{,-common,-identity-basic}.  We should probably
 revisit this latter decision at a later date to see if it still makes sense.
 
 For fedora <= 25: dnf repoquery does not support --recursive, and so we simply

@@ -37,8 +37,7 @@ fedora-flathub-remote
 fedora-gpg-keys
 fedora-release
 fedora-release-common
-fedora-release-identity-server
-fedora-release-server
+fedora-release-identity-basic
 fedora-repos
 fedora-third-party
 fedora-workstation-repositories

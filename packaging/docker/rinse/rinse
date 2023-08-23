@@ -1299,15 +1299,19 @@ sub unpackPackages {
     @rpms  = grep { !/filesystem/ } @rpms;
     unshift @rpms, @fs;
 
-    # Command to execute after extraction
-    my $postcmd = "";
-
     # check if cpio supports --extract-over-symlinks
     my $cpiooptions = qx/cpio --usage|grep extract-over-symlinks/;
     chomp $cpiooptions;
     if ($cpiooptions ne '') {
       $cpiooptions = '--extract-over-symlinks';
     }
+
+    #
+    # In order to be setup correctly, yum needs an installed package
+    # providing distroverpkg this is provided by a *-release package
+    # such as redhat-release, centos-release, fedora-release ...
+    #
+    my @releasepkgs = ();
 
     #
     #  For each RPM file: convert to .tgz
@@ -1333,9 +1337,7 @@ sub unpackPackages {
       my $cmd =
         "rpm2cpio $file | (cd $CONFIG{'directory'} ; cpio $cpiooptions --extract --make-directories --no-absolute-filenames --preserve-modification-time) 2>/dev/null >/dev/null";
       if ( $file =~ /(fedora|centos|rocky|redhat|mandriva)-release-/ ) {
-        my $rpmname = basename($file);
-        $postcmd =
-          "mount -t proc proc $CONFIG{'directory'}/proc ;mknod $CONFIG{'directory'}/dev/urandom c 1 9; cp $file $CONFIG{'directory'}/tmp ; chroot $CONFIG{'directory'} rpm -ivh --force --nodeps /tmp/$rpmname ; rm $CONFIG{'directory'}/tmp/$rpmname; umount $CONFIG{'directory'}/proc";
+        push @releasepkgs, $file;
       }
       system($cmd) == 0 or die "failed to extract $name: $?";
 
@@ -1345,17 +1347,27 @@ sub unpackPackages {
     print "\n";
 
     #
-    # In order to be setup correctly, yum needs an installed package
-    # providing distroverpkg this is provided by a *-release package
-    # such as redhat-release, centos-release, fedora-release ...
+    # Force the install with rpm of any release packages that we found
     #
-    # So here we force the install with rpm of the one we previously found
-    #
-    if ( $postcmd ne "" ) {
+    if (@releasepkgs) {
+      my $files = '';
+      my $rpmnames_in_chroot = '';
+      my $rpmnames_in_host = '';
+
+      foreach (@releasepkgs) {
+        $files .= "$_ ";
+
+        my $rpmname = basename($_);
+        $rpmnames_in_chroot .= "\"/tmp/$rpmname\" ";
+        $rpmnames_in_host .= "\"$CONFIG{'directory'}/tmp/$rpmname\" ";
+      }
+
+      my $postcmd =
+        "mount -t proc proc $CONFIG{'directory'}/proc ;mknod $CONFIG{'directory'}/dev/urandom c 1 9; cp $files $CONFIG{'directory'}/tmp ; chroot $CONFIG{'directory'} rpm -ivh --force --nodeps $rpmnames_in_chroot ; rm $rpmnames_in_host; umount $CONFIG{'directory'}/proc";
       if ($CONFIG{ 'verbose' }) {
         print "Execute postcmd $postcmd\n";
       } else {
-        print "Execute postcmd of *-release package\n";
+        print "Execute postcmd of *-release package(s)\n";
       }
       system($postcmd);
     }
