@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+# Any releases before this will be pulled from archives.fedoraproject.org.
+min_current_fedora=37
+
 ver="$1"
 case "$ver" in
   [0-9][0-9]) ;;
@@ -33,7 +36,7 @@ dir="$(mktemp -d ${TMPDIR:-/var/tmp}/docker-mkimage.XXXXXXXXXX)"
 rootfsDir="$dir/rootfs"
 tarFile="$dir/rootfs.tar.xz"
 
-if [ "$ver" -ge 37 ]; then
+if [ "$ver" -ge "$min_current_fedora" ]; then
   mirror="http://mirror.aarnet.edu.au/pub/fedora/linux/releases/$ver/Everything/$arch/os/Packages/"
 else
   mirror="http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/$ver/Everything/$arch/os/Packages/"
@@ -45,6 +48,7 @@ mkdir -p "$rootfsDir"
 ../rinse/rinse \
   --directory "$rootfsDir" --arch "$arch" --distribution "$distribution" \
   --pkgs-dir ../rinse/packages --keys-dir ../rinse/keys \
+  --before-post-install ../rinse/postinst/common/run_all \
   --post-install ../rinse/postinst/fedora-22 \
   --mirror "$mirror"
 

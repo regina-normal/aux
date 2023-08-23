@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-dir=`pwd "$0"`
+dir=`dirname "$0"`
 for i in "$dir"/*.sh; do
-  echo "$i" "$@"
+  echo "Running post-install script: $i"
+  "$i" "$@"
 done
