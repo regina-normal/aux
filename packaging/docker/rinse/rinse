@@ -997,7 +997,7 @@ sub verifyPackageIntegrity {
 
     my ($distribution, $dir) = (@_);
 
-    my $keyfile = "$CONFIG{'keys-dir'}/$distribution.keys";
+    my $keyfile = "$CONFIG{'keys-dir'}/$distribution";
     if ( ! -e $keyfile ) {
       print <<EOF;
 
