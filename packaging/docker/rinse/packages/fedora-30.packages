@@ -29,7 +29,6 @@ expat
 fedora-gpg-keys
 fedora-release
 fedora-release-common
-fedora-release-server
 fedora-repos
 file-libs
 filesystem
