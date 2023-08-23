@@ -29,6 +29,11 @@ case "$arch" in
   *) echo "Unknown architecture: $arch"; exit 1;;
 esac
 
+if [ "$ver" -le 27 -a "$arch" = aarch64 ]; then
+  echo "ERROR: aarch64 is only available for Fedora 28 and above."
+  exit 1
+fi
+
 echo "Preparing Fedora $ver ($arch) as $tag ..."
 echo
 
