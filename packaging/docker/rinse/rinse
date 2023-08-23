@@ -1347,6 +1347,22 @@ sub unpackPackages {
     print "\n";
 
     #
+    # If we have a signing key, import this now before we start installing
+    # RPMs inside the chroot.
+    #
+    my $keyfile = "$CONFIG{'keys-dir'}/$CONFIG{'distribution'}";
+    if (-e $keyfile ) {
+      my $cmd =
+        "cp $keyfile $CONFIG{'directory'}/tmp/key ; chroot $CONFIG{'directory'} rpmkeys --import /tmp/key ; rm $CONFIG{'directory'}/tmp/key";
+      if ($CONFIG{ 'verbose' }) {
+        print "Execute key import command $cmd\n";
+      } else {
+        print "Importing signing key(s)\n";
+      }
+      system($cmd);
+    }
+
+    #
     # Force the install with rpm of any release packages that we found
     #
     if (@releasepkgs) {
