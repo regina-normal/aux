@@ -76,8 +76,8 @@ mv ${prefix}/etc/yum.repos.d.orig ${prefix}/etc/yum.repos.d
 # ensure that https repositories work
 chroot ${prefix} update-ca-trust
 
-echo "  Updating packages"
-chroot ${prefix} /usr/bin/dnf -y update
+# echo "  Updating packages"
+# chroot ${prefix} /usr/bin/dnf -y update
 
 #
 #  5.  Clean up

@@ -59,6 +59,12 @@ Currently we only support fedora 22 onwards (which appears to be the first
 release that introduced dnf); if we ever need to go further back then there
 are scripts that can be pulled from old versions of rinse.
 
-Currently the fedora postinst scripts are pulled directly from rinse.
-The opensuse scripts are patched to remove --gpg-auto-import-keys and
---no-gpg-checks options from calls to zypper.
+The postinst scripts here are pulled from rinse and patched:
+
+- The fedora script is patched to avoid the final dnf update (since regina's
+  build images manage updates separately, after modifying the list of active
+  repositories).
+
+- The opensuse script is made more robust by removing --gpg-auto-import-keys
+  and --no-gpg-checks options from calls to zypper.
+
