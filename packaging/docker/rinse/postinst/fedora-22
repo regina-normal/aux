@@ -82,7 +82,7 @@ chroot ${prefix} update-ca-trust
 #
 #  5.  Clean up
 #
-chroot ${prefix} /usr/bin/dnf clean all
+chroot ${prefix} /usr/bin/dnf clean --quiet all
 rm -rf ${prefix}/etc/yum.repos.d.rinse
 
 umount ${prefix}/proc

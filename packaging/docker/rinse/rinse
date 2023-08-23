@@ -1341,7 +1341,7 @@ sub unpackPackages {
     }
     print "\r";
     print " " x $CONFIG{ 'width' };
-    print "\rAll packages extracted\n";
+    print "\rAll packages extracted.\n";
 
     #
     # For newer fedoras, /proc and /sys are now %ghost, which means they are
@@ -1363,7 +1363,7 @@ sub unpackPackages {
     # RPMs inside the chroot.
     #
     if ($CONFIG{'keyfile'}) {
-      print "Importing signing key(s)\n";
+      print "Importing signing key(s)...\n";
 
       my $keyfile_in_chroot = '/tmp/key';
       my $keyfile_in_host = "$CONFIG{'directory'}/$keyfile_in_chroot";

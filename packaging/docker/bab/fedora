@@ -88,7 +88,7 @@ chroot "$rootfsDir" dnf config-manager --set-enabled fedora-source
 chroot "$rootfsDir" dnf install -y -b --setopt=install_weak_deps=False \
   vim-minimal dhclient
 
-chroot "$rootfsDir" dnf clean all
+chroot "$rootfsDir" dnf clean --quiet all
 
 echo
 echo 'Enabled repositories:'
