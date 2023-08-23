@@ -11,10 +11,10 @@ if [ ! -d "${prefix}" ]; then
   exit
 fi
 
-arch=i386
-if [ $ARCH = "amd64" ] ; then
+arch="$ARCH"
+if [ "$arch" = "amd64" ] ; then
     arch=x86_64
-elif [ $ARCH = "arm64" ] ; then
+elif [ "$arch" = "arm64" ] ; then
     arch=aarch64
 fi
 

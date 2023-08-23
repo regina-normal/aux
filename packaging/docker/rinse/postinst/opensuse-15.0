@@ -23,9 +23,11 @@ cp -pu ${cache_dir}/${dist}.${ARCH}/* ${prefix}/var/cache/zypp/packages/opensuse
 #
 #  3.  Ensure that zypper has a working configuration file.
 #
-arch=i386
-if [ $ARCH = "amd64" ] ; then
+arch="$ARCH"
+if [ "$arch" = "amd64" ] ; then
     arch=x86_64
+elif [ "$arch" = "arm64" ] ; then
+    arch=aarch64
 fi
 
 [ -d "${prefix}/etc/zypp/repos.d" ] || mkdir -p ${prefix}/etc/zypp/repos.d
