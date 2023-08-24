@@ -35,12 +35,21 @@ dir="$(mktemp -d ${TMPDIR:-/var/tmp}/docker-mkimage.XXXXXXXXXX)"
 rootfsDir="$dir/rootfs"
 tarFile="$dir/rootfs.tar.xz"
 
+# Note: we do string comparisons with $ver, since -lt and -ge require integer
+# arguments.
+if [ "$arch" = aarch64 -a "$ver" \< 15.2 ]; then
+  # The aarch64 binaries entered the main distribution with openSUSE Leap 15.3.
+  mirror="http://download.opensuse.org/ports/$arch/distribution/leap/$ver/repo/oss/$arch/"
+else
+  mirror="http://download.opensuse.org/distribution/leap/$ver/repo/oss/$arch/"
+fi
+
 echo '----- Bootstrapping distribution -----'
 
 mkdir -p "$rootfsDir"
 ../rinse/rinse \
   --directory "$rootfsDir" --arch "$arch" --distribution "$distribution" \
-  --pkgs-dir ../rinse/packages --keyfile "../rinse/keys/$distribution" \
+  --pkgs-dir ../rinse/packages --keyfile ../rinse/keys/opensuse \
   --before-post-install ../rinse/postinst/common/run_all \
   --post-install ../rinse/postinst/opensuse-15.0 \
   --mirror "$mirror"
