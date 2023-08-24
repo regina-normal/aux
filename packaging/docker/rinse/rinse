@@ -912,6 +912,19 @@ sub downloadPackagesToDirectory {
       $arch = 'i386|i586|i686';
     }
 
+    #
+    # For openSUSE, there are some packages we need that are stored in a
+    # separate .../noarch/ directory.
+    #
+    if ( $CONFIG{'distribution'} =~ /opensuse/ ) {
+      my $mirror_noarch = $mirror;
+      $mirror_noarch =~ s/\/($arch)\//\/noarch\//;
+
+      print "Querying noarch packages at $mirror_noarch...\n";
+      my %links_noarch = findMirrorContents($mirror_noarch);
+      %links = (%links, %links_noarch);
+    }
+
     my $old_fh = select(STDOUT);
     $| = 1;
     #
