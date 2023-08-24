@@ -21,11 +21,11 @@ distribution=opensuse-$ver
 #            http://download.opensuse.org/ports/aarch64/distribution/leap/
 # - i586:    not supported at all
 
-myarch="`uname -m`"
-case "$myarch" in
-  x86_64) arch=amd64;;
-  aarch64) arch=arm64;;
-  *) echo "Unknown architecture: $myarch"; exit 1;;
+arch="`uname -m`"
+case "$arch" in
+  x86_64) ;;
+  aarch64) ;;
+  *) echo "Unknown architecture: $arch"; exit 1;;
 esac
 
 echo "Preparing openSUSE Leap $ver ($arch) as $tag ..."
@@ -38,7 +38,12 @@ tarFile="$dir/rootfs.tar.xz"
 echo '----- Bootstrapping distribution -----'
 
 mkdir -p "$rootfsDir"
-rinse --directory "$rootfsDir" --arch "$arch" --distribution "$distribution"
+../rinse/rinse \
+  --directory "$rootfsDir" --arch "$arch" --distribution "$distribution" \
+  --pkgs-dir ../rinse/packages --keyfile "../rinse/keys/$distribution" \
+  --before-post-install ../rinse/postinst/common/run_all \
+  --post-install ../rinse/postinst/opensuse-15.0 \
+  --mirror "$mirror"
 
 echo '----- Updating distribution -----'
 

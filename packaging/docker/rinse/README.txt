@@ -67,6 +67,6 @@ The postinst scripts here are pulled from rinse and patched:
   build images manage updates separately, after modifying the list of active
   repositories).
 
-- The opensuse script is made more robust by removing --gpg-auto-import-keys
-  and --no-gpg-checks options from calls to zypper.
+- The opensuse script is made more robust by removing --no-gpg-checks from
+  calls to zypper.
 
