@@ -2,7 +2,7 @@ bash
 boost-license1_66_0
 coreutils
 cracklib
-cracklib-dict-full
+cracklib-dict-small
 diffutils
 file-magic
 filesystem

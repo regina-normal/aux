@@ -46,6 +46,8 @@ For opensuse, package lists are created by using the script opensuse-core.pl
 rpm, zypper, gzip, grep, sed, xz, and util-linux.  We include gzip, sed, grep
 and xz in this list because otherwise opensuse may try to install the busybox
 variants of these packages, which causes problems for rpm-build later on.
+We then manually edit the package list to use cracklib-dict-small instead of
+cracklib-dict-full.
 
 --------------------------------------------------------------------------
 
