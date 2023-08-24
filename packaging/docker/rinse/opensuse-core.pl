@@ -10,7 +10,7 @@
 #
 use strict;
 
-my @pkgs = ( 'rpm', 'zypper', 'util-linux', 'gzip', 'grep', 'sed', 'xz' );
+my @pkgs = ( 'rpm', 'zypper', 'util-linux', 'gzip', 'grep', 'sed', 'xz', 'openSUSE-release' );
 my @latest = @pkgs;
 
 my %deps = ();

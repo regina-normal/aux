@@ -920,7 +920,7 @@ sub downloadPackagesToDirectory {
       my $mirror_noarch = $mirror;
       $mirror_noarch =~ s/\/($arch)\//\/noarch\//;
 
-      print "Querying noarch packages at $mirror_noarch...\n";
+      print "Using noarch mirror: $mirror_noarch\n";
       my %links_noarch = findMirrorContents($mirror_noarch);
       %links = (%links, %links_noarch);
     }
