@@ -8,6 +8,7 @@ diffutils
 file-magic
 filesystem
 fillup
+gawk
 glibc
 gpg2
 grep
@@ -90,6 +91,8 @@ libzio1
 libzstd1
 libzypp
 login_defs
+openSUSE-release
+openSUSE-release-ftp
 pam
 perl-base
 permissions
@@ -103,6 +106,7 @@ system-group-hardware
 system-user-root
 sysuser-shadow
 terminfo-base
+update-alternatives
 util-linux
 xz
 zypper
