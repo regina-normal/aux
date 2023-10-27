@@ -91,5 +91,17 @@ for i in 120; do
   cp -p ios/app-$i.png ios/app-${i}-1.png
 done
 
+# The same iOS app icons (reversed) but for the macOS build:
+rm -rf macos
+mkdir macos
+for i in 16 32 64 128 256 512 1024; do
+  render app.svg macos/app-$i.png $i
+done
+
+for i in 32 256 512; do
+  # These sizes are used twice.
+  cp -p macos/app-$i.png macos/app-${i}-1.png
+done
+
 convert -alpha off ios/app-1024.png appstore.png
 
