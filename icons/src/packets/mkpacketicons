@@ -5,17 +5,26 @@
 set -e
 
 for i in "$@"; do
-  for j in 16 22 32; do
-    size=$j
-    if [ "$j" = 16 -a -e "$i-lores.svg" ]; then
-      echo "16px: using lo-res SVG"
-      rsvg -w$size -h$size $i-lores.svg $i-$size.png
-    else
-      rsvg -w$size -h$size $i.svg $i-$size.png
-    fi
-    size=$(($j + $j))
-    rsvg -w$size -h$size $i.svg $i-$j@2x.png
-    size=$(($size + $j))
-    rsvg -w$size -h$size $i.svg $i-$j@3x.png
+  if [ -e "$i-dark.svg" ]; then
+    options="$i $i-dark"
+  else
+    options="$i"
+  fi
+
+  for base in $options; do
+    for j in 16 22 32; do
+      size=$j
+      if [ "$j" = 16 -a -e "$base-lores.svg" ]; then
+        echo "16px: using lo-res SVG"
+        rsvg-convert -w$size -h$size $base-lores.svg -o $base-$size.png
+      else
+        rsvg-convert -w$size -h$size $base.svg -o $base-$size.png
+      fi
+      size=$(($j + $j))
+      rsvg-convert -w$size -h$size $base.svg -o $base-$j@2x.png
+      size=$(($size + $j))
+      rsvg-convert -w$size -h$size $base.svg -o $base-$j@3x.png
+    done
   done
 done
+

@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# Note: on fink this requires librsvg2-bin.
+#
+set -e
+
+for i in snappea; do
+  for j in 16 32 128 256; do
+    size=$j
+    if [ "$j" = 16 -a -e "$i-lores.svg" ]; then
+      echo "16px: using lo-res SVG"
+      rsvg-convert -w$size -h$size $i-lores.svg -o $i-$size.png
+    else
+      rsvg-convert -w$size -h$size $i.svg -o $i-$size.png
+    fi
+    size=$(($j + $j))
+    rsvg-convert -w$size -h$size $i.svg -o $i-$j@2x.png
+  done
+done
