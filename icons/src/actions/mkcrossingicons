@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Note: on macports this requires librsvg.
+#
+set -e
+
+function render {
+    src=$1
+    size=$2
+    filename=$3
+
+    if [ "$size" = 16 -a -e "$src-lores.svg" ]; then
+      echo "$filename: using lo-res SVG"
+      rsvg-convert -w$size -h$size $src-lores.svg -o $filename
+    elif [ -e "$src-$size.svg" ]; then
+      echo "$filename: using ${size}x SVG"
+      rsvg-convert -w$size -h$size $src-$size.svg -o $filename
+    else
+      rsvg-convert -w$size -h$size $src.svg -o $filename
+    fi
+}
+
+for i in crossing-u crossing-l crossing+u crossing+l; do
+  for j in 48; do
+    render $i $j $i-$j.png
+    render $i $(($j+$j)) $i-$j@2x.png
+    render $i $(($j+$j+$j)) $i-$j@3x.png
+  done
+done
