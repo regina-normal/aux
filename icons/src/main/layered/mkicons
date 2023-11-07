@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+# Usage: render source.svg dest.png size
+function render {
+  rsvg-convert -w$3 -h$3 "$1" -o "$2"
+}
+
+render front.svg front.png 1024
+render back.svg back.png 1024
+
