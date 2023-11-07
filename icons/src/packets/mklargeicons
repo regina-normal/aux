@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# Note: on fink this requires librsvg2-bin.
+#
+set -e
+
+for i in "$@"; do
+  if [ -e "$i-dark.svg" ]; then
+    options="$i $i-dark"
+  else
+    options="$i"
+  fi
+
+  for base in $options; do
+    for j in 64; do
+      size=$j
+      rsvg-convert -w$size -h$size $base.svg -o $base-$size.png
+      size=$(($j + $j))
+      rsvg-convert -w$size -h$size $base.svg -o $base-$j@2x.png
+      size=$(($size + $j))
+      rsvg-convert -w$size -h$size $base.svg -o $base-$j@3x.png
+    done
+  done
+done
+
