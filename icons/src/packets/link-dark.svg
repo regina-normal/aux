@@ -8,9 +8,9 @@
 	<g>
 		
 			<radialGradient id="SVGID_1_" cx="266.46" cy="764.5049" r="150.4547" gradientTransform="matrix(1 0 0 1 0 -566)" gradientUnits="userSpaceOnUse">
-			<stop  offset="0" style="stop-color:#B27867"/>
-			<stop  offset="0.5" style="stop-color:#8E4130"/>
-			<stop  offset="1" style="stop-color:#7A1E15"/>
+			<stop  offset="0" style="stop-color:#E0B8AD"/>
+			<stop  offset="0.5" style="stop-color:#CF9082"/>
+			<stop  offset="1" style="stop-color:#BD7872"/>
 		</radialGradient>
 		<path fill="url(#SVGID_1_)" d="M227.741,374.686l-8.911-10.799c-19.92-24.14-41.596-67.366-55.222-110.124
 			c-22.277-69.903-17.88-116.731-10.268-143.706c11.306-40.065,37.26-67.325,77.141-81.021
@@ -22,9 +22,9 @@
 	<g>
 		
 			<radialGradient id="SVGID_2_" cx="344.3142" cy="910.5436" r="144.5741" gradientTransform="matrix(1 0 0 1 0 -566)" gradientUnits="userSpaceOnUse">
-			<stop  offset="0" style="stop-color:#B27867"/>
-			<stop  offset="0.5" style="stop-color:#8E4130"/>
-			<stop  offset="1" style="stop-color:#7A1E15"/>
+			<stop  offset="0" style="stop-color:#E0B8AD"/>
+			<stop  offset="0.5" style="stop-color:#CF9082"/>
+			<stop  offset="1" style="stop-color:#BD7872"/>
 		</radialGradient>
 		<path fill="url(#SVGID_2_)" d="M383.826,489.343c-7.613,0-15.35-0.842-23.14-2.537c-28.139-6.122-55.822-23.569-80.058-50.456
 			l-9.373-10.398l20.798-18.747l9.374,10.399c20.286,22.505,42.836,36.975,65.212,41.843c19.261,4.192,37.973,1.319,54.109-8.304
@@ -36,9 +36,9 @@
 	<g>
 		
 			<radialGradient id="SVGID_3_" cx="189.1492" cy="916.3289" r="144.4161" gradientTransform="matrix(1 0 0 1 0 -566)" gradientUnits="userSpaceOnUse">
-			<stop  offset="0" style="stop-color:#B27867"/>
-			<stop  offset="0.5" style="stop-color:#8E4130"/>
-			<stop  offset="1" style="stop-color:#7A1E15"/>
+			<stop  offset="0" style="stop-color:#E0B8AD"/>
+			<stop  offset="0.5" style="stop-color:#CF9082"/>
+			<stop  offset="1" style="stop-color:#BD7872"/>
 		</radialGradient>
 		<path fill="url(#SVGID_3_)" d="M127.32,470.215c-29.822,0.001-56.677-10.196-78.953-30.229
 			c-19.381-17.396-27.904-46.112-23.374-78.778c5.603-40.401,33.573-94.352,95.272-124.602l12.57-6.163l12.327,25.141l-12.571,6.164
