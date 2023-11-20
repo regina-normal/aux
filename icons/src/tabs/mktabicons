@@ -5,7 +5,8 @@
 # For current guidelines, see:
 # https://developer.apple.com/design/human-interface-guidelines/tab-bars
 #
-# Currently (late 2023): 25pt for regular height, 18pt for compact height.
+# Currently (late 2023): 25pt for regular height, 18pt for compact height,
+# and filled (not outlined) styles are preferred.
 #
 set -e
 
