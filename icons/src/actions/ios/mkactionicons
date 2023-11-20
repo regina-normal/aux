@@ -2,6 +2,12 @@
 #
 # Note: on macports this requires librsvg.
 #
+# For current guidelines, see:
+# https://developer.apple.com/design/human-interface-guidelines/toolbars
+#
+# Currently (late 2023): 24pt for iOS/iPadOS, 19pt for macOS, or
+# 32pt for macOS full-colour free-standing icon.
+#
 set -e
 
 function render {
@@ -9,7 +15,7 @@ function render {
     size=$2
     filename=$3
 
-    if [ "$size" = 16 -a -e "$src-lores.svg" ]; then
+    if [ "$size" = 19 -a -e "$src-lores.svg" ]; then
       echo "$filename: using lo-res SVG"
       rsvg-convert -w$size -h$size $src-lores.svg -o $filename
     elif [ -e "$src-$size.svg" ]; then
@@ -21,7 +27,7 @@ function render {
 }
 
 for i in "$@"; do
-  for j in 16 22 32; do
+  for j in 19 24; do
     render $i $j $i-$j.png
     render $i $(($j+$j)) $i-$j@2x.png
     render $i $(($j+$j+$j)) $i-$j@3x.png
