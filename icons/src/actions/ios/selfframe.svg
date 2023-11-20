@@ -24,7 +24,6 @@
 		<path display="inline" fill="#29ABE2" stroke="#2E3192" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 		M394.724,620L619,399.783L394.724,620z"/>
 </g>
-<<<<<<< HEAD
 <path fill="none" stroke="#636592" stroke-width="35" stroke-linejoin="round" d="M72.5,587.5c133-111,145-422.349,2-367.349
 	C12.238,244.097,35.5,380.5,125.5,337"/>
 <path fill="none" stroke="#636592" stroke-width="35" stroke-linejoin="round" d="M221.318,289.5
@@ -32,13 +31,4 @@
 <path fill="none" stroke="#636592" stroke-width="35" stroke-linejoin="round" d="M345.5,258.5
 	c132,136,251.271,103.966,251.271,12.966C596.771,192.5,480.5,184.5,467.5,289.5"/>
 <path fill="none" stroke="#636592" stroke-width="35" stroke-linejoin="round" d="M460.5,391.5c0,114,117,196,117,196"/>
-=======
-<path fill="none" stroke="#636592" stroke-width="28" stroke-linejoin="round" d="M72.5,587.5c133-111,145-422.349,2-367.349
-	C12.238,244.097,35.5,380.5,125.5,337"/>
-<path fill="none" stroke="#636592" stroke-width="28" stroke-linejoin="round" d="M221.318,289.5
-	c172.182-105,183.6-219.095,104.182-231c-71-10.643-113,61-51.312,124"/>
-<path fill="none" stroke="#636592" stroke-width="28" stroke-linejoin="round" d="M345.5,258.5
-	c132,136,251.271,103.966,251.271,12.966C596.771,192.5,480.5,184.5,467.5,289.5"/>
-<path fill="none" stroke="#636592" stroke-width="28" stroke-linejoin="round" d="M460.5,391.5c0,114,117,196,117,196"/>
->>>>>>> 9ea0eac675cff94578ab6e0b87d3206d5219cdcf
 </svg>
