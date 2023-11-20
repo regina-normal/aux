@@ -15,7 +15,10 @@ function render {
     size=$2
     filename=$3
 
-    if [ -e "$src-$size.svg" ]; then
+    if [ "$size" = 19 -a -e "$src-lores.svg" ]; then
+      echo "$filename: using lo-res SVG"
+      rsvg-convert -w$size -h$size $src-lores.svg -o $filename
+    elif [ -e "$src-$size.svg" ]; then
       echo "$filename: using ${size}x SVG"
       rsvg-convert -w$size -h$size $src-$size.svg -o $filename
     else
