@@ -8,6 +8,12 @@
 # Currently (late 2023): 24pt for iOS/iPadOS, 19pt for macOS, or
 # 32pt for macOS full-colour free-standing icon.
 #
+# Line widths have been chosen to visually match what SFSymbols produces for
+# system images (late 2023):
+#
+#   - 512x512 canvas -> 28pt
+#   - 640x640 canvas -> 35pt
+#
 set -e
 
 function render {
