@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Note: on macports this requires librsvg.
+#
+set -e
+
+function render {
+    src=$1
+    size=$2
+    filename=$3
+
+    if [ -e "$src-$size.svg" ]; then
+      echo "$filename: using ${size}x SVG"
+      rsvg-convert -w$size -h$size $src-$size.svg -o $filename
+    else
+      rsvg-convert -w$size -h$size $src.svg -o $filename
+    fi
+}
+
+for i in "$@"; do
+  for j in 19 24; do
+    render $i $j $i-$j.png
+    render $i $(($j+$j)) $i-$j@2x.png
+    render $i $(($j+$j+$j)) $i-$j@3x.png
+  done
+done
