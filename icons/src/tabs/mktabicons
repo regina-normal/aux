@@ -2,14 +2,37 @@
 #
 # Note: on fink this requires librsvg2-bin.
 #
+# For current guidelines, see:
+# https://developer.apple.com/design/human-interface-guidelines/tab-bars
+#
+# Currently (late 2023): 25pt for regular height, 18pt for compact height.
+#
 set -e
+
+function render {
+    src=$1
+    size=$2
+    filename=$3
+
+    if [ "$size" = 18 -a -e "$src-lores.svg" ]; then
+      echo "$filename: using lo-res SVG"
+      rsvg-convert -w$size -h$size $src-lores.svg -o $filename
+    elif [ -e "$src-$size.svg" ]; then
+      echo "$filename: using ${size}x SVG"
+      rsvg-convert -w$size -h$size $src-$size.svg -o $filename
+    else
+      rsvg-convert -w$size -h$size $src.svg -o $filename
+    fi
+}
 
 for i in "$@"; do
   case "$i" in
-    graph* ) sizes="27 54 81";;
-    *) sizes="25 50 75";;
+    graph* ) sizes="20 27";;
+    *) sizes="18 25";;
   esac
   for j in $sizes; do
-    rsvg -w$j -h$j $i.svg $i-$j.png
+    render $i $j $i-$j.png
+    render $i $(($j+$j)) $i-$j@2x.png
+    render $i $(($j+$j+$j)) $i-$j@3x.png
   done
 done
