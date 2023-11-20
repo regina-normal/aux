@@ -24,6 +24,7 @@
 		<path display="inline" fill="#29ABE2" stroke="#2E3192" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 		M394.724,620L619,399.783L394.724,620z"/>
 </g>
+<<<<<<< HEAD
 <line fill="none" stroke="#636592" stroke-width="35" stroke-linejoin="round" x1="32" y1="320" x2="262" y2="320"/>
 <line fill="none" stroke="#636592" stroke-width="35" stroke-linejoin="round" x1="378" y1="320" x2="608" y2="320"/>
 <g>
@@ -32,5 +33,15 @@
 	<line fill="none" stroke="#AB8964" stroke-width="35" stroke-linejoin="round" x1="149" y1="378" x2="149" y2="518"/>
 	<line fill="none" stroke="#AB8964" stroke-width="35" stroke-linejoin="round" x1="491" y1="122" x2="491" y2="262"/>
 	<line fill="none" stroke="#AB8964" stroke-width="35" stroke-linejoin="round" x1="491" y1="378" x2="491" y2="518"/>
+=======
+<line fill="none" stroke="#636592" stroke-width="28" stroke-linejoin="round" x1="32" y1="320" x2="266" y2="320"/>
+<line fill="none" stroke="#636592" stroke-width="28" stroke-linejoin="round" x1="374" y1="320" x2="608" y2="320"/>
+<g>
+	<line fill="none" stroke="#AB8964" stroke-width="28" stroke-linejoin="round" x1="320" y1="122" x2="320" y2="518"/>
+	<line fill="none" stroke="#AB8964" stroke-width="28" stroke-linejoin="round" x1="149" y1="122" x2="149" y2="266"/>
+	<line fill="none" stroke="#AB8964" stroke-width="28" stroke-linejoin="round" x1="149" y1="374" x2="149" y2="518"/>
+	<line fill="none" stroke="#AB8964" stroke-width="28" stroke-linejoin="round" x1="491" y1="122" x2="491" y2="266"/>
+	<line fill="none" stroke="#AB8964" stroke-width="28" stroke-linejoin="round" x1="491" y1="374" x2="491" y2="518"/>
+>>>>>>> 9ea0eac675cff94578ab6e0b87d3206d5219cdcf
 </g>
 </svg>

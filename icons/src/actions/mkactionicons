@@ -2,12 +2,6 @@
 #
 # Note: on macports this requires librsvg.
 #
-# For current guidelines, see:
-# https://developer.apple.com/design/human-interface-guidelines/toolbars
-#
-# Currently (late 2023): 24pt for iOS/iPadOS, 19pt for macOS, or
-# 32pt for macOS full-colour free-standing icon.
-#
 set -e
 
 function render {

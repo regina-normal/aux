@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <!-- Generator: Adobe Illustrator 24.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 576.5 575.5" enable-background="new 0 0 576.5 575.5" xml:space="preserve">
@@ -15,10 +16,29 @@
 			353.101,76.599 470,-46.5 		"/>
 		
 			<line fill="none" stroke="#636592" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="167.124" y1="95.196" x2="353.101" y2="76.599"/>
+=======
+<!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 64.5 576.5 575.5" enable-background="new 0 64.5 576.5 575.5" xml:space="preserve">
+<g id="Layer_1_1_" display="none">
+	<g display="inline">
+		
+			<rect x="21" y="18" fill="#E6E6F2" stroke="#636592" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" width="449" height="449"/>
+		
+			<polyline fill="none" stroke="#636592" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+			21,18 167.124,159.696 210.519,338.588 21,467 		"/>
+		
+			<polyline fill="none" stroke="#636592" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+			470,303.164 210.519,338.588 21,219.032 167.124,159.696 257.456,18 353.101,141.099 210.519,338.588 284.023,467 470,303.164 
+			353.101,141.099 470,18 		"/>
+		
+			<line fill="none" stroke="#636592" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="167.124" y1="159.696" x2="353.101" y2="141.099"/>
+>>>>>>> 9ea0eac675cff94578ab6e0b87d3206d5219cdcf
 	</g>
 </g>
 <g display="none">
 	
+<<<<<<< HEAD
 		<rect x="395" y="335.5" display="inline" fill="#29ABE2" stroke="#2E3192" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" width="224" height="220"/>
 	
 		<path display="inline" fill="#29ABE2" stroke="#2E3192" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
@@ -29,4 +49,16 @@
 <line fill="none" stroke="#C3922E" stroke-width="32" stroke-linejoin="round" x1="288.5" y1="531" x2="288.5" y2="333"/>
 <polyline fill="none" stroke="#C3922E" stroke-width="32" points="171.5,153 288.5,36 405.5,153 "/>
 <polyline fill="none" stroke="#C3922E" stroke-width="32" points="171.5,423 288.5,540 405.5,423 "/>
+=======
+		<rect x="395" y="400" display="inline" fill="#29ABE2" stroke="#2E3192" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" width="224" height="220"/>
+	
+		<path display="inline" fill="#29ABE2" stroke="#2E3192" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M394.724,620L619,399.783L394.724,620z"/>
+</g>
+<line fill="none" stroke="#5C1001" stroke-width="30" stroke-linejoin="round" x1="36.5" y1="352.5" x2="540.5" y2="352.5"/>
+<line fill="none" stroke="#C3922E" stroke-width="25" stroke-linejoin="round" x1="288.5" y1="109.5" x2="288.5" y2="307.5"/>
+<line fill="none" stroke="#C3922E" stroke-width="25" stroke-linejoin="round" x1="288.5" y1="595.5" x2="288.5" y2="397.5"/>
+<polyline fill="none" stroke="#C3922E" stroke-width="25" points="171.5,217.5 288.5,100.5 405.5,217.5 "/>
+<polyline fill="none" stroke="#C3922E" stroke-width="25" points="171.5,487.5 288.5,604.5 405.5,487.5 "/>
+>>>>>>> 9ea0eac675cff94578ab6e0b87d3206d5219cdcf
 </svg>
