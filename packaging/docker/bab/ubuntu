@@ -59,6 +59,7 @@ case "$ver" in
   groovy ) archive=1 ;;
   hirsute ) archive=1 ;;
   impish ) archive=1 ;;
+  kinetic ) archive=1 ;;
   * ) ;;
 esac
 
