@@ -193,7 +193,19 @@ if [ -z "$DONT_TOUCH_SOURCES_LIST" ]; then
 	case "$lsbDist" in
 		debian)
 			# updates and security!
-			if curl -o /dev/null -s --head --location --fail "http://security.debian.org/dists/$suite/updates/main/binary-$(rootfs_chroot dpkg --print-architecture)/Packages.gz"; then
+			if curl -o /dev/null -s --head --location --fail "http://security.debian.org/dists/$suite-security/main/binary-$(rootfs_chroot dpkg --print-architecture)/Release"; then
+				# New style (bullseye onwards)
+				(
+					set -x
+					# Disable the updates repository for our docker images.
+					# sed -i "
+					# 	p;
+					# 	s/ $suite / ${suite}-updates /
+					# " "$rootfsDir/etc/apt/sources.list"
+					echo "deb http://security.debian.org $suite-security main" >> "$rootfsDir/etc/apt/sources.list"
+				)
+			elif curl -o /dev/null -s --head --location --fail "http://security.debian.org/dists/$suite/updates/main/binary-$(rootfs_chroot dpkg --print-architecture)/Packages.gz"; then
+				# Old style (buster and prior)
 				(
 					set -x
 					# Disable the updates repository for our docker images.
