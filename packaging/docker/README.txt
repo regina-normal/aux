@@ -20,19 +20,16 @@ To prepare a debian/stable host machine for building and using these images:
 
 - set up a backports source in /etc/apt/sources.list, and fix priorities
   for debootstrap in /etc/apt/preferences to use this source
-- apt-get install debootstrap zstd curl
+- apt-get install debootstrap zstd curl rpm
 - apt-get install debian-keyring (should already be present)
 - manually install a recent ubuntu-keyring package from an ubuntu mirror
 
 - apt-get install docker.io
 - add the ordinary user to the docker group, and log out / log in again
 
-- add the APT source: deb https://people.debian.org/~bab/rinse unstable/
-  and fix priorities for rinse in /etc/apt/preferences to use this source
-- apt-get install rinse
-- for newer distros, add extra package lists in /etc/rinse/*.packages,
-  mirror locations in /etc/rinse/rinse.conf, and post-install scripts in
-  /usr/lib/rinse/
+- for newer distros, remember to add extra package lists in rinse/packages/,
+  mirror locations in rinse/rinse.conf, and post-install scripts if necessary
+  in rinse/postinst/.
 
 Docker *may* need specialised configuration.  Around mid-2021 it was observed
 that Fedora Rawhide would not allow the creation of threads (which meant that
