@@ -125,7 +125,28 @@ if [ "$ver" = 26 ]; then
   # Note that the problem does seem to resolve itself by the time the docker
   # image is created, so in theory this line could be removed again before
   # bundling up the filesystem at the end of this script.
+  echo '----- Unbreaking SSL certificates -----'
   echo 'sslverify=0' >> "$rootfsDir/etc/dnf/dnf.conf"
+fi
+
+if [ -n "$arch" ]; then
+  # When (for example) using an i386 chroot on an x86_64 system,
+  # DNF gets the basearch wrong and so it uses the wrong repositories.
+  #
+  # The fedora versions that support i386 also appear to be too old to support
+  # basearch options for dnf, and so we need to hack this into the dnf source
+  # code.  At least these are sufficiently ancient that there is no risk that
+  # dnf will be updated and override the hack.. :/
+  echo '----- Hard-coding DNF basearch -----'
+  if [ "$ver" -le 25 ]; then
+    sed -i -e "s/hawkey\\.detect_arch()/'$usearch'/" \
+      "$rootfsDir"/usr/lib/*/site-packages/dnf/conf/substitutions.py
+  else
+    # This hack has only been tested on fedora 25 so far.
+    echo "ERROR: DNF basearch hack appears necessary but is unsupported for"
+    echo "       this fedora version."
+    exit 1
+  fi
 fi
 
 echo '----- Updating distribution -----'
