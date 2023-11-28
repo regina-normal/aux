@@ -21,6 +21,13 @@ distribution=fedora-$ver
 # - x86_64:  supported for all versions
 # - aarch64: only supported for >= 28
 # - i386:    only supported for <= 25
+#
+# Note: modern kernels are incompatible with glibc < 2.14 (see debian #875981),
+# which means we cannot hope to support any release earlier than fedora 16.
+#
+# The more immediate problem however is that fedora 22 was the first to offer
+# dnf, and so any attempt to support fedora 21 or earlier could require a
+# substantial rewrite of several scripts in this repository.
 
 arch="`uname -m`"
 case "$arch" in
@@ -77,6 +84,15 @@ cat > "$rootfsDir/etc/resolv.conf" <<'EOF'
 nameserver 8.8.8.8
 nameserver 8.8.4.4
 EOF
+
+if [ "$ver" = 26 ]; then
+  # On Fedora 26, dnf fails at this point because it cannot find the SSL
+  # certificates.  Setting SSL_CERT_DIR=/etc/ssl/certs fixes this but it's not
+  # clear to me where I can put this so that chroot will honour it.
+  # For now we just disable dnf's ssl verification (recall that we still
+  # have gpg verification, which should be enough to ensure integrity).
+  echo 'sslverify=0' >> "$rootfsDir/etc/dnf/dnf.conf"
+fi
 
 echo '----- Updating distribution -----'
 
