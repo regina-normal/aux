@@ -1,0 +1,11 @@
+FROM bab/fedora:RELARCH
+
+# Finally, add Regina's repository:
+ADD regina-gen-fedora /etc/yum.repos.d/regina-gen
+ADD regina-key.asc /etc/yum.repos.d/regina-key.asc
+RUN /etc/yum.repos.d/regina-gen RELEASE; \
+    rm /etc/yum.repos.d/regina-gen /etc/yum.repos.d/regina-key.asc
+RUN dnf update
+
+# Create an ordinary user:
+RUN useradd -U -s /bin/bash -m user

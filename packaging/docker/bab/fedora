@@ -35,11 +35,17 @@ if [ "$ver" -lt 25 ]; then
   exit 1
 fi
 
+# arch:     user-specific arch override; empty if the host arch should be used.
+# usearch:  the fedora base arch to install; never empty.
+# dnfarch:  used if we need to hack a different arch into dnf's configuration;
+#           empty if dnf is expected to get this right on its own.
 arch="$2"
+dnfarch=
 if [ -n "$arch" ]; then
   case "$arch" in
     i386|i586|i686)
       usearch=i386
+      dnfarch=i686
       tag=bab/fedora:${ver}_${usearch}
       ;;
     amd64|arm64|x86_64|aarch64)
@@ -139,7 +145,7 @@ if [ -n "$arch" ]; then
   # dnf will be updated and override the hack.. :/
   echo '----- Hard-coding DNF basearch -----'
   if [ "$ver" -le 25 ]; then
-    sed -i -e "s/hawkey\\.detect_arch()/'$usearch'/" \
+    sed -i -e "s/hawkey\\.detect_arch()/'$dnfarch'/" \
       "$rootfsDir"/usr/lib/*/site-packages/dnf/conf/substitutions.py
   else
     # This hack has only been tested on fedora 25 so far.

@@ -1,4 +1,4 @@
-FROM bab/debian:SUITE
+FROM bab/debian:RELARCH
 
 # Add what we need to get Regina's repository working.
 # Note: some ancient debian distros do not include apt-transport-https
@@ -10,9 +10,9 @@ RUN apt-get install -y --no-install-recommends \
 RUN apt-get clean
 
 # Finally, add Regina's repository:
-ADD regina-gen /etc/apt/regina-gen
+ADD regina-gen-deb /etc/apt/regina-gen
 ADD regina-key.asc /etc/apt/regina-key.asc
-RUN /etc/apt/regina-gen SUITE; \
+RUN /etc/apt/regina-gen RELEASE; \
     rm /etc/apt/regina-gen /etc/apt/regina-key.asc
 RUN apt-get update
 

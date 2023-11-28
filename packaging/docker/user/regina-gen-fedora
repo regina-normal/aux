@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Usage: regina-gen-fedora <release>
+#
+set -e
+
+release="$1"
+
+echo "Setting up repository for Fedora $release"
+
+rpmkeys --import /etc/yum.repos.d/regina-key.asc
+
+# TODO: Check fedora versions
+
+src=/etc/yum.repos.d/regina.repo
+  cat > "$src" <<__END__
+[regina]
+name=Regina
+baseurl=https://people.debian.org/~bab/rpm/regina/fedora/$release/
+enabled=1
+repo_gpgcheck=0
+gpgcheck=1
+gpgkey=https://people.debian.org/~bab/regina-key.txt
+__END__
+
+echo --------------------
+cat "$src"
+echo --------------------
