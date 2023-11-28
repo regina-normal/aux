@@ -60,10 +60,6 @@ EOF
 
 echo "  Bootstrapping DNF"
 
-# On fedora 27 (but not later), /sbin/libcrypt.so.1 is required for dnf to
-# function, but is not present until we run ldconfig.
-chroot ${prefix} /sbin/ldconfig
-
 chroot ${prefix} /usr/bin/dnf -y --setopt=install_weak_deps=False install vim-minimal dhclient
 
 
