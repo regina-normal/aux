@@ -10,11 +10,6 @@ case "$ver" in
   *) echo "Invalid Fedora version: $ver"; exit 1;;
 esac
 
-if [ -n "$2" ]; then
-  echo "The fedora script does not support custom architectures."; exit 1
-fi
-
-tag=bab/fedora:$ver
 distribution=fedora-$ver
 
 # Support history for architectures in fedora:
@@ -40,19 +35,42 @@ if [ "$ver" -lt 25 ]; then
   exit 1
 fi
 
-arch="`uname -m`"
-case "$arch" in
-  x86_64) ;;
-  aarch64) ;;
-  *) echo "Unknown architecture: $arch"; exit 1;;
-esac
+arch="$2"
+if [ -n "$arch" ]; then
+  case "$arch" in
+    i386|i586|i686)
+      usearch=i386
+      tag=bab/fedora:${ver}_${usearch}
+      ;;
+    amd64|arm64|x86_64|aarch64)
+      echo "Cannot explicitly request architecture: $arch"
+      exit 1
+      ;;
+    *)
+      echo "Unsupported Fedora architecture: $arch"
+      exit 1
+      ;;
+  esac
+else
+  usearch="`uname -m`"
+  case "`uname -m`" in
+    amd64|x86_64) usearch=x86_64 ;;
+    arm64|aarch64) usearch=aarch64 ;;
+    i386|i586|i686) usearch=i386 ;;
+    *) echo "Unknown architecture: $usearch"; exit 1;;
+  esac
+  tag=bab/fedora:$ver
+fi
 
-if [ "$ver" -le 27 -a "$arch" = aarch64 ]; then
+if [ "$ver" -le 27 -a "$usearch" = aarch64 ]; then
   echo "ERROR: aarch64 is only available for Fedora 28 and above."
+  exit 1
+elif [ "$ver" -ge 26 -a "$usearch" = i386 ]; then
+  echo "ERROR: i386 is only available for Fedora 25 and below."
   exit 1
 fi
 
-echo "Preparing Fedora $ver ($arch) as $tag ..."
+echo "Preparing Fedora $ver ($usearch) as $tag ..."
 echo
 
 dir="$(mktemp -d ${TMPDIR:-/var/tmp}/docker-mkimage.XXXXXXXXXX)"
@@ -60,9 +78,9 @@ rootfsDir="$dir/rootfs"
 tarFile="$dir/rootfs.tar.xz"
 
 if [ "$ver" -ge "$min_current_fedora" ]; then
-  mirror="http://mirror.aarnet.edu.au/pub/fedora/linux/releases/$ver/Everything/$arch/os/Packages/"
+  mirror="http://mirror.aarnet.edu.au/pub/fedora/linux/releases/$ver/Everything/$usearch/os/Packages/"
 else
-  mirror="http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/$ver/Everything/$arch/os/Packages/"
+  mirror="http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/$ver/Everything/$usearch/os/Packages/"
 fi
 
 echo '----- Bootstrapping distribution -----'
@@ -75,7 +93,7 @@ fi
 
 mkdir -p "$rootfsDir"
 ../rinse/rinse \
-  --directory "$rootfsDir" --arch "$arch" --distribution "$distribution" \
+  --directory "$rootfsDir" --arch "$usearch" --distribution "$distribution" \
   --pkgs-dir ../rinse/packages --keyfile "../rinse/keys/$distribution" \
   --before-post-install ../rinse/postinst/common/run_all \
   --post-install "$postinst" \
