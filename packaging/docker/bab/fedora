@@ -49,12 +49,18 @@ fi
 
 echo '----- Bootstrapping distribution -----'
 
+if [ "$ver" -ge 28 ]; then
+  postinst=../rinse/postinst/fedora-28
+else
+  postinst=../rinse/postinst/fedora-22
+fi
+
 mkdir -p "$rootfsDir"
 ../rinse/rinse \
   --directory "$rootfsDir" --arch "$arch" --distribution "$distribution" \
   --pkgs-dir ../rinse/packages --keyfile "../rinse/keys/$distribution" \
   --before-post-install ../rinse/postinst/common/run_all \
-  --post-install ../rinse/postinst/fedora-22 \
+  --post-install "$postinst" \
   --mirror "$mirror"
 
 if [ -d "$rootfsDir/etc/sysconfig" ]; then
