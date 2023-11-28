@@ -89,8 +89,13 @@ if [ "$ver" = 26 ]; then
   # On Fedora 26, dnf fails at this point because it cannot find the SSL
   # certificates.  Setting SSL_CERT_DIR=/etc/ssl/certs fixes this but it's not
   # clear to me where I can put this so that chroot will honour it.
+  #
   # For now we just disable dnf's ssl verification (recall that we still
   # have gpg verification, which should be enough to ensure integrity).
+  #
+  # Note that the problem does seem to resolve itself by the time the docker
+  # image is created, so in theory this line could be removed again before
+  # bundling up the filesystem at the end of this script.
   echo 'sslverify=0' >> "$rootfsDir/etc/dnf/dnf.conf"
 fi
 
