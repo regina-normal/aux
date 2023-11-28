@@ -52,6 +52,20 @@ fi
 
 echo "  Bootstrapping zypper"
 
+# We should have a symlink /etc/products.d/baseproduct at this point, but this
+# gets created via the openSUSE-release postinst script, which is not run
+# during the initial rinse extraction.  Make it now, since zypper complains
+# otherwise.
+#
+if [ -d "${prefix}/etc/products.d" ]; then
+  if [ ! -e "${prefix}/etc/products.d/baseproduct" ]; then
+    if [ -e "${prefix}/etc/products.d/Leap.prod" ]; then
+      echo "  .. adding openSUSE baseproduct symlink"
+      ln -s Leap.prod "${prefix}/etc/products.d/baseproduct"
+    fi
+  fi
+fi
+
 # No /etc/passwd at this point
 cat > ${prefix}/etc/passwd <<EOT
 root:x:0:0:root:/root:/bin/bash
@@ -76,12 +90,25 @@ dialout:x:16:
 lock:x:54:
 EOT
 
-# Need key trusted to prevent warnings during package install
+# Need key trusted to prevent warnings during package install.
+# It appears that zypper simply has _no_ way whatsoever to import a user-given
+# key as opposed to what happens here, which is that it imports whatever key it
+# downloads from the remote server.  Yes it does show the fingerprint, but
+# OMG suse you can do better.
 chroot ${prefix} /usr/bin/zypper -n --gpg-auto-import-keys refresh --force-download
 
 # reinstall rpm packages via zypper, so the packge list for rpm and zypper are in sync
 cd ${prefix}; ls var/cache/zypp/packages/opensuse/suse/${ARCH}/*.rpm > ${prefix}/tmp/rpm.list
 cd /
+# Note: zypper refuses to install local RPMs and instead re-downloads them,
+# with loud messages such as: "'_tmpRPMcache_:bash=0:4.4-17.83' not found in
+# package names. Trying capabilities."
+#
+# I honestly don't know how to fix this, or even if it's possible to fix at
+# all.  I have hacked around _so_ many breakages from openSUSE over the years
+# that I do not have the stomach to deal with this one too.  The error is
+# noisy and slows things down but is ultimately harmless.
+# TODO: a ton of missing key errors here
 chroot ${prefix} zypper --non-interactive in --no-recommends -f `cat ${prefix}/tmp/rpm.list`
 
 chroot ${prefix} /usr/bin/zypper -n update       2>&1
