@@ -7,6 +7,7 @@ Examples:
   ./build bookworm
   ./build xenial i386
   ./build 39
+  ./build 25 i386
 
 Specifically, <release> must be:
 - a debian/ubuntu release codename (e.g., bullseye or jammy); or
