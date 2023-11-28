@@ -1372,6 +1372,12 @@ sub unpackPackages {
     }
 
     #
+    # Set up /dev/random and /dev/urandom.  On old fedoras, this is needed
+    # for rpmkeys to work.
+    #
+    system("mknod $CONFIG{'directory'}/dev/urandom c 1 9");
+
+    #
     # If we have a signing key, import this now before we start installing
     # RPMs inside the chroot.
     #
@@ -1403,7 +1409,7 @@ sub unpackPackages {
       }
 
       my $postcmd =
-        "mount -t proc proc \"$proc_in_host\" ;mknod $CONFIG{'directory'}/dev/urandom c 1 9; cp $files $CONFIG{'directory'}/tmp ; chroot $CONFIG{'directory'} rpm -ivh --force --nodeps $rpmnames_in_chroot ; rm $rpmnames_in_host; umount \"$proc_in_host\"";
+        "mount -t proc proc \"$proc_in_host\" ; cp $files $CONFIG{'directory'}/tmp ; chroot $CONFIG{'directory'} rpm -ivh --force --nodeps $rpmnames_in_chroot ; rm $rpmnames_in_host; umount \"$proc_in_host\"";
       if ($CONFIG{ 'verbose' }) {
         print "Execute postcmd $postcmd\n";
       } else {
