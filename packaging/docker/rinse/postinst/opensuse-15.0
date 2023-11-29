@@ -50,8 +50,11 @@ echo "  Bootstrapping zypper"
 if [ -d "${prefix}/etc/products.d" ]; then
   if [ ! -e "${prefix}/etc/products.d/baseproduct" ]; then
     if [ -e "${prefix}/etc/products.d/Leap.prod" ]; then
-      echo "  .. adding openSUSE baseproduct symlink"
+      echo "  .. adding openSUSE baseproduct symlink -> Leap.prod"
       ln -s Leap.prod "${prefix}/etc/products.d/baseproduct"
+    elif [ -e "${prefix}/etc/products.d/openSUSE.prod" ]; then
+      echo "  .. adding openSUSE baseproduct symlink -> openSUSE.prod"
+      ln -s openSUSE.prod "${prefix}/etc/products.d/baseproduct"
     fi
   fi
 fi
