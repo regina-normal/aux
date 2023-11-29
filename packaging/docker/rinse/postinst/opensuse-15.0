@@ -87,6 +87,20 @@ EOT
 # OMG suse you can do better.
 chroot ${prefix} /usr/bin/zypper -n --gpg-auto-import-keys refresh --force-download
 
+# The %posttrans script for rpm migrates the rpmdb to a different location.
+# Do this now, since we didn't get to run the %posttrans when we originally
+# unpacked the rpm package.
+oldrpmdir="${prefix}/var/lib/rpm"
+newrpmdir="${prefix}/usr/lib/sysimage/rpm"
+if [ -d "$oldrpmdir" ]; then
+  echo "Removing /var/lib/rpm and linking to /usr/lib/sysimage/rpm/ instead..."
+  ls -l "$oldrpmdir/Packages"
+  ls -l "$newrpmdir/Packages"
+  mkdir -p "$newrpmdir"
+  rm -rf "$oldrpmdir"
+  ln -s ../../usr/lib/sysimage/rpm "$oldrpmdir"
+fi
+
 #
 #  Move the cached .RPM files into the zypper directory, so that
 #     zypper doesn't need to fetch them again.
@@ -98,7 +112,7 @@ mv ${prefix}/*.${arch}.rpm ${prefix}/var/cache/zypp/packages/opensuse/${arch}
 mv ${prefix}/*.noarch.rpm ${prefix}/var/cache/zypp/packages/opensuse/noarch
 
 # reinstall rpm packages via zypper, so the packge list for rpm and zypper are in sync
-cd ${prefix}; ls var/cache/zypp/packages/opensuse/${arch}/*.rpm var/cache/zypp/packages/opensuse/noarch/*.rpm > ${prefix}/tmp/rpm.list
+cd ${prefix}; ls var/cache/zypp/packages/opensuse/${arch}/*.rpm var/cache/zypp/packages/opensuse/noarch/*.rpm | perl -pe 's/.*\/(.*)-.*?-.*?$/$1/g' > ${prefix}/tmp/package.list
 cd /
 # Note: zypper refuses to install local RPMs and instead wants to re-download
 # them, with loud messages such as: "'_tmpRPMcache_:bash=0:4.4-17.83' not found
@@ -107,8 +121,7 @@ cd /
 # not silence the loud messages.  I don't even know if this is possible to fix
 # at all, and openSUSE has given me so much grief over the years that this one
 # can just stay as it is.
-# TODO: a ton of missing key errors here
-chroot ${prefix} zypper --non-interactive in --no-recommends -f `cat ${prefix}/tmp/rpm.list`
+chroot ${prefix} zypper --non-interactive in --no-recommends -f `cat ${prefix}/tmp/package.list`
 
 chroot ${prefix} /usr/bin/zypper -n update       2>&1
 chroot ${prefix} /usr/bin/zypper clean
@@ -124,7 +137,7 @@ umount ${prefix}/sys
 #  (Actually there should be none of these remaining, in theory.)
 #
 
-rm -f  ${prefix}/*.rpm ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH} ${prefix}/tmp/rpm.list
+rm -f  ${prefix}/*.rpm ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH} ${prefix}/tmp/package.list
 
 find ${prefix} -name '*.rpmorig' -delete
 find ${prefix} -name '*.rpmnew' -delete
