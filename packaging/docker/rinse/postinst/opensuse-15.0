@@ -10,19 +10,6 @@ if [ ! -d "${prefix}" ]; then
   exit
 fi
 
-
-#
-#  2.  Copy the cached .RPM files into the zypper directory, so that
-#     zypper doesn't need to fetch them again.
-#
-
-mkdir -p ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH}
-mv ${prefix}/*.rpm ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH}
-cp -pu ${cache_dir}/${dist}.${ARCH}/* ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH}
-
-#
-#  3.  Ensure that zypper has a working configuration file.
-#
 arch="$ARCH"
 if [ "$arch" = "amd64" ] ; then
     arch=x86_64
@@ -30,6 +17,9 @@ elif [ "$arch" = "arm64" ] ; then
     arch=aarch64
 fi
 
+#
+#  Ensure that zypper has a working configuration file.
+#
 [ -d "${prefix}/etc/zypp/repos.d" ] || mkdir -p ${prefix}/etc/zypp/repos.d
 cat > ${prefix}/etc/zypp/repos.d/${dist}.repo <<EOF
 [opensuse]
@@ -40,14 +30,14 @@ gpgcheck=1
 
 EOF
 
-if [ $ARCH = "i386" ] ; then
+if [ "$arch" = "i386" ] ; then
     echo "  Setting architecture to i686"
     sed -i 's/\(# \)\?arch = .*/arch = i686/' ${prefix}/etc/zypp/zypp.conf
 fi
 
 
 #
-#  4.  Run "zypper install zypper".
+#  Run "zypper install zypper".
 #
 
 echo "  Bootstrapping zypper"
@@ -97,8 +87,18 @@ EOT
 # OMG suse you can do better.
 chroot ${prefix} /usr/bin/zypper -n --gpg-auto-import-keys refresh --force-download
 
+#
+#  Move the cached .RPM files into the zypper directory, so that
+#     zypper doesn't need to fetch them again.
+#
+
+mkdir -p ${prefix}/var/cache/zypp/packages/opensuse/${arch}
+mkdir -p ${prefix}/var/cache/zypp/packages/opensuse/noarch
+mv ${prefix}/*.${arch}.rpm ${prefix}/var/cache/zypp/packages/opensuse/${arch}
+mv ${prefix}/*.noarch.rpm ${prefix}/var/cache/zypp/packages/opensuse/noarch
+
 # reinstall rpm packages via zypper, so the packge list for rpm and zypper are in sync
-cd ${prefix}; ls var/cache/zypp/packages/opensuse/suse/${ARCH}/*.rpm > ${prefix}/tmp/rpm.list
+cd ${prefix}; ls var/cache/zypp/packages/opensuse/${arch}/*.rpm var/cache/zypp/packages/opensuse/noarch/*.rpm > ${prefix}/tmp/rpm.list
 cd /
 # Note: zypper refuses to install local RPMs and instead re-downloads them,
 # with loud messages such as: "'_tmpRPMcache_:bash=0:4.4-17.83' not found in
@@ -115,13 +115,14 @@ chroot ${prefix} /usr/bin/zypper -n update       2>&1
 chroot ${prefix} /usr/bin/zypper clean
 
 #
-#  5.  Clean up
+#  Clean up
 #
 umount ${prefix}/proc
 umount ${prefix}/sys
 
 #
-#  6.  Remove the .rpm files from the prefix root.
+#  Remove the .rpm files from the prefix root.
+#  (Actually there should be none of these remaining, in theory.)
 #
 
 rm -f  ${prefix}/*.rpm ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH} ${prefix}/tmp/rpm.list
