@@ -1449,6 +1449,7 @@ sub postInstallationCustomization {
     $ENV{ 'dist' }      = $CONFIG{ 'distribution' };
     $ENV{ 'directory' } = $CONFIG{ 'directory' };
     $ENV{ 'cache_dir' } = $CONFIG{ 'cache-dir' };
+    $ENV{ 'keyfile' }   = $CONFIG{ 'keyfile' };
 
 
     #
