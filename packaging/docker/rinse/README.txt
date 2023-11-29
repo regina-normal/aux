@@ -1,5 +1,7 @@
-The rinse binary here is currently synced with upstream rinse 4.1, and has
-been patched to support verifying signatures on the downloaded RPMs.
+The rinse binary here is currently synced with upstream rinse 4.1.
+It has been patched to support verifying signatures on the downloaded RPMs,
+improves support for different architectures, and works around issues that
+arise in some older distributions.
 
 Upstream rinse has the following copyright notice:
 
@@ -65,8 +67,11 @@ The postinst scripts here are pulled from rinse and patched:
 
 - The fedora script is patched to avoid the final dnf update (since regina's
   build images manage updates separately, after modifying the list of active
-  repositories).
+  repositories).  It also adds some %postinst tasks that were needed but not
+  run (such as ldconfig).
 
 - The opensuse script is made more robust by removing --no-gpg-checks from
-  calls to zypper.
+  calls to zypper.  It also adds some %postinst tasks that were needed but
+  not run (such as migrating the rpmdb to a new location and fixing the
+  baseproduct symlink), and makes better use of already-downloaded packages.
 
