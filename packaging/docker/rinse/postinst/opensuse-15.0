@@ -100,14 +100,13 @@ mv ${prefix}/*.noarch.rpm ${prefix}/var/cache/zypp/packages/opensuse/noarch
 # reinstall rpm packages via zypper, so the packge list for rpm and zypper are in sync
 cd ${prefix}; ls var/cache/zypp/packages/opensuse/${arch}/*.rpm var/cache/zypp/packages/opensuse/noarch/*.rpm > ${prefix}/tmp/rpm.list
 cd /
-# Note: zypper refuses to install local RPMs and instead re-downloads them,
-# with loud messages such as: "'_tmpRPMcache_:bash=0:4.4-17.83' not found in
-# package names. Trying capabilities."
-#
-# I honestly don't know how to fix this, or even if it's possible to fix at
-# all.  I have hacked around _so_ many breakages from openSUSE over the years
-# that I do not have the stomach to deal with this one too.  The error is
-# noisy and slows things down but is ultimately harmless.
+# Note: zypper refuses to install local RPMs and instead wants to re-download
+# them, with loud messages such as: "'_tmpRPMcache_:bash=0:4.4-17.83' not found
+# in package names. Trying capabilities."  The steps above to move the RPMs
+# into the zypper cache are successful in avoiding the re-download, but they do
+# not silence the loud messages.  I don't even know if this is possible to fix
+# at all, and openSUSE has given me so much grief over the years that this one
+# can just stay as it is.
 # TODO: a ton of missing key errors here
 chroot ${prefix} zypper --non-interactive in --no-recommends -f `cat ${prefix}/tmp/rpm.list`
 
