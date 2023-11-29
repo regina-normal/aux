@@ -73,5 +73,6 @@ The postinst scripts here are pulled from rinse and patched:
 - The opensuse script is made more robust by removing --no-gpg-checks from
   calls to zypper.  It also adds some %postinst tasks that were needed but
   not run (such as migrating the rpmdb to a new location and fixing the
-  baseproduct symlink), and makes better use of already-downloaded packages.
+  baseproduct symlink), makes better use of already-downloaded packages,
+  and disables (but does not remove) the backports/update repos if present.
 

@@ -83,7 +83,11 @@ dialout:x:16:
 lock:x:54:
 EOT
 
-# Need key trusted to prevent warnings during package install.
+# For now, disable the update repositories if they are present.
+chroot ${prefix} /usr/bin/zypper mr -d repo-backports-update repo-sle-update
+chroot ${prefix} /usr/bin/zypper repos
+
+# We need the repo key trusted to prevent warnings during package install.
 # It appears that zypper simply has _no_ way whatsoever to import a user-given
 # key as opposed to what happens here, which is that it imports whatever key it
 # downloads from the remote server.  Yes it does show the fingerprint, but
