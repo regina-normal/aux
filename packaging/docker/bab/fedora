@@ -152,9 +152,11 @@ fi
 echo '----- Updating distribution -----'
 
 # We do not yet have dnf config-manager available.
-sed -i -e 's/^enabled=1/enabled=0/' \
-  "$rootfsDir"/etc/yum.repos.d/*update*.repo \
-  "$rootfsDir"/etc/yum.repos.d/*cisco*.repo
+sed -i -e 's/^enabled=1/enabled=0/' "$rootfsDir"/etc/yum.repos.d/*update*.repo
+if [ "$ver" -ge 23 ]; then
+  # Fedora 22 does not have the cisco repositories.
+  sed -i -e 's/^enabled=1/enabled=0/' "$rootfsDir"/etc/yum.repos.d/*cisco*.repo
+fi
 
 chroot "$rootfsDir" dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
 
