@@ -3,7 +3,8 @@ set -e
 
 ver="$1"
 case "$ver" in
-  15.[0-9]) ;;
+  15.[0-9]) basever=15 ;;
+  42.[0-9]) basever=42 ;;
   *) echo "Invalid openSUSE Leap version: $ver"; exit 1;;
 esac
 
@@ -20,13 +21,27 @@ distribution=opensuse-$ver
 #            in the ports repo for <= 15.2:
 #            http://download.opensuse.org/ports/aarch64/distribution/leap/
 # - i586:    not supported at all
+#
+# The main download servers still have 42.3 (but not earlier), and only for
+# x86_64.  The ports repo does not have 42.x for aarch64.
 
 arch="`uname -m`"
 case "$arch" in
   x86_64) ;;
   aarch64) ;;
-  *) echo "Unknown architecture: $arch"; exit 1;;
+  *) echo "Unknown or unsupported architecture: $arch"; exit 1;;
 esac
+
+if [ "$basever" = 42 ]; then
+  if [ "$ver" \< 42.3 ]; then
+    echo "ERROR: Only openSUSE Leap 42.3 and above is supported (for now)."
+    exit 1
+  fi
+  if [ "$arch" = aarch64 ]; then
+    echo "ERROR: aarch64 is not supported for openSUSE Leap 42.x."
+    exit 1
+  fi
+fi
 
 echo "Preparing openSUSE Leap $ver ($arch) as $tag ..."
 echo
@@ -40,6 +55,8 @@ tarFile="$dir/rootfs.tar.xz"
 if [ "$arch" = aarch64 -a "$ver" \< 15.3 ]; then
   # The aarch64 binaries entered the main distribution with openSUSE Leap 15.3.
   mirror="http://download.opensuse.org/ports/$arch/distribution/leap/$ver/repo/oss/$arch/"
+elif [ "$basever" = 42 ]; then
+  mirror="http://download.opensuse.org/distribution/leap/$ver/repo/oss/suse/$arch/"
 else
   mirror="http://download.opensuse.org/distribution/leap/$ver/repo/oss/$arch/"
 fi
@@ -47,12 +64,18 @@ mirror_noarch="http://download.opensuse.org/distribution/leap/$ver/repo/oss/noar
 
 echo '----- Bootstrapping distribution -----'
 
+if [ -d /data/rinse/cache ]; then
+  cachedir=/data/rinse/cache
+else
+  cachedir=/var/cache/rinse
+fi
+
 mkdir -p "$rootfsDir"
-../rinse/rinse \
+../rinse/rinse --cache-dir "$cachedir" \
   --directory "$rootfsDir" --arch "$arch" --distribution "$distribution" \
   --pkgs-dir ../rinse/packages --keyfile ../rinse/keys/opensuse \
   --before-post-install ../rinse/postinst/common/run_all \
-  --post-install ../rinse/postinst/opensuse-15.0 \
+  --post-install ../rinse/postinst/opensuse-"$basever" \
   --mirror "$mirror" --mirror-noarch "$mirror_noarch"
 
 echo '----- Updating distribution -----'
