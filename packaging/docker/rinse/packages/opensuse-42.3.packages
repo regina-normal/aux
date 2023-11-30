@@ -103,6 +103,7 @@ libzypp
 ncurses-utils
 netcfg
 openssl
+openSUSE-build-key
 openSUSE-release
 openSUSE-release-ftp
 pam

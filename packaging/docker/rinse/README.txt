@@ -70,9 +70,10 @@ The postinst scripts here are pulled from rinse and patched:
   repositories).  It also adds some %postinst tasks that were needed but not
   run (such as ldconfig).
 
-- The opensuse script is made more robust by removing --no-gpg-checks from
-  calls to zypper.  It also adds some %postinst tasks that were needed but
-  not run (such as migrating the rpmdb to a new location and fixing the
-  baseproduct symlink), makes better use of already-downloaded packages,
-  and disables (but does not remove) the backports/update repos if present.
+- The opensuse script is made more robust by adding strict GPG checking to
+  zypper repositories and also individual RPMs.  It also adds some %postinst
+  tasks that were needed but not run (such as migrating the rpmdb to a new
+  location and fixing the baseproduct symlink), makes better use of cached
+  downloads, and disables (but does not remove) the backports/update repos
+  if present.
 

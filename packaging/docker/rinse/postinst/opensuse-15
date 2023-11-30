@@ -1,0 +1,150 @@
+#!/bin/sh
+#
+#  Customise the distribution post-install.
+#
+
+prefix=$1
+
+if [ ! -d "${prefix}" ]; then
+  echo "Serious error - the named directory doesn't exist."
+  exit
+fi
+
+arch="$ARCH"
+if [ "$arch" = "amd64" ] ; then
+    arch=x86_64
+elif [ "$arch" = "arm64" ] ; then
+    arch=aarch64
+fi
+
+#
+#  Ensure that zypper has a working configuration file.
+#
+[ -d "${prefix}/etc/zypp/repos.d" ] || mkdir -p ${prefix}/etc/zypp/repos.d
+cat > ${prefix}/etc/zypp/repos.d/${dist}.repo <<EOF
+[opensuse]
+name=${dist}
+baseurl=$(dirname ${mirror})
+enabled=1
+gpgcheck=1
+
+EOF
+
+if [ "$arch" = "i386" ] ; then
+    echo "  Setting architecture to i686"
+    sed -i 's/\(# \)\?arch = .*/arch = i686/' ${prefix}/etc/zypp/zypp.conf
+fi
+
+
+#
+#  Run "zypper install zypper".
+#
+
+echo "  Bootstrapping zypper"
+
+# We should have a symlink /etc/products.d/baseproduct at this point, but this
+# gets created via the openSUSE-release postinst script, which is not run
+# during the initial rinse extraction.  Make it now, since zypper complains
+# otherwise.
+#
+if [ -d "${prefix}/etc/products.d" ]; then
+  if [ ! -e "${prefix}/etc/products.d/baseproduct" ]; then
+    if [ -e "${prefix}/etc/products.d/Leap.prod" ]; then
+      echo "  .. adding openSUSE baseproduct symlink -> Leap.prod"
+      ln -s Leap.prod "${prefix}/etc/products.d/baseproduct"
+    elif [ -e "${prefix}/etc/products.d/openSUSE.prod" ]; then
+      echo "  .. adding openSUSE baseproduct symlink -> openSUSE.prod"
+      ln -s openSUSE.prod "${prefix}/etc/products.d/baseproduct"
+    fi
+  fi
+fi
+
+# No /etc/passwd at this point
+cat > ${prefix}/etc/passwd <<EOT
+root:x:0:0:root:/root:/bin/bash
+lp:x:4:7:Printing daemon:/var/spool/lpd:/bin/bash
+mail:x:8:12:Mailer daemon:/var/spool/clientmqueue:/bin/false
+news:x:9:13:News system:/etc/news:/bin/bash
+uucp:x:10:14:Unix-to-Unix CoPy system:/etc/uucp:/bin/bash
+man:x:13:62:Manual pages viewer:/var/cache/man:/bin/bash
+nobody:x:65534:65533:nobody:/var/lib/nobody:/bin/bash
+wwwrun:x:30:8:WWW daemon apache:/var/lib/wwwrun:/bin/false
+EOT
+
+cat > ${prefix}/etc/group <<EOT
+root:x:0:
+tty:x:5:
+lp:x:7:
+mail:x:12:
+news:x:13:
+uucp:x:14:
+shadow:x:15:
+dialout:x:16:
+lock:x:54:
+EOT
+
+# For now, disable the update repositories if they are present.
+chroot ${prefix} /usr/bin/zypper mr -d repo-backports-update repo-sle-update
+chroot ${prefix} /usr/bin/zypper repos
+
+# We need the repo key trusted to prevent warnings during package install.
+# It appears that zypper simply has _no_ way whatsoever to import a user-given
+# key as opposed to what happens here, which is that it imports whatever key it
+# downloads from the remote server.  Yes it does show the fingerprint, but
+# OMG suse you can do better.
+chroot ${prefix} /usr/bin/zypper -n --gpg-auto-import-keys refresh --force-download
+
+# The %posttrans script for rpm migrates the rpmdb to a different location.
+# Do this now, since we didn't get to run the %posttrans when we originally
+# unpacked the rpm package.
+oldrpmdir="${prefix}/var/lib/rpm"
+newrpmdir="${prefix}/usr/lib/sysimage/rpm"
+if [ -d "$oldrpmdir" ]; then
+  echo "Removing /var/lib/rpm and linking to /usr/lib/sysimage/rpm/ instead..."
+  if [ -e "$oldrpmdir/Packages" ]; then ls -l "$oldrpmdir/Packages"; fi
+  if [ -e "$newrpmdir/Packages" ]; then ls -l "$newrpmdir/Packages"; fi
+  mkdir -p "$newrpmdir"
+  rm -rf "$oldrpmdir"
+  ln -s ../../usr/lib/sysimage/rpm "$oldrpmdir"
+fi
+
+#
+#  Move the cached .RPM files into the zypper directory, so that
+#     zypper doesn't need to fetch them again.
+#
+
+mkdir -p ${prefix}/var/cache/zypp/packages/opensuse/${arch}
+mkdir -p ${prefix}/var/cache/zypp/packages/opensuse/noarch
+mv ${prefix}/*.${arch}.rpm ${prefix}/var/cache/zypp/packages/opensuse/${arch}
+mv ${prefix}/*.noarch.rpm ${prefix}/var/cache/zypp/packages/opensuse/noarch
+
+# reinstall rpm packages via zypper, so the packge list for rpm and zypper are in sync
+cd ${prefix}; ls var/cache/zypp/packages/opensuse/${arch}/*.rpm var/cache/zypp/packages/opensuse/noarch/*.rpm | perl -pe 's/.*\/(.*)-.*?-.*?$/$1/g' > ${prefix}/tmp/package.list
+cd /
+# Note: zypper refuses to install local RPMs and instead wants to re-download
+# them, with loud messages such as: "'_tmpRPMcache_:bash=0:4.4-17.83' not found
+# in package names. Trying capabilities."  The steps above to move the RPMs
+# into the zypper cache are successful in avoiding the re-download, but they do
+# not silence the loud messages.  I don't even know if this is possible to fix
+# at all, and openSUSE has given me so much grief over the years that this one
+# can just stay as it is.
+chroot ${prefix} zypper --non-interactive in --no-recommends -f `cat ${prefix}/tmp/package.list`
+
+chroot ${prefix} /usr/bin/zypper -n update       2>&1
+chroot ${prefix} /usr/bin/zypper clean
+
+#
+#  Clean up
+#
+umount ${prefix}/proc
+umount ${prefix}/sys
+
+#
+#  Remove the .rpm files from the prefix root.
+#  (Actually there should be none of these remaining, in theory.)
+#
+
+rm -f  ${prefix}/*.rpm ${prefix}/var/cache/zypp/packages/opensuse/suse/${ARCH} ${prefix}/tmp/package.list
+
+find ${prefix} -name '*.rpmorig' -delete
+find ${prefix} -name '*.rpmnew' -delete

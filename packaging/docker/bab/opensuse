@@ -74,7 +74,7 @@ mkdir -p "$rootfsDir"
   --directory "$rootfsDir" --arch "$arch" --distribution "$distribution" \
   --pkgs-dir ../rinse/packages --keyfile ../rinse/keys/opensuse \
   --before-post-install ../rinse/postinst/common/run_all \
-  --post-install ../rinse/postinst/opensuse-15.0 \
+  --post-install ../rinse/postinst/opensuse-"$basever" \
   --mirror "$mirror"
 
 echo '----- Updating distribution -----'

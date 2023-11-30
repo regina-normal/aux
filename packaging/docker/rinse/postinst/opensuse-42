@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 #  Customise the distribution post-install.
 #
@@ -94,27 +94,30 @@ chroot ${prefix} /usr/bin/zypper repos
 # OMG suse you can do better.
 chroot ${prefix} /usr/bin/zypper -n --gpg-auto-import-keys refresh --force-download
 
-# The %posttrans script for rpm migrates the rpmdb to a different location.
-# Do this now, since we didn't get to run the %posttrans when we originally
-# unpacked the rpm package.
-oldrpmdir="${prefix}/var/lib/rpm"
-newrpmdir="${prefix}/usr/lib/sysimage/rpm"
-if [ -e "$oldrpmdir/Packages" ]; then ls -l "$oldrpmdir/Packages"; fi
-if [ -e "$newrpmdir/Packages" ]; then ls -l "$newrpmdir/Packages"; fi
-case "$dist" in
-  opensuse-42.* )
-    # The migration had not yet taken place during the 42.x series.
-    echo "Not migrating rpmdb location for 42.x series."
-    ;;
-  * )
-    if [ -d "$oldrpmdir" ]; then
-      echo "Removing /var/lib/rpm and linking to /usr/lib/sysimage/rpm/ instead..."
-      mkdir -p "$newrpmdir"
-      rm -rf "$oldrpmdir"
-      ln -s ../../usr/lib/sysimage/rpm "$oldrpmdir"
-    fi
-    ;;
-esac
+# With openSUSE 42.3 it seems the rpmkeys --import has no effect: the keys
+# that are imported are simply ignored when verifying signed RPMs.
+# What does work however is putting the keys in /var/lib/rpm/pubkeys/*.key,
+# one key per file, without signatures.
+#
+# We get the keys themselves from the openSUSE-build-key package (which was
+# extracted as part of the initial rinse setup, and whose RPM was separately
+# verified cryptographically).
+#
+# Note: it's possible that this _overrides_ any imported keys, though the
+# imported keys are not not functioning anyway so no great loss).  With
+# openSUSE 15.x, rpmkeys --import does work properly and so this hack is no
+# longer necessary.
+if [ -d "${prefix}/usr/lib/rpm/gnupg/keys" ]; then
+  echo "Copying RPM signing keys to /var/lib/rpm/pubkeys/*.key..."
+  oldloc="${prefix}/usr/lib/rpm/gnupg/keys"
+  newloc="${prefix}/var/lib/rpm/pubkeys"
+  mkdir -p "$newloc"
+  cp "$oldloc"/*.asc "$newloc"
+  (cd "$newloc"; for i in *.asc; do mv $i ${i/.asc/.key}; done; ls)
+else
+  echo "ERROR: No RPM signing keys in /usr/lib/rpm/gnupg/keys/."
+  echo "       Did you remember to install openSUSE-build-key ?"
+fi
 
 #
 #  Move the cached .RPM files into the zypper directory, so that
