@@ -43,7 +43,6 @@ libarchive
 libassuan
 libattr
 libcap
-libcap-ng
 libcom_err
 libcomps
 libcurl
@@ -54,7 +53,6 @@ libgcc
 libgcrypt
 libgpg-error
 libidn
-libkadm5
 libksba
 libmetalink
 libnghttp2
@@ -66,7 +64,6 @@ libseccomp
 libsecret
 libselinux
 libsepol
-libsigsegv
 libsolv
 libssh2
 libstdc++
@@ -75,10 +72,8 @@ libunistring
 libverto
 libxml2
 lua
-lua-libs
 lz4
 lzo
-mpfr
 ncurses
 ncurses-base
 ncurses-libs
@@ -86,7 +81,6 @@ nettle
 npth
 nspr
 nss
-nss-pem
 nss-softokn
 nss-softokn-freebl
 nss-sysinit
@@ -121,7 +115,6 @@ rpm-python3
 sed
 shared-mime-info
 sqlite-libs
-system-python
 system-python-libs
 systemd-libs
 tzdata

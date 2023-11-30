@@ -14,7 +14,7 @@
 #
 use strict;
 
-my @pkgs = ( 'dnf', 'fedora-release', 'basesystem' );
+my @pkgs = ( 'dnf', 'fedora-release', 'basesystem', 'filesystem' );
 my @latest = @pkgs;
 
 my %all = ();
@@ -24,7 +24,7 @@ foreach (@pkgs) {
 
 foreach my $target (@latest) {
     print("$target\n");
-    my $info = `dnf repoquery --requires --resolve '$target'`;
+    my $info = `dnf repoquery --disablerepo fedora-source --requires --resolve '$target'`;
     foreach my $dep (split /^/, $info) {
         chomp $dep;
         $dep =~ /^\s*$/ and next;

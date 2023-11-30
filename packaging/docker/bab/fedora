@@ -24,14 +24,8 @@ distribution=fedora-$ver
 # dnf, and so any attempt to support fedora 21 or earlier could require a
 # substantial rewrite of several scripts in this repository.
 #
-# However: rinse does not provide package lists for fedora 23/24 (and they are
-# not easy to create since those versions of dnf did not support --recursive),
-# and rinse's own fedora 22 package list uses yum instead of dnf.  So for us we
-# draw a line at fedora 25 and declare anything earlier to be more effort than
-# it is worth.
-#
-if [ "$ver" -lt 25 ]; then
-  echo "ERROR: Only fedora 25 and above is supported (for now)."
+if [ "$ver" -lt 22 ]; then
+  echo "ERROR: Only fedora 22 and above is supported (for now)."
   exit 1
 fi
 
