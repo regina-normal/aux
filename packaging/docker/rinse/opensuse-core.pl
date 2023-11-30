@@ -26,7 +26,7 @@ while ($#latest >= 0) {
         my $info = `zypper --no-refresh info --requires '$target'`;
         if ($info =~ /^.*Requires\s*:\s*---\s*$/s) {
             next;
-        } elsif ($info =~ /^.*Requires\s*:\s*\[\d+\]\n(.*)$/s) {
+        } elsif ($info =~ /^.*Requires\s*:\s*\[\d+\] *\n(.*)$/s) {
             $info = $1;
         } elsif ($info =~ /^.*Requires\s*:\s*([a-zA-Z0-9()\/._<>= -]+\n)\s*$/s) {
             $info = $1;
