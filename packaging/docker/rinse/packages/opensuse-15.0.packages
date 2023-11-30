@@ -1,5 +1,6 @@
 bash
 boost-license1_66_0
+bzip2
 coreutils
 cracklib
 cracklib-dict-small
@@ -7,6 +8,7 @@ diffutils
 file-magic
 filesystem
 fillup
+findutils
 gawk
 glibc
 gpg2
@@ -23,8 +25,8 @@ libblkid1
 libboost_system1_66_0
 libboost_thread1_66_0
 libbz2-1
-libcap-ng0
 libcap2
+libcap-ng0
 libcom_err2
 libcrack2
 libcurl4
@@ -59,7 +61,7 @@ libopenssl1_1
 libp11-kit0
 libpcre1
 libpopt0
-libprocps7
+libprocps6
 libproxy1
 libpsl5
 libreadline7
@@ -75,8 +77,8 @@ libstdc++6
 libsystemd0
 libtasn1
 libtasn1-6
-libtirpc-netconfig
 libtirpc3
+libtirpc-netconfig
 libudev1
 libunistring2
 libusb-1_0-0
@@ -87,7 +89,6 @@ libverto1
 libxml2-2
 libz1
 libzio1
-libzstd1
 libzypp
 openSUSE-release
 openSUSE-release-ftp
