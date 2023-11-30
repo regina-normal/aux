@@ -37,7 +37,7 @@ tarFile="$dir/rootfs.tar.xz"
 
 # Note: we do string comparisons with $ver, since -lt and -ge require integer
 # arguments.
-if [ "$arch" = aarch64 -a "$ver" \< 15.2 ]; then
+if [ "$arch" = aarch64 -a "$ver" \< 15.3 ]; then
   # The aarch64 binaries entered the main distribution with openSUSE Leap 15.3.
   mirror="http://download.opensuse.org/ports/$arch/distribution/leap/$ver/repo/oss/$arch/"
 else
