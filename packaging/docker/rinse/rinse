@@ -47,6 +47,8 @@ rinse - RPM Installation Entity.
                          (Default is /etc/rinse/keys/<distribution.keys>)
    --mirror              Specify the URL of the mirror.
                          (Default is to read it from /etc/rinse/rinse.conf)
+   --mirror-noarch       Specify a different mirror to use for noarch packages.
+                         (Default is to use the same as --mirror)
    --list-distributions  Show installable distributions.
    --print-uris          Only show the RPMs which should be downloaded.
                          default files in /usr/lib/rinse/$distro
@@ -85,6 +87,9 @@ Show help information.
 
 =item B<--mirror>
 Specify the URL of the mirror. Normally this is read from /etc/rinse/rinse.conf.
+
+=item B<--mirror-noarch>
+Specify a different location for downloading noarch packages, if required.
 
 =item B<--list-distributions>
 Show the distributions which are installable.
@@ -330,7 +335,8 @@ if ( !$CONFIG{'mirror'} ) {
 #  Download the packages into the specified directory
 #
 downloadPackagesToDirectory( $CONFIG{ 'directory' },
-                             $CONFIG{ 'mirror' }, @packages );
+                             $CONFIG{ 'mirror' },
+                             $CONFIG{ 'mirror-noarch' }, @packages );
 
 
 #
@@ -454,6 +460,7 @@ sub parseCommandLineArguments {
         "cache-dir=s",           \$CONFIG{ 'cache-dir' },
         "clean-cache",           \$CONFIG{ 'clean-cache' },
         "mirror=s",              \$CONFIG{ 'mirror' },
+        "mirror-noarch=s",       \$CONFIG{ 'mirror-noarch' },
         "list-distributions",    \$CONFIG{ 'list-distributions' },
         "print-uris",            \$CONFIG{ 'print-uris' },
         "post-install=s",        \$CONFIG{ 'post-install' },
@@ -864,7 +871,7 @@ sub rpmvercmp($$) {
 
 sub downloadPackagesToDirectory {
 
-    my ( $dir, $mirror, @packages ) = (@_);
+    my ( $dir, $mirror, $mirror_noarch, @packages ) = (@_);
 
     #
     #  Cache directory.
@@ -913,13 +920,10 @@ sub downloadPackagesToDirectory {
     }
 
     #
-    # For openSUSE, there are some packages we need that are stored in a
-    # separate .../noarch/ directory.
+    # Some distributions (e.g., openSUSE) put their noarch packages in a
+    # different directory.
     #
-    if ( $CONFIG{'distribution'} =~ /opensuse/ ) {
-      my $mirror_noarch = $mirror;
-      $mirror_noarch =~ s/\/($arch)\//\/noarch\//;
-
+    if ( $mirror_noarch ) {
       print "Using noarch mirror: $mirror_noarch\n";
       my %links_noarch = findMirrorContents($mirror_noarch);
       %links = (%links, %links_noarch);
@@ -1446,6 +1450,7 @@ sub postInstallationCustomization {
     #
     $ENV{ 'ARCH' }      = $CONFIG{ 'arch' };
     $ENV{ 'mirror' }    = $CONFIG{ 'mirror' };
+    $ENV{ 'mirror_noarch' } = $CONFIG{ 'mirror-noarch' };
     $ENV{ 'dist' }      = $CONFIG{ 'distribution' };
     $ENV{ 'directory' } = $CONFIG{ 'directory' };
     $ENV{ 'cache_dir' } = $CONFIG{ 'cache-dir' };
