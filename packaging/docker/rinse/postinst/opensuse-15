@@ -112,6 +112,11 @@ fi
 #  Move the cached .RPM files into the zypper directory, so that
 #     zypper doesn't need to fetch them again.
 #
+#  Note: on aarch64 with old openSUSE that used the ports repository (15.[0-2)),
+#  zypper ignores these cached files and downloads the noarch packages again.
+#  Since there are very few noarch packages, and since zypper does still seem
+#  to clean out the cache correctly when it's done, this is relatively harmless.
+#
 
 mkdir -p ${prefix}/var/cache/zypp/packages/opensuse/${arch}
 mkdir -p ${prefix}/var/cache/zypp/packages/opensuse/noarch
