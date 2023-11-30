@@ -43,6 +43,7 @@ if [ "$arch" = aarch64 -a "$ver" \< 15.3 ]; then
 else
   mirror="http://download.opensuse.org/distribution/leap/$ver/repo/oss/$arch/"
 fi
+mirror_noarch="http://download.opensuse.org/distribution/leap/$ver/repo/oss/noarch/"
 
 echo '----- Bootstrapping distribution -----'
 
@@ -52,7 +53,7 @@ mkdir -p "$rootfsDir"
   --pkgs-dir ../rinse/packages --keyfile ../rinse/keys/opensuse \
   --before-post-install ../rinse/postinst/common/run_all \
   --post-install ../rinse/postinst/opensuse-15.0 \
-  --mirror "$mirror"
+  --mirror "$mirror" --mirror-noarch "$mirror_noarch"
 
 echo '----- Updating distribution -----'
 
