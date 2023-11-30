@@ -42,7 +42,6 @@ libarchive
 libassuan
 libattr
 libcap
-libcap-ng
 libcom_err
 libcomps
 libcurl
@@ -60,7 +59,6 @@ libpwquality
 librepo
 libreport-filesystem
 libseccomp
-libsecret
 libselinux
 libsepol
 libsolv
@@ -78,7 +76,6 @@ nettle
 npth
 nspr
 nss
-nss-pem
 nss-softokn
 nss-softokn-freebl
 nss-sysinit
@@ -113,7 +110,6 @@ rpm-python3
 sed
 shared-mime-info
 sqlite
-sqlite-libs
 systemd-libs
 tzdata
 xz-libs
