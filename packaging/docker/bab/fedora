@@ -91,8 +91,14 @@ else
   postinst=../rinse/postinst/fedora-22
 fi
 
+if [ -d /data/rinse/cache ]; then
+  cachedir=/data/rinse/cache
+else
+  cachedir=/var/cache/rinse
+fi
+
 mkdir -p "$rootfsDir"
-../rinse/rinse \
+../rinse/rinse --cache-dir "$cachedir" \
   --directory "$rootfsDir" --arch "$usearch" --distribution "$distribution" \
   --pkgs-dir ../rinse/packages --keyfile "../rinse/keys/$distribution" \
   --before-post-install ../rinse/postinst/common/run_all \
@@ -153,8 +159,8 @@ echo '----- Updating distribution -----'
 
 # We do not yet have dnf config-manager available.
 sed -i -e 's/^enabled=1/enabled=0/' "$rootfsDir"/etc/yum.repos.d/*update*.repo
-if [ "$ver" -ge 23 ]; then
-  # Fedora 22 does not have the cisco repositories.
+if [ "$ver" -ge 24 ]; then
+  # Fedora 23 and earlier do not have the cisco repositories.
   sed -i -e 's/^enabled=1/enabled=0/' "$rootfsDir"/etc/yum.repos.d/*cisco*.repo
 fi
 
