@@ -16,6 +16,10 @@ if ($release =~ /^\d\d$/) {
   print "Fedora: $release\n";
   $dist = 'fedora';
   $template = 'fedora.template';
+} elsif ($release =~ /^\d\d\.\d+$/) {
+  print "openSUSE: $release\n";
+  $dist = 'opensuse';
+  $template = 'opensuse.template';
 } elsif (-e "/usr/share/debootstrap/scripts/$release") {
     open(DEBOOTSTRAP, '<', "/usr/share/debootstrap/scripts/$release") or die;
     while (<DEBOOTSTRAP>) {
@@ -35,7 +39,7 @@ if ($release =~ /^\d\d$/) {
     close(DEBOOTSTRAP);
     $dist or die "No keyring found in the debootstrap script for $release";
 } else {
-    die "Not a known debian/ubuntu/fedora release: $release";
+    die "Not a known debian/ubuntu/fedora/opensuse release: $release";
 }
 
 my $arch=$ARGV[1];

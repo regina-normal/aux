@@ -1,6 +1,11 @@
 FROM bab/fedora:RELARCH
 
-# Finally, add Regina's repository:
+# Install some things that will be helpful:
+RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
+RUN dnf install -y -b --setopt=install_weak_deps=False vim
+RUN dnf clean all
+
+# Add Regina's repository:
 ADD regina-gen-fedora /etc/yum.repos.d/regina-gen
 ADD regina-key.asc /etc/yum.repos.d/regina-key.asc
 RUN /etc/yum.repos.d/regina-gen RELEASE; \

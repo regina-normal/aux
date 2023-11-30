@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# Usage: regina-gen-opensuse <release>
+#
+set -e
+
+release="$1"
+
+echo "Importing Regina's signing key..."
+case "$release" in
+  42.* )
+    cp /regina-key.asc /var/lib/rpm/pubkeys/regina.key
+    ;;
+  * )
+    rpmkeys --import /regina-key.asc
+    ;;
+esac
+
+echo "Setting up repository for openSUSE $release"
+
+src=/regina.repo
+  cat > "$src" <<__END__
+[regina]
+name=Regina
+baseurl=https://people.debian.org/~bab/rpm/regina/opensuse/$release/
+enabled=1
+repo_gpgcheck=1
+gpgcheck=1
+gpgkey=https://people.debian.org/~bab/regina-key.txt
+autorefresh=1
+__END__
+
+zypper addrepo "$src"
+echo --------------------
+cat "$src"
+echo --------------------
+rm -f "$src"

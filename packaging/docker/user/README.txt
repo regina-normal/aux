@@ -8,10 +8,12 @@ Examples:
   ./build xenial i386
   ./build 39
   ./build 25 i386
+  ./build 15.5
 
 Specifically, <release> must be:
 - a debian/ubuntu release codename (e.g., bullseye or jammy); or
-- a fedora release version (e.g., 39).
+- a fedora release version (e.g., 39); or
+- an opensuse release version (e.g., 15.5).
 
 If <arch> is provided, it must also be an explicit suffix on the docker image
 tag. In practice this means that, if present, <arch> should be i386.
