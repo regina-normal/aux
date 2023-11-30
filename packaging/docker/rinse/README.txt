@@ -41,7 +41,7 @@ fedora-release{,-common,-identity-basic}.  We should probably
 revisit this latter decision at a later date to see if it still makes sense.
 
 For fedora <= 25: dnf repoquery does not support --recursive, and so instead
-we use the script fedora-core.pl (found in this directory).
+we use the script fedora-old.pl (found in this directory).
 
 For opensuse, package lists are created by using the script opensuse-core.pl
 (found in this directory) to extract a full recursive dependency list for
