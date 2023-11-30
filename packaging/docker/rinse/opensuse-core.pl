@@ -28,7 +28,7 @@ while ($#latest >= 0) {
             next;
         } elsif ($info =~ /^.*Requires\s*:\s*\[\d+\] *\n(.*)$/s) {
             $info = $1;
-        } elsif ($info =~ /^.*Requires\s*:\s*([a-zA-Z0-9()\/._<>= -]+\n)\s*$/s) {
+        } elsif ($info =~ /^.*Requires\s*:\s*([a-zA-Z0-9()\/._<>=: -]+\n)\s*$/s) {
             $info = $1;
         } else {
             die "$info";

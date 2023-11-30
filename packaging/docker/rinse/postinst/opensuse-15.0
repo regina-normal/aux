@@ -99,14 +99,22 @@ chroot ${prefix} /usr/bin/zypper -n --gpg-auto-import-keys refresh --force-downl
 # unpacked the rpm package.
 oldrpmdir="${prefix}/var/lib/rpm"
 newrpmdir="${prefix}/usr/lib/sysimage/rpm"
-if [ -d "$oldrpmdir" ]; then
-  echo "Removing /var/lib/rpm and linking to /usr/lib/sysimage/rpm/ instead..."
-  ls -l "$oldrpmdir/Packages"
-  ls -l "$newrpmdir/Packages"
-  mkdir -p "$newrpmdir"
-  rm -rf "$oldrpmdir"
-  ln -s ../../usr/lib/sysimage/rpm "$oldrpmdir"
-fi
+if [ -e "$oldrpmdir/Packages" ]; then ls -l "$oldrpmdir/Packages"; fi
+if [ -e "$newrpmdir/Packages" ]; then ls -l "$newrpmdir/Packages"; fi
+case "$dist" in
+  opensuse-42.* )
+    # The migration had not yet taken place during the 42.x series.
+    echo "Not migrating rpmdb location for 42.x series."
+    ;;
+  * )
+    if [ -d "$oldrpmdir" ]; then
+      echo "Removing /var/lib/rpm and linking to /usr/lib/sysimage/rpm/ instead..."
+      mkdir -p "$newrpmdir"
+      rm -rf "$oldrpmdir"
+      ln -s ../../usr/lib/sysimage/rpm "$oldrpmdir"
+    fi
+    ;;
+esac
 
 #
 #  Move the cached .RPM files into the zypper directory, so that
