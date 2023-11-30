@@ -23,8 +23,8 @@ libblkid1
 libboost_system1_66_0
 libboost_thread1_66_0
 libbz2-1
-libcap-ng0
 libcap2
+libcap-ng0
 libcom_err2
 libcrack2
 libcurl4
@@ -35,7 +35,6 @@ libfdisk1
 libffi7
 libgcc_s1
 libgcrypt20
-libglib-2_0-0
 libgmp10
 libgnutls30
 libgpg-error0
@@ -45,7 +44,6 @@ libidn2-0
 libkeyutils1
 libksba8
 libldap-2_4-2
-libldap-data
 liblua5_3-5
 liblz4-1
 liblzma5
@@ -61,7 +59,7 @@ libopenssl1_1
 libp11-kit0
 libpcre1
 libpopt0
-libprocps7
+libprocps6
 libproxy1
 libpsl5
 libreadline7
@@ -69,7 +67,6 @@ libsasl2-3
 libselinux1
 libsemanage1
 libsepol1
-libsigc-2_0-0
 libsmartcols1
 libsolv-tools
 libsqlite3-0
@@ -78,8 +75,8 @@ libstdc++6
 libsystemd0
 libtasn1
 libtasn1-6
-libtirpc-netconfig
 libtirpc3
+libtirpc-netconfig
 libudev1
 libunistring2
 libusb-1_0-0
@@ -87,14 +84,12 @@ libutempter0
 libuuid1
 libverto1
 libxml2-2
-libyaml-cpp0_6
 libz1
-libzck1
 libzio1
 libzstd1
 libzypp
 openSUSE-release
-openSUSE-release-dvd
+openSUSE-release-ftp
 pam
 perl-base
 permissions
