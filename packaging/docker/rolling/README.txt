@@ -44,7 +44,7 @@ base snapshot image can remain fixed.  Once the distribution is properly
 released, they should all be removed and replaced with a more typical
 "fixed release" docker image as we do for older distributions.
 
-To create the initial snapshot, run as root from the directory ../base/ :
+To create the initial snapshot, run as root from the directory ../bare/ :
   - ./mkimage.sh -t snapshot/DIST:VERSION debootstrap --arch=amd64 VERSION
   - ./mkimage.sh -t snapshot/DIST:VERSION_i386 debootstrap --arch=i386 VERSION
 

@@ -1,4 +1,4 @@
-FROM base/ubuntu:RELARCH
+FROM bare/ubuntu:RELARCH
 
 # Add ubuntu's universe (which we need for debian-keyring):
 RUN sed -i -s 's/ main/ main universe/' /etc/apt/sources.list; \

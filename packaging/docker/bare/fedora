@@ -40,7 +40,7 @@ if [ -n "$arch" ]; then
     i386|i586|i686)
       usearch=i386
       dnfarch=i686
-      tag=base/fedora:${ver}_${usearch}
+      tag=bare/fedora:${ver}_${usearch}
       ;;
     amd64|arm64|x86_64|aarch64)
       echo "Cannot explicitly request architecture: $arch"
@@ -59,7 +59,7 @@ else
     i386|i586|i686) usearch=i386 ;;
     *) echo "Unknown architecture: $usearch"; exit 1;;
   esac
-  tag=base/fedora:$ver
+  tag=bare/fedora:$ver
 fi
 
 if [ "$ver" -le 27 -a "$usearch" = aarch64 ]; then

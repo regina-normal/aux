@@ -25,9 +25,9 @@ if [ -n "$arch" ]; then
 fi
 
 if [ -n "$arch" ]; then
-  tag="base/ubuntu:${ver}_${arch}"
+  tag="bare/ubuntu:${ver}_${arch}"
 else
-  tag="base/ubuntu:$ver"
+  tag="bare/ubuntu:$ver"
   arch=`dpkg --print-architecture`
 fi
 

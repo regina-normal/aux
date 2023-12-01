@@ -1,13 +1,13 @@
 This directory contains the scripts, instructions and docker files used
-to create the various base/*, regina/*, and other related docker images.
+to create the various bare/*, regina/*, and other related docker images.
 
-base/* images are minimal installations of various GNU/Linux distributions.
+bare/* images are minimal installations of various GNU/Linux distributions.
  |
- \- desktop/* extend base/* to include a full desktop environment.
+ \- desktop/* extend bare/* to include a full desktop environment.
  |
- \- user/* extend base/* to include Regina's repositories (for Regina users).
+ \- user/* extend bare/* to include Regina's repositories (for Regina users).
  |
- \- pkgdev/* extend base/* to include essential tools for building packages.
+ \- pkgdev/* extend bare/* to include essential tools for building packages.
      |
      \- regina/* extend pkgdev/* to include all software for building regina.
 

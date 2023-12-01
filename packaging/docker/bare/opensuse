@@ -12,7 +12,7 @@ if [ -n "$2" ]; then
   echo "The opensuse script does not support custom architectures."; exit 1
 fi
 
-tag=base/opensuse:$ver
+tag=bare/opensuse:$ver
 distribution=opensuse-$ver
 
 # Support history for architectures in openSUSE Leap 15.x:
