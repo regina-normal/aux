@@ -145,17 +145,27 @@ sub pkgdev {
 
     my $extra = '';
 
-    # For debian and LTS ubuntu releases, include all available gcc versions.
-    my @gcc = ();
+    # For debian and LTS ubuntu releases, include all available gcc versions
+    # and all available clang versions.
     if ($dist eq 'debian') {
+        my @gcc = ();
         $release eq 'jessie' and @gcc = qw(4.8 4.9);
         $release eq 'stretch' and @gcc = qw(6);
         $release eq 'buster' and @gcc = qw(7 8);
         $release eq 'bullseye' and @gcc = qw(9 10);
         $release eq 'bookworm' and @gcc = qw(11 12);
         $extra .= "gcc-$_ g++-$_ " foreach @gcc;
+
+        my @clang = ();
+        $release eq 'jessie' and @clang = qw(3.4 3.5);
+        $release eq 'stretch' and @clang = qw(3.8 3.9 4.0 7);
+        $release eq 'buster' and @clang = qw(6.0 7 11 13);
+        $release eq 'bullseye' and @clang = qw(9 11 13);
+        $release eq 'bookworm' and @clang = qw(13 14 15);
+        $extra .= "clang-$_ " foreach @clang;
     } elsif ($dist eq 'ubuntu') {
         # Most of the non-standard compiler versions here require universe.
+        my @gcc = ();
         $release eq 'precise' and @gcc = qw(4.4 4.5 4.6);
         $release eq 'trusty' and @gcc = qw(4.4 4.6 4.7 4.8);
         $release eq 'xenial' and @gcc = qw(4.7 4.8 4.9 5);
@@ -163,6 +173,15 @@ sub pkgdev {
         $release eq 'focal' and @gcc = qw(7 8 9 10);
         $release eq 'jammy' and @gcc = qw(9 10 11 12);
         $extra .= "gcc-$_ g++-$_ " foreach @gcc;
+
+        my @clang = ();
+        $release eq 'precise' and @clang = qw(3.4);
+        $release eq 'trusty' and @clang = qw(3.3 3.4 3.5 3.6 3.8 3.9);
+        $release eq 'xenial' and @clang = qw(3.5 3.6 3.7 3.8 3.9 4.0 8);
+        $release eq 'bionic' and @clang = qw(3.9 4.0 5.0 6.0 8 9 10);
+        $release eq 'focal' and @clang = qw(6.0 7 8 9 10 12);
+        $release eq 'jammy' and @clang = qw(11 12 13 14 15);
+        $extra .= "clang-$_ " foreach @clang;
     }
 
     if ($dist eq 'debian' or $dist eq 'ubuntu') {
