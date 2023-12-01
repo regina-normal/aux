@@ -1,46 +1,48 @@
 #!/usr/bin/perl -w
+use File::Copy;
+use File::Path;
 use strict;
 
-# TODO: Better reference file.
 -e 'build' or die "This script must be run from within its own directory";
 
 my $imagetype=$ARGV[0];
 my $release=$ARGV[1];
-($release and $imagetype) or die "Usage: ./build <imagetype> <release> [<arch>]";
+if (not ($release and $imagetype)) {
+    print <<__END__;
+Usage: ./build <imagetype> <release> [<arch>]
 
+Examples:
+    ./build basic 39
+    ./build desktop bookworm i386
+    ./build pkgdev jammy
+__END__
+    exit 1;
+}
+
+my @alldists = qw(debian ubuntu fedora opensuse);
 my $dist;
-
-if ($release =~ /^\d\d$/) {
-  print "Fedora: $release\n";
-  $dist = 'fedora';
-} elsif ($release =~ /^\d\d\.\d+$/) {
-  print "openSUSE: $release\n";
-  $dist = 'opensuse';
-} elsif (-e "/usr/share/debootstrap/scripts/$release") {
-    open(DEBOOTSTRAP, '<', "/usr/share/debootstrap/scripts/$release") or die;
-    while (<DEBOOTSTRAP>) {
-        if (/^keyring .*ubuntu/) {
-            print "Ubuntu: $release\n";
-            $dist = 'ubuntu';
-            last;
-        }
-        if (/^keyring .*debian/) {
-            print "Debian: $release\n";
-            $dist = 'debian';
+foreach my $d (@alldists) {
+    open(LIST, '<', "../supported/$d.list") or die;
+    while (<LIST>) {
+        chomp;
+        if ($_ eq $release) {
+            $dist = $d;
             last;
         }
     }
-    close(DEBOOTSTRAP);
-    $dist or die "No keyring found in the debootstrap script for $release";
-} else {
-    die "Not a known debian/ubuntu/fedora/opensuse release: $release";
+    close(LIST);
+    defined $dist and last;
 }
+defined $dist or die "Not a release from a known distribution: $release";
+print("Distribution: $dist\n");
 
 my $arch=$ARGV[2];
 my $relarch=$release;
 if (defined $arch) {
-    print("Arch: $arch");
+    print("Architecture: $arch\n");
     $relarch .= "_$arch";
+} else {
+    print("Architecture: same as host\n");
 }
 
 my $context = "${imagetype}_${dist}_${relarch}";
@@ -48,29 +50,31 @@ my $context = "${imagetype}_${dist}_${relarch}";
 mkdir $context or die;
 
 my $dockerfile = 'Dockerfile';
-print("Constructing $dockerfile...\n");
 my $dockerdata;
 if ($imagetype eq 'basic') {
     $dockerdata = basic();
 } elsif ($imagetype eq 'desktop') {
     $dockerdata = desktop();
+} elsif ($imagetype eq 'pkgdev') {
+    $dockerdata = pkgdev();
 } else {
     die "Unknown image type: $imagetype";
 }
 defined $dockerdata or die "This specific docker image is not yet supported";
 
+print("\nWriting $dockerfile...\n");
 open(DOCKERFILE, '>', $dockerfile) or die;
 print DOCKERFILE $dockerdata;
 close(DOCKERFILE);
 
 my $tag = "$imagetype/$dist:$relarch";
-print("Building $tag...\n");
+print("Building $tag...\n\n");
 
 system('docker', 'build', '-t', $tag, '-f', $dockerfile, $context) and
     die "The call to 'docker build ...' failed";
 
-# TODO: Clear out context
 unlink($dockerfile) or die "Could not remove $dockerfile";
+rmtree($context) or die "Could not remove $context";
 
 # --------------------------------------------------------------------------
 # Basic user image
@@ -121,3 +125,80 @@ RUN apt-get install -y ubuntu-desktop
 RUN apt-get clean
 __END__
 }
+
+# --------------------------------------------------------------------------
+# General package building
+# --------------------------------------------------------------------------
+
+sub pkgdev {
+    print("Package development for $dist $release\n");
+
+    my $extra = '';
+
+    # For debian and LTS ubuntu releases, include all available gcc versions.
+    my @gcc = ();
+    if ($dist eq 'debian') {
+        $release eq 'jessie' and @gcc = qw(4.8 4.9);
+        $release eq 'stretch' and @gcc = qw(6);
+        $release eq 'buster' and @gcc = qw(7 8);
+        $release eq 'bullseye' and @gcc = qw(9 10);
+        $release eq 'bookworm' and @gcc = qw(11 12);
+        $extra .= "gcc-$_ g++$_ " foreach @gcc;
+    } elsif ($dist eq 'ubuntu') {
+        $release eq 'focal' and @gcc = qw(7 8 9 10);
+        $release eq 'jammy' and @gcc = qw(9 10 11 12);
+        $extra .= "gcc-$_ g++$_ " foreach @gcc;
+    }
+
+    if ($dist eq 'debian' or $dist eq 'ubuntu') {
+        copy('deb-src.pl', "$context/deb-src.pl") or die;
+        return <<__END__;
+FROM basic/$dist:$relarch
+ADD deb-src.pl /root/deb-src.pl
+RUN perl /root/deb-src.pl && rm /root/deb-src.pl
+RUN apt-get update
+RUN apt-get dist-upgrade -y
+RUN apt-get install -y --no-install-recommends $extra\\
+    build-essential devscripts fakeroot lintian autopkgtest debhelper git
+RUN apt-get clean
+RUN useradd -U -s /bin/bash -m build
+__END__
+    }
+
+    if ($dist eq 'fedora') {
+        # Fedora VMs already come with a source repository.
+        my $data = <<__END__;
+FROM basic/$dist:$relarch
+RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
+RUN dnf install -y -b --setopt=install_weak_deps=False \\
+    dnf-utils rpm-build libappstream-glib-builder \\
+    gcc gcc-c++ glibc-devel libstdc++-devel make git
+RUN dnf clean all
+RUN useradd -U -s /bin/bash -m build
+RUN mkdir /home/build/rpmbuild
+RUN mkdir /home/build/rpmbuild/{SOURCES,SPECS}
+RUN chown -R build:build /home/build/rpmbuild
+__END__
+        if ($release eq '37') {
+            # On Fedora 37, appstream-builder (via gdk-pixbuf) cannot recognise
+            # any icon formats at all.  The following line seems to fix this.
+            $data .= "RUN /usr/bin/update-mime-database /usr/share/mime\n";
+        }
+        return $data;
+    }
+
+    $dist eq 'opensuse' and return <<__END__;
+FROM basic/$dist:$relarch
+RUN zypper refresh
+RUN zypper update -y
+RUN zypper install -y --no-recommends \\
+    rpm-build appstream-glib gcc gcc-c++ glibc-devel libstdc++-devel git
+RUN zypper clean
+RUN useradd -U -s /bin/bash -m build
+RUN mkdir /home/build/rpmbuild
+RUN mkdir /home/build/rpmbuild/{SOURCES,SPECS}
+RUN chown -R build:build /home/build/rpmbuild
+RUN zypper addrepo http://download.opensuse.org/source/distribution/leap/$release/repo/oss/ source
+__END__
+}
+
