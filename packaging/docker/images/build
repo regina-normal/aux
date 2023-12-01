@@ -226,13 +226,21 @@ __END__
     }
 
     if ($dist eq 'fedora') {
-        # Fedora VMs already come with a source repository.
+        # We already have a source repository for our fedora VMs, so no need
+        # to set one up here.
+        #
+        # We would like to install dnf-utils, but this only appeared in
+        # fedora 26.  It's something we can live without for older fedoras.
+        #
+        # Side note: the dnf option install_weak_deps=False only seems to have
+        # appeared in fedora 23.  For fedora 22 we get a warning that is loud
+        # but harmless, and so we don't worry about disabling it here.
+        my $dnf_utils = ($release >= 26 ? 'dnf-utils' : '');
         my $data = <<__END__;
 FROM basic/$dist:$relarch
 RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
 RUN dnf install -y -b --setopt=install_weak_deps=False \\
-    dnf-utils rpm-build libappstream-glib-builder \\
-    gcc gcc-c++ glibc-devel libstdc++-devel make git
+    $dnf_utils rpm-build libappstream-glib-builder gcc gcc-c++ make git
 RUN dnf clean all
 RUN useradd -U -s /bin/bash -m build
 RUN mkdir /home/build/rpmbuild
