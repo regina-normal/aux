@@ -83,13 +83,13 @@ rmtree($context) or die "Could not remove $context";
 sub basic {
     print("Basic user image for $dist $release\n");
 
-    my $pkgs = "ca-certificates vim zsh gnupg wget";
+    my $common = 'ca-certificates zsh wget';
 
     ($dist eq 'debian' or $dist eq 'ubuntu') and return <<__END__;
 FROM bare/$dist:$relarch
 RUN apt-get update
 RUN apt-get dist-upgrade -y
-RUN apt-get install -y apt-transport-https $pkgs
+RUN apt-get install -y apt-transport-https $common gnupg vim
 RUN apt-get clean
 RUN useradd -U -s /bin/bash -m user
 __END__
@@ -97,7 +97,7 @@ __END__
     $dist eq 'fedora' and return <<__END__;
 FROM bare/$dist:$relarch
 RUN dnf upgrade -y -b --refresh
-RUN dnf install -y -b $pkgs
+RUN dnf install -y -b $common gnupg2 which perl vim-enhanced
 RUN dnf clean all
 RUN useradd -U -s /bin/bash -m user
 __END__
@@ -106,7 +106,7 @@ __END__
 FROM bare/$dist:$relarch
 RUN zypper refresh
 RUN zypper update -y
-RUN zypper install -y $pkgs
+RUN zypper install -y $common gpg2 which perl vim
 RUN zypper clean
 RUN useradd -U -s /bin/bash -m user
 __END__

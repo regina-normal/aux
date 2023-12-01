@@ -1,15 +1,26 @@
 This directory contains the scripts, instructions and docker files used
-to create the various bare/*, regina/*, and other related docker images.
+to create the many different docker images that we use.
 
-bare/* images are minimal installations of various GNU/Linux distributions.
+The initial work to get a distro/release/arch combination off the ground
+happens in bare/ (for fixed releases) and rolling/ (for rolling releases
+such as debian sid, or arch).  The scripts in these directories create docker
+images with tags of the form bare/<distro>:<release>.
+
+The subsequent work to make the images usable all happens in images/.
+There is a do-everything script (images/build) which generates many different
+types of image.  The images are related as follows:
+
+bare/* : minimal bare-bones installations of various GNU/Linux distributions
  |
- \- desktop/* extend bare/* to include a full desktop environment.
- |
- \- user/* extend bare/* to include Regina's repositories (for Regina users).
- |
- \- pkgdev/* extend bare/* to include essential tools for building packages.
+ \- basic/* : adds a few extra tools that make it feasible to tinker
      |
-     \- regina/* extend pkgdev/* to include all software for building regina.
+     \- pkgdev/* : adds essential tools for building packages
+     |   |
+     |   \- regina/* : adds all software required for building regina
+     |
+     \- desktop/* : a full desktop environment for users
+     |
+     \- archive/* : gives access to historical versions of regina
 
 ---------------------------------------------------------------------------
 SETTING UP A DOCKER HOST MACHINE
@@ -20,18 +31,17 @@ To prepare a debian/stable host machine for building and using these images:
 - fix root's .bashrc to ensure that /sbin and /usr/sbin are on the path,
   if this has not already been done
 
-- set up a backports source in /etc/apt/sources.list, and fix priorities
-  for debootstrap in /etc/apt/preferences to use this source
 - apt-get install debootstrap zstd curl rpm
 - apt-get install debian-keyring (should already be present)
 - manually install a recent ubuntu-keyring package from an ubuntu mirror
+- add extra symlinks in /usr/share/debootstrap/scripts/ for newer debian or
+  ubuntu releases
 
 - apt-get install docker.io
 - add the ordinary user to the docker group, and log out / log in again
 
-- for newer distros, remember to add extra package lists in rinse/packages/,
-  mirror locations in rinse/rinse.conf, and post-install scripts if necessary
-  in rinse/postinst/.
+- for newer RPM-based distros, remember to add extra package lists in
+  rinse/packages/
 
 Docker *may* need specialised configuration.  Around mid-2021 it was observed
 that Fedora Rawhide would not allow the creation of threads (which meant that
@@ -46,47 +56,4 @@ a year later.)  If this problem does occur, then to resolve it:
 - Create /etc/docker/daemon.json with the following contents:
     { "seccomp-profile": "/etc/docker/seccomp.json" }
 - Restart the docker daemon.
-
----------------------------------------------------------------------------
-
-Example /etc/apt/sources.list:
-
-deb http://deb.debian.org/debian/ bullseye main contrib non-free
-deb-src http://deb.debian.org/debian/ bullseye main contrib non-free
-
-deb http://deb.debian.org/debian/ bullseye-updates main contrib non-free
-deb-src http://deb.debian.org/debian/ bullseye-updates main contrib non-free
-
-deb http://security.debian.org/debian-security bullseye-security main contrib non-free
-deb-src http://security.debian.org/debian-security bullseye-security main contrib non-free
-
-deb http://deb.debian.org/debian/ bullseye-backports main contrib non-free
-deb-src http://deb.debian.org/debian/ bullseye-backports main contrib non-free
-
-deb https://people.debian.org/~bab/rinse unstable/
-deb-src https://people.debian.org/~bab/rinse unstable/
-
----------------------------------------------------------------------------
-
-Example /etc/apt/preferences (default priority is 500):
-
-Package: *
-Pin: release a=bullseye-backports
-Pin-Priority: 100
-
-Package: *
-Pin: release a=unstable
-Pin-Priority: 100
-
-Package: *
-Pin: release a=experimental
-Pin-Priority: 50
-
-Package: debootstrap
-Pin: release a=bullseye-backports
-Pin-Priority: 800
-
-Package: rinse
-Pin: release a=unstable
-Pin-Priority: 800
 
