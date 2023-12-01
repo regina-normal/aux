@@ -41,6 +41,11 @@ fi
 archive=0
 oldkey=0
 case "$ver" in
+  # The very first LTS releases: these are beyond our current reach, but we
+  # list them here in case we ever want to attempt them anyway.
+  dapper ) oldkey=1 ;; #  6.06 LTS
+  hardy ) oldkey=1 ;;  #  8.04 LTS
+  lucid ) oldkey=1 ;;  # 10.04 LTS
   # LTS releases:
   precise ) oldkey=1 ;;
   # Interim releases:

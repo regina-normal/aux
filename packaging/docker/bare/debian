@@ -34,6 +34,17 @@ fi
 
 archive=0
 case "$ver" in
+  # These are the ancient debian versions that we do not support.
+  # We keep them here anyway, going all the way back to the date of the first
+  # public release of regina, in case we ever want to try again:
+  potato ) archive=1 ; oldkey=1 ;;
+  woody ) archive=1 ; oldkey=1 ;;
+  sarge ) archive=1 ; oldkey=1 ;;
+  etch ) archive=1 ; oldkey=1 ;;
+  lenny ) archive=1 ; oldkey=1 ;;
+  squeeze ) archive=1 ; oldkey=1 ;;
+  wheezy ) archive=1 ; oldkey=1 ;;
+  # These are the ancient debian versions that we do support:
   jessie ) archive=1 ; oldkey=1 ;;
   stretch ) archive=1 ;;
   * ) ;;
