@@ -67,7 +67,7 @@ open(DOCKERFILE, '>', $dockerfile) or die;
 print DOCKERFILE $dockerdata;
 close(DOCKERFILE);
 
-my $tag = "$imagetype/$dist:$relarch";
+my $tag = ($dist eq 'arch' ? "$imagetype/$dist" : "$imagetype/$dist:$relarch");
 print("Building $tag...\n\n");
 
 system('docker', 'build', '-t', $tag, '-f', $dockerfile, $context) and
