@@ -1,0 +1,123 @@
+#!/usr/bin/perl -w
+use strict;
+
+# TODO: Better reference file.
+-e 'build' or die "This script must be run from within its own directory";
+
+my $imagetype=$ARGV[0];
+my $release=$ARGV[1];
+($release and $imagetype) or die "Usage: ./build <imagetype> <release> [<arch>]";
+
+my $dist;
+
+if ($release =~ /^\d\d$/) {
+  print "Fedora: $release\n";
+  $dist = 'fedora';
+} elsif ($release =~ /^\d\d\.\d+$/) {
+  print "openSUSE: $release\n";
+  $dist = 'opensuse';
+} elsif (-e "/usr/share/debootstrap/scripts/$release") {
+    open(DEBOOTSTRAP, '<', "/usr/share/debootstrap/scripts/$release") or die;
+    while (<DEBOOTSTRAP>) {
+        if (/^keyring .*ubuntu/) {
+            print "Ubuntu: $release\n";
+            $dist = 'ubuntu';
+            last;
+        }
+        if (/^keyring .*debian/) {
+            print "Debian: $release\n";
+            $dist = 'debian';
+            last;
+        }
+    }
+    close(DEBOOTSTRAP);
+    $dist or die "No keyring found in the debootstrap script for $release";
+} else {
+    die "Not a known debian/ubuntu/fedora/opensuse release: $release";
+}
+
+my $arch=$ARGV[2];
+my $relarch=$release;
+if (defined $arch) {
+    print("Arch: $arch");
+    $relarch .= "_$arch";
+}
+
+my $context = "${imagetype}_${dist}_${relarch}";
+-e $context and die "Stale directory needs to be removed: $context";
+mkdir $context or die;
+
+my $dockerfile = 'Dockerfile';
+print("Constructing $dockerfile...\n");
+my $dockerdata;
+if ($imagetype eq 'basic') {
+    $dockerdata = basic();
+} elsif ($imagetype eq 'desktop') {
+    $dockerdata = desktop();
+} else {
+    die "Unknown image type: $imagetype";
+}
+defined $dockerdata or die "This specific docker image is not yet supported";
+
+open(DOCKERFILE, '>', $dockerfile) or die;
+print DOCKERFILE $dockerdata;
+close(DOCKERFILE);
+
+my $tag = "$imagetype/$dist:$relarch";
+print("Building $tag...\n");
+
+system('docker', 'build', '-t', $tag, '-f', $dockerfile, $context) and
+    die "The call to 'docker build ...' failed";
+
+# TODO: Clear out context
+unlink($dockerfile) or die "Could not remove $dockerfile";
+
+# --------------------------------------------------------------------------
+# Basic user image
+# --------------------------------------------------------------------------
+
+sub basic {
+    print("Basic user image for $dist $release\n");
+
+    my $pkgs = "ca-certificates vim zsh gnupg wget";
+
+    ($dist eq 'debian' or $dist eq 'ubuntu') and return <<__END__;
+FROM bab/$dist:$relarch
+RUN apt-get update
+RUN apt-get dist-upgrade -y
+RUN apt-get install -y apt-transport-https $pkgs
+RUN apt-get clean
+RUN useradd -U -s /bin/bash -m user
+__END__
+
+    $dist eq 'fedora' and return <<__END__;
+FROM bab/$dist:$relarch
+RUN dnf upgrade -y -b --refresh
+RUN dnf install -y -b $pkgs
+RUN dnf clean all
+RUN useradd -U -s /bin/bash -m user
+__END__
+
+    $dist eq 'opensuse' and return <<__END__;
+FROM bab/$dist:$relarch
+RUN zypper refresh
+RUN zypper update -y
+RUN zypper install -y $pkgs
+RUN zypper clean
+RUN useradd -U -s /bin/bash -m user
+__END__
+}
+
+# --------------------------------------------------------------------------
+# Full desktop image
+# --------------------------------------------------------------------------
+
+sub desktop {
+    print("Full desktop image for $dist $release\n");
+
+    ($dist eq 'ubuntu') and return <<__END__;
+FROM basic/$dist:$relarch
+RUN apt-get install -y ubuntu-desktop
+RUN apt-get clean
+__END__
+}
