@@ -19,7 +19,7 @@ __END__
     exit 1;
 }
 
-my @alldists = qw(debian ubuntu fedora opensuse);
+my @alldists = qw(debian ubuntu fedora opensuse arch);
 my $dist;
 foreach my $d (@alldists) {
     open(LIST, '<', "../supported/$d.list") or die;
@@ -83,10 +83,11 @@ rmtree($context) or die "Could not remove $context";
 sub basic {
     print("Basic user image for $dist $release\n");
 
+    my $bare = ($dist eq 'arch' || $release eq 'sid' ? 'rolling' : 'bare');
     my $common = 'ca-certificates zsh wget';
 
     ($dist eq 'debian' or $dist eq 'ubuntu') and return <<__END__;
-FROM bare/$dist:$relarch
+FROM $bare/$dist:$relarch
 RUN apt-get update
 RUN apt-get dist-upgrade -y
 RUN apt-get install -y apt-transport-https $common gnupg vim
@@ -95,7 +96,7 @@ RUN useradd -U -s /bin/bash -m user
 __END__
 
     $dist eq 'fedora' and return <<__END__;
-FROM bare/$dist:$relarch
+FROM $bare/$dist:$relarch
 RUN dnf upgrade -y -b --refresh
 RUN dnf install -y -b $common gnupg2 which perl vim-enhanced
 RUN dnf clean all
@@ -103,11 +104,20 @@ RUN useradd -U -s /bin/bash -m user
 __END__
 
     $dist eq 'opensuse' and return <<__END__;
-FROM bare/$dist:$relarch
+FROM $bare/$dist:$relarch
 RUN zypper refresh
 RUN zypper update -y
 RUN zypper install -y $common gpg2 which perl vim
 RUN zypper clean
+RUN useradd -U -s /bin/bash -m user
+__END__
+
+    $dist eq 'arch' and return <<__END__;
+FROM $bare/$dist
+RUN pacman --noconfirm --noprogressbar -Syy
+RUN pacman --noconfirm --noprogressbar -Syu
+RUN pacman --noconfirm --noprogressbar -S $common gnupg which perl vim
+RUN pacman --noconfirm --noprogressbar -Scc
 RUN useradd -U -s /bin/bash -m user
 __END__
 }
@@ -199,6 +209,15 @@ RUN mkdir /home/build/rpmbuild
 RUN mkdir /home/build/rpmbuild/{SOURCES,SPECS}
 RUN chown -R build:build /home/build/rpmbuild
 RUN zypper addrepo http://download.opensuse.org/source/distribution/leap/$release/repo/oss/ source
+__END__
+
+    $dist eq 'arch' and return <<__END__;
+FROM basic/$dist
+RUN pacman --noconfirm --noprogressbar -Syy
+RUN pacman --noconfirm --noprogressbar -Syu
+RUN pacman --noconfirm --noprogressbar -S git base-devel devtools gdb namcap
+RUN pacman --noconfirm --noprogressbar -Scc
+RUN useradd -U -s /bin/bash -m build
 __END__
 }
 
