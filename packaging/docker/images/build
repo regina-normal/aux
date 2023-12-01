@@ -186,6 +186,19 @@ sub pkgdev {
         $release eq 'focal' and @clang = qw(6.0 7 8 9 10 12);
         $release eq 'jammy' and @clang = qw(11 12 13 14 15);
         $extra .= "clang-$_ " foreach @clang;
+    } elsif ($dist eq 'opensuse') {
+        # openSUSE uses ancient compilers as defaults, but often makes newer
+        # compilers available as optional packages.  We install both the
+        # default and the latest, so we have something modern if we need it.
+        my $latest;
+        $release eq '42.3' and $latest = '7';  # default: gcc48
+        # 15.0 only ships gcc7
+        $release eq '15.1' and $latest = '8';  # default: gcc7
+        $release eq '15.2' and $latest = '9';  # default: gcc7
+        $release eq '15.3' and $latest = '10'; # default: gcc7
+        $release eq '15.4' and $latest = '11'; # default: gcc7
+        $release eq '15.5' and $latest = '12'; # default: gcc7
+        $latest and $extra .= "gcc$latest gcc$latest-c++ ";
     }
 
     if ($dist eq 'debian' or $dist eq 'ubuntu') {
@@ -238,8 +251,8 @@ __END__
 FROM basic/$dist:$relarch
 RUN zypper refresh
 RUN zypper update -y
-RUN zypper install -y --no-recommends \\
-    rpm-build appstream-glib gcc gcc-c++ glibc-devel libstdc++-devel git
+RUN zypper install -y --no-recommends $extra\\
+    rpm-build appstream-glib gcc gcc-c++ git
 RUN zypper clean
 RUN useradd -U -s /bin/bash -m build
 RUN mkdir /home/build/rpmbuild
