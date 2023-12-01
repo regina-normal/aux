@@ -1,4 +1,4 @@
-FROM bab/opensuse:RELARCH
+FROM base/opensuse:RELARCH
 
 # Install some things that will be helpful:
 RUN zypper refresh
