@@ -153,18 +153,31 @@ sub pkgdev {
         $release eq 'buster' and @gcc = qw(7 8);
         $release eq 'bullseye' and @gcc = qw(9 10);
         $release eq 'bookworm' and @gcc = qw(11 12);
-        $extra .= "gcc-$_ g++$_ " foreach @gcc;
+        $extra .= "gcc-$_ g++-$_ " foreach @gcc;
     } elsif ($dist eq 'ubuntu') {
+        # Most of the non-standard compiler versions here require universe.
+        $release eq 'precise' and @gcc = qw(4.4 4.5 4.6);
+        $release eq 'trusty' and @gcc = qw(4.4 4.6 4.7 4.8);
+        $release eq 'xenial' and @gcc = qw(4.7 4.8 4.9 5);
+        $release eq 'bionic' and @gcc = qw(4.8 5 6 7 8);
         $release eq 'focal' and @gcc = qw(7 8 9 10);
         $release eq 'jammy' and @gcc = qw(9 10 11 12);
-        $extra .= "gcc-$_ g++$_ " foreach @gcc;
+        $extra .= "gcc-$_ g++-$_ " foreach @gcc;
     }
 
     if ($dist eq 'debian' or $dist eq 'ubuntu') {
         copy('deb-src.pl', "$context/deb-src.pl") or die;
-        return <<__END__;
+        my $data = <<__END__;
 FROM basic/$dist:$relarch
 ADD deb-src.pl /root/deb-src.pl
+__END__
+        # For ubuntu, we enable universe now so that we have access to
+        # non-default compiler versions.
+        $dist eq 'ubuntu' and $data .= <<__END__;
+RUN sed -i -s 's/ main\$/ main universe/' /etc/apt/sources.list; \\
+    cat /etc/apt/sources.list
+__END__
+        $data .= <<__END__;
 RUN perl /root/deb-src.pl && rm /root/deb-src.pl
 RUN apt-get update
 RUN apt-get dist-upgrade -y
@@ -173,6 +186,7 @@ RUN apt-get install -y --no-install-recommends $extra\\
 RUN apt-get clean
 RUN useradd -U -s /bin/bash -m build
 __END__
+        return $data;
     }
 
     if ($dist eq 'fedora') {
