@@ -6,16 +6,16 @@ Examples:
 
   ./build basic bookworm
   ./build desktop xenial i386
-  ./build desktop 39
-  ./build desktop 25 i386
-  ./build desktop 15.5
+  ./build pkgdev 39
+  ./build regina 25 i386
+  ./build archive 15.5
 
 Arguments:
 
   <imagetype>
-      Indicates what kind of docker image to build.  This must be one of:
-        - basic (for a minimal but usable bare-bones environment);
-        - desktop (for a full graphical desktop environment).
+      Indicates what kind of docker image to build.  This must be one of
+      { basic, pkgdev, regina, desktop, archive }; see ../README.txt for
+      a summary of what each of these types of images contains.
 
   <release>
       Indicates which release of which GNU/Linux distribution to use.

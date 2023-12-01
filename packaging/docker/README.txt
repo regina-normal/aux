@@ -12,13 +12,13 @@ types of image.  The images are related as follows:
 
 bare/* : minimal bare-bones installations of various GNU/Linux distributions
  |
- \- basic/* : adds a few extra tools that make it feasible to tinker
+ \- basic/* : adds just a few extra tools that make it feasible to tinker
      |
      \- pkgdev/* : adds essential tools for building packages
      |   |
      |   \- regina/* : adds all software required for building regina
      |
-     \- desktop/* : a full desktop environment for users
+     \- desktop/* : a full graphical desktop environment for users
      |
      \- archive/* : gives access to historical versions of regina
 
