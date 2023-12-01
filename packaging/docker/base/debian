@@ -19,9 +19,9 @@ if [ -n "$arch" ]; then
 fi
 
 if [ -n "$arch" ]; then
-  tag="bab/debian:${ver}_${arch}"
+  tag="base/debian:${ver}_${arch}"
 else
-  tag="bab/debian:$ver"
+  tag="base/debian:$ver"
   arch=`dpkg --print-architecture`
 fi
 

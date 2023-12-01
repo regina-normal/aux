@@ -1,4 +1,4 @@
-FROM bab/debian:bullseye
+FROM base/debian:bullseye
 ADD apt-sources/bullseye /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get dist-upgrade -y

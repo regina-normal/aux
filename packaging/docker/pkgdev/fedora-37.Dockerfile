@@ -1,4 +1,4 @@
-FROM bab/fedora:37
+FROM base/fedora:37
 RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
 RUN dnf install -y -b --setopt=install_weak_deps=False \
 	dnf-utils rpm-build libappstream-glib-builder \

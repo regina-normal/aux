@@ -1,4 +1,4 @@
-FROM bab/ubuntu:jammy
+FROM base/ubuntu:jammy
 
 ADD apt-sources/ubuntu-gen /etc/apt/ubuntu-gen
 RUN /etc/apt/ubuntu-gen jammy > /etc/apt/sources.list; \

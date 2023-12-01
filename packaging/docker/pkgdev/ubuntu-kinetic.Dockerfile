@@ -1,4 +1,4 @@
-FROM bab/ubuntu:kinetic
+FROM base/ubuntu:kinetic
 
 ADD apt-sources/ubuntu-gen /etc/apt/ubuntu-gen
 RUN /etc/apt/ubuntu-gen kinetic > /etc/apt/sources.list; \

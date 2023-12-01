@@ -11,7 +11,7 @@ if [ -n "$2" ]; then
   echo "The centos script does not support custom architectures."; exit 1
 fi
 
-tag=bab/centos:$ver
+tag=base/centos:$ver
 distribution=centos-$ver
 
 myarch="`uname -m`"

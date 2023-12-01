@@ -1,4 +1,4 @@
-FROM bab/opensuse:15.5
+FROM base/opensuse:15.5
 RUN zypper refresh
 RUN zypper dist-upgrade -y
 RUN zypper install -y --no-recommends \

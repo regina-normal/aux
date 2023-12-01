@@ -1,4 +1,4 @@
-FROM bab/ubuntu:lunar
+FROM base/ubuntu:lunar
 
 ADD apt-sources/ubuntu-gen /etc/apt/ubuntu-gen
 RUN /etc/apt/ubuntu-gen lunar > /etc/apt/sources.list; \

@@ -1,4 +1,4 @@
-FROM bab/debian:bookworm
+FROM base/debian:bookworm
 
 ADD apt-sources/sid /etc/apt/sources.list
 RUN apt-get update

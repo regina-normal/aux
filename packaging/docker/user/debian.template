@@ -1,4 +1,4 @@
-FROM bab/debian:RELARCH
+FROM base/debian:RELARCH
 
 # Add what we need to get Regina's repository working.
 # Note: some ancient debian distros do not include apt-transport-https

@@ -1,4 +1,4 @@
-FROM bab/ubuntu:focal
+FROM base/ubuntu:focal
 
 ADD apt-sources/ubuntu-gen /etc/apt/ubuntu-gen
 RUN /etc/apt/ubuntu-gen focal > /etc/apt/sources.list; \

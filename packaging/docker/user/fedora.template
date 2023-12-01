@@ -1,4 +1,4 @@
-FROM bab/fedora:RELARCH
+FROM base/fedora:RELARCH
 
 # Install some things that will be helpful:
 RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
