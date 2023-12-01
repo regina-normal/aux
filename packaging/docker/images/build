@@ -176,7 +176,11 @@ sub pkgdev {
 
         my @clang = ();
         $release eq 'precise' and @clang = qw(3.4);
-        $release eq 'trusty' and @clang = qw(3.3 3.4 3.5 3.6 3.8 3.9);
+        # On trusty, the different clang versions conflict with one another.
+        # We have to choose just one - we go with 3.3 because it's the one
+        # clang version that we can't get elsewhere.
+        # $release eq 'trusty' and @clang = qw(3.3 3.4 3.5 3.6 3.8 3.9);
+        $release eq 'trusty' and @clang = qw(3.3);
         $release eq 'xenial' and @clang = qw(3.5 3.6 3.7 3.8 3.9 4.0 8);
         $release eq 'bionic' and @clang = qw(3.9 4.0 5.0 6.0 8 9 10);
         $release eq 'focal' and @clang = qw(6.0 7 8 9 10 12);
