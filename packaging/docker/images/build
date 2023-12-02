@@ -120,6 +120,8 @@ RUN pacman --noconfirm --noprogressbar -S $common gnupg which perl vim
 RUN pacman --noconfirm --noprogressbar -Scc
 RUN useradd -U -s /bin/bash -m user
 __END__
+
+    return undef;
 }
 
 # --------------------------------------------------------------------------
@@ -129,11 +131,64 @@ __END__
 sub desktop {
     print("Full desktop image for $dist $release\n");
 
+    # Make these installations single commands, so docker does not
+    # try to store a ton of intermediate files in its layers.
+
+    ($dist eq 'debian') and return <<__END__;
+FROM basic/$dist:$relarch
+RUN apt-get update
+RUN apt-get dist-upgrade -y
+RUN apt-get install -y task-gnome-desktop
+RUN apt-get clean
+__END__
+
     ($dist eq 'ubuntu') and return <<__END__;
 FROM basic/$dist:$relarch
+RUN apt-get update
+RUN apt-get dist-upgrade -y
 RUN apt-get install -y ubuntu-desktop
 RUN apt-get clean
 __END__
+
+    ($dist eq 'fedora') and return <<__END__;
+FROM basic/$dist:$relarch
+RUN dnf upgrade -y -b --refresh
+RUN dnf group install -y -b GNOME
+RUN dnf clean all
+__END__
+
+    # For now, we do not support desktop images on openSUSE.
+    # They are problematic because: (i) they are *enormous*; (ii) the package
+    # installation includes long waits whilst trying to connect to services
+    # that are not running since we are in a VM; and (iii) there are many
+    # NOKEY errors because many of the packages used are signed with the
+    # openSUSE backports key (8A49EB0325DB7AE0).
+    #
+    # Regarding (i): we could slim things down by only installing
+    # patterns-kde-kde_plasma, but this seems to eject too much.  Not sure
+    # what the sensible compromise is (or if openSUSE even offers one).
+    # Regarding (iii): we could just trust the backports signing key, but I'm
+    # not convinced it's a good idea to accept backports in general for these
+    # docker images - openSUSE has a history of package updates messing up
+    # build environments, and this is not something I want to babysit.
+    #
+    # ($dist eq 'opensuse') and return <<__END__;
+# FROM basic/$dist:$relarch
+# RUN zypper refresh
+# RUN zypper update -y
+# RUN zypper install -y patterns-kde-kde
+# RUN zypper clean
+# __END__
+
+    ($dist eq 'arch') and return <<__END__;
+FROM basic/$dist
+RUN pacman --noconfirm --noprogressbar -Syy
+RUN pacman --noconfirm --noprogressbar -Syu
+RUN pacman --noconfirm --noprogressbar -S gnome
+RUN pacman --noconfirm --noprogressbar -Scc
+__END__
+
+    return undef;
 }
 
 # --------------------------------------------------------------------------
@@ -277,5 +332,7 @@ RUN pacman --noconfirm --noprogressbar -S git base-devel devtools gdb namcap
 RUN pacman --noconfirm --noprogressbar -Scc
 RUN useradd -U -s /bin/bash -m build
 __END__
+
+    return undef;
 }
 
