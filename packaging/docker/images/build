@@ -5,6 +5,8 @@ use strict;
 
 -e 'build' or die "This script must be run from within its own directory";
 
+my $dryrun = 0;
+
 my $imagetype=$ARGV[0];
 my $release=$ARGV[1];
 if (not ($release and $imagetype)) {
@@ -15,6 +17,7 @@ Examples:
     ./build basic 39
     ./build desktop bookworm i386
     ./build pkgdev jammy
+    ./build regina sid
 __END__
     exit 1;
 }
@@ -49,7 +52,7 @@ my $context = "${imagetype}_${dist}_${relarch}";
 -e $context and die "Stale directory needs to be removed: $context";
 mkdir $context or die;
 
-my $dockerfile = 'Dockerfile';
+my $dockerfile = "${imagetype}_${dist}_${relarch}.Dockerfile";
 my $dockerdata;
 if ($imagetype eq 'basic') {
     $dockerdata = basic();
@@ -57,6 +60,10 @@ if ($imagetype eq 'basic') {
     $dockerdata = desktop();
 } elsif ($imagetype eq 'pkgdev') {
     $dockerdata = pkgdev();
+} elsif ($imagetype eq 'regina') {
+    $dockerdata = regina();
+} elsif ($imagetype eq 'archive') {
+    $dockerdata = archive();
 } else {
     die "Unknown image type: $imagetype";
 }
@@ -70,11 +77,167 @@ close(DOCKERFILE);
 my $tag = ($dist eq 'arch' ? "$imagetype/$dist" : "$imagetype/$dist:$relarch");
 print("Building $tag...\n\n");
 
-system('docker', 'build', '-t', $tag, '-f', $dockerfile, $context) and
-    die "The call to 'docker build ...' failed";
+if ($dryrun) {
+    print "Saved Dockerfile as: $dockerfile\n";
+} else {
+    system('docker', 'build', '-t', $tag, '-f', $dockerfile, $context) and
+        die "The call to 'docker build ...' failed";
+    unlink($dockerfile) or die "Could not remove $dockerfile";
+}
 
-unlink($dockerfile) or die "Could not remove $dockerfile";
 rmtree($context) or die "Could not remove $context";
+
+# --------------------------------------------------------------------------
+# Helper functions for building Dockerfiles
+# --------------------------------------------------------------------------
+
+# Usage: debStyle()
+#
+# Returns true iff we are building an image for debian or ubuntu.
+#
+sub debStyle {
+    return ($dist eq 'debian' or $dist eq 'ubuntu');
+}
+
+# Usage: rpmStyle()
+#
+# Returns true iff we are building an image for fedora or opensuse.
+#
+sub rpmStyle {
+    return ($dist eq 'fedora' or $dist eq 'opensuse');
+}
+
+# Usage: from('basic')
+#
+# Initialises the Dockerfile as starting from the given image type.
+# For rolling releases, an argument of 'bare' will be automatically
+# converted to 'rolling'.
+#
+sub from {
+    my $fromType = shift;
+    if ($fromType eq 'bare' && ($dist eq 'arch' or $release eq 'sid')) {
+        $fromType = 'rolling';
+    }
+    my $fromVersion = ($dist eq 'arch' ? $dist : "$dist:$relarch");
+    return "FROM $fromType/$fromVersion\n";
+}
+
+# Usage: addUniverse()
+#
+# Adds universe to the APT sources on ubuntu, does nothing otherwise.
+#
+sub addUniverse {
+    $dist eq 'ubuntu' and return "RUN sed -i -s 's/ main\$/ main universe/' /etc/apt/sources.list; cat /etc/apt/sources.list\n";
+    return '';
+}
+
+# Usage: refreshAndInstall('zsh gcc ...')
+#
+# Refreshes the package list and installs the given list of packages.
+#
+# There is an optional second boolean argument which, if true, will perform
+# a "slim" installation that excludes recommended/suggested packages (if the
+# distribution supports it).
+#
+sub refreshAndInstall {
+    # Side note: the dnf option install_weak_deps=False only seems to have
+    # appeared in fedora 23.  For fedora 22 we get a warning that is loud
+    # but harmless, and so we don't worry about disabling it here.
+    my $pkgs = shift;
+    my $slim = shift;
+    my $slimopt = '';
+    if ($slim) {
+        ($dist eq 'debian' or $dist eq 'ubuntu') and $slimopt = '--no-install-recommends ';
+        $dist eq 'fedora' and $slimopt = '--setopt=install_weak_deps=False ';
+        $dist eq 'opensuse' and $slimopt = '--no-recommends ';
+    }
+    ($dist eq 'debian' or $dist eq 'ubuntu') and return "RUN apt-get update && apt-get install -y $slimopt$pkgs\n";
+    $dist eq 'fedora' and return "RUN dnf install -y -b --refresh $slimopt$pkgs\n";
+    $dist eq 'opensuse' and return "RUN zypper refresh && zypper install -y $slimopt$pkgs\n";
+    $dist eq 'arch' and return "RUN pacman --noconfirm --noprogressbar -Syy && pacman --noconfirm --noprogressbar -S $slimopt$pkgs\n";
+    die;
+}
+
+# Usage: upgradeAndInstall('zsh gcc ...')
+#
+# Refreshes the package list, upgrades all currently installed packages, and
+# then installs the given list of packages.
+#
+# There is an optional second boolean argument which, if true, will perform
+# a "slim" installation that excludes recommended/suggested packages (if the
+# distribution supports it).
+#
+sub upgradeAndInstall {
+    my $pkgs = shift;
+    my $slim = shift;
+    my $slimopt = '';
+    if ($slim) {
+        ($dist eq 'debian' or $dist eq 'ubuntu') and $slimopt = '--no-install-recommends ';
+        $dist eq 'fedora' and $slimopt = '--setopt=install_weak_deps=False ';
+        $dist eq 'opensuse' and $slimopt = '--no-recommends ';
+    }
+    ($dist eq 'debian' or $dist eq 'ubuntu') and return "RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y $slimopt$pkgs\n";
+    $dist eq 'fedora' and return "RUN dnf upgrade -y -b --refresh $slimopt&& dnf install -y -b $slimopt$pkgs\n";
+    $dist eq 'opensuse' and return "RUN zypper refresh && zypper update -y && zypper install -y $slimopt$pkgs\n";
+    $dist eq 'arch' and return "RUN pacman --noconfirm --noprogressbar -Syy && pacman --noconfirm --noprogressbar -Syu && pacman --noconfirm --noprogressbar -S $slimopt$pkgs\n";
+    die;
+}
+
+# Usage: addUser('username')
+#
+# Adds a new ordinary user with the given username.
+#
+sub addUser {
+    my $username = shift;
+    return "RUN useradd -U -s /bin/bash -m $username\n";
+}
+
+# Usage: copyAndRun('script', 'perl')
+#
+# Copies the given script from this directory into the VM, runs it in the VM,
+# and then deletes from the VM.
+#
+# The second argument, if present, is the interpreter to use to run the script.
+# If absent, the script is assumed to be executable and will be run directly.
+#
+# There may be additional arguments (third and beyond), representing other
+# supporting files in this directory.  These will also be copied into the VM
+# before the script is run, and deleted from the VM after the script is run.
+#
+sub copyAndRun {
+    my $script = shift;
+    my $interpreter = shift;
+
+    -e $script or die;
+    copy($script, "$context/$script") or die;
+    my @toAdd = ($script);
+
+    while (my $arg = shift) {
+        -e $arg or die "Missing supporting file: $arg";
+        copy($arg, "$context/$arg") or die;
+        push @toAdd, $arg;
+    }
+
+    my $ans = '';
+    $ans .= "ADD $_ /root/$_\n" foreach (@toAdd);
+    $ans .= ($interpreter ? "RUN $interpreter " : 'RUN ');
+    $ans .= "/root/$script && rm";
+    $ans .= " /root/$_" foreach (@toAdd);
+    $ans .= "\n";
+    return $ans;
+}
+
+# Usage: cleanup()
+#
+# Clears the package manager cache.
+#
+sub cleanup {
+    ($dist eq 'debian' or $dist eq 'ubuntu') and return "RUN apt-get clean\n";
+    $dist eq 'fedora' and return "RUN dnf clean all\n";
+    $dist eq 'opensuse' and return "RUN zypper clean\n";
+    $dist eq 'arch' and return "RUN pacman --noconfirm --noprogressbar -Scc\n";
+    die;
+}
 
 # --------------------------------------------------------------------------
 # Basic user image
@@ -84,44 +247,18 @@ sub basic {
     print("Basic user image for $dist $release\n");
 
     my $bare = ($dist eq 'arch' || $release eq 'sid' ? 'rolling' : 'bare');
-    my $common = 'ca-certificates zsh wget';
+    my $pkgs = 'ca-certificates zsh wget';
+    debStyle() and $pkgs .= ' apt-transport-https';
+    $pkgs .= ($dist eq 'fedora' ? ' gnupg2' : $dist eq 'opensuse' ? ' gpg2' :
+        ' gnupg');
+    debStyle() or $pkgs .= ' which perl';
+    $pkgs .= ($dist eq 'fedora' ? ' vim-enhanced' : ' vim');
 
-    ($dist eq 'debian' or $dist eq 'ubuntu') and return <<__END__;
-FROM $bare/$dist:$relarch
-RUN apt-get update
-RUN apt-get dist-upgrade -y
-RUN apt-get install -y apt-transport-https $common gnupg vim
-RUN apt-get clean
-RUN useradd -U -s /bin/bash -m user
-__END__
-
-    $dist eq 'fedora' and return <<__END__;
-FROM $bare/$dist:$relarch
-RUN dnf upgrade -y -b --refresh
-RUN dnf install -y -b $common gnupg2 which perl vim-enhanced
-RUN dnf clean all
-RUN useradd -U -s /bin/bash -m user
-__END__
-
-    $dist eq 'opensuse' and return <<__END__;
-FROM $bare/$dist:$relarch
-RUN zypper refresh
-RUN zypper update -y
-RUN zypper install -y $common gpg2 which perl vim
-RUN zypper clean
-RUN useradd -U -s /bin/bash -m user
-__END__
-
-    $dist eq 'arch' and return <<__END__;
-FROM $bare/$dist
-RUN pacman --noconfirm --noprogressbar -Syy
-RUN pacman --noconfirm --noprogressbar -Syu
-RUN pacman --noconfirm --noprogressbar -S $common gnupg which perl vim
-RUN pacman --noconfirm --noprogressbar -Scc
-RUN useradd -U -s /bin/bash -m user
-__END__
-
-    return undef;
+    my $data = from('bare');
+    $data .= upgradeAndInstall($pkgs);
+    $data .= cleanup();
+    $data .= addUser('user');
+    return $data;
 }
 
 # --------------------------------------------------------------------------
@@ -130,32 +267,6 @@ __END__
 
 sub desktop {
     print("Full desktop image for $dist $release\n");
-
-    # Make these installations single commands, so docker does not
-    # try to store a ton of intermediate files in its layers.
-
-    ($dist eq 'debian') and return <<__END__;
-FROM basic/$dist:$relarch
-RUN apt-get update
-RUN apt-get dist-upgrade -y
-RUN apt-get install -y task-gnome-desktop
-RUN apt-get clean
-__END__
-
-    ($dist eq 'ubuntu') and return <<__END__;
-FROM basic/$dist:$relarch
-RUN apt-get update
-RUN apt-get dist-upgrade -y
-RUN apt-get install -y ubuntu-desktop
-RUN apt-get clean
-__END__
-
-    ($dist eq 'fedora') and return <<__END__;
-FROM basic/$dist:$relarch
-RUN dnf upgrade -y -b --refresh
-RUN dnf group install -y -b GNOME
-RUN dnf clean all
-__END__
 
     # For now, we do not support desktop images on openSUSE.
     # They are problematic because: (i) they are *enormous*; (ii) the package
@@ -172,36 +283,45 @@ __END__
     # docker images - openSUSE has a history of package updates messing up
     # build environments, and this is not something I want to babysit.
     #
-    # ($dist eq 'opensuse') and return <<__END__;
-# FROM basic/$dist:$relarch
-# RUN zypper refresh
-# RUN zypper update -y
-# RUN zypper install -y patterns-kde-kde
-# RUN zypper clean
-# __END__
+    $dist eq 'opensuse' and return undef;
 
-    ($dist eq 'arch') and return <<__END__;
-FROM basic/$dist
-RUN pacman --noconfirm --noprogressbar -Syy
-RUN pacman --noconfirm --noprogressbar -Syu
-RUN pacman --noconfirm --noprogressbar -S gnome
-RUN pacman --noconfirm --noprogressbar -Scc
-__END__
-
-    return undef;
+    my $data = from('basic');
+    if ($dist eq 'debian') {
+        $data .= upgradeAndInstall('task-gnome-desktop');
+    } elsif ($dist eq 'ubuntu') {
+        $data .= upgradeAndInstall('ubuntu-desktop');
+    } elsif ($dist eq 'fedora') {
+        $data .= "RUN dnf upgrade -y -b --refresh && dnf group install -y -b GNOME\n";
+    } elsif ($dist eq 'opensuse') {
+        $data .= upgradeAndInstall('patterns-kde-kde');
+    } elsif ($dist eq 'arch') {
+        $data .= upgradeAndInstall('gnome');
+    } else {
+        die;
+    }
+    $data .= cleanup();
+    return $data;
 }
 
 # --------------------------------------------------------------------------
-# General package building
+# General development machine
 # --------------------------------------------------------------------------
 
 sub pkgdev {
     print("Package development for $dist $release\n");
 
-    my $extra = '';
+    my $pkgs = 'git gdb';
+    debStyle() and $pkgs .= ' build-essential devscripts fakeroot lintian autopkgtest debhelper';
+    rpmStyle() and $pkgs .= ' rpm-build gcc gcc-c++';
+    $dist eq 'arch' and $pkgs .= ' base-devel devtools namcap';
+    $dist eq 'opensuse' and $pkgs .= ' appstream-glib';
+    $dist eq 'fedora' and $pkgs .= ' libappstream-glib-builder make';
+    $dist eq 'fedora' and $release >= 26 and $pkgs .= ' dnf-utils';
 
-    # For debian and LTS ubuntu releases, include all available gcc versions
-    # and all available clang versions.
+    # Add additional non-default compilers:
+    # - For debian and LTS ubuntu releases, include all available versions of
+    #   gcc and clang, so we can test different compiler versions as necessary.
+    # - For openSUSE, add a modern compiler because the defaults are _ancient_.
     if ($dist eq 'debian') {
         my @gcc = ();
         $release eq 'jessie' and @gcc = qw(4.8 4.9);
@@ -209,7 +329,7 @@ sub pkgdev {
         $release eq 'buster' and @gcc = qw(7 8);
         $release eq 'bullseye' and @gcc = qw(9 10);
         $release eq 'bookworm' and @gcc = qw(11 12);
-        $extra .= "gcc-$_ g++-$_ " foreach @gcc;
+        $pkgs .= " gcc-$_ g++-$_" foreach @gcc;
 
         my @clang = ();
         $release eq 'jessie' and @clang = qw(3.4 3.5);
@@ -217,9 +337,9 @@ sub pkgdev {
         $release eq 'buster' and @clang = qw(6.0 7 11 13);
         $release eq 'bullseye' and @clang = qw(9 11 13);
         $release eq 'bookworm' and @clang = qw(13 14 15);
-        $extra .= "clang-$_ " foreach @clang;
+        $pkgs .= " clang-$_" foreach @clang;
     } elsif ($dist eq 'ubuntu') {
-        # Most of the non-standard compiler versions here require universe.
+        # Note: the non-standard compiler versions require universe.
         my @gcc = ();
         $release eq 'precise' and @gcc = qw(4.4 4.5 4.6);
         $release eq 'trusty' and @gcc = qw(4.4 4.6 4.7 4.8);
@@ -227,7 +347,7 @@ sub pkgdev {
         $release eq 'bionic' and @gcc = qw(4.8 5 6 7 8);
         $release eq 'focal' and @gcc = qw(7 8 9 10);
         $release eq 'jammy' and @gcc = qw(9 10 11 12);
-        $extra .= "gcc-$_ g++-$_ " foreach @gcc;
+        $pkgs .= " gcc-$_ g++-$_" foreach @gcc;
 
         my @clang = ();
         $release eq 'precise' and @clang = qw(3.4);
@@ -240,11 +360,8 @@ sub pkgdev {
         $release eq 'bionic' and @clang = qw(3.9 4.0 5.0 6.0 8 9 10);
         $release eq 'focal' and @clang = qw(6.0 7 8 9 10 12);
         $release eq 'jammy' and @clang = qw(11 12 13 14 15);
-        $extra .= "clang-$_ " foreach @clang;
+        $pkgs .= " clang-$_" foreach @clang;
     } elsif ($dist eq 'opensuse') {
-        # openSUSE uses ancient compilers as defaults, but often makes newer
-        # compilers available as optional packages.  We install both the
-        # default and the latest, so we have something modern if we need it.
         my $latest;
         $release eq '42.3' and $latest = '7';  # default: gcc48
         # 15.0 only ships gcc7
@@ -253,86 +370,64 @@ sub pkgdev {
         $release eq '15.3' and $latest = '10'; # default: gcc7
         $release eq '15.4' and $latest = '11'; # default: gcc7
         $release eq '15.5' and $latest = '12'; # default: gcc7
-        $latest and $extra .= "gcc$latest gcc$latest-c++ ";
+        $latest and $pkgs .= " gcc$latest gcc$latest-c++";
     }
 
-    if ($dist eq 'debian' or $dist eq 'ubuntu') {
-        copy('deb-src.pl', "$context/deb-src.pl") or die;
-        my $data = <<__END__;
-FROM basic/$dist:$relarch
-ADD deb-src.pl /root/deb-src.pl
-__END__
-        # For ubuntu, we enable universe now so that we have access to
-        # non-default compiler versions.
-        $dist eq 'ubuntu' and $data .= <<__END__;
-RUN sed -i -s 's/ main\$/ main universe/' /etc/apt/sources.list; \\
-    cat /etc/apt/sources.list
-__END__
-        $data .= <<__END__;
-RUN perl /root/deb-src.pl && rm /root/deb-src.pl
-RUN apt-get update
-RUN apt-get dist-upgrade -y
-RUN apt-get install -y --no-install-recommends $extra\\
-    build-essential devscripts fakeroot lintian autopkgtest debhelper git
-RUN apt-get clean
-RUN useradd -U -s /bin/bash -m build
-__END__
-        return $data;
+    my $data = from('basic');
+    $data .= addUniverse(); # for non-default compilers on ubuntu
+
+    # Add source repositories for those distros that don't have them already.
+    debStyle() and $data .= copyAndRun('deb-src.pl', 'perl');
+    $dist eq 'opensuse' and $data .= "RUN zypper addrepo http://download.opensuse.org/source/distribution/leap/$release/repo/oss/ source\n";
+
+    $data .= upgradeAndInstall($pkgs, 1);
+    $data .= cleanup();
+    if ($release eq '37') {
+        # On Fedora 37, appstream-builder (via gdk-pixbuf) cannot recognise
+        # any icon formats at all.  The following line seems to fix this.
+        $data .= "RUN /usr/bin/update-mime-database /usr/share/mime\n";
     }
+    $data .= addUser('build');
+    rpmStyle() and $data .= "RUN mkdir /home/build/rpmbuild && mkdir /home/build/rpmbuild/{SOURCES,SPECS} && chown -R build:build /home/build/rpmbuild\n";
+    return $data;
+}
 
-    if ($dist eq 'fedora') {
-        # We already have a source repository for our fedora VMs, so no need
-        # to set one up here.
-        #
-        # We would like to install dnf-utils, but this only appeared in
-        # fedora 26.  It's something we can live without for older fedoras.
-        #
-        # Side note: the dnf option install_weak_deps=False only seems to have
-        # appeared in fedora 23.  For fedora 22 we get a warning that is loud
-        # but harmless, and so we don't worry about disabling it here.
-        my $dnf_utils = ($release >= 26 ? 'dnf-utils' : '');
-        my $data = <<__END__;
-FROM basic/$dist:$relarch
-RUN dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
-RUN dnf install -y -b --setopt=install_weak_deps=False \\
-    $dnf_utils rpm-build libappstream-glib-builder gcc gcc-c++ make git
-RUN dnf clean all
-RUN useradd -U -s /bin/bash -m build
-RUN mkdir /home/build/rpmbuild
-RUN mkdir /home/build/rpmbuild/{SOURCES,SPECS}
-RUN chown -R build:build /home/build/rpmbuild
-__END__
-        if ($release eq '37') {
-            # On Fedora 37, appstream-builder (via gdk-pixbuf) cannot recognise
-            # any icon formats at all.  The following line seems to fix this.
-            $data .= "RUN /usr/bin/update-mime-database /usr/share/mime\n";
-        }
-        return $data;
-    }
+# --------------------------------------------------------------------------
+# Building Regina
+# --------------------------------------------------------------------------
 
-    $dist eq 'opensuse' and return <<__END__;
-FROM basic/$dist:$relarch
-RUN zypper refresh
-RUN zypper update -y
-RUN zypper install -y --no-recommends $extra\\
-    rpm-build appstream-glib gcc gcc-c++ git
-RUN zypper clean
-RUN useradd -U -s /bin/bash -m build
-RUN mkdir /home/build/rpmbuild
-RUN mkdir /home/build/rpmbuild/{SOURCES,SPECS}
-RUN chown -R build:build /home/build/rpmbuild
-RUN zypper addrepo http://download.opensuse.org/source/distribution/leap/$release/repo/oss/ source
-__END__
+sub regina {
+    print("Regina development for $dist $release\n");
 
-    $dist eq 'arch' and return <<__END__;
-FROM basic/$dist
-RUN pacman --noconfirm --noprogressbar -Syy
-RUN pacman --noconfirm --noprogressbar -Syu
-RUN pacman --noconfirm --noprogressbar -S git base-devel devtools gdb namcap
-RUN pacman --noconfirm --noprogressbar -Scc
-RUN useradd -U -s /bin/bash -m build
-__END__
+    # TODO: Implement
 
     return undef;
 }
 
+# --------------------------------------------------------------------------
+# Historical package archives for Regina
+# --------------------------------------------------------------------------
+
+sub archive {
+    print("Archived Regina releases for $dist $release\n");
+
+    my $data = from('basic');
+    $data .= addUniverse(); # Ubuntu needs this for debian-keyring
+    debStyle() and $data .= refreshAndInstall('debian-keyring', 1);
+
+    # Set up the repository for the Regina packages.
+    if (debStyle()) {
+        $data .= copyAndRun('archive-deb.sh', 'bash', 'regina-key.asc');
+    } elsif ($dist eq 'fedora') {
+        # TODO: Implement
+    } elsif ($dist eq 'opensuse') {
+        # TODO: Implement
+    } else {
+        # Arch is not supported for this image type.
+        return undef;
+    }
+
+    $data .= upgradeAndInstall('regina-normal');
+    $data .= cleanup();
+    return $data;
+}

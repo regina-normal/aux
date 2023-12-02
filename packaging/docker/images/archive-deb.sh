@@ -1,10 +1,32 @@
 #!/bin/bash
-#
-# Usage: regina-gen <suite>
-#
 set -e
 
-suite="$1"
+if [ -e /etc/os-release ]; then
+  source /etc/os-release
+  suite="$VERSION_CODENAME"
+  if [ -z "$suite" ]; then
+    # Some ancient releases (up to debian jessie) did not set VERSION_CODENAME.
+    case "$VERSION_ID" in
+      8 ) suite=jessie ;;
+      16.04 ) suite=xenial ;;
+      15.10 ) suite=wily ;;
+      15.04 ) suite=vivid ;;
+      14.10 ) suite=utopic ;;
+      14.04 ) suite=trusty ;;
+      13.10 ) suite=saucy ;;
+      13.04 ) suite=raring ;;
+      12.10 ) suite=quantal ;;
+      * ) echo "ERROR: Could not deduce suite from /etc/os-release"; exit 1 ;;
+    esac
+  fi
+else
+  # Ubuntu 12.04 (precise) does not _provide_ /etc/os-release.
+  issue=`cat /etc/issue`
+  case "$issue" in
+    'Ubuntu 12.04 '* ) suite=precise ;;
+    * ) echo "ERROR: Could not deduce suite from /etc/issue"; exit 1 ;;
+  esac
+fi
 
 # aptstyle: indicates how we present our sources.list.
 #
@@ -24,7 +46,7 @@ suite="$1"
 #
 # - standaloneline : use regina's legacy standalone suite-specific archives,
 #   with a *.list holding individual apt-lines that only need regina's new key.
-#   Assumes /etc/apt/regina-key.asc is present (this will be given to apt-key).
+#   Assumes /root/regina-key.asc is present (this will be given to apt-key).
 #
 # - none : a debian or ubuntu distribution for which there was no separate
 #   regina package repository (typically because the version of regina that it
@@ -72,6 +94,7 @@ echo "Setting up repository for $suite, APT style : $aptstyle"
 if [ "$aptstyle" = none ]; then
   echo "Regina was installed in $suite only via the main distro repositories."
   echo "There is no separate regina repository that needs to be added."
+  src=
 elif [ "$aptstyle" = unified ]; then
   src=/etc/apt/sources.list.d/regina.sources
   cat > "$src" <<__END__
@@ -105,7 +128,7 @@ Signed-By: /usr/share/keyrings/debian-keyring.gpg
 __END__
 elif [ "$aptstyle" = standaloneline ]; then
   src=/etc/apt/sources.list.d/regina.list
-  apt-key add /etc/apt/regina-key.asc
+  apt-key add /root/regina-key.asc
   cat > "$src" <<__END__
 deb https://people.smp.uq.edu.au/BenjaminBurton/archive $suite/
 deb-src https://people.smp.uq.edu.au/BenjaminBurton/archive $suite/
@@ -115,6 +138,8 @@ else
   exit 1
 fi
 
-echo --------------------
-cat "$src"
-echo --------------------
+if [ -n "$src" ]; then
+  echo --------------------
+  cat "$src"
+  echo --------------------
+fi
