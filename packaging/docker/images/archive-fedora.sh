@@ -1,22 +1,18 @@
 #!/bin/bash
-#
-# Usage: regina-gen-fedora <release>
-#
 set -e
 
-release="$1"
-
-if [ "$release" -lt 24 ]; then
-  echo 'ERROR: For Fedora 24 and earlier, Regina used ad-hoc package downloads.'
-  echo '       RPM repositories were not created.'
-  exit 1
-elif [ "$release" = 30 ]; then
-  echo 'ERROR: Regina was not build for Fedora 30.'
-  exit 1
+if [ -e /etc/os-release ]; then
+  source /etc/os-release
+  release="$VERSION_ID"
+  if [ -z "$release" ]; then
+    echo "ERROR: Could not deduce OS version from /etc/os-release"; exit 1 ;;
+  fi
+else
+  echo "ERROR: Could not deduce OS version: missing /etc/os-release"; exit 1 ;;
 fi
 
 echo "Importing Regina's signing key..."
-rpmkeys --import /etc/yum.repos.d/regina-key.asc
+rpmkeys --import /root/regina-key.asc
 
 echo "Setting up repository for Fedora $release"
 

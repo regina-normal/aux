@@ -1,24 +1,29 @@
 #!/bin/bash
-#
-# Usage: regina-gen-opensuse <release>
-#
 set -e
 
-release="$1"
+if [ -e /etc/os-release ]; then
+  source /etc/os-release
+  release="$VERSION_ID"
+  if [ -z "$release" ]; then
+    echo "ERROR: Could not deduce OS version from /etc/os-release"; exit 1 ;;
+  fi
+else
+  echo "ERROR: Could not deduce OS version: missing /etc/os-release"; exit 1 ;;
+fi
 
 echo "Importing Regina's signing key..."
 case "$release" in
   42.* )
-    cp /regina-key.asc /var/lib/rpm/pubkeys/regina.key
+    cp /root/regina-key.asc /var/lib/rpm/pubkeys/regina.key
     ;;
   * )
-    rpmkeys --import /regina-key.asc
+    rpmkeys --import /root/regina-key.asc
     ;;
 esac
 
 echo "Setting up repository for openSUSE $release"
 
-src=/regina.repo
+src=/root/regina.repo
   cat > "$src" <<__END__
 [regina]
 name=Regina

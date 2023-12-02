@@ -419,9 +419,9 @@ sub archive {
     if (debStyle()) {
         $data .= copyAndRun('archive-deb.sh', 'bash', 'regina-key.asc');
     } elsif ($dist eq 'fedora') {
-        # TODO: Implement
+        $data .= copyAndRun('archive-fedora.sh', 'bash', 'regina-key.asc');
     } elsif ($dist eq 'opensuse') {
-        # TODO: Implement
+        $data .= copyAndRun('archive-opensuse.sh', 'bash', 'regina-key.asc');
     } else {
         # Arch is not supported for this image type.
         return undef;
