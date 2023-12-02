@@ -235,7 +235,7 @@ sub cleanup {
     ($dist eq 'debian' or $dist eq 'ubuntu') and return "RUN apt-get clean\n";
     $dist eq 'fedora' and return "RUN dnf clean all\n";
     $dist eq 'opensuse' and return "RUN zypper clean\n";
-    $dist eq 'arch' and return "RUN pacman --noconfirm --noprogressbar -Scc\n";
+    $dist eq 'arch' and return "RUN yes | pacman --noprogressbar -Scc\n";
     die;
 }
 
