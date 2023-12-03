@@ -698,7 +698,6 @@ sub regina {
         $data .= addRepo("https://people.debian.org/~bab/rpm/doxygen/opensuse/$release/doxygen.repo");
         # Note the extra argument that we sneak into zypper here.
         $data .= refreshAndInstall('--allow-vendor-change doxygen', 1);
-        # TODO: Actually build the opensuse/doxgyen backports.
 
         if (reginaVersionCmp($regver, '7.0') < 0) {
             # Old versions of regina needed tokyocabinet, which openSUSE 15.x
@@ -708,7 +707,6 @@ sub regina {
             print "NOTE: Adding forward-ported tokyocabinet for $release\n";
             $data .= addRepo("https://people.debian.org/~bab/rpm/tokyocabinet/opensuse/$release/tokyocabinet.repo");
             $data .= refreshAndInstall('libtokyocabinet-devel', 1);
-            # TODO: Actually build the opensuse/tokyocabinet forward-ports.
         }
     }
 
