@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 use File::Copy;
 use File::Path;
+use Version::Util;
 use strict;
 
 -e 'build' or die "This script must be run from within its own directory";
@@ -18,6 +19,7 @@ Examples:
     ./build desktop bookworm i386
     ./build pkgdev jammy
     ./build regina sid
+    ./build regina-7.0 bullseye
 __END__
     exit 1;
 }
@@ -62,6 +64,8 @@ if ($imagetype eq 'basic') {
     $dockerdata = pkgdev();
 } elsif ($imagetype eq 'regina') {
     $dockerdata = regina();
+} elsif ($imagetype =~ /^regina-([0-9.]+)$/) {
+    $dockerdata = regina($1);
 } elsif ($imagetype eq 'archive') {
     $dockerdata = archive();
 } else {
@@ -90,6 +94,72 @@ rmtree($context) or die "Could not remove $context";
 # --------------------------------------------------------------------------
 # Helper functions for building Dockerfiles
 # --------------------------------------------------------------------------
+
+# Usage: reginaVersionCmp('6.0.1', '7.3')
+#
+# Returns -1, 0 or 1 according to whether LHS </=/> RHS chronologically.
+# Each argument is either a regina version string, or undefined (which means
+# the latest development code, i.e., the current git master).
+#
+sub reginaVersionCmp {
+    my $lhs = shift;
+    my $rhs = shift;
+    defined $lhs or return (defined $rhs ? 0 : 1);
+    defined $rhs or return -1;
+    return cmp_version($lhs, $rhs);
+}
+
+# Usage: debianCmp('buster')
+#
+# Returns -1, 0 or 1 according to whether the VM's debian version is </=/> RHS.
+# The argument should be a debian codename.
+#
+my %debianVersion = (
+    'jessie' => 8, 'stretch' => 9, 'buster' => 10, 'bullseye' => 11,
+    'bookworm' => 12, 'trixie' => 13, 'forky' => 14 );
+sub debianCmp {
+    $dist eq 'debian' or die;
+    my $lhs = $debianVersion{$release};
+    my $rhs = $debianVersion{shift};
+    (defined $lhs and defined $rhs) or die;
+    return ($lhs < $rhs ? -1 : $lhs > $rhs ? 1 : 0);
+}
+
+# Usage: ubuntuCmp('bionic')
+#
+# Returns -1, 0 or 1 according to whether the VM's ubuntu version is </=/> RHS.
+# The arguments should be an ubuntu codename.
+#
+my %ubuntuVersion = (
+    'precise' => '12.04', 'quantal' => '12.10', 'raring' => '13.04',
+    'saucy' => '13.10', 'trusty' => '14.04', 'utopic' => '14.10',
+    'vivid' => '15.04', 'wily' => '15.10', 'xenial' => '16.04',
+    'yakkety' => '16.10', 'zesty' => '17.04', 'artful' => '17.10',
+    'bionic' => '18.04', 'cosmic' => '18.10', 'disco' => '19.04',
+    'eoan' => '19.10', 'focal' => '20.04', 'groovy' => '20.10',
+    'hirsute' => '21.04', 'impish' => '21.10', 'jammy' => '22.04',
+    'kinetic' => '22.10', 'lunar' => '23.04', 'mantic' => '23.10',
+    'noble' => '24.04' );
+sub ubuntuCmp {
+    $dist eq 'ubuntu' or die;
+    my $lhs = $ubuntuVersion{$release};
+    my $rhs = $ubuntuVersion{shift};
+    (defined $lhs and defined $rhs) or die;
+    return cmp_version($lhs, $rhs);
+}
+
+# Usage: debianUbuntuCmp('stretch', 'focal')
+#
+# Equivalent to calling debianCmp(first arg) or ubuntuCmp(second arg)
+# according to whether the VM is using debian or ubuntu respectively.
+#
+sub debianUbuntuCmp {
+    my $arg = shift;
+    $dist eq 'debian' and return debianCmp($arg);
+    $arg = shift;
+    $dist eq 'ubuntu' and return ubuntuCmp($arg);
+    die;
+}
 
 # Usage: debStyle()
 #
@@ -190,6 +260,30 @@ sub upgradeAndInstall {
 sub addUser {
     my $username = shift;
     return "RUN useradd -U -s /bin/bash -m $username\n";
+}
+
+# Usage: copyAndRunCommand('command', 'file1', ...)
+#
+# Copies all files given in the second and later arguments from this directory
+# into the VM, then runs the given command in the shell within the VM, and then
+# deletes the copied files from the VM.
+#
+sub copyAndRunCommand {
+    my $command = shift;
+
+    my @toAdd = ();
+    while (my $arg = shift) {
+        -e $arg or die "Missing supporting file: $arg";
+        copy($arg, "$context/$arg") or die;
+        push @toAdd, $arg;
+    }
+
+    my $ans = '';
+    $ans .= "ADD $_ /root/$_\n" foreach (@toAdd);
+    $ans .= "RUN $command && rm";
+    $ans .= " /root/$_" foreach (@toAdd);
+    $ans .= "\n";
+    return $ans;
 }
 
 # Usage: copyAndRun('script', 'perl')
@@ -399,9 +493,152 @@ sub pkgdev {
 sub regina {
     print("Regina development for $dist $release\n");
 
-    # TODO: Implement
+    my $regver = shift;
+    $regver and print("Tailored for Regina $regver\n");
 
-    return undef;
+    # Additional libraries that regina used to require:
+    my $needCJP = (reginaVersionCmp($regver, '7.3') <= 0);
+    my $needBoostHeadersOnly = (reginaVersionCmp($regver, '7.0') < 0 and
+        reginaVersionCmp($regver, '5.1') > 0);
+    my $needBoostLibs = (reginaVersionCmp($regver, '5.1') <= 0);
+    my $needMPI = (reginaVersionCmp($regver, '5.1') <= 0);
+
+    # The highest Qt major version that this version of Regina supports:
+    my $maxQt = (reginaVersionCmp($regver, '7.1') >= 1 ? 6 :
+        reginaVersionCmp($regver, '5.0') >= 1 ? 5 : 4);
+
+    # The highest Python major version that this version of Regina supports:
+    my $maxPython = (reginaVersionCmp($regver, '5.96') >= 1 ? 3 : 2);
+
+    # Note: we use curl to download source tarballs.
+    my $pkgs = 'curl cmake doxygen shared-mime-info';
+    if (debStyle()) {
+        $pkgs .= ' dh-python libgmp-dev libgraphviz-dev libtokyocabinet-dev libxml2-dev pkg-config zlib1g-dev xsltproc';
+        $needCJP and $pkgs .= ' libcppunit-dev libjansson-dev libpopt-dev';
+        $needBoostHeadersOnly and $pkgs .= ' libboost-dev';
+        $needBoostLibs and $pkgs .= ' libboost-iostreams-dev libboost-python-dev';
+        $needMPI and $pkgs .= ' mpi-default-dev';
+        # Note: although debian buster supported python3, we always built
+        # regina on buster using python2.  Likewise for ubuntu disco.  As for
+        # eoan, this only ever saw regina 5.1, which used python2 because
+        # regina 5.1 did not support python3.  Hence the following thresholds.
+        if ($maxPython == 2 or debianUbuntuCmp('buster', 'eoan') <= 0) {
+            $pkgs .= ' python-dev';
+        } else {
+            $pkgs .= ' python3-dev';
+        }
+        if (debianUbuntuCmp('bullseye', 'impish') <= 0 or $maxQt <= 5) {
+            $pkgs .= ' qtbase5-dev libqt5svg5-dev';
+        } else {
+            $pkgs .= ' qt6-base-dev libqt6svg6-dev';
+        }
+        # This works around an issue that was specific to ubuntu jammy:
+        $release eq 'jammy' and $pkgs .= ' libgl-dev';
+    } elsif ($dist eq 'fedora') {
+        $pkgs .= ' desktop-file-utils gmp-devel graphviz-devel libxml2-devel libxslt pkgconfig tokyocabinet-devel zlib-devel';
+        $needCJP and $pkgs .= ' cppunit-devel jansson-devel popt-devel';
+        ($needBoostHeadersOnly or $needBoostLibs) and $pkgs .= ' boost-devel';
+        if ($maxPython == 2 or $release <= 25) {
+            $pkgs .= ' python2-devel';
+            $needBoostLibs and $release >= 29 and $pkgs .= ' boost-python2-devel';
+        } else {
+            $pkgs .= ' python3-devel';
+            $needBoostLibs and $release >= 29 and $pkgs .= ' boost-python3-devel';
+        }
+        if ($release <= 34 or $maxQt <= 5) {
+            $pkgs .= ' qt5-qtbase-devel qt5-qtsvg-devel';
+        } else {
+            $pkgs .= ' qt6-qtbase-devel qt6-qtsvg-devel';
+        }
+    } elsif ($dist eq 'opensuse') {
+        $pkgs .= ' gmp-devel graphviz-devel libbz2-devel libxml2-devel libxslt-tools pkg-config zlib-devel';
+        $needCJP and $pkgs .= ' cppunit-devel libjansson-devel popt-devel';
+        ($needBoostHeadersOnly or $needBoostLibs) and $pkgs .= ' boost-devel';
+        if ($maxPython == 2 or $release =~ /^42\./) {
+            $pkgs .= ' python2-devel';
+        } else {
+            $pkgs .= ' python3-devel';
+        }
+        if (($release =~ /^42\./ or $release =~ /^15\.[0-3]$/) or $maxQt <= 5) {
+            $pkgs .= ' libqt5-qtbase-devel libqt5-qtsvg-devel';
+        } else {
+            $pkgs .= ' qt6-base-devel qt6-svg-devel';
+        }
+        if (reginaVersionCmp($regver, '7.0') >= 0) {
+            $pkgs .= ' lmdb-devel';
+        } elsif ($release =~ /^42\./) {
+            $pkgs .= ' libtokyocabinet-devel';
+        } else {
+            # The normal openSUSE 15.x repositories do not provide
+            # tokyocabinet at all.  We need to fetch this from elsewhere;
+            # we deal with this in a later block of code below.
+            print "NOTE: Delaying installation of libtokyocabinet-devel\n";
+        }
+    } elsif ($dist eq 'arch') {
+        $pkgs .= ' desktop-file-utils gmp graphviz hicolor-icon-theme libxml2 libxslt zlib';
+        $needCJP and $pkgs .= ' cppunit jansson popt';
+        ($needBoostHeadersOnly or $needBoostLibs) and $pkgs .= ' boost';
+        $pkgs .= ' python';
+        if ($maxQt <= 5) {
+            $pkgs .= ' qt5-base qt5-svg';
+        } else {
+            $pkgs .= ' qt6-base qt6-svg';
+        }
+    } else {
+        return undef;
+    }
+
+    my $data = from('pkgdev');
+    $data .= upgradeAndInstall($pkgs, 1);
+
+    if ($release eq 'bionic' or $release eq 'buster') {
+        # These are old debian/ubuntu releases for which newer versions of
+        # regina required a newer doxygen (via our own backports repository).
+        # Note that these backports were specific to bionic and buster, and
+        # were not provided for even older debian/ubuntu releases (which were
+        # only ever used with old versions of regina where this did not matter).
+        #
+        print "NOTE: Adding backported doxygen for $release\n";
+        $data .= "RUN apt-get install -y --no-install-recommends software-properties-common\n";
+        $data .= copyAndRunCommand('apt-key add /root/regina-key.asc', 'regina-key.asc');
+        my $repo = 'deb https://people.debian.org/~bab/backports $release/';
+        $data .= "RUN apt-add-repository -y '$repo' && cat /etc/apt/sources.list";
+        $data .= refreshAndInstall('doxygen');
+        $data .= "RUN apt-add-repository -yr '$repo' && cat /etc/apt/sources.list";
+    } if ($dist eq 'opensuse') {
+        # So.. openSUSE 15.x ships a doxygen so ancient that we cannot use it
+        # with modern versions of Regina.  This is true even for the newest
+        # openSUSE 15.x, sigh.
+        #
+        # In the old days we would fetch a newer doxygen from the openSUSE
+        # devel:tools repository.  BUT... the devel:tools repositories seem to
+        # disappear once an openSUSE release is discontinued.  Moreover, there
+        # was an issue with the devel:tools repository for openSUSE 15.4 where
+        # the new doxygen would drag in a newer libstdc++; such things could
+        # possibly cause the build machine to generate runtime dependencies
+        # that are uninstallable on an out-of-the-box openSUSE installation.
+        #
+        # So... we cut our losses and backport a newer doxygen ourselves.
+        #
+        print "NOTE: Adding backported doxygen for $release\n";
+        $data .= copyAndRunCommand('rpm --import /root/regina-key.asc', 'regina-key.asc');
+        $data .= "RUN zypper addrepo https://people.debian.org/~bab/rpm/doxygen/opensuse/$release/doxygen.repo\n";
+        # Note the extra argument that we sneak into zypper here.
+        $data .= refreshAndInstall('--allow-vendor-change doxygen', 1);
+        # This repository doesn't have anything other than doxygen, so keep it.
+        # TODO: Build the opensuse/doxgyen backports, and add them.
+
+        if (reginaVersionCmp($regver, '7.0') < 0 and $release !~ /^42\./) {
+            # This version of regina needs tokyocabinet, and this version of
+            # opensuse does not supply it at all.  We need to bring it in from
+            # our own repository, which rebuilds the 42.x tokyocabinet for 15.x.
+            print "NOTE: Adding forward-ported tokyocabinet for $release\n";
+            # TODO: Build the opensuse/tokyocabinet forward-ports, and add them.
+        }
+    }
+
+    $data .= cleanup();
+    return $data;
 }
 
 # --------------------------------------------------------------------------

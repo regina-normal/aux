@@ -16,8 +16,12 @@ bare/* : minimal bare-bones installations of various GNU/Linux distributions
      |
      \- pkgdev/* : adds essential tools for building packages
      |   |
-     |   \- regina/* : adds all software required for building regina
-     |                 (only supported for current distro releases)
+     |   \- regina/* : adds software required for building latest regina
+     |   |             (only supported for current distro releases)
+     |   |
+     |   \- regina-X.Y/* : for building older releases of regina
+     |                     (only for certain distro/regina versions -
+     |                      do not expect these to work in general)
      |
      \- desktop/* : a full graphical desktop environment for users
      |              (only tested for recent distro releases, not supported
