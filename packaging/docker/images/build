@@ -321,6 +321,47 @@ sub copyAndRun {
     return $ans;
 }
 
+# Usage: addRepo('https://.../foo.repo')
+#
+# Adds the given repository to the package management system.
+# The repository should either be an URL (for RPM-based distributions), or an
+# apt-line (for debian and ubuntu).  Arch and fedora are not (yet) supported.
+#
+# The package listings will _not_ be refreshed.
+#
+my $hasAddedRepo = 0;
+sub addRepo {
+    my $repo = shift;
+    my $ans = '';
+    if (debStyle()) {
+        $hasAddedRepo or $ans = "RUN apt-get install -y --no-install-recommends software-properties-common\n";
+        $ans .= "RUN apt-add-repository -y '$repo' && cat /etc/apt/sources.list";
+    } elsif ($dist eq 'opensuse') {
+        $ans .= "RUN zypper addrepo '$repo' && zypper repos\n";
+    } else {
+        die;
+    }
+    $hasAddedRepo = 1;
+    return $ans;
+}
+
+# Usage: removeRepo('deb https://...')
+#
+# Removes the given repository from the given package management system.
+# The same repository _must_ have been added earlier by addRepo().
+# Currently this is only supported for debian and ubuntu.
+#
+# The package listings will _not_ be refreshed.
+#
+sub removeRepo {
+    my $repo = shift;
+    if (debStyle()) {
+        return "RUN apt-add-repository -yr '$repo' && cat /etc/apt/sources.list";
+    } else {
+        die;
+    }
+}
+
 # Usage: cleanup()
 #
 # Clears the package manager cache.
@@ -602,10 +643,10 @@ sub regina {
         $data .= "RUN apt-get install -y --no-install-recommends software-properties-common\n";
         $data .= copyAndRunCommand('apt-key add /root/regina-key.asc', 'regina-key.asc');
         my $repo = 'deb https://people.debian.org/~bab/backports $release/';
-        $data .= "RUN apt-add-repository -y '$repo' && cat /etc/apt/sources.list";
+        $data .= addRepo($repo);
         $data .= refreshAndInstall('doxygen');
-        $data .= "RUN apt-add-repository -yr '$repo' && cat /etc/apt/sources.list";
-    } if ($dist eq 'opensuse') {
+        $data .= removeRepo($repo);
+    } if ($dist eq 'opensuse' and $release =~ /^15\./) {
         # So.. openSUSE 15.x ships a doxygen so ancient that we cannot use it
         # with modern versions of Regina.  This is true even for the newest
         # openSUSE 15.x, sigh.
@@ -622,18 +663,20 @@ sub regina {
         #
         print "NOTE: Adding backported doxygen for $release\n";
         $data .= copyAndRunCommand('rpm --import /root/regina-key.asc', 'regina-key.asc');
-        $data .= "RUN zypper addrepo https://people.debian.org/~bab/rpm/doxygen/opensuse/$release/doxygen.repo\n";
+        $data .= addRepo("https://people.debian.org/~bab/rpm/doxygen/opensuse/$release/doxygen.repo");
         # Note the extra argument that we sneak into zypper here.
         $data .= refreshAndInstall('--allow-vendor-change doxygen', 1);
-        # This repository doesn't have anything other than doxygen, so keep it.
-        # TODO: Build the opensuse/doxgyen backports, and add them.
+        # TODO: Actually build the opensuse/doxgyen backports.
 
-        if (reginaVersionCmp($regver, '7.0') < 0 and $release !~ /^42\./) {
-            # This version of regina needs tokyocabinet, and this version of
-            # opensuse does not supply it at all.  We need to bring it in from
-            # our own repository, which rebuilds the 42.x tokyocabinet for 15.x.
+        if (reginaVersionCmp($regver, '7.0') < 0) {
+            # Old versions of regina needed tokyocabinet, which openSUSE 15.x
+            # does not supply at all.  We need to fetch it also from our own
+            # repository, which includes "forward-ports" of tokyocabinet from
+            # openSUSE 42.3 to openSUSE 15.x.
             print "NOTE: Adding forward-ported tokyocabinet for $release\n";
-            # TODO: Build the opensuse/tokyocabinet forward-ports, and add them.
+            $data .= addRepo("https://people.debian.org/~bab/rpm/tokyocabinet/opensuse/$release/tokyocabinet.repo");
+            $data .= refreshAndInstall('libtokyocabinet-devel', 1);
+            # TODO: Actually build the opensuse/tokyocabinet forward-ports.
         }
     }
 
