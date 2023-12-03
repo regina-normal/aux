@@ -5,10 +5,10 @@ if [ -e /etc/os-release ]; then
   source /etc/os-release
   release="$VERSION_ID"
   if [ -z "$release" ]; then
-    echo "ERROR: Could not deduce OS version from /etc/os-release"; exit 1 ;;
+    echo "ERROR: Could not deduce OS version from /etc/os-release"; exit 1
   fi
 else
-  echo "ERROR: Could not deduce OS version: missing /etc/os-release"; exit 1 ;;
+  echo "ERROR: Could not deduce OS version: missing /etc/os-release"; exit 1
 fi
 
 echo "Importing Regina's signing key..."
