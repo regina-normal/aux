@@ -18,6 +18,7 @@ Examples:
     ./build basic 39
     ./build desktop bookworm i386
     ./build pkgdev jammy
+    ./build pkgdev-doxygen 15.5
     ./build regina sid
     ./build regina-7.0 bullseye
 __END__
@@ -62,6 +63,8 @@ if ($imagetype eq 'basic') {
     $dockerdata = desktop();
 } elsif ($imagetype eq 'pkgdev') {
     $dockerdata = pkgdev();
+} elsif ($imagetype =~ /^pkgdev-([a-z0-9]+)$/) {
+    $dockerdata = pkgdev($1);
 } elsif ($imagetype eq 'regina') {
     $dockerdata = regina();
 } elsif ($imagetype =~ /^regina-([0-9.]+)$/) {
@@ -444,6 +447,29 @@ sub desktop {
 
 sub pkgdev {
     print("Package development for $dist $release\n");
+
+    my $purpose = shift;
+    if (defined $purpose) {
+        print("Tailed for building $purpose\n");
+
+        my $data = from('pkgdev');
+        my $pkgs;
+
+        if ($purpose eq 'doxygen') {
+            $dist eq 'opensuse' or
+                die 'pkgdev-doxygen only supported for opensuse';
+            $data .= refreshAndInstall('bison cmake flex', 1);
+        } elsif ($purpose eq 'tokyocabinet') {
+            $dist eq 'opensuse' or
+                die 'pkgdev-tokyocabinet only supported for opensuse';
+            $data .= refreshAndInstall('autoconf automake libbz2-devel libltdl7 libtool m4 site-config zlib-devel', 1);
+        } else {
+            die 'Unknown pkgdev-* type';
+        }
+
+        $data .= cleanup();
+        return $data;
+    }
 
     my $pkgs = 'git gdb';
     debStyle() and $pkgs .= ' build-essential devscripts fakeroot lintian autopkgtest debhelper';
