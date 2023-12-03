@@ -400,8 +400,7 @@ sub basic {
     # For newer openSUSE packages, as we bring in more and more packages
     # (especially GUI/desktop packages), we start to see things being signed
     # with the openSUSE backports keys.  Might as well add these keys now.
-    $data .= copyAndRunCommand('rpmkeys --import /root/opensuse-backports.key',
-        'opensuse-backports.key');
+    $dist eq 'opensuse' and $data .= copyAndRunCommand('rpmkeys --import /root/opensuse-backports.key', 'opensuse-backports.key');
 
     return $data;
 }
