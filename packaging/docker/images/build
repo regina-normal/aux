@@ -396,6 +396,13 @@ sub basic {
     $data .= upgradeAndInstall($pkgs);
     $data .= cleanup();
     $data .= addUser('user');
+
+    # For newer openSUSE packages, as we bring in more and more packages
+    # (especially GUI/desktop packages), we start to see things being signed
+    # with the openSUSE backports keys.  Might as well add these keys now.
+    $data .= copyAndRunCommand('rpmkeys --import /root/opensuse-backports.key',
+        'opensuse-backports.key');
+
     return $data;
 }
 
@@ -688,7 +695,7 @@ sub regina {
         # So... we cut our losses and backport a newer doxygen ourselves.
         #
         print "NOTE: Adding backported doxygen for $release\n";
-        $data .= copyAndRunCommand('rpm --import /root/regina-key.asc', 'regina-key.asc');
+        $data .= copyAndRunCommand('rpmkeys --import /root/regina-key.asc', 'regina-key.asc');
         $data .= addRepo("https://people.debian.org/~bab/rpm/doxygen/opensuse/$release/doxygen.repo");
         # Note the extra argument that we sneak into zypper here.
         $data .= refreshAndInstall('--allow-vendor-change doxygen', 1);
