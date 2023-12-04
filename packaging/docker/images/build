@@ -345,7 +345,7 @@ sub addRepo {
     my $ans = '';
     if (debStyle()) {
         $hasAddedRepo or $ans = "RUN apt-get install -y --no-install-recommends software-properties-common\n";
-        $ans .= "RUN apt-add-repository -y '$repo' && cat /etc/apt/sources.list";
+        $ans .= "RUN apt-add-repository -y '$repo' && cat /etc/apt/sources.list\n";
     } elsif ($dist eq 'opensuse') {
         $ans .= "RUN zypper addrepo '$repo' && zypper repos\n";
     } else {
@@ -366,7 +366,7 @@ sub addRepo {
 sub removeRepo {
     my $repo = shift;
     if (debStyle()) {
-        return "RUN apt-add-repository -yr '$repo' && cat /etc/apt/sources.list";
+        return "RUN apt-add-repository -yr '$repo' && cat /etc/apt/sources.list\n";
     } else {
         die;
     }
@@ -706,7 +706,7 @@ sub regina {
         print "NOTE: Adding backported doxygen for $release\n";
         $data .= "RUN apt-get install -y --no-install-recommends software-properties-common\n";
         $data .= copyAndRunCommand('apt-key add /root/regina-key.asc', 'regina-key.asc');
-        my $repo = 'deb https://people.debian.org/~bab/backports $release/';
+        my $repo = "deb https://people.debian.org/~bab/backports $release/";
         $data .= addRepo($repo);
         $data .= refreshAndInstall('doxygen');
         $data .= removeRepo($repo);
