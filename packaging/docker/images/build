@@ -700,9 +700,10 @@ sub regina {
         $data .= addRepo($repo);
         $data .= refreshAndInstall('doxygen');
         $data .= removeRepo($repo);
-    } if ($dist eq 'opensuse' and $release =~ /^15\./) {
+    }
+    if ($dist eq 'opensuse' and $release =~ /^15\./) {
         $data .= copyAndRunCommand('rpmkeys --import /root/regina-key.asc', 'regina-key.asc');
-        if (reginaVersionCmp($regver, '6.1' >= 0)) {
+        if (reginaVersionCmp($regver, '6.1') >= 0) {
             # So.. openSUSE 15.x ships a doxygen so ancient that we cannot use
             # it with modern Regina.  This is true even for the newest
             # openSUSE 15.x, sigh.
