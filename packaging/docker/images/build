@@ -609,11 +609,15 @@ sub regina {
         }
         $needSourceHighlight and $pkgs .= ' libsource-highlight-dev';
         $needMPI and $pkgs .= ' mpi-default-dev';
-        # Note: although debian buster supported python3, we always built
-        # regina on buster using python2.  Likewise for ubuntu disco.  As for
-        # eoan, this only ever saw regina 5.1, which used python2 because
-        # regina 5.1 did not support python3.  Hence the following thresholds.
-        if ($maxPython == 2 or debianUbuntuCmp('buster', 'eoan') <= 0) {
+        if ($maxPython == 2) {
+            $pkgs .= ' python-dev';
+        } elsif (reginaVersionCmp($regver, '7.1') < 0 and debianUbuntuCmp('buster', 'eoan') <= 0) {
+            # Although debian buster supported python3, we always built regina
+            # on buster using python2.  Likewise for ubuntu disco.  As for
+            # eoan, this only ever saw regina 5.1, which used python2 because
+            # regina 5.1 did not support python3.  Hence the debian/ubuntu
+            # thresholds above.  This is only relevant for regina <= 7.0;
+            # after this, python2 support was dropped completely from regina.
             $pkgs .= ' python-dev';
         } else {
             $pkgs .= ' python3-dev';
