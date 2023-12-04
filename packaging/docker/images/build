@@ -29,7 +29,8 @@ __END__
 my $hasAddedRepo = 0;
 my %debianVersion = (
     'jessie' => 8, 'stretch' => 9, 'buster' => 10, 'bullseye' => 11,
-    'bookworm' => 12, 'trixie' => 13, 'forky' => 14 );
+    'bookworm' => 12, 'trixie' => 13, 'forky' => 14,
+    'sid' => 999 );
 my %ubuntuVersion = (
     'precise' => '12.04', 'quantal' => '12.10', 'raring' => '13.04',
     'saucy' => '13.10', 'trusty' => '14.04', 'utopic' => '14.10',
