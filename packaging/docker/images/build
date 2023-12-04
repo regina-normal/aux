@@ -701,25 +701,27 @@ sub regina {
         $data .= refreshAndInstall('doxygen');
         $data .= removeRepo($repo);
     } if ($dist eq 'opensuse' and $release =~ /^15\./) {
-        # So.. openSUSE 15.x ships a doxygen so ancient that we cannot use it
-        # with modern versions of Regina.  This is true even for the newest
-        # openSUSE 15.x, sigh.
-        #
-        # In the old days we would fetch a newer doxygen from the openSUSE
-        # devel:tools repository.  BUT... the devel:tools repositories seem to
-        # disappear once an openSUSE release is discontinued.  Moreover, there
-        # was an issue with the devel:tools repository for openSUSE 15.4 where
-        # the new doxygen would drag in a newer libstdc++; such things could
-        # possibly cause the build machine to generate runtime dependencies
-        # that are uninstallable on an out-of-the-box openSUSE installation.
-        #
-        # So... we cut our losses and backport a newer doxygen ourselves.
-        #
-        print "NOTE: Adding backported doxygen for $release\n";
         $data .= copyAndRunCommand('rpmkeys --import /root/regina-key.asc', 'regina-key.asc');
-        $data .= addRepo("https://people.debian.org/~bab/rpm/doxygen/opensuse/$release/doxygen.repo");
-        # Note the extra argument that we sneak into zypper here.
-        $data .= refreshAndInstall('--allow-vendor-change doxygen', 1);
+        if (reginaVersionCmp($regver, '6.1' >= 0)) {
+            # So.. openSUSE 15.x ships a doxygen so ancient that we cannot use
+            # it with modern Regina.  This is true even for the newest
+            # openSUSE 15.x, sigh.
+            #
+            # In the old days we would fetch a newer doxygen from the openSUSE
+            # devel:tools repository.  BUT... the devel:tools repositories seem
+            # to disappear once an openSUSE release is discontinued.  Moreover,
+            # there was an issue with the devel:tools repository for 15.4 where
+            # the new doxygen would drag in a newer libstdc++; such things could
+            # possibly cause the build machine to generate runtime dependencies
+            # that are uninstallable on an out-of-the-box openSUSE installation.
+            #
+            # So... we cut our losses and backport a newer doxygen ourselves.
+            #
+            print "NOTE: Adding backported doxygen for $release\n";
+            $data .= addRepo("https://people.debian.org/~bab/rpm/doxygen/opensuse/$release/doxygen.repo");
+            # Note the extra argument that we sneak into zypper here.
+            $data .= refreshAndInstall('--allow-vendor-change doxygen', 1);
+        }
 
         if (reginaVersionCmp($regver, '7.0') < 0) {
             # Old versions of regina needed tokyocabinet, which openSUSE 15.x
