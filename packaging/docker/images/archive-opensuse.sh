@@ -23,11 +23,22 @@ esac
 
 echo "Setting up repository for openSUSE $release"
 
+opt=
+case "$release" in
+  42.* )
+    # The certificates shipped with openSUSE 42.x are too old now, and
+    # zypper can no longer verify the certificate from people.debian.org.
+    opt='?ssl_verify=no'
+    ;;
+  * )
+    ;;
+esac
+
 src=/root/regina.repo
   cat > "$src" <<__END__
 [regina]
 name=Regina
-baseurl=https://people.debian.org/~bab/rpm/regina/opensuse/$release/
+baseurl=https://people.debian.org/~bab/rpm/regina/opensuse/$release/$opt
 enabled=1
 repo_gpgcheck=1
 gpgcheck=1
