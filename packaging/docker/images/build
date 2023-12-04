@@ -25,6 +25,22 @@ __END__
     exit 1;
 }
 
+# Some globals for our helper functions:
+my $hasAddedRepo = 0;
+my %debianVersion = (
+    'jessie' => 8, 'stretch' => 9, 'buster' => 10, 'bullseye' => 11,
+    'bookworm' => 12, 'trixie' => 13, 'forky' => 14 );
+my %ubuntuVersion = (
+    'precise' => '12.04', 'quantal' => '12.10', 'raring' => '13.04',
+    'saucy' => '13.10', 'trusty' => '14.04', 'utopic' => '14.10',
+    'vivid' => '15.04', 'wily' => '15.10', 'xenial' => '16.04',
+    'yakkety' => '16.10', 'zesty' => '17.04', 'artful' => '17.10',
+    'bionic' => '18.04', 'cosmic' => '18.10', 'disco' => '19.04',
+    'eoan' => '19.10', 'focal' => '20.04', 'groovy' => '20.10',
+    'hirsute' => '21.04', 'impish' => '21.10', 'jammy' => '22.04',
+    'kinetic' => '22.10', 'lunar' => '23.04', 'mantic' => '23.10',
+    'noble' => '24.04' );
+
 my @alldists = qw(debian ubuntu fedora opensuse arch);
 my $dist;
 foreach my $d (@alldists) {
@@ -118,14 +134,13 @@ sub reginaVersionCmp {
 # Returns -1, 0 or 1 according to whether the VM's debian version is </=/> RHS.
 # The argument should be a debian codename.
 #
-my %debianVersion = (
-    'jessie' => 8, 'stretch' => 9, 'buster' => 10, 'bullseye' => 11,
-    'bookworm' => 12, 'trixie' => 13, 'forky' => 14 );
 sub debianCmp {
     $dist eq 'debian' or die;
+    my $arg = shift;
     my $lhs = $debianVersion{$release};
-    my $rhs = $debianVersion{shift};
-    (defined $lhs and defined $rhs) or die;
+    my $rhs = $debianVersion{$arg};
+    defined $lhs or die "Unrecognised debian release: $release";
+    defined $rhs or die "Unrecognised debian release: $$arg";
     return ($lhs < $rhs ? -1 : $lhs > $rhs ? 1 : 0);
 }
 
@@ -134,21 +149,13 @@ sub debianCmp {
 # Returns -1, 0 or 1 according to whether the VM's ubuntu version is </=/> RHS.
 # The arguments should be an ubuntu codename.
 #
-my %ubuntuVersion = (
-    'precise' => '12.04', 'quantal' => '12.10', 'raring' => '13.04',
-    'saucy' => '13.10', 'trusty' => '14.04', 'utopic' => '14.10',
-    'vivid' => '15.04', 'wily' => '15.10', 'xenial' => '16.04',
-    'yakkety' => '16.10', 'zesty' => '17.04', 'artful' => '17.10',
-    'bionic' => '18.04', 'cosmic' => '18.10', 'disco' => '19.04',
-    'eoan' => '19.10', 'focal' => '20.04', 'groovy' => '20.10',
-    'hirsute' => '21.04', 'impish' => '21.10', 'jammy' => '22.04',
-    'kinetic' => '22.10', 'lunar' => '23.04', 'mantic' => '23.10',
-    'noble' => '24.04' );
 sub ubuntuCmp {
     $dist eq 'ubuntu' or die;
+    my $arg = shift;
     my $lhs = $ubuntuVersion{$release};
-    my $rhs = $ubuntuVersion{shift};
-    (defined $lhs and defined $rhs) or die;
+    my $rhs = $ubuntuVersion{$arg};
+    defined $lhs or die "Unrecognised ubuntu release: $release";
+    defined $rhs or die "Unrecognised ubuntu release: $$arg";
     return cmp_version($lhs, $rhs);
 }
 
@@ -333,7 +340,6 @@ sub copyAndRun {
 #
 # The package listings will _not_ be refreshed.
 #
-my $hasAddedRepo = 0;
 sub addRepo {
     my $repo = shift;
     my $ans = '';
