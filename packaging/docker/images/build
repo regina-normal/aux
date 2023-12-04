@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use File::Copy;
 use File::Path;
-use Version::Util;
+use Version::Util qw(cmp_version);
 use strict;
 
 -e 'build' or die "This script must be run from within its own directory";
@@ -101,14 +101,15 @@ rmtree($context) or die "Could not remove $context";
 # Usage: reginaVersionCmp('6.0.1', '7.3')
 #
 # Returns -1, 0 or 1 according to whether LHS </=/> RHS chronologically.
-# Each argument is either a regina version string, or undefined (which means
+# Each argument is either a regina version string, or 'current' (which means
 # the latest development code, i.e., the current git master).
 #
 sub reginaVersionCmp {
     my $lhs = shift;
     my $rhs = shift;
-    defined $lhs or return (defined $rhs ? 0 : 1);
-    defined $rhs or return -1;
+    (defined $lhs and defined $rhs) or die;
+    $lhs eq 'current' and return ($rhs eq 'current' ? 0 : 1);
+    $rhs eq 'current' and return -1;
     return cmp_version($lhs, $rhs);
 }
 
@@ -567,21 +568,27 @@ sub regina {
     print("Regina development for $dist $release\n");
 
     my $regver = shift;
-    $regver and print("Tailored for Regina $regver\n");
+    if ($regver) {
+        print("Tailored for Regina $regver\n");
+    } else {
+        print("Tailored for current Regina development\n");
+        $regver = 'current';
+    }
 
     # Additional libraries that regina used to require:
     my $needCJP = (reginaVersionCmp($regver, '7.3') <= 0);
     my $needBoostHeadersOnly = (reginaVersionCmp($regver, '7.0') < 0 and
         reginaVersionCmp($regver, '5.1') > 0);
     my $needBoostLibs = (reginaVersionCmp($regver, '5.1') <= 0);
+    my $needSourceHighlight = (reginaVersionCmp($regver, '5.0') <= 0);
     my $needMPI = (reginaVersionCmp($regver, '5.1') <= 0);
 
     # The highest Qt major version that this version of Regina supports:
-    my $maxQt = (reginaVersionCmp($regver, '7.1') >= 1 ? 6 :
-        reginaVersionCmp($regver, '5.0') >= 1 ? 5 : 4);
+    my $maxQt = (reginaVersionCmp($regver, '7.1') >= 0 ? 6 :
+        reginaVersionCmp($regver, '5.0') >= 0 ? 5 : 4);
 
     # The highest Python major version that this version of Regina supports:
-    my $maxPython = (reginaVersionCmp($regver, '5.96') >= 1 ? 3 : 2);
+    my $maxPython = (reginaVersionCmp($regver, '5.1') > 0 ? 3 : 2);
 
     # Note: we use curl to download source tarballs.
     my $pkgs = 'curl cmake doxygen shared-mime-info';
@@ -589,7 +596,12 @@ sub regina {
         $pkgs .= ' dh-python libgmp-dev libgraphviz-dev libtokyocabinet-dev libxml2-dev pkg-config zlib1g-dev xsltproc';
         $needCJP and $pkgs .= ' libcppunit-dev libjansson-dev libpopt-dev';
         $needBoostHeadersOnly and $pkgs .= ' libboost-dev';
-        $needBoostLibs and $pkgs .= ' libboost-iostreams-dev libboost-python-dev';
+        if ($needBoostLibs) {
+            $pkgs .= ' libboost-python-dev';
+            ($regver eq '5.0' or $regver eq '5.1') and $pkgs .= ' libboost-iostreams-dev';
+            reginaVersionCmp($regver, '5.0') <= 0 and reginaVersionCmp($regver, '4.92') >= 0 and $pkgs .= ' libboost-regex-dev';
+        }
+        $needSourceHighlight and $pkgs .= ' libsource-highlight-dev';
         $needMPI and $pkgs .= ' mpi-default-dev';
         # Note: although debian buster supported python3, we always built
         # regina on buster using python2.  Likewise for ubuntu disco.  As for
@@ -600,7 +612,9 @@ sub regina {
         } else {
             $pkgs .= ' python3-dev';
         }
-        if (debianUbuntuCmp('bullseye', 'impish') <= 0 or $maxQt <= 5) {
+        if ($maxQt <= 4 or ($dist eq 'ubuntu' and ubuntuCmp('quantal') <= 0)) {
+            $pkgs .= ' libqt4-dev';
+        } elsif ($maxQt <= 5 or debianUbuntuCmp('bullseye', 'impish') <= 0) {
             $pkgs .= ' qtbase5-dev libqt5svg5-dev';
         } else {
             $pkgs .= ' qt6-base-dev libqt6svg6-dev';
@@ -618,7 +632,10 @@ sub regina {
             $pkgs .= ' python3-devel';
             $needBoostLibs and $release >= 29 and $pkgs .= ' boost-python3-devel';
         }
-        if ($release <= 34 or $maxQt <= 5) {
+        $needSourceHighlight and $pkgs .= ' source-highlight-devel';
+        if ($maxQt <= 4) {
+            $pkgs .= ' qt-devel';
+        } elsif ($maxQt <= 5 or $release <= 34) {
             $pkgs .= ' qt5-qtbase-devel qt5-qtsvg-devel';
         } else {
             $pkgs .= ' qt6-qtbase-devel qt6-qtsvg-devel';
@@ -627,12 +644,15 @@ sub regina {
         $pkgs .= ' gmp-devel graphviz-devel libbz2-devel libxml2-devel libxslt-tools pkg-config zlib-devel';
         $needCJP and $pkgs .= ' cppunit-devel libjansson-devel popt-devel';
         ($needBoostHeadersOnly or $needBoostLibs) and $pkgs .= ' boost-devel';
+        $needSourceHighlight and $pkgs .= ' libsource-highlight-devel';
         if ($maxPython == 2 or $release =~ /^42\./) {
             $pkgs .= ' python2-devel';
         } else {
             $pkgs .= ' python3-devel';
         }
-        if (($release =~ /^42\./ or $release =~ /^15\.[0-3]$/) or $maxQt <= 5) {
+        if ($maxQt <= 4) {
+            $pkgs .= ' libqt4-devel';
+        } elsif ($maxQt <= 5 or ($release =~ /^42\./ or $release =~ /^15\.[0-3]$/)) {
             $pkgs .= ' libqt5-qtbase-devel libqt5-qtsvg-devel';
         } else {
             $pkgs .= ' qt6-base-devel qt6-svg-devel';
@@ -645,14 +665,16 @@ sub regina {
             # The normal openSUSE 15.x repositories do not provide
             # tokyocabinet at all.  We need to fetch this from elsewhere;
             # we deal with this in a later block of code below.
-            print "NOTE: Delaying installation of libtokyocabinet-devel\n";
         }
     } elsif ($dist eq 'arch') {
         $pkgs .= ' desktop-file-utils gmp graphviz hicolor-icon-theme libxml2 libxslt zlib';
         $needCJP and $pkgs .= ' cppunit jansson popt';
         ($needBoostHeadersOnly or $needBoostLibs) and $pkgs .= ' boost';
+        $needSourceHighlight and $pkgs .= ' source-highlight';
         $pkgs .= ' python';
-        if ($maxQt <= 5) {
+        if ($maxQt <= 4) {
+            die 'Qt4 is no longer available on arch';
+        } elsif ($maxQt <= 5) {
             $pkgs .= ' qt5-base qt5-svg';
         } else {
             $pkgs .= ' qt6-base qt6-svg';
