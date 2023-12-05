@@ -16,6 +16,11 @@ bare/* : minimal bare-bones installations of various GNU/Linux distributions
      |
      \- pkgdev/* : adds essential tools for building packages
      |   |
+     |   \- pkgdev-NAME/* : adds software for building the package NAME
+     |   |                  (only supported for a few specific NAMEs and
+     |   |                   distros where supporting packages need to be
+     |   |                   built, such as tokyocabinet on opensuse)
+     |   |
      |   \- regina/* : adds software required for building latest regina
      |   |             (only supported for current distro releases)
      |   |
@@ -38,7 +43,7 @@ To prepare a debian/stable host machine for building and using these images:
 - fix root's .bashrc to ensure that /sbin and /usr/sbin are on the path,
   if this has not already been done
 
-- apt-get install debootstrap zstd curl rpm
+- apt-get install debootstrap zstd curl rpm libversion-util-perl
 - apt-get install debian-keyring (should already be present)
 - manually install a recent ubuntu-keyring package from an ubuntu mirror
 - add extra symlinks in /usr/share/debootstrap/scripts/ for newer debian or
