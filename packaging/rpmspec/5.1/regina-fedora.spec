@@ -1,26 +1,32 @@
 # Known to work for:
-# - Fedora 35 (x86_64)
-# - Fedora 34 (x86_64)
-# - Fedora 33 (x86_64)
-# - Fedora 32 (x86_64)
+# - Fedora 29 (x86_64)
+# - Fedora 28 (x86_64)
+# - Fedora 27 (x86_64)
+# - Fedora 26 (x86_64)
+# - Fedora 25 (i386, x86_64)
+# - Fedora 24 (i386, x86_64)
 
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 6.0.1
-Release: 2%{?dist}
+Version: 5.1
+Release: 1.%{_vendor}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
 Source: https://github.com/regina-normal/regina/releases/download/regina-%{version}/regina-%{version}.tar.gz
+Patch0: regina-gcc7.patch
 URL: http://regina-normal.github.io/
 Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Requires: mimehandler(application/pdf)
-Requires: python3
+Requires: python2
 Conflicts: regina
 
 BuildRequires: boost-devel
+%if 0%{?fedora} >= 29
+BuildRequires: boost-python2-devel
+%endif
 BuildRequires: cmake
 BuildRequires: cppunit-devel
 BuildRequires: desktop-file-utils
@@ -36,7 +42,7 @@ BuildRequires: libxml2-devel
 BuildRequires: libxslt
 BuildRequires: pkgconfig
 BuildRequires: popt-devel
-BuildRequires: python3-devel
+BuildRequires: python2-devel
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtsvg-devel
 BuildRequires: shared-mime-info
@@ -45,16 +51,13 @@ BuildRequires: zlib-devel
 
 %description
 Regina is a software package for 3-manifold and 4-manifold topologists,
-with a focus on triangulations, knots and links, normal surfaces, and
-angle structures.
+with a focus on triangulations, normal surfaces and angle structures.
 
 For 3-manifolds, it includes high-level tasks such as 3-sphere recognition,
 connected sum decomposition and Hakenness testing, comes with a rich
 database of census manifolds, and incorporates the SnapPea kernel for
 working with hyperbolic manifolds.  For 4-manifolds, it offers a range of
 combinatorial and algebraic tools, plus support for normal hypersurfaces.
-For knots and links, Regina can perform combinatorial manipulation,
-compute knot polynomials, and work with several import/export formats.
 
 Regina comes with a full graphical user interface, as well as Python bindings
 and a low-level C++ programming interface.
@@ -63,6 +66,7 @@ and a low-level C++ programming interface.
 
 %prep
 %setup -n regina-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -74,9 +78,14 @@ export CFLAGS="${CFLAGS:--O2}"
 export CXXFLAGS="${CXXFLAGS:--O2}"
 export FFLAGS="${FFLAGS:--O2}"
 export LIB_SUFFIX=$(echo %_lib | cut -b4-)
+%if 0%{?fedora} == 25
+export BOOST_FIX="-DREGINA_BOOST_DO_NOT_FIX_CONVERTERS=1"
+%else
+export BOOST_FIX=
+%endif
 cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX \
-  -DCMAKE_VERBOSE_MAKEFILE=ON -DPACKAGING_MODE=1 \
-  -DPython_EXECUTABLE=/usr/bin/python3 \
+  -DCMAKE_VERBOSE_MAKEFILE=ON -DDISABLE_MPI=1 -DPACKAGING_MODE=1 ${BOOST_FIX} \
+  -DPYTHON_EXECUTABLE=/usr/bin/python2 \
   ..
 popd
 
@@ -84,11 +93,11 @@ make %{?_smp_mflags} -C %{_target_platform}
 make %{?_smp_mflags} -C %{_target_platform} test ARGS=-V
 
 %install
-rm -rf "$RPM_BUILD_ROOT"
-make install/fast DESTDIR="$RPM_BUILD_ROOT" -C %{_target_platform}
+rm -rf $RPM_BUILD_ROOT
+make install/fast DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
 
 desktop-file-validate \
-  "$RPM_BUILD_ROOT%{_datadir}/applications/regina.desktop" ||:
+  $RPM_BUILD_ROOT%{_datadir}/applications/regina.desktop ||:
 
 %post
 /sbin/ldconfig
@@ -109,7 +118,7 @@ if [ $1 -eq 0 ]; then
 fi
 
 %clean
-rm -rf "$RPM_BUILD_ROOT"
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
@@ -127,27 +136,10 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
-%if 0%{?fedora} >= 35
-%{_prefix}/lib/python3.10/site-packages/regina/
-%else
-%if 0%{?fedora} >= 33
-%{_prefix}/lib/python3.9/site-packages/regina/
-%else
-%{_prefix}/lib/python3.8/site-packages/regina/
-%endif
-%endif
+%{_libdir}/python2.7/site-packages/regina/
 %{_mandir}/*/*
 
 %changelog
-* Fri Feb 12 2021 Ben Burton <bab@debian.org> 6.0.1
-- New upstream release.
-
-* Mon Jan 11 2021 Ben Burton <bab@debian.org> 6.0
-- New upstream release.
-
-* Wed Dec 23 2020 Ben Burton <bab@debian.org> 5.96
-- New upstream release.
-
 * Tue Sep 20 2016 Ben Burton <bab@debian.org> 5.1
 - New upstream release.
 

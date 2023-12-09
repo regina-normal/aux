@@ -1,13 +1,11 @@
 # Known to work for:
-# - Fedora 35 (x86_64)
-# - Fedora 34 (x86_64)
 # - Fedora 33 (x86_64)
 # - Fedora 32 (x86_64)
 
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 6.0.1
-Release: 2%{?dist}
+Version: 5.96
+Release: 1.%{_vendor}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -84,11 +82,11 @@ make %{?_smp_mflags} -C %{_target_platform}
 make %{?_smp_mflags} -C %{_target_platform} test ARGS=-V
 
 %install
-rm -rf "$RPM_BUILD_ROOT"
-make install/fast DESTDIR="$RPM_BUILD_ROOT" -C %{_target_platform}
+rm -rf $RPM_BUILD_ROOT
+make install/fast DESTDIR=$RPM_BUILD_ROOT -C %{_target_platform}
 
 desktop-file-validate \
-  "$RPM_BUILD_ROOT%{_datadir}/applications/regina.desktop" ||:
+  $RPM_BUILD_ROOT%{_datadir}/applications/regina.desktop ||:
 
 %post
 /sbin/ldconfig
@@ -109,7 +107,7 @@ if [ $1 -eq 0 ]; then
 fi
 
 %clean
-rm -rf "$RPM_BUILD_ROOT"
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
@@ -127,24 +125,14 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_includedir}/regina/
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
-%if 0%{?fedora} >= 35
-%{_prefix}/lib/python3.10/site-packages/regina/
-%else
 %if 0%{?fedora} >= 33
 %{_prefix}/lib/python3.9/site-packages/regina/
 %else
 %{_prefix}/lib/python3.8/site-packages/regina/
 %endif
-%endif
 %{_mandir}/*/*
 
 %changelog
-* Fri Feb 12 2021 Ben Burton <bab@debian.org> 6.0.1
-- New upstream release.
-
-* Mon Jan 11 2021 Ben Burton <bab@debian.org> 6.0
-- New upstream release.
-
 * Wed Dec 23 2020 Ben Burton <bab@debian.org> 5.96
 - New upstream release.
 
