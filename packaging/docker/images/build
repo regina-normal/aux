@@ -59,13 +59,18 @@ foreach my $d (@alldists) {
 defined $dist or die "Not a release from a known distribution: $release";
 print("Distribution: $dist\n");
 
+# $arch = the architecture that was explicitly selected; may be undefined.
+# $usearch = the architecture that the guest machine is using; always defined.
+# TODO: Squash the possible values down to x86_64, aarch64, i386.
 my $arch=$ARGV[2];
 my $relarch=$release;
+my $usearch = $arch;
 if (defined $arch) {
     print("Architecture: $arch\n");
     $relarch .= "_$arch";
 } else {
-    print("Architecture: same as host\n");
+    $usearch=`uname -m`;
+    print("Architecture: same as host ($usearch)\n");
 }
 
 my $context = "${imagetype}_${dist}_${relarch}";
@@ -515,9 +520,14 @@ sub pkgdev {
         $pkgs .= " clang-$_" foreach @clang;
     } elsif ($dist eq 'ubuntu') {
         # Note: the non-standard compiler versions require universe.
+        #
+        # Moreover, on arm64 (where trusty is the oldest ubuntu LTS we get),
+        # the trusty port does not actually have these extra compilers.
+        # (I should check, maybe that port did not include universe at all?)
         my @gcc = ();
         $release eq 'precise' and @gcc = qw(4.4 4.5 4.6);
-        $release eq 'trusty' and @gcc = qw(4.4 4.6 4.7 4.8);
+        $release eq 'trusty' and $usearch ne 'aarch64' and
+            @gcc = qw(4.4 4.6 4.7 4.8);
         $release eq 'xenial' and @gcc = qw(4.7 4.8 4.9 5);
         $release eq 'bionic' and @gcc = qw(4.8 5 6 7 8);
         $release eq 'focal' and @gcc = qw(7 8 9 10);
