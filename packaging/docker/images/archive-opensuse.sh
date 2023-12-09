@@ -35,7 +35,7 @@ case "$release" in
 esac
 
 src=/root/regina.repo
-  cat > "$src" <<__END__
+cat > "$src" <<__END__
 [regina]
 name=Regina
 baseurl=https://people.debian.org/~bab/rpm/regina/opensuse/$release/$opt
@@ -51,3 +51,26 @@ echo --------------------
 cat "$src"
 echo --------------------
 rm -f "$src"
+
+if [ "$release" = 15.0 -o "$release" = 15.1 ]; then
+  # The version of regina shipped with these openSUSE releases was old enough
+  # to require tokyocabinet... which openSUSE 15.x does not ship at all.
+  # Add our own tokyocabinet "forward-ports" repository.
+  src=/root/tokyocabinet.repo
+  cat > "$src" <<__END__
+[tokyocabinet]
+name=Tokyo Cabinet
+baseurl=https://people.debian.org/~bab/rpm/tokyocabinet/opensuse/$release/
+enabled=1
+repo_gpgcheck=1
+gpgcheck=1
+gpgkey=https://people.debian.org/~bab/regina-key.txt
+autorefresh=1
+__END__
+
+  zypper addrepo "$src"
+  echo --------------------
+  cat "$src"
+  echo --------------------
+  rm -f "$src"
+fi
