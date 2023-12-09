@@ -62,14 +62,14 @@ print("Distribution: $dist\n");
 # $arch = the architecture that was explicitly selected; may be undefined.
 # $usearch = the architecture that the guest machine is using; always defined.
 # TODO: Squash the possible values down to x86_64, aarch64, i386.
-my $arch=$ARGV[2];
-my $relarch=$release;
+my $arch = $ARGV[2];
+my $relarch = $release;
 my $usearch = $arch;
 if (defined $arch) {
     print("Architecture: $arch\n");
     $relarch .= "_$arch";
 } else {
-    $usearch=`uname -m`;
+    $usearch = `uname -m`;
     chomp $usearch;
     print("Architecture: same as host ($usearch)\n");
 }
@@ -523,7 +523,7 @@ sub pkgdev {
         # Note: the non-standard compiler versions require universe.
         #
         # Moreover, on arm64 (where trusty is the oldest ubuntu LTS we get),
-        # the trusty port does not actually have these extra compilers.
+        # the trusty port does not actually _have_ these extra compilers.
         # (I should check, maybe that port did not include universe at all?)
         my @gcc = ();
         $release eq 'precise' and @gcc = qw(4.4 4.5 4.6);
@@ -541,7 +541,7 @@ sub pkgdev {
         # We have to choose just one - we go with 3.3 because it's the one
         # clang version that we can't get elsewhere.
         # $release eq 'trusty' and @clang = qw(3.3 3.4 3.5 3.6 3.8 3.9);
-        $release eq 'trusty' and @clang = qw(3.3);
+        $release eq 'trusty' and $usearch ne 'aarch64' and @clang = qw(3.3);
         $release eq 'xenial' and @clang = qw(3.5 3.6 3.7 3.8 3.9 4.0 8);
         $release eq 'bionic' and @clang = qw(3.9 4.0 5.0 6.0 8 9 10);
         $release eq 'focal' and @clang = qw(6.0 7 8 9 10 12);
