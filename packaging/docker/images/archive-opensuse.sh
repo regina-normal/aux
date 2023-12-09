@@ -74,3 +74,13 @@ __END__
   echo --------------------
   rm -f "$src"
 fi
+
+case "$release" in
+  42.* )
+    # It seems the only way for zypper to import the repository signing key is
+    # to refresh the repositories with the --gpg-auto-import-keys flag.  Ugh.
+    zypper -n --gpg-auto-import-keys refresh --force-download
+    ;;
+  * )
+    ;;
+esac
