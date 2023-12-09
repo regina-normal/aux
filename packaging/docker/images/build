@@ -69,7 +69,8 @@ if (defined $arch) {
     print("Architecture: $arch\n");
     $relarch .= "_$arch";
 } else {
-    chomp $usearch=`uname -m`;
+    $usearch=`uname -m`;
+    chomp $usearch;
     print("Architecture: same as host ($usearch)\n");
 }
 
