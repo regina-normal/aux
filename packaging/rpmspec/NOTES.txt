@@ -66,6 +66,10 @@ To create the yum repository:
 - Put a file <repoid>.repo in the root of the repository containing the
   entry that should be added to the dnf configuration
 - Copy the entire repository with all its files to the desired server
+- For openSUSE 42.x, the gpgkey setting in the repository seems to be ignored;
+  instead you _must_ upload the public key as repomd.xml.key, as part of the
+  repository metadata directory (this can happily be done last, after all the
+  signing and upload operations).
 
 To add appstream metadata to a repository, on a Fedora machine:
 
