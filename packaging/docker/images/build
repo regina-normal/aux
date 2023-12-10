@@ -419,9 +419,7 @@ sub basic {
     # For older ubuntus we need new root certificates just to download packages
     # from our own repositories.  The LTS releases (back to precise) are still
     # okay, but the very old short-term releases are not.
-    # TODO: Probably we should replace ($release ne 'precise') with a new
-    # function that tests whether $release is or is not an LTS release.
-    $dist eq 'ubuntu' and ubuntuCmp('trusty') < 0 and $release ne 'precise' and $data .= copyAndRunCommand('bash /root/certificates-deb.sh precise', 'certificates-deb.sh');
+    $dist eq 'ubuntu' and ubuntuCmp('trusty') < 0 and $data .= copyAndRunCommand('bash /root/certificates-deb.sh trusty', 'certificates-deb.sh');
 
     return $data;
 }
