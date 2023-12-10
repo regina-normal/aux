@@ -54,7 +54,10 @@ fi
 #
 # Note: for legacy standalone suite-specific archives, we will source these
 # from a different location (currently mirrored at UQ), since p.d.o uses a
-# new SSL root certificate that ancient distros cannot verify.
+# new SSL root certificate that ancient distros cannot verify.  The specific
+# error (e.g., seen on quantal, even with trusty's ca-certificates installed):
+#
+#   gnutls_handshake() failed: A TLS fatal alert has been received.
 #
 # Some legacy standalone archives were originally signed with the old key
 # (1024-bit DSA).  These have since been double-signed with both keys, using
