@@ -1,7 +1,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 5.1
-Release: 1.suse42.1
+Version: 5.96
+Release: 1.opensuse15.2
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -11,10 +11,10 @@ Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Requires: mimehandler(application/pdf)
-Requires: python
+Requires: python2
 Conflicts: regina
 
-BuildRequires: boost_1_58_0-devel
+BuildRequires: boost-devel >= 1.55
 BuildRequires: cmake
 BuildRequires: cppunit-devel
 BuildRequires: doxygen
@@ -33,7 +33,7 @@ BuildRequires: libxml2-devel
 BuildRequires: libxslt-tools
 BuildRequires: pkg-config
 BuildRequires: popt-devel
-BuildRequires: python-devel
+BuildRequires: python2-devel
 BuildRequires: shared-mime-info
 BuildRequires: zlib-devel
 
@@ -41,13 +41,16 @@ Prereq: /sbin/ldconfig
 
 %description
 Regina is a software package for 3-manifold and 4-manifold topologists,
-with a focus on triangulations, normal surfaces and angle structures.
+with a focus on triangulations, knots and links, normal surfaces, and
+angle structures.
 
 For 3-manifolds, it includes high-level tasks such as 3-sphere recognition,
 connected sum decomposition and Hakenness testing, comes with a rich
 database of census manifolds, and incorporates the SnapPea kernel for
 working with hyperbolic manifolds.  For 4-manifolds, it offers a range of
 combinatorial and algebraic tools, plus support for normal hypersurfaces.
+For knots and links, Regina can perform combinatorial manipulation,
+compute knot polynomials, and work with several import/export formats.
 
 Regina comes with a full graphical user interface, as well as Python bindings
 and a low-level C++ programming interface.
@@ -64,7 +67,7 @@ mkdir build
 cd build
 export LIB_SUFFIX=$(echo %_lib | cut -b4-)
 
-cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX -DDISABLE_MPI=1 -DPACKAGING_MODE=1 ..
+cmake -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX -DPACKAGING_MODE=1 -DPython_EXECUTABLE=/usr/bin/python2 ..
 
 %make_jobs
 
@@ -82,21 +85,15 @@ popd
 %post
 /sbin/ldconfig
 
+%mime_database_post
 %desktop_database_post
-
-# Hand-roll our own update-mime-database so we can pipe output to /dev/null.
-%{_bindir}/update-mime-database "%{_datadir}/mime" &> /dev/null || true
-
 %icon_theme_cache_post
 
 %postun
 /sbin/ldconfig
 
+%mime_database_postun
 %desktop_database_postun
-
-# Hand-roll our own update-mime-database so we can pipe output to /dev/null.
-%{_bindir}/update-mime-database "%{_datadir}/mime" &> /dev/null || true
-
 %icon_theme_cache_postun
 
 %clean
@@ -122,6 +119,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Wed Dec 23 2020 Ben Burton <bab@debian.org> 5.96
+- New upstream release.
+
 * Tue Sep 20 2016 Ben Burton <bab@debian.org> 5.1
 - New upstream release.
 

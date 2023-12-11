@@ -1,10 +1,7 @@
-# Known to work for:
-# - openSuSE Leap 15.2 (x86_64)
-
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 5.96
-Release: 1.%{_vendor}
+Version: 6.0
+Release: 1.opensuse15.2
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -122,6 +119,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Mon Jan 11 2021 Ben Burton <bab@debian.org> 6.0
+- New upstream release.
+
 * Wed Dec 23 2020 Ben Burton <bab@debian.org> 5.96
 - New upstream release.
 

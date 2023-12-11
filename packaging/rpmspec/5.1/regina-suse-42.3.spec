@@ -1,10 +1,7 @@
-# Known to work for:
-# - openSuSE Leap 42.3 (x86_64)
-
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 5.1
-Release: 1.%{_vendor}
+Release: 1.suse42.3
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering

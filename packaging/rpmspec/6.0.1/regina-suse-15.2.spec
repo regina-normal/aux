@@ -4,13 +4,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 6.0.1
-%if 0%{?sle_version} >= 150000 && 0%{?is_opensuse}
-%define leap_major %(echo %sle_version | sed -e 's/^\\(..\\)....$/\\1/' -e 's/^0\\+//')
-%define leap_minor %(echo %sle_version | sed -e 's/^..\\(..\\)..$/\\1/' -e 's/^0\\+//')
-Release: lp%{leap_major}%{leap_minor}.2
-%else
-Release: 2
-%endif
+Release: lp152.2
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -118,19 +112,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_libdir}/libregina-engine.so
 %{_libdir}/libregina-engine.so.%{version}
 %{_mandir}/*/*
-
-%if 0%{?suse_version} > 1500
-# tumbleweed
-%{_prefix}/lib/python3.8/site-packages/regina/
-%else
-%if 0%{?sle_version} == 150200 && 0%{?is_opensuse}
-# leap 15.x
 %{_prefix}/lib/python3.6/site-packages/regina/
-%else
-# force a meaningful error
-%{_prefix}/lib/unsupported_opensuse_release
-%endif
-%endif
 
 %changelog
 * Fri Feb 12 2021 Ben Burton <bab@debian.org> 6.0.1
