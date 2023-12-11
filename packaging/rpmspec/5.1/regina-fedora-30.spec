@@ -4,7 +4,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 5.1
-Release: 1.%{_vendor}
+Release: 3.%{_vendor}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -137,6 +137,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Mon Dec 11 2023 Ben Burton <bab@debian.org> 5.1-3
+- Rebuilt, but this time with cryptographic signatures and source RPMs.
+- Using release 3 because the old fedora 27 packages already used release 2.
+
 * Tue Sep 20 2016 Ben Burton <bab@debian.org> 5.1
 - New upstream release.
 
