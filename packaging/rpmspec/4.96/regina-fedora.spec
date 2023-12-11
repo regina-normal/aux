@@ -11,7 +11,7 @@
 Name: regina-normal
 Summary: Software for 3-manifold topology and normal surfaces
 Version: 4.96
-Release: 2.%{_vendor}
+Release: 2%{?dist}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
