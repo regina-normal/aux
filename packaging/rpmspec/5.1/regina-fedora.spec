@@ -1,4 +1,5 @@
 # Known to work for:
+# - Fedora 30 (x86_64)
 # - Fedora 29 (x86_64)
 # - Fedora 28 (x86_64)
 # - Fedora 27 (x86_64)
@@ -15,6 +16,9 @@ License: GPL
 Group: Applications/Engineering
 Source: https://github.com/regina-normal/regina/releases/download/regina-%{version}/regina-%{version}.tar.gz
 Patch0: regina-gcc7.patch
+%if 0%{?fedora} >= 30
+Patch1: regina-py27-cmake.patch
+%endif
 URL: http://regina-normal.github.io/
 Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
@@ -67,6 +71,9 @@ and a low-level C++ programming interface.
 %prep
 %setup -n regina-%{version}
 %patch0 -p1
+%if 0%{?fedora} >= 30
+%patch1 -p1
+%endif
 
 %build
 mkdir -p %{_target_platform}
