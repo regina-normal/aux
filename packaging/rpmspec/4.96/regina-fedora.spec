@@ -11,7 +11,7 @@
 Name: regina-normal
 Summary: Software for 3-manifold topology and normal surfaces
 Version: 4.96
-Release: 1.%{_vendor}
+Release: 2.%{_vendor}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -127,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Mon Dec 11 2023 Ben Burton <bab@debian.org> 4.96-2
+- Rebuilt, but this time with cryptographic signatures and source RPMs.
+
 * Fri Aug 29 2014 Ben Burton <bab@debian.org> 4.96
 - New upstream release.
 
