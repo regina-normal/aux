@@ -70,6 +70,14 @@ To create the yum repository:
   instead you _must_ upload the public key as repomd.xml.key, as part of the
   repository metadata directory (this can happily be done last, after all the
   signing and upload operations).
+- For fedora 23 and earlier, to avoid 32-bit arches pulling in 64-bit packages:
+    * there needs to be a separate repository per arch (and another for the
+      source RPMs);
+    * the 32-bit intel repository needs to be named i386 (not i686), since
+      that is the corresponding value of $basearch;
+    * there can still be a single file <repoid>.repo in the main directory,
+      but this needs to reference $basearch in the baseurl field.
+  See the existing fedora 22/23 repositories for examples.
 
 To add appstream metadata to a repository, on a Fedora machine:
 
