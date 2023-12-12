@@ -672,7 +672,23 @@ sub regina {
     } elsif ($dist eq 'opensuse') {
         $pkgs .= ' gmp-devel graphviz-devel libbz2-devel libxml2-devel libxslt-tools pkg-config zlib-devel';
         $needCJP and $pkgs .= ' cppunit-devel libjansson-devel popt-devel';
-        ($needBoostHeadersOnly or $needBoostLibs) and $pkgs .= ' boost-devel';
+        if ($needBoostLibs) {
+            if ($release =~ /^42\./) {
+                # The default boost is too old for many versions of regina.
+                $pkgs .= ' boost_1_61-devel';
+            } else {
+                $pkgs .= ($maxPython == 2 ? ' libboost_python-py2-devel' : ' libboost_python-py3-devel');
+                ($regver eq '5.0' or $regver eq '5.1') and $pkgs .= ' libboost_iostreams-devel';
+                reginaVersionCmp($regver, '5.0') <= 0 and reginaVersionCmp($regver, '4.92') >= 0 and $pkgs .= ' libboost_regex-devel';
+            }
+        } elsif ($needBoostHeadersOnly) {
+            if ($release =~ /^42\./) {
+                # The default boost is too old for many versions of regina.
+                $pkgs .= ' boost_1_61-devel';
+            } else {
+                $pkgs .= ' boost-devel';
+            }
+        }
         $needSourceHighlight and $pkgs .= ' libsource-highlight-devel';
         if ($maxPython == 2 or $release =~ /^42\./) {
             $pkgs .= ' python2-devel';
