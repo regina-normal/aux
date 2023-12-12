@@ -15,7 +15,6 @@ Requires: mimehandler(application/pdf)
 Requires: python2
 Conflicts: regina
 
-BuildRequires: boost-devel >= 1.55
 BuildRequires: cmake
 BuildRequires: cppunit-devel
 BuildRequires: doxygen
@@ -24,6 +23,8 @@ BuildRequires: gcc-c++
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
+BuildRequires: libboost_iostreams-devel >= 1.55
+BuildRequires: libboost_python-devel >= 1.55
 BuildRequires: libbz2-devel
 BuildRequires: libjansson-devel
 BuildRequires: libqt5-qtbase-devel

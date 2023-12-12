@@ -677,7 +677,7 @@ sub regina {
                 # The default boost is too old for many versions of regina.
                 $pkgs .= ' boost_1_61-devel';
             } else {
-                $pkgs .= ($maxPython == 2 ? ' libboost_python-py2-devel' : ' libboost_python-py3-devel');
+                $pkgs .= ($maxPython == 2 ? ' libboost_python-devel' : ' libboost_python-py3-devel');
                 ($regver eq '5.0' or $regver eq '5.1') and $pkgs .= ' libboost_iostreams-devel';
                 reginaVersionCmp($regver, '5.0') <= 0 and reginaVersionCmp($regver, '4.92') >= 0 and $pkgs .= ' libboost_regex-devel';
             }
