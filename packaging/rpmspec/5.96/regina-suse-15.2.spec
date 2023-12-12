@@ -1,7 +1,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 5.96
-Release: 1.opensuse15.2
+Release: 2.opensuse15.2
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -119,6 +119,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 
 %changelog
+* Wed Dec 13 2023 Ben Burton <bab@debian.org> 5.96-2
+- Rebuilt, but this time with cryptographic signatures and source RPMs.
+
 * Wed Dec 23 2020 Ben Burton <bab@debian.org> 5.96
 - New upstream release.
 
