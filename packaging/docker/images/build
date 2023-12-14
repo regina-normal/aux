@@ -733,17 +733,20 @@ sub regina {
 
     if ($release eq 'bionic' or $release eq 'buster') {
         # These are old debian/ubuntu releases for which newer versions of
-        # regina required a newer doxygen (via our own backports repository).
-        # Note that these backports were specific to bionic and buster, and
-        # were not provided for even older debian/ubuntu releases (which were
-        # only ever used with old versions of regina where this did not matter).
+        # regina required a newer doxygen and/or cmake (via our own backports
+        # repository).  Note that these backports were specific to bionic and
+        # buster, and were not provided for even older debian/ubuntu releases
+        # (which were only ever used with old versions of regina where this
+        # did not matter).
         #
-        print "NOTE: Adding backported doxygen for $release\n";
+        print "NOTE: Adding backported doxygen and/or cmake for $release\n";
         $data .= "RUN apt-get install -y --no-install-recommends software-properties-common\n";
         $data .= copyAndRunCommand('apt-key add /root/regina-key.asc', 'regina-key.asc');
         my $repo = "deb https://people.debian.org/~bab/backports $release/";
         $data .= addRepo($repo);
-        $data .= refreshAndInstall('doxygen');
+        # Note: on buster we don't backport cmake, but in this case the extra
+        # cmake in the command below is harmless.
+        $data .= refreshAndInstall('doxygen cmake');
         $data .= removeRepo($repo);
     }
     if ($dist eq 'opensuse' and $release =~ /^15\./) {
