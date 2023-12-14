@@ -88,16 +88,8 @@ popd
 %post
 /sbin/ldconfig
 
-%mime_database_post
-%desktop_database_post
-%icon_theme_cache_post
-
 %postun
 /sbin/ldconfig
-
-%mime_database_postun
-%desktop_database_postun
-%icon_theme_cache_postun
 
 %clean
 rm -rf $RPM_BUILD_ROOT
