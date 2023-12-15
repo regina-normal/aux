@@ -7,6 +7,8 @@ if [ -e /etc/os-release ]; then
   if [ -z "$suite" ]; then
     # Some ancient releases (up to debian jessie) did not set VERSION_CODENAME.
     case "$VERSION_ID" in
+      6 ) suite=squeeze ;;
+      7 ) suite=wheezy ;;
       8 ) suite=jessie ;;
       16.04 ) suite=xenial ;;
       15.10 ) suite=wily ;;
@@ -68,6 +70,8 @@ aptstyle=
 
 case "$suite" in
   # Ancient debian:
+  squeeze ) aptstyle=standaloneline ;;
+  wheezy ) aptstyle=standaloneline ;;
   jessie ) aptstyle=standaloneline ;;
   stretch ) aptstyle=standalone ;;
   # Ancient ubuntu LTS:

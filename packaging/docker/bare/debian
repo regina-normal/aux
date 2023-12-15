@@ -48,9 +48,9 @@ case "$ver" in
   sarge ) archive=1 ; oldkey=1 ;;
   etch ) archive=1 ; oldkey=1 ;;
   lenny ) archive=1 ; oldkey=1 ;;
+  # These are the ancient debian versions that we do support:
   squeeze ) archive=1 ; oldkey=1 ;;
   wheezy ) archive=1 ; oldkey=1 ;;
-  # These are the ancient debian versions that we do support:
   jessie ) archive=1 ; oldkey=1 ;;
   stretch ) archive=1 ;;
   * ) ;;
