@@ -6,6 +6,11 @@ if [ ! -e "/usr/share/debootstrap/scripts/$ver" ]; then
   echo "Unsupported Debian version: $ver"; exit 1
 fi
 
+# Support history for architectures in debian:
+# - amd64: only supported for >= etch (debian 4)
+# - arm64: only supported for >= jessie (debian 8)
+# - i386:  supported for all versions
+
 myarch="`uname -m`"
 
 arch="$2"
