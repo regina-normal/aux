@@ -29,8 +29,9 @@ fi
 # keys, but debootstrap is not aware of this.
 # The ones we care about are listed below.
 #
-# Note: modern kernels are incompatible with glibc < 2.14 (see debian #875981),
-# which means we cannot support any debian earlier than jessie.
+# Note: modern amd64 kernels are incompatible with glibc < 2.14 (see
+# debian #875981), which means that any debian earlier than jessie needs to be
+# i386 only.
 
 archive=0
 case "$ver" in
