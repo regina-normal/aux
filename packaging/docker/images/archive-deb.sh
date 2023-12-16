@@ -143,7 +143,7 @@ elif [ "$aptstyle" = standalone ]; then
   cat > "$src" <<__END__
 X-Repolib-Name: Regina
 Types: deb deb-src
-URIs: https://people.smp.uq.edu.au/BenjaminBurton/archive/apt
+URIs: http://lab.benburton.org/archive/apt
 Suites: $suite/
 Signed-By: /usr/share/keyrings/debian-keyring.gpg
 __END__
@@ -151,8 +151,8 @@ elif [ "$aptstyle" = standaloneline ]; then
   src=/etc/apt/sources.list.d/regina.list
   apt-key add /root/regina-key.asc
   cat > "$src" <<__END__
-deb https://people.smp.uq.edu.au/BenjaminBurton/archive/apt $suite/
-deb-src https://people.smp.uq.edu.au/BenjaminBurton/archive/apt $suite/
+deb http://lab.benburton.org/archive/apt $suite/
+deb-src http://lab.benburton.org/archive/apt $suite/
 __END__
 elif [ "$aptstyle" = embryonic ]; then
   echo 'ERROR: Regina was never part of this formal debian release.'

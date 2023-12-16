@@ -279,7 +279,11 @@ sub upgradeAndInstall {
 #
 sub addUser {
     my $username = shift;
-    return "RUN useradd -U -s /bin/bash -m $username\n";
+    if ($dist eq 'debian' and debianCmp('etch') <= 0) {
+        return "RUN groupadd $username && useradd -s /bin/bash -m $username -g $username\n";
+    } else {
+        return "RUN useradd -U -s /bin/bash -m $username\n";
+    }
 }
 
 # Usage: copyAndRunCommand('command', 'file1', ...)
@@ -402,7 +406,7 @@ sub basic {
 
     my $bare = ($dist eq 'arch' || $release eq 'sid' ? 'rolling' : 'bare');
     my $pkgs = 'ca-certificates zsh wget';
-    debStyle() and $pkgs .= ' apt-transport-https';
+    debStyle() and debianCmp('etch') > 0 and $pkgs .= ' apt-transport-https';
     $pkgs .= ($dist eq 'fedora' ? ' gnupg2' : $dist eq 'opensuse' ? ' gpg2' :
         ' gnupg');
     debStyle() or $pkgs .= ' which perl';
@@ -419,10 +423,11 @@ sub basic {
     $dist eq 'opensuse' and $data .= copyAndRunCommand('rpmkeys --import /root/opensuse-backports.key', 'opensuse-backports.key');
 
     # For older distributions we need new root certificates just to download
-    # packages from our own repositories.
-    # Note for ubuntu: the LTS releases (back to precise) are still okay, but
-    # the very old short-term releases are not.
-    $dist eq 'ubuntu' and ubuntuCmp('precise') > 0 and ubuntuCmp('trusty') < 0 and $data .= copyAndRunCommand('bash /root/certificates-deb.sh trusty', 'certificates-deb.sh');
+    # packages from our own repositories.  For fedora, we fix this now.
+    # For the oldest debian/ubuntu distributions we have a similar problem,
+    # but we do not try to install newer certificates because we then just
+    # run into different problems involving a too-old libssl.  Instead we just
+    # put our own repositories under http://..., not https://... .
     $dist eq 'fedora' and $release <= 24 and $data .= copyAndRun('certificates-fedora.sh', 'bash');
 
     return $data;
