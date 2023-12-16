@@ -221,6 +221,16 @@ sub addUniverse {
     return '';
 }
 
+# Usage: addNonUS()
+#
+# Adds non-US to the APT sources on ancient debian releases that needed it for
+# crypto-related packages, does nothing otherwise.
+#
+sub addNonUS{
+    $dist eq 'debian' and debianCmp('sarge') < 0 and return "RUN echo 'deb http://archive.debian.org/debian-non-US $release/non-US main' >> /etc/apt/sources.list; cat /etc/apt/sources.list\n";
+    return '';
+}
+
 # Usage: refreshAndInstall('zsh gcc ...')
 #
 # Refreshes the package list and installs the given list of packages.
@@ -415,6 +425,7 @@ sub basic {
     $pkgs .= ($dist eq 'fedora' ? ' vim-enhanced' : ' vim');
 
     my $data = from('bare');
+    $data .= addNonUS();
     $data .= upgradeAndInstall($pkgs);
     $data .= cleanup();
     $data .= addUser('user');
