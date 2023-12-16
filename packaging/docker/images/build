@@ -237,7 +237,8 @@ sub refreshAndInstall {
     my $slim = shift;
     my $slimopt = '';
     if ($slim) {
-        ($dist eq 'debian' or $dist eq 'ubuntu') and $slimopt = '--no-install-recommends ';
+        $dist eq 'debian' and debianCmp('etch') > 0 and $slimopt = '--no-install-recommends ';
+        $dist eq 'ubuntu' and $slimopt = '--no-install-recommends ';
         $dist eq 'fedora' and $slimopt = '--setopt=install_weak_deps=False ';
         $dist eq 'opensuse' and $slimopt = '--no-recommends ';
     }
@@ -262,7 +263,8 @@ sub upgradeAndInstall {
     my $slim = shift;
     my $slimopt = '';
     if ($slim) {
-        ($dist eq 'debian' or $dist eq 'ubuntu') and $slimopt = '--no-install-recommends ';
+        $dist eq 'debian' and debianCmp('etch') > 0 and $slimopt = '--no-install-recommends ';
+        $dist eq 'ubuntu' and $slimopt = '--no-install-recommends ';
         $dist eq 'fedora' and $slimopt = '--setopt=install_weak_deps=False ';
         $dist eq 'opensuse' and $slimopt = '--no-recommends ';
     }
@@ -506,7 +508,9 @@ sub pkgdev {
     }
 
     my $pkgs = 'git gdb';
-    debStyle() and $pkgs .= ' build-essential devscripts fakeroot lintian autopkgtest debhelper';
+    debStyle() and $pkgs .= ' build-essential devscripts fakeroot lintian debhelper';
+    $dist eq 'debian' and debianCmp('sarge') > 0 and $pkgs .= ' autopkgtest';
+    $dist eq 'ubuntu' and $pkgs .= ' autopkgtest';
     rpmStyle() and $pkgs .= ' rpm-build gcc gcc-c++';
     $dist eq 'arch' and $pkgs .= ' base-devel devtools namcap';
     $dist eq 'opensuse' and $pkgs .= ' appstream-glib';
