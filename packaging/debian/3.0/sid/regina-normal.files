@@ -1,0 +1,15 @@
+etc/regina-normal/regina.conf
+usr/bin
+usr/lib/regina-normal/lib/libregina-engine-jni.so
+usr/share/java/regina-normal.jar
+usr/share/java/regina-normal-3.0.jar
+usr/share/java/regina-normal-jni.jar
+usr/share/java/regina-normal-jni-3.0.jar
+usr/share/regina-normal/jar/regina.jar
+usr/share/regina-normal/jar/regina-jni.jar
+usr/share/regina-normal/icons
+usr/share/regina-normal/pylib
+usr/share/regina-normal/scripts
+usr/share/regina-normal/regina
+usr/share/man
+usr/share/lintian/overrides/regina-normal
