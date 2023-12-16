@@ -37,6 +37,11 @@ fi
 # Note: modern amd64 kernels are incompatible with glibc < 2.14 (see
 # debian #875981), which means that any debian earlier than jessie needs to be
 # i386 only.
+#
+# Warning: woody appears to build successfully, but there are visible issues.
+# For example: debootstrap fails to mount /sys; also, when fine-tuning the APT
+# configuration, dpkg warns about "architecture `i386-none' not in remapping
+# table".  These issues might well come back to bite us.
 
 archive=0
 case "$ver" in
@@ -44,11 +49,11 @@ case "$ver" in
   # We keep them here anyway, going all the way back to the date of the first
   # public release of regina, in case we ever want to try again:
   potato ) archive=1 ; oldkey=1 ;;
+  # These are the ancient debian versions that we do support:
   woody ) archive=1 ; oldkey=1 ;;
   sarge ) archive=1 ; oldkey=1 ;;
   etch ) archive=1 ; oldkey=1 ;;
   lenny ) archive=1 ; oldkey=1 ;;
-  # These are the ancient debian versions that we do support:
   squeeze ) archive=1 ; oldkey=1 ;;
   wheezy ) archive=1 ; oldkey=1 ;;
   jessie ) archive=1 ; oldkey=1 ;;

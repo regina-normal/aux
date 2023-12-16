@@ -7,7 +7,6 @@ if [ -e /etc/os-release ]; then
   if [ -z "$suite" ]; then
     # Some ancient releases (up to debian jessie) did not set VERSION_CODENAME.
     case "$VERSION_ID" in
-      6 ) suite=squeeze ;;
       7 ) suite=wheezy ;;
       8 ) suite=jessie ;;
       16.04 ) suite=xenial ;;
@@ -22,9 +21,15 @@ if [ -e /etc/os-release ]; then
     esac
   fi
 else
-  # Ubuntu 12.04 (precise) does not _provide_ /etc/os-release.
+  # Some _very_ ancient releases (up to debian squeeze and ubuntu precise)
+  # did not provide /etc/os-release at all.
   issue=`cat /etc/issue`
   case "$issue" in
+    'Debian GNU/\s 3.0 '* ) suite=woody ;;
+    'Debian GNU/Linux 3.1 '* ) suite=sarge ;;
+    'Debian GNU/Linux 4.'* ) suite=etch ;;
+    'Debian GNU/Linux 5.'* ) suite=lenny ;;
+    'Debian GNU/Linux 6.'* ) suite=squeeze ;;
     'Ubuntu 12.04 '* ) suite=precise ;;
     * ) echo "ERROR: Could not deduce suite from /etc/issue"; exit 1 ;;
   esac
@@ -54,6 +59,11 @@ fi
 #   regina package repository (typically because the version of regina that it
 #   shipped remained current for the lifetime of that distribution).
 #
+# - embryonic : a debian distribution that dates back to before regina ever
+#   appeared in a formal debian release.  Whatever regina packages _did_ exist
+#   were part of sid (and in some cases part of contrib, not main), which means
+#   the binaries are probably gone forever.
+#
 # Note: for legacy standalone suite-specific archives, we will source these
 # from a different location (currently mirrored at UQ), since p.d.o uses a
 # new SSL root certificate that ancient distros cannot verify.  The specific
@@ -70,6 +80,10 @@ aptstyle=
 
 case "$suite" in
   # Ancient debian:
+  woody ) aptstyle=embryonic ;;
+  sarge ) aptstyle=none ;;
+  etch ) aptstyle=none ;;
+  lenny ) aptstyle=none ;;
   squeeze ) aptstyle=standaloneline ;;
   wheezy ) aptstyle=standaloneline ;;
   jessie ) aptstyle=standaloneline ;;
@@ -140,6 +154,9 @@ elif [ "$aptstyle" = standaloneline ]; then
 deb https://people.smp.uq.edu.au/BenjaminBurton/archive/apt $suite/
 deb-src https://people.smp.uq.edu.au/BenjaminBurton/archive/apt $suite/
 __END__
+elif [ "$aptstyle" = embryonic ]; then
+  echo 'ERROR: Regina was never part of this formal debian release.'
+  exit 1
 else
   echo 'ERROR: Unknown APT style'
   exit 1

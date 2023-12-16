@@ -28,6 +28,7 @@ __END__
 # Some globals for our helper functions:
 my $hasAddedRepo = 0;
 my %debianVersion = (
+    'woody' => 3.0, 'sarge' => 3.1,
     'etch' => 4, 'lenny' => 5, 'squeeze' => 6, 'wheezy' => 7,
     'jessie' => 8, 'stretch' => 9, 'buster' => 10, 'bullseye' => 11,
     'bookworm' => 12, 'trixie' => 13, 'forky' => 14,
