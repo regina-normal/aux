@@ -519,6 +519,12 @@ sub pkgdev {
     # - For openSUSE, add a modern compiler because the defaults are _ancient_.
     if ($dist eq 'debian') {
         my @gcc = ();
+        $release eq 'woody' and @gcc = qw(2.95 3.0);
+        $release eq 'sarge' and @gcc = qw(2.95 3.3 3.4);
+        $release eq 'etch' and @gcc = qw(2.95 3.3 3.4 4.1);
+        $release eq 'lenny' and @gcc = qw(4.1 4.2 4.3);
+        $release eq 'squeeze' and @gcc = qw(4.3 4.4);
+        $release eq 'wheezy' and @gcc = qw(4.4 4.6 4.7);
         $release eq 'jessie' and @gcc = qw(4.8 4.9);
         $release eq 'stretch' and @gcc = qw(6);
         $release eq 'buster' and @gcc = qw(7 8);
@@ -533,6 +539,8 @@ sub pkgdev {
         $release eq 'bullseye' and @clang = qw(9 11 13);
         $release eq 'bookworm' and @clang = qw(13 14 15);
         $pkgs .= " clang-$_" foreach @clang;
+        # These releases just had a "clang" package, without versions.
+        ($release eq 'squeeze' or $release eq 'wheezy') and $pkgs .= ' clang';
     } elsif ($dist eq 'ubuntu') {
         # Note: the non-standard compiler versions require universe.
         #
