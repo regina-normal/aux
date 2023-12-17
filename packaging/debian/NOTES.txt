@@ -12,6 +12,25 @@ Notes for building Debian-based packages
 DEB_BUILD_OPTIONS should be space-separated.
 
 
+Historical Debian packaging
+---------------------------
+
+The historical (X.Y.Z) directories hold packaging data for old versions of
+Regina:
+
+- In many cases the sid packaging is omitted; this is deliberate, since it
+  was a moving target (e.g., following library transitions, and in at least
+  one case removing the entire GUI for a period of time during the transition
+  from KDE3 to KDE4).  The correct way of addressing this is to remove more
+  of the sid/ subdirectories where this is reasonable, rather than trying to
+  faithfully reconstruct them.  Note that many of the old sid packages can be
+  found online at snapshot.debian.org.
+
+- Before moving to the quilt source format, the old debian packaging came with
+  a *.diff.gz that patched the upstream sources where necessary.  For regina
+  <= 4.6, these patches are in the debian directory under the name cvs.diff.
+
+
 Setting up Parallels virtual machines
 -------------------------------------
 
