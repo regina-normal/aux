@@ -9,3 +9,14 @@
      if (! $which_python) {
          &err("E: A Python interpreter could not be found.\n");
          &err("E: Set \$REGINA_PYTHON to a Python interpreter (such as /usr/bin/python)\n");
+--- regina-normal-4.2.orig/engine/engine/regina-engine-config.in
++++ regina-normal-4.2/engine/engine/regina-engine-config.in
+@@ -87,7 +87,7 @@
+ 
+ if test "$echo_cflags" = "yes"; then
+ 	includes="@ENGINE_EXTERNAL_INCLUDES@"
+-	includes="-I@includedir@ $includes"
++	includes="-I@includedir@/@PACKAGE@ -I@includedir@ $includes"
+ 	echo $includes
+ fi
+ 
