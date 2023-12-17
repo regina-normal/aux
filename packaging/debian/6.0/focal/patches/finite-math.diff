@@ -1,0 +1,16 @@
+Description: fix graphviz plugin missing __XXX_finite symbols
+Author: Ben Burton <bab@debian.org>
+Origin: upstream
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- regina-normal-6.0/qtui/src/CMakeLists.txt
++++ regina-normal-6.0/qtui/src/CMakeLists.txt
+@@ -55,6 +55,8 @@
+   ENDIF (${GRAPHVIZ_TYPE} STREQUAL Framework)
+ ENDIF(LIBGVC_FOUND)
+ 
++ADD_LINK_OPTIONS(-Wl,--allow-shlib-undefined)
++
+ SET(SOURCES ${SOURCES}
+   bigwidget.cpp
+   clickablelabel.cpp

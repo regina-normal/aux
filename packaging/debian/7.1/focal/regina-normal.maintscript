@@ -1,0 +1,2 @@
+symlink_to_dir /usr/share/regina-normal/examples ../doc/regina-normal/examples 5.1-4~
+dir_to_symlink /usr/share/doc/regina-normal/examples ../../regina-normal/examples 5.1-4~

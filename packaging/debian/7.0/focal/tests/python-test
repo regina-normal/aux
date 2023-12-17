@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+name="$1"
+shift
+
+test="python/testsuite/$name.test"
+out="$AUTOPKGTEST_ARTIFACTS/python-$name.out"
+expect="python/testsuite/$name.out"
+
+/usr/bin/regina-python "$test" "$@" > "$out"
+diff "$out" "$expect" 1>&2
+exit $?
