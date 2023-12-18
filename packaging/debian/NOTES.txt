@@ -26,9 +26,11 @@ Regina:
   faithfully reconstruct them.  Note that many of the old sid packages can be
   found online at snapshot.debian.org.
 
-- Before moving to the quilt source format, the old debian packaging came with
-  a *.diff.gz that patched the upstream sources where necessary.  For regina
-  <= 4.6, these patches are in the debian directory under the name cvs.diff.
+- Before moving to the quilt source format (_partway_ through the very long 5.1
+  packaging cycle), the old debian packaging came with a *.diff.gz that patched
+  the upstream sources where necessary.  These patches are in the debian
+  directory under the name cvs.diff.  Probably it is worth converting these to
+  quilt source format where possible.
 
 
 Setting up Parallels virtual machines
