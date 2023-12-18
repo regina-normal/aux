@@ -18,14 +18,11 @@ override_dh_auto_configure:
 	dh_auto_configure -- \
 		-DPACKAGE_NAME=regina-normal -DPACKAGING_MODE=1 \
 		-DPython_EXECUTABLE=/usr/bin/python${pyver} \
-		-DBUILD_INFO="Upstream Debian 12 package" \
+		-DBUILD_INFO="Debian package build" \
 		-DDISABLE_RPATH=1
 
 override_dh_auto_build:
 	dh_auto_build -- VERBOSE=1
-	# The python debug symbols are obscenely large and are
-	# filling my virtual hard drive.
-	strip "obj-${DEB_BUILD_GNU_TYPE}"/python/regina/engine.so
 
 override_dh_auto_test:
 	dh_auto_test -- ARGS=-V
