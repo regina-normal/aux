@@ -1,3 +1,22 @@
+regina-normal (5.1-3~stretch.1) stretch; urgency=low
+
+  * Packaged for stretch.
+
+ -- Ben Burton <bab@debian.org>  Fri, 16 Mar 2018 08:55:00 +1000
+
+regina-normal (5.1-3) unstable; urgency=low
+
+  * Updated the debian watch file to point to github (not sourceforge).
+  * Switched to debhelper compatibility level 9.
+
+ -- Ben Burton <bab@debian.org>  Sat, 17 Dec 2016 09:27:49 +1100
+
+regina-normal (5.1-2) unstable; urgency=low
+
+  * Added missing #include to build against gcc-7 (closes: #853639).
+
+ -- Ben Burton <bab@debian.org>  Sun, 13 Aug 2017 13:09:06 +1000
+
 regina-normal (5.1-1) unstable; urgency=low
 
   * New upstream release.

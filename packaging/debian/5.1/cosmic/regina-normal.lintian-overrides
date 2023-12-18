@@ -5,4 +5,5 @@ regina-normal: unusual-interpreter usr/share/regina-normal/internal/scripts/runs
 regina-normal: package-name-doesnt-match-sonames libregina-engine5.1
 
 # The graphviz plugins are in a non-standard directory, so rpath is required.
-regina-normal: binary-or-shlib-defines-rpath usr/bin/regina-gui /usr/lib/graphviz
+# We use a wildcard for the plugin location, since this is arch-dependent.
+regina-normal: binary-or-shlib-defines-rpath usr/bin/regina-gui *

@@ -3,8 +3,8 @@
 	dh $@ --with python2
 
 # Upgrade optimisation flags:
-export DEB_CFLAGS_MAINT_STRIP = -O2
-export DEB_CXXFLAGS_MAINT_STRIP = -O2
+export DEB_CFLAGS_MAINT_STRIP = -O2 -g
+export DEB_CXXFLAGS_MAINT_STRIP = -O2 -g
 export DEB_CFLAGS_MAINT_APPEND = -O3 -DNDEBUG
 export DEB_CXXFLAGS_MAINT_APPEND = -O3 -DNDEBUG
 
