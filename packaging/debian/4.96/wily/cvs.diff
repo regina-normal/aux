@@ -1,0 +1,10 @@
+--- regina-normal-4.96.orig/docs/man/CMakeLists.txt
++++ regina-normal-4.96/docs/man/CMakeLists.txt
+@@ -2,6 +2,7 @@
+ SET(man1dir ${MANDIR}/man1)
+ 
+ SET(man1_files
++  censuslookup.1
+   regconcat.1
+   regconvert.1
+   regfiledump.1
