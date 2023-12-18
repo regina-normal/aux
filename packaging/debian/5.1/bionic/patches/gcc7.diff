@@ -1,3 +1,8 @@
+Description: compatibility with gcc7
+Author: Ben Burton <bab@debian.org>
+Origin: upstream
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- regina-normal-5.1.orig/engine/triangulation/dim3/triangulation3.h
 +++ regina-normal-5.1/engine/triangulation/dim3/triangulation3.h
 @@ -42,6 +42,7 @@

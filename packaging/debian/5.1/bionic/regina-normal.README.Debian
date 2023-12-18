@@ -1,4 +1,4 @@
-Regina for Debian
+Regina for Ubuntu
 -----------------
 
 Regina comes with two main binaries:
@@ -9,15 +9,17 @@ Regina comes with two main binaries:
 Regina also provides several other specialised command-line tools; see the
 users' handbook for details.
 
-To get started, take a look at the users' handbook.  You can find it in
-/usr/share/doc/regina-normal/docs/en/regina/index.html .
+To get started, take a look at the users' handbook, which is shipped in the
+package regina-normal-doc.  You can find the handbook in
+/usr/share/regina-normal/docs/en/regina/index.html .
 
 Examples of topology data files and Python sessions can be found in
-the directory /usr/share/doc/regina-normal/examples/ .
+the directory /usr/share/regina-normal/examples/ .
 
 If you are using Python scripting or if you are building the C++
-calculation engine into your own projects, you can find full API
-documentation in /usr/share/doc/regina-normal/engine-docs/index.html .
+calculation engine into your own projects, full API documentation is
+also shipped in the package regina-normal-doc; this can be found in
+/usr/share/regina-normal/engine-docs/index.html .
 
 For C++ headers and other development files required to build Regina's
 calculation engine directly into your own projects, see the package
@@ -26,4 +28,4 @@ regina-normal-dev.
 For MPI-enable components that can run on high-performance clusters,
 see the package regina-normal-mpi.
 
- -- Ben Burton <bab@debian.org>, Fri, 30 Mar 2012 14:10:01 +1000
+ -- Ben Burton <bab@debian.org>, Mon, 19 Mar 2018 07:03:12 +1000

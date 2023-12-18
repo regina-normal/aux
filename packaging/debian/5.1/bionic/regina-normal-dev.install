@@ -1,2 +1,3 @@
 usr/include/regina-normal
 usr/lib/libregina-engine.so
+../../HIGHLIGHTS.txt usr/share/doc/regina-normal-dev
