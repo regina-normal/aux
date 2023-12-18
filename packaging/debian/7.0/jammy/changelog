@@ -1,11 +1,3 @@
-regina-normal (7.1-1) unstable; urgency=low
-
-  * New upstream release.
-  * Now builds against Qt6, not Qt5.
-  * Bumped standards-version to 4.6.1 (no changes required).
-
- -- Ben Burton <bab@debian.org>  Wed, 28 Sep 2022 10:04:35 +1000
-
 regina-normal (7.0-2) unstable; urgency=low
 
   * Fixed the command-line utilities test suite on s390.
