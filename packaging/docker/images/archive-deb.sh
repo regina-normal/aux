@@ -79,6 +79,8 @@ fi
 #
 # Finally: secure apt was only introduced with apt 0.6, which means we cannot
 # use cryptographic verification at all with debian sarge or earlier.
+# If this becomes relevant, we should investigate apt-check-sigs as an
+# alternative.
 #
 aptstyle=
 
