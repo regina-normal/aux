@@ -65,9 +65,9 @@ fi
 #   the binaries are probably gone forever.
 #
 # Note: for legacy standalone suite-specific archives, we will source these
-# from a different location (currently mirrored at UQ), since p.d.o uses a
-# new SSL root certificate that ancient distros cannot verify.  The specific
-# error (e.g., seen on quantal, even with trusty's ca-certificates installed):
+# from a different location, since p.d.o uses a new SSL root certificate that
+# ancient distros cannot verify.  The specific error (e.g., seen on quantal,
+# even with trusty's ca-certificates installed):
 #
 #   gnutls_handshake() failed: A TLS fatal alert has been received.
 #
@@ -76,6 +76,10 @@ fi
 # --digest-algo to force a SHA256 hash (since different digest algorithms may
 # mean only the first signature is recognised by gpg).  With apt < 1.2.12, this
 # double signing gives a harmless warning if only one public key is available.
+#
+# Finally: secure apt was only introduced with apt 0.6, which means we cannot
+# use cryptographic verification at all with debian sarge or earlier.
+#
 aptstyle=
 
 case "$suite" in
