@@ -118,6 +118,13 @@ cat /etc/apt/sources.list |
 			if [ "$gpgcode" = "GOODSIG" ]; then
 			    if [ "$err" != "" ]; then
 				echo "  * Signed by ${err# } key: ${rest#* }"
+				if [ "${err# }" = EXPIRED ]; then
+				    # All of the keys we want to use with
+				    # this script have long ago expired, so
+				    # don't let this get in our way.
+				    # (Ben Burton, 2023-12-20)
+				    okay=1;
+				fi
 			    else
 			        echo "  o Signed by: ${rest#* }"
 			        okay=1
