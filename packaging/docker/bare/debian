@@ -45,9 +45,9 @@ fi
 
 archive=0
 case "$ver" in
-  # These are the ancient debian versions that we do not support.
+  # These are the ancient debian versions that we do not yet support.
   # We keep them here anyway, going all the way back to the date of the first
-  # public release of regina, in case we ever want to try again:
+  # public release of regina, in case we ever want to try:
   potato ) archive=1 ; oldkey=1 ;;
   # These are the ancient debian versions that we do support:
   woody ) archive=1 ; oldkey=1 ;;

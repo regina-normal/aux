@@ -32,39 +32,63 @@ else
 fi
 
 # Some ubuntu versions live on the old-releases mirror and/or use old
-# signing keys, but debootstrap is not aware of this.
-# The ones we care about are listed below.
+# signing keys, but debootstrap is not always aware of this.
 #
-# Note: modern kernels are incompatible with glibc < 2.14 (see debian #875981),
-# which means we cannot support any ubuntu earlier than precise.
+# Note: modern amd64 kernels are incompatible with glibc < 2.14 (see
+# debian #875981), which means that any ubuntu earlier than precise needs to be
+# i386 only.
+#
+# Warning: very old ubuntus (<= oneiric) appear to build successfully,
+# but there are a lot of noisy warnings about logging failures due to /dev/pts
+# not being mounted.  Moreover, for gutsy, the compressed package listings
+# (Packages.gz / Packages.bz2) appear to be corrupt, but the uncompressed
+# listings seem fine.  These issues might come back to bite us.
+#
+# Regarding unsupported releases: karmic and earlier fail at the point of
+# apt-get update (they cannot connect to old-releases.ubuntu.com).
 #
 archive=0
 oldkey=0
 case "$ver" in
-  # The very first LTS releases: these are beyond our current reach, but we
-  # list them here in case we ever want to attempt them anyway.
-  dapper ) oldkey=1 ;; #  6.06 LTS
-  hardy ) oldkey=1 ;;  #  8.04 LTS
-  lucid ) oldkey=1 ;;  # 10.04 LTS
-  # LTS releases:
-  precise ) oldkey=1 ;;
-  # Interim releases:
-  quantal ) archive=1 ;;
-  raring ) archive=1 ;;
-  saucy ) archive=1 ;;
-  utopic ) archive=1 ;;
-  vivid ) archive=1 ;;
-  wily ) archive=1 ;;
-  yakkety ) archive=1 ;;
-  zesty ) archive=1 ;;
-  artful ) archive=1 ;;
-  cosmic ) archive=1 ;;
-  disco ) archive=1 ;;
-  eoan ) archive=1 ;;
-  groovy ) archive=1 ;;
-  hirsute ) archive=1 ;;
-  impish ) archive=1 ;;
-  kinetic ) archive=1 ;;
+  # These are the ancient ubuntu releases that we do not yet support.
+  # We keep them here anyway, going back to the very beginning of ubuntu,
+  # in case we ever want to try:
+  warty ) oldkey=1 ;;               #  4.10
+  hoary ) oldkey=1 ;;               #  5.04
+  breezy ) oldkey=1 ;;              #  5.10
+  dapper ) oldkey=1 ; archive=1 ;;  #  6.06 LTS
+  edgy ) oldkey=1 ;;                #  6.10
+  feisty ) oldkey=1 ;;              #  7.04
+  gutsy ) oldkey=1 ;;               #  7.10
+  intrepid ) oldkey=1 ;;            #  8.10
+  jaunty ) oldkey=1 ;;              #  9.04
+  karmic ) oldkey=1 ;;              #  9.10
+  # These are the ancient releases that we do support and which need special
+  # arguments for debootstrap:
+  hardy ) oldkey=1 ;;               #  8.04 LTS
+  lucid ) oldkey=1 ;;               # 10.04 LTS
+  maverick ) oldkey=1 ;;            # 10.10
+  natty ) oldkey=1 ;;               # 11.04
+  oneiric ) oldkey=1 ;;             # 11.10
+  precise ) oldkey=1 ;;             # 12.04 LTS
+  quantal ) archive=1 ;;            # 12.10
+  raring ) archive=1 ;;             # 13.04
+  saucy ) archive=1 ;;              # 13.10
+  utopic ) archive=1 ;;             # 14.10
+  vivid ) archive=1 ;;              # 15.04
+  wily ) archive=1 ;;               # 15.10
+  yakkety ) archive=1 ;;            # 16.10
+  zesty ) archive=1 ;;              # 17.04
+  artful ) archive=1 ;;             # 17.10
+  cosmic ) archive=1 ;;             # 18.10
+  disco ) archive=1 ;;              # 19.04
+  eoan ) archive=1 ;;               # 19.10
+  groovy ) archive=1 ;;             # 20.10
+  hirsute ) archive=1 ;;            # 21.04
+  impish ) archive=1 ;;             # 21.10
+  kinetic ) archive=1 ;;            # 22.10
+  # For non-ancient LTS releases (>= trusty) and the newest interim releases,
+  # debootstrap gets everything right by default.
   * ) ;;
 esac
 
