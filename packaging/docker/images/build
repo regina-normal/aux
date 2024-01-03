@@ -253,7 +253,7 @@ sub refreshAndInstall {
     my $slimopt = '';
     if ($slim) {
         $dist eq 'debian' and debianCmp('etch') > 0 and $slimopt = '--no-install-recommends ';
-        $dist eq 'ubuntu' and $slimopt = '--no-install-recommends ';
+        $dist eq 'ubuntu' and ubuntuCmp('dapper') > 0 and $slimopt = '--no-install-recommends ';
         $dist eq 'fedora' and $slimopt = '--setopt=install_weak_deps=False ';
         $dist eq 'opensuse' and $slimopt = '--no-recommends ';
     }
@@ -279,7 +279,7 @@ sub upgradeAndInstall {
     my $slimopt = '';
     if ($slim) {
         $dist eq 'debian' and debianCmp('etch') > 0 and $slimopt = '--no-install-recommends ';
-        $dist eq 'ubuntu' and $slimopt = '--no-install-recommends ';
+        $dist eq 'ubuntu' and ubuntuCmp('dapper') > 0 and $slimopt = '--no-install-recommends ';
         $dist eq 'fedora' and $slimopt = '--setopt=install_weak_deps=False ';
         $dist eq 'opensuse' and $slimopt = '--no-recommends ';
     }
@@ -296,8 +296,6 @@ sub upgradeAndInstall {
 #
 sub addUser {
     my $username = shift;
-    # TODO: The threshold of hardy below needs to be one of { hardy, intrepid,
-    # jaunty, karmic }, but I've not yet determined which.
     if (debStyle() and debianUbuntuCmp('etch', 'hardy') <= 0) {
         return "RUN groupadd $username && useradd -s /bin/bash -m $username -g $username\n";
     } else {
@@ -433,6 +431,8 @@ sub basic {
 
     my $data = from('bare');
     $data .= addNonUS();
+    # On the earliest ubuntus, ca-certificates was part of universe, not main.
+    $dist eq 'ubuntu' and ubuntuCmp('breezy') <= 0 and $data .= addUniverse();
     $data .= upgradeAndInstall($pkgs);
     $data .= cleanup();
     $data .= addUser('user');
@@ -525,10 +525,30 @@ sub pkgdev {
         return $data;
     }
 
-    my $pkgs = 'git gdb';
+    my $pkgs = 'gdb';
+    if ($dist eq 'debian') {
+        if (debianCmp('lenny') > 0) {
+            $pkgs .= ' git';
+        } elsif (debianCmp('etch') >= 0) {
+            # For etch and lenny, git referred to something different
+            # (GNU Interactive Tools).
+            $pkgs .= ' git-core';
+        }
+        # Debian sarge and earlier do not appear to have git at all.
+    } elsif ($dist eq 'ubuntu') {
+        if (ubuntuCmp('lucid') > 0) {
+            $pkgs .= ' git';
+        } elsif (ubuntuCmp('dapper') >= 0) {
+            # For dapper..lucid, git referred to something different
+            # (GNU Interactive Tools).
+            $pkgs .= ' git-core';
+        }
+        # Ubuntu breezy and earlier do not appear to have git at all.
+    } else {
+        $pkgs .= ' git';
+    }
     debStyle() and $pkgs .= ' build-essential devscripts fakeroot lintian debhelper';
-    $dist eq 'debian' and debianCmp('sarge') > 0 and $pkgs .= ' autopkgtest';
-    $dist eq 'ubuntu' and $pkgs .= ' autopkgtest';
+    debStyle() and debianUbuntuCmp('sarge', 'breezy') > 0 and $pkgs .= ' autopkgtest';
     rpmStyle() and $pkgs .= ' rpm-build gcc gcc-c++';
     $dist eq 'arch' and $pkgs .= ' base-devel devtools namcap';
     $dist eq 'opensuse' and $pkgs .= ' appstream-glib';
@@ -570,6 +590,9 @@ sub pkgdev {
         # the trusty port does not actually _have_ these extra compilers.
         # (I should check, maybe that port did not include universe at all?)
         my @gcc = ();
+        $release eq 'dapper' and @gcc = qw(2.95 3.3 3.4 4.0);
+        $release eq 'hardy' and @gcc = qw(3.3 3.4 4.1 4.2);
+        $release eq 'lucid' and @gcc = qw(4.1 4.3 4.4);
         $release eq 'precise' and @gcc = qw(4.4 4.5 4.6);
         $release eq 'trusty' and $usearch ne 'aarch64' and
             @gcc = qw(4.4 4.6 4.7 4.8);
@@ -591,6 +614,8 @@ sub pkgdev {
         $release eq 'focal' and @clang = qw(6.0 7 8 9 10 12);
         $release eq 'jammy' and @clang = qw(11 12 13 14 15);
         $pkgs .= " clang-$_" foreach @clang;
+        # These LTS releases just had a "clang" package, without versions.
+        $release eq 'lucid' and $pkgs .= ' clang';
     } elsif ($dist eq 'opensuse') {
         my $latest;
         $release eq '42.3' and $latest = '7';  # default: gcc48

@@ -5,7 +5,8 @@ if [ -e /etc/os-release ]; then
   source /etc/os-release
   suite="$VERSION_CODENAME"
   if [ -z "$suite" ]; then
-    # Some ancient releases (up to debian jessie) did not set VERSION_CODENAME.
+    # Some ancient releases (up to debian jessie and ubuntu xenial) did not
+    set VERSION_CODENAME.
     case "$VERSION_ID" in
       7 ) suite=wheezy ;;
       8 ) suite=jessie ;;
@@ -31,6 +32,21 @@ else
     'Debian GNU/Linux 5.'* ) suite=lenny ;;
     'Debian GNU/Linux 6.'* ) suite=squeeze ;;
     'Ubuntu 12.04 '* ) suite=precise ;;
+    'Ubuntu 11.10 '* ) suite=oneiric ;;
+    'Ubuntu 11.04 '* ) suite=natty ;;
+    'Ubuntu 10.10 '* ) suite=maverick ;;
+    'Ubuntu 10.04 '* ) suite=lucid ;;
+    'Ubuntu 9.10 '* ) suite=karmic ;;
+    'Ubuntu 9.04 '* ) suite=jaunty ;;
+    'Ubuntu 8.10 '* ) suite=intrepid ;;
+    'Ubuntu 8.04 '* ) suite=hardy ;;
+    'Ubuntu 7.10 '* ) suite=gutsy ;;
+    'Ubuntu 7.04 '* ) suite=feisty ;;
+    'Ubuntu 6.10 '* ) suite=edgy ;;
+    'Ubuntu 6.06 '* ) suite=dapper ;;
+    'Ubuntu 5.10 '* ) suite=breezy ;;
+    'Ubuntu 5.04 '* ) suite=hoary ;;
+    'Ubuntu 4.10 '* ) suite=warty ;;
     * ) echo "ERROR: Could not deduce suite from /etc/issue"; exit 1 ;;
   esac
 fi
@@ -57,7 +73,9 @@ fi
 #
 # - none : a debian or ubuntu distribution for which there was no separate
 #   regina package repository (typically because the version of regina that it
-#   shipped remained current for the lifetime of that distribution).
+#   shipped remained current for the lifetime of that distribution, or because
+#   this was a very ancient distribution where the debian/ubuntu archives were
+#   the sole source of regina packages).
 #
 # - embryonic : a debian distribution that dates back to before regina ever
 #   appeared in a formal debian release.  Whatever regina packages _did_ exist
@@ -99,6 +117,9 @@ case "$suite" in
   xenial ) aptstyle=standalone ;;
   trusty ) aptstyle=standaloneline ;;
   precise ) aptstyle=standaloneline ;;
+  lucid ) aptstyle=standaloneline ;;
+  hardy ) aptstyle=none ;;
+  dapper ) aptstyle=none ;;
   # Ancient ubuntu short-term:
   eoan ) aptstyle=none ;;
   disco ) aptstyle=standalone ;;
@@ -112,6 +133,18 @@ case "$suite" in
   saucy ) aptstyle=standaloneline ;;
   raring ) aptstyle=standaloneline ;;
   quantal ) aptstyle=standaloneline ;;
+  oneiric ) aptstyle=standaloneline ;;
+  natty ) aptstyle=standaloneline ;;
+  maverick ) aptstyle=standaloneline ;;
+  karmic ) aptstyle=none ;;
+  jaunty ) aptstyle=none ;;
+  intrepid ) aptstyle=none ;;
+  gutsy ) aptstyle=none ;;
+  feisty ) aptstyle=none ;;
+  edgy ) aptstyle=none ;;
+  breezy ) aptstyle=none ;;
+  hoary ) aptstyle=none ;;
+  warty ) aptstyle=none ;;
   # Default:
   * ) aptstyle=unified ;;
 esac

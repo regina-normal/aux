@@ -40,12 +40,9 @@ fi
 #
 # Warning: very old ubuntus (<= oneiric) appear to build successfully,
 # but there are a lot of noisy warnings about logging failures due to /dev/pts
-# not being mounted.  Moreover, for gutsy, the compressed package listings
-# (Packages.gz / Packages.bz2) appear to be corrupt, but the uncompressed
-# listings seem fine.  These issues might come back to bite us.
-#
-# Regarding unsupported releases: karmic and earlier fail at the point of
-# apt-get update (they cannot connect to old-releases.ubuntu.com).
+# not being mounted.  Moreover, for gutsy (only), the compressed package
+# listings (Packages.gz / Packages.bz2) appear to be corrupt, but the
+# uncompressed listings seem fine.  These issues might come back to bite us.
 #
 archive=0
 oldkey=0
@@ -55,17 +52,17 @@ case "$ver" in
   # in case we ever want to try:
   warty ) oldkey=1 ;;               #  4.10
   hoary ) oldkey=1 ;;               #  5.04
+  # These are the ancient releases that we do support and which need special
+  # arguments for debootstrap:
   breezy ) oldkey=1 ;;              #  5.10
   dapper ) oldkey=1 ; archive=1 ;;  #  6.06 LTS
   edgy ) oldkey=1 ;;                #  6.10
   feisty ) oldkey=1 ;;              #  7.04
   gutsy ) oldkey=1 ;;               #  7.10
+  hardy ) oldkey=1 ;;               #  8.04 LTS
   intrepid ) oldkey=1 ;;            #  8.10
   jaunty ) oldkey=1 ;;              #  9.04
   karmic ) oldkey=1 ;;              #  9.10
-  # These are the ancient releases that we do support and which need special
-  # arguments for debootstrap:
-  hardy ) oldkey=1 ;;               #  8.04 LTS
   lucid ) oldkey=1 ;;               # 10.04 LTS
   maverick ) oldkey=1 ;;            # 10.10
   natty ) oldkey=1 ;;               # 11.04
