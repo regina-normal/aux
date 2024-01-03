@@ -47,9 +47,15 @@ fi
 archive=0
 oldkey=0
 case "$ver" in
-  # These are the ancient ubuntu releases that we do not yet support.
-  # We keep them here anyway, going back to the very beginning of ubuntu,
-  # in case we ever want to try:
+  # These are the first two ubuntu releases, which we do not yet support.
+  # We keep them here anyway, in case we ever want to try.
+  # At least hoary has been attempted (unsuccessfully):
+  # - debootstrap needs to be patched by adding force_md5 near the top of
+  #   /usr/share/debootstrap/scripts/hoary, to avoid an "invalid release file"
+  #   error (see debian bug #676373);
+  # - nevertheless, after extracting the initial packages, an error occurs when
+  #   attempting to mount /proc and /sys inside the chroot.
+  # No further attempt has been made (yet) to resolve this.
   warty ) oldkey=1 ;;               #  4.10
   hoary ) oldkey=1 ;;               #  5.04
   # These are the ancient releases that we do support and which need special
