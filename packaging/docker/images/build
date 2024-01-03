@@ -226,6 +226,17 @@ sub addUniverse {
     return '';
 }
 
+# Usage: addMultiverse()
+#
+# Adds both universe and multiverse to the APT sources on ubuntu, does nothing
+# otherwise.
+#
+sub addMultiverse {
+    addUniverse();
+    $dist eq 'ubuntu' and return "RUN sed -i -s 's/ universe\$/ universe multiverse/' /etc/apt/sources.list; cat /etc/apt/sources.list\n";
+    return '';
+}
+
 # Usage: addNonUS()
 #
 # Adds non-US to the APT sources on ancient debian releases that needed it for
