@@ -24,7 +24,6 @@ BuildRequires: gcc11-c++
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
-BuildRequires: libbz2-devel
 BuildRequires: libstdc++-devel
 BuildRequires: libxml2-devel
 BuildRequires: libxslt-tools
