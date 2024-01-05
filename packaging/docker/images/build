@@ -435,8 +435,13 @@ sub addRepo {
     my $repo = shift;
     my $ans = '';
     if (debStyle()) {
-        $hasAddedRepo or $ans = "RUN apt-get install -y --no-install-recommends software-properties-common\n";
-        $ans .= "RUN apt-add-repository -y '$repo' && cat /etc/apt/sources.list\n";
+        my $slimopt = (debianUbuntuCmp('etch', 'dapper') > 0 ? '--no-install-recommends ' : '');
+        if ($dist eq 'debian' and debianCmp('sarge') <= 0) {
+            $ans .= "RUN echo '$repo' >> /etc/apt/sources.list && cat /etc/apt/sources.list\n";
+        } else {
+            $hasAddedRepo or $ans = "RUN apt-get install -y ${slimopt}software-properties-common\n";
+            $ans .= "RUN apt-add-repository -y '$repo' && cat /etc/apt/sources.list\n";
+        }
     } elsif ($dist eq 'opensuse') {
         $ans .= "RUN zypper addrepo '$repo' && zypper repos\n";
     } else {
@@ -597,9 +602,10 @@ sub pkgdev {
             # Note: I have not actually looked at pre-breezy ubuntus to see
             # what is available (if anything).
             my $sdk = (debianUbuntuCmp('sarge', 'breezy') >= 0 ? 'j2sdk1.4' : 'j2sdk1.3');
+            my $sections = (debianUbuntuCmp('sarge', 'breezy') >= 0 ? 'non-free' : 'main non-free');
             if ($dist eq 'debian') {
-                # TODO: Set up our own copy of the blackdown repo.
-                # TODO: Ensure we use apt-secure.
+                # Use our own private mirror of the blackdown repository.
+                $data .= addRepo("deb http://lab.benburton.org/archive/java/ $release $sections");
             } else {
                 ubuntuCmp('hardy') < 0 or die 'Blackdown java on ubuntu was removed in hardy';
                 $data .= addMultiverse();
@@ -870,9 +876,6 @@ sub regina {
             $pkgs .= ($useKDE == 4 ? ' kdelibs5-dev pkg-kde-tools' : ' kdelibs4-dev');
         } elsif ($needJava) {
             # TODO: jython libbtools-java j2sdk1.x
-            # TODO: breezy,dapper,edgy,feisty,gutsy: 1.4 in multiverse
-            # TODO: woody: 1.3 in custom repo
-            # TODO: sarge: 1.4 in custom repo
         }
     } elsif ($dist eq 'fedora') {
         $pkgs .= ' gmp-devel';
