@@ -35,7 +35,7 @@ else
     'Ubuntu 11.10 '* ) suite=oneiric ;;
     'Ubuntu 11.04 '* ) suite=natty ;;
     'Ubuntu 10.10 '* ) suite=maverick ;;
-    'Ubuntu 10.04 '* ) suite=lucid ;;
+    'Ubuntu 10.04.'* ) suite=lucid ;;
     'Ubuntu 9.10 '* ) suite=karmic ;;
     'Ubuntu 9.04 '* ) suite=jaunty ;;
     'Ubuntu 8.10 '* ) suite=intrepid ;;

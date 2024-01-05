@@ -143,6 +143,43 @@ sub reginaVersionCmp {
     return cmp_version($lhs, $rhs);
 }
 
+# Usage: reginaVersionInRange('7.0', '6.0.1', '7.3')
+#
+# Returns a boolean: reginaVersionInRange(test, lower, upper) returns true
+# iff test is in the range [lower, upper], including the endpoints.
+#
+# Each argument is either a regina version string, or 'current' (which means
+# the latest development code, i.e., the current git master).  Versions are
+# compared chronologically, using reginaVersionCmp().
+#
+sub reginaVersionInRange {
+    my $test = shift;
+    my $lower = shift;
+    my $upper = shift;
+    (defined $test and defined $lower and defined $upper) or die;
+    reginaVersionCmp($lower, $upper) <= 0 or die;
+    return (reginaVersionCmp($test, $lower) >= 0 and
+        reginaVersionCmp($test, $upper) <= 0);
+}
+
+# Usage: reginaVersionInRangeStrict('7.0', '6.0.1', '7.3')
+#
+# Returns a boolean: reginaVersionInRangeStrict(test, lower, upper) returns true
+# iff test is in the range (lower, upper), excluding the endpoints.
+#
+# Each argument is either a regina version string, or 'current' (which means
+# the latest development code, i.e., the current git master).  Versions are
+# compared chronologically, using reginaVersionCmp().
+#
+sub reginaVersionInRangeStrict {
+    my $test = shift;
+    my $lower = shift;
+    my $upper = shift;
+    (defined $test and defined $lower and defined $upper) or die;
+    reginaVersionCmp($lower, $upper) < 0 or die;
+    return (reginaVersionCmp($test, $lower) > 0 and
+        reginaVersionCmp($test, $upper) < 0);
+}
 # Usage: debianCmp('buster')
 #
 # Returns -1, 0 or 1 according to whether the VM's debian version is </=/> RHS.
@@ -242,7 +279,7 @@ sub addMultiverse {
 # Adds non-US to the APT sources on ancient debian releases that needed it for
 # crypto-related packages, does nothing otherwise.
 #
-sub addNonUS{
+sub addNonUS {
     $dist eq 'debian' and debianCmp('sarge') < 0 and return "RUN echo 'deb http://archive.debian.org/debian-non-US $release/non-US main' >> /etc/apt/sources.list; cat /etc/apt/sources.list\n";
     return '';
 }
@@ -528,6 +565,20 @@ sub pkgdev {
             $dist eq 'opensuse' or
                 die 'pkgdev-tokyocabinet only supported for opensuse';
             $data .= refreshAndInstall('autoconf automake libbz2-devel libltdl7 libtool m4 site-config zlib-devel', 1);
+        } elsif ($purpose eq 'btools') {
+            debStyle() or die 'pkgdev-btools only supported for debian/ubuntu';
+            # Note: I have not actually looked at pre-breezy ubuntus to see
+            # what is available (if anything).
+            my $sdk = (debianUbuntuCmp('sarge', 'breezy') >= 0 ? 'j2sdk1.4' : 'j2sdk1.3');
+            if ($dist eq 'debian') {
+                # TODO: Set up our own copy of the blackdown repo.
+                # TODO: Ensure we use apt-secure.
+            } else {
+                ubuntuCmp('hardy') < 0 or die 'Blackdown java on ubuntu was removed in hardy';
+                $data .= addMultiverse();
+            }
+            $data .= copyAndRunCommand('debconf-set-selections /root/java.conf', 'java.conf');
+            $data .= refreshAndInstall($sdk);
         } else {
             die 'Unknown pkgdev-* type';
         }
@@ -639,6 +690,11 @@ sub pkgdev {
         $latest and $pkgs .= " gcc$latest gcc$latest-c++";
     }
 
+    # We should include hexdump.  On recent debian systems this comes through
+    # bsdextrautils, which is recommended by the required package bsdutils,
+    # and which seems to be installed already on our pkgdev images (though
+    # I am not sure of the particular dependency route).
+
     my $data = from('basic');
     $data .= addUniverse(); # for non-default compilers on ubuntu
 
@@ -673,86 +729,196 @@ sub regina {
         $regver = 'current';
     }
 
-    # Additional libraries that regina used to require:
-    my $needCJP = (reginaVersionCmp($regver, '7.3') <= 0);
-    my $needBoostHeadersOnly = (reginaVersionCmp($regver, '7.0') < 0 and
-        reginaVersionCmp($regver, '5.1') > 0);
-    my $needBoostLibs = (reginaVersionCmp($regver, '5.1') <= 0);
-    my $needSourceHighlight = (reginaVersionCmp($regver, '5.0') <= 0);
-    my $needMPI = (reginaVersionCmp($regver, '5.1') <= 0);
+    # Additional tools/libraries that regina used at different points in time:
+    my $needBoostHeadersOnly = reginaVersionInRangeStrict($regver, '5.1', '7.0');
+    my $needBoostLibs = reginaVersionInRange($regver, '3.95', '5.1');
+    my $needCmake = (reginaVersionCmp($regver, '4.90') >= 0);
+    my $needCORBA = reginaVersionInRange($regver, '2.3', '2.4');
+    my $needCppUnit = reginaVersionInRange($regver, '3.97', '7.3');
+    my $needDocbookUtils = (reginaVersionCmp($regver, '4.0') <= 0);
+    my $needFastJar = reginaVersionInRange($regver, '3.1', '3.2');
+    my $needGraphvizLibs = (reginaVersionCmp($regver, '5.0') >= 0);
+    my $needGraphvizRuntime = (reginaVersionCmp($regver, '3.2') <= 0);
+    my $needJade = (reginaVersionCmp($regver, '3.2') <= 0);
+    my $needJansson = reginaVersionInRange($regver, '5.1', '7.3');
+    my $needJava = (reginaVersionCmp($regver, '3.2') <= 0);
+    my $needKDE = reginaVersionInRange($regver, '3.95', '4.90');
+    my $needKVStore = (reginaVersionCmp($regver, '4.96') >= 0);
+    my $needMPI = reginaVersionInRange($regver, '4.2', '5.1');
+    my $needPopt = reginaVersionInRange($regver, '3.1', '7.3');
+    my $needPython = (reginaVersionCmp($regver, '3.95') >= 0);
+    my $needQt = (reginaVersionCmp($regver, '4.92') >= 0);
+    my $needSharedMimeInfo = (reginaVersionCmp($regver, '4.90') >= 0);
+    my $needSourceHighlight = reginaVersionInRange($regver, '4.92', '5.0');
+    my $needXML = (reginaVersionCmp($regver, '3.0') >= 0);
+    my $needXSLT = (reginaVersionCmp($regver, '4.92') >= 0);
 
     # The highest Qt major version that this version of Regina supports:
     my $maxQt = (reginaVersionCmp($regver, '7.1') >= 0 ? 6 :
-        reginaVersionCmp($regver, '5.0') >= 0 ? 5 : 4);
+        reginaVersionCmp($regver, '5.0') >= 0 ? 5 :
+        $needQt ? 4 : undef);
 
     # The highest Python major version that this version of Regina supports:
-    my $maxPython = (reginaVersionCmp($regver, '5.1') > 0 ? 3 : 2);
+    my $maxPython = (reginaVersionCmp($regver, '5.1') > 0 ? 3 :
+        $needPython ? 2 : undef);
+
+    # The specific KDE version that this version of Regina supports:
+    my $useKDE = ($regver eq '4.90' ? 4 :
+        $needKDE ? 3 : undef);
 
     # Note: we use curl to download source tarballs.
-    my $pkgs = 'curl cmake doxygen shared-mime-info';
+    my $pkgs = 'curl doxygen';
+    $needGraphvizRuntime and $pkgs .= ' graphviz';
+    $needJade and $pkgs .= ' jade';
+    $needCmake and $pkgs .= ' cmake';
+    $needSharedMimeInfo and $pkgs .= ' shared-mime-info';
+    $needDocbookUtils and $pkgs .= ' docbook-utils';
+    $needFastJar and $pkgs .= ' fastjar';
     if (debStyle()) {
-        $pkgs .= ' dh-python libgmp-dev libgraphviz-dev libtokyocabinet-dev libxml2-dev pkg-config zlib1g-dev xsltproc';
-        $needCJP and $pkgs .= ' libcppunit-dev libjansson-dev libpopt-dev';
+        # There was a period where debian/rules reran the autotools scripts.
+        # Possibly this was due to the patches to admin/kde.m4.ext, though
+        # these patches only appeared in the packaging for regina 4.3.1.
+        # The autotools dependencies remained however until regina switched
+        # to cmake.
+        reginaVersionInRange($regver, '4.3.1', '4.6') and
+            (debianUbuntuCmp('etch', 'breezy') >= 0) and
+            $pkgs .= ' automake1.9';
+
+        $pkgs .= (debianUbuntuCmp('wheezy', 'oneiric') < 0 ? ' libgmp3-dev' : ' libgmp-dev');
+        $needXML and $pkgs .= ' libxml2-dev zlib1g-dev';
+        $needXSLT and $pkgs .= ' xsltproc';
+        $needKVStore and $pkgs .= ' libtokyocabinet-dev pkg-config';
+        # For the cppunit package name, the threshold of hoary below might need
+        # to be earlier; this has not been tested.  This is also harmless,
+        # since breezy still had a transitional cppunit package.
+        $needCppUnit and $pkgs .= (debianUbuntuCmp('woody', 'hoary') > 0 ? ' libcppunit-dev' : ' cppunit');
+        $needGraphvizLibs and $pkgs .= ' libgraphviz-dev';
+        $needJansson and $pkgs .= ' libjansson-dev';
+        $needPopt and $pkgs .= ' libpopt-dev';
+        $needSourceHighlight and $pkgs .= ' libsource-highlight-dev';
+        $needCORBA and $pkgs .= ' omniorb-dev';
+        $needMPI and $pkgs .= (reginaVersionCmp($regver, '4.90') >= 0 ? ' mpi-default-dev' : ' libmpich1.0-dev');
         $needBoostHeadersOnly and $pkgs .= ' libboost-dev';
         if ($needBoostLibs) {
             $pkgs .= ' libboost-python-dev';
-            ($regver eq '5.0' or $regver eq '5.1') and $pkgs .= ' libboost-iostreams-dev';
-            reginaVersionCmp($regver, '5.0') <= 0 and reginaVersionCmp($regver, '4.92') >= 0 and $pkgs .= ' libboost-regex-dev';
+            reginaVersionInRange($regver, '5.0', '5.1') and $pkgs .= ' libboost-iostreams-dev';
+            reginaVersionInRange($regver, '4.92', '5.0') and $pkgs .= ' libboost-regex-dev';
         }
-        $needSourceHighlight and $pkgs .= ' libsource-highlight-dev';
-        $needMPI and $pkgs .= ' mpi-default-dev';
-        if ($maxPython == 2) {
-            $pkgs .= ' python-dev';
-        } elsif (reginaVersionCmp($regver, '7.1') < 0 and debianUbuntuCmp('buster', 'eoan') <= 0) {
-            # Although debian buster supported python3, we always built regina
-            # on buster using python2.  Likewise for ubuntu disco.  As for
-            # eoan, this only ever saw regina 5.1, which used python2 because
-            # regina 5.1 did not support python3.  Hence the debian/ubuntu
-            # thresholds above.  This is only relevant for regina <= 7.0;
-            # after this, python2 support was dropped completely from regina.
-            $pkgs .= ' python-dev';
-        } else {
-            $pkgs .= ' python3-dev';
+        if ($needPython) {
+            if (debianUbuntuCmp('wheezy', 'saucy') > 0) {
+                $pkgs .= ' dh-python';
+            } elsif (debianUbuntuCmp('lenny', 'intrepid') >= 0) {
+                $pkgs .= ' python-support';
+            } else {
+                # No special python support packages were required here.
+                # Instead we used XS-Python-Version and XB-Python-Version
+                # in debian/control.
+            }
+            if ($maxPython == 2) {
+                $pkgs .= ' python-dev';
+            } elsif (reginaVersionCmp($regver, '7.1') < 0 and debianUbuntuCmp('buster', 'eoan') <= 0) {
+                # Although debian buster supported python3, we always built regina
+                # on buster using python2.  Likewise for ubuntu disco.  As for
+                # eoan, this only ever saw regina 5.1, which used python2 because
+                # regina 5.1 did not support python3.  Hence the debian/ubuntu
+                # thresholds above.  This is only relevant for regina <= 7.0;
+                # after this, python2 support was dropped completely from regina.
+                $pkgs .= ' python-dev';
+            } else {
+                $pkgs .= ' python3-dev';
+            }
         }
-        if ($maxQt <= 4 or ($dist eq 'ubuntu' and ubuntuCmp('quantal') <= 0)) {
-            $pkgs .= ' libqt4-dev';
-        } elsif ($maxQt <= 5 or debianUbuntuCmp('bullseye', 'impish') <= 0) {
-            $pkgs .= ' qtbase5-dev libqt5svg5-dev';
-        } else {
-            $pkgs .= ' qt6-base-dev libqt6svg6-dev';
+        if ($needQt) {
+            if ($maxQt <= 4 or ($dist eq 'ubuntu' and ubuntuCmp('quantal') <= 0)) {
+                $pkgs .= ' libqt4-dev';
+            } elsif ($maxQt <= 5 or debianUbuntuCmp('bullseye', 'impish') <= 0) {
+                $pkgs .= ' qtbase5-dev libqt5svg5-dev';
+            } else {
+                $pkgs .= ' qt6-base-dev libqt6svg6-dev';
+            }
+            # This works around an issue that was specific to ubuntu jammy:
+            $release eq 'jammy' and $pkgs .= ' libgl-dev';
+        } elsif ($needKDE) {
+            # Note: kdelibs5 was from KDE4, and kdelibs4 was from KDE3.
+            $pkgs .= ($useKDE == 4 ? ' kdelibs5-dev pkg-kde-tools' : ' kdelibs4-dev');
+        } elsif ($needJava) {
+            # TODO: jython libbtools-java j2sdk1.x
+            # TODO: breezy,dapper,edgy,feisty,gutsy: 1.4 in multiverse
+            # TODO: woody: 1.3 in custom repo
+            # TODO: sarge: 1.4 in custom repo
         }
-        # This works around an issue that was specific to ubuntu jammy:
-        $release eq 'jammy' and $pkgs .= ' libgl-dev';
     } elsif ($dist eq 'fedora') {
-        $pkgs .= ' desktop-file-utils gmp-devel graphviz-devel libxml2-devel libxslt pkgconfig tokyocabinet-devel zlib-devel';
-        $needCJP and $pkgs .= ' cppunit-devel jansson-devel popt-devel';
-        ($needBoostHeadersOnly or $needBoostLibs) and $pkgs .= ' boost-devel';
-        if ($maxPython == 2 or $release <= 25) {
-            $pkgs .= ' python2-devel';
-            $needBoostLibs and $release >= 29 and $pkgs .= ' boost-python2-devel';
-        } else {
-            $pkgs .= ' python3-devel';
-            $needBoostLibs and $release >= 29 and $pkgs .= ' boost-python3-devel';
-        }
+        $pkgs .= ' gmp-devel';
+        ($needQt or ($needKDE and $useKDE == 4)) and $pkgs .= ' desktop-file-utils';
+        $needXML and $pkgs .= ' libxml2-devel zlib-devel';
+        $needXSLT and $pkgs .= ' libxslt';
+        $needKVStore and $pkgs .= ' tokyocabinet-devel pkgconfig';
+        $needCppUnit and $pkgs .= ' cppunit-devel';
+        $needGraphvizLibs and $pkgs .= ' graphviz-devel';
+        $needJansson and $pkgs .= ' jansson-devel';
+        $needPopt and $pkgs .= ($release > 7 ? ' popt-devel' : ' popt');
         $needSourceHighlight and $pkgs .= ' source-highlight-devel';
-        if ($maxQt <= 4) {
-            $pkgs .= ' qt-devel';
-        } elsif ($maxQt <= 5 or $release <= 34) {
-            $pkgs .= ' qt5-qtbase-devel qt5-qtsvg-devel';
-        } else {
-            $pkgs .= ' qt6-qtbase-devel qt6-qtsvg-devel';
+        $needCORBA and die 'CORBA not supported for fedora packaging';
+        # MPI was excluded from the fedora builds from regina 4.4 onwards.
+        $needMPI and reginaVersionCmp($regver, '4.4') < 0 and $pkgs .= ($release > 5 ? ' lam-devel' : ' lam');
+        ($needBoostHeadersOnly or $needBoostLibs) and $pkgs .= ' boost-devel';
+        if ($needPython) {
+            if ($maxPython == 2) {
+                $pkgs .= ($release <= 25 ? ' python-devel' : ' python2-devel');
+                $needBoostLibs and $release >= 29 and $pkgs .= ' boost-python2-devel';
+            } else {
+                $pkgs .= ' python3-devel';
+                $needBoostLibs and $pkgs .= ' boost-python3-devel';
+            }
+        }
+        if ($needQt) {
+            if ($maxQt <= 4) {
+                $pkgs .= ' qt-devel';
+            } elsif ($maxQt <= 5 or $release <= 34) {
+                $pkgs .= ' qt5-qtbase-devel qt5-qtsvg-devel';
+            } else {
+                $pkgs .= ' qt6-qtbase-devel qt6-qtsvg-devel';
+            }
+        } elsif ($needKDE) {
+            if ($useKDE == 4) {
+                $pkgs .= ' kdelibs-devel';
+            } else {
+                if ($release >= 9) {
+                    $pkgs .= ' kdelibs3-devel qt3-devel';
+                } else {
+                    $pkgs .= ' kdelibs-devel qt-devel';
+                }
+                # These extra libraries appeared as build-depends in regina's
+                # fedora packaging; I suspect they were to support KDE3 but I
+                # could be wrong.
+                $pkgs .= ' libselinux-devel';
+                $release <= 6 and $release >= 3 and $pkgs .= ' libaio-devel';
+            }
+        } elsif ($needJava) {
+            die 'Java not supported for fedora packaging';
         }
     } elsif ($dist eq 'opensuse') {
-        $pkgs .= ' gmp-devel graphviz-devel libbz2-devel libxml2-devel libxslt-tools pkg-config zlib-devel';
-        $needCJP and $pkgs .= ' cppunit-devel libjansson-devel popt-devel';
+        $pkgs .= ' sed gmp-devel';
+        $needXML and $pkgs .= ' libxml2-devel zlib-devel';
+        $needXSLT and $pkgs .= ' libxslt-tools';
+        # KVStore is messy on openSUSE.  We deal with it below.
+        $needCppUnit and $pkgs .= ' cppunit-devel';
+        $needGraphvizLibs and $pkgs .= ' graphviz-devel';
+        $needJansson and $pkgs .= ' libjansson-devel';
+        $needPopt and $pkgs .= ' popt-devel';
+        $needSourceHighlight and $pkgs .= ' libsource-highlight-devel';
+        $needCORBA and die 'CORBA not supported for opensuse packaging';
+        # MPI was never included in the RPM builds.
         if ($needBoostLibs) {
             if ($release =~ /^42\./) {
                 # The default boost is too old for many versions of regina.
                 $pkgs .= ' boost_1_61-devel';
+                # This one development package covers all boost libraries.
             } else {
+                # Each boost library has its own development package.
                 $pkgs .= ($maxPython == 2 ? ' libboost_python-devel' : ' libboost_python-py3-devel');
-                ($regver eq '5.0' or $regver eq '5.1') and $pkgs .= ' libboost_iostreams-devel';
-                reginaVersionCmp($regver, '5.0') <= 0 and reginaVersionCmp($regver, '4.92') >= 0 and $pkgs .= ' libboost_regex-devel';
+                reginaVersionInRange($regver, '5.0', '5.1') and $pkgs .= ' libboost_iostreams-devel';
+                reginaVersionInRange($regver, '4.92', '5.0') and $pkgs .= ' libboost_regex-devel';
             }
         } elsif ($needBoostHeadersOnly) {
             if ($release =~ /^42\./) {
@@ -762,40 +928,69 @@ sub regina {
                 $pkgs .= ' boost-devel';
             }
         }
-        $needSourceHighlight and $pkgs .= ' libsource-highlight-devel';
-        if ($maxPython == 2 or $release =~ /^42\./) {
-            $pkgs .= ' python2-devel';
-        } else {
-            $pkgs .= ' python3-devel';
+        if ($needPython) {
+            if ($maxPython == 2 or $release =~ /^42\./) {
+                $pkgs .= ' python2-devel';
+            } else {
+                $pkgs .= ' python3-devel';
+            }
         }
-        if ($maxQt <= 4) {
-            $pkgs .= ' libqt4-devel';
-        } elsif ($maxQt <= 5 or ($release =~ /^42\./ or $release =~ /^15\.[0-3]$/)) {
-            $pkgs .= ' libqt5-qtbase-devel libqt5-qtsvg-devel';
-        } else {
-            $pkgs .= ' qt6-base-devel qt6-svg-devel';
+        if ($needQt) {
+            if ($maxQt <= 4) {
+                $pkgs .= ' libqt4-devel';
+            } elsif ($maxQt <= 5 or ($release =~ /^42\./ or $release =~ /^15\.[0-3]$/)) {
+                $pkgs .= ' libqt5-qtbase-devel libqt5-qtsvg-devel';
+            } else {
+                $pkgs .= ' qt6-base-devel qt6-svg-devel';
+            }
+        } elsif ($needKDE) {
+            $pkgs .= ($useKDE == 4 ? ' libkde4-devel libqt4-devel' : ' kdelibs3-devel qt3-devel');
+        } elsif ($needJava) {
+            die 'Java not supported for opensuse packaging';
         }
-        if (reginaVersionCmp($regver, '7.0') >= 0) {
-            $pkgs .= ' lmdb-devel';
-        } elsif ($release =~ /^42\./) {
-            $pkgs .= ' libtokyocabinet-devel';
-        } else {
-            # The normal openSUSE 15.x repositories do not provide
-            # tokyocabinet at all.  We need to fetch this from elsewhere;
-            # we deal with this in a later block of code below.
+        if ($needKVStore) {
+            if (reginaVersionCmp($regver, '7.0') >= 0) {
+                $pkgs .= ' lmdb-devel';
+            } elsif ($release =~ /^42\./) {
+                $pkgs .= ' libtokyocabinet-devel libbz2-devel';
+            } else {
+                # The normal openSUSE 15.x repositories do not provide
+                # tokyocabinet at all.  We need to fetch this from elsewhere;
+                # we deal with this in a later block of code below.
+                # We will however need libbz2-devel for tokyocabinet, which
+                # we can get now.
+                $pkgs .= ' libbz2-devel';
+            }
+            $pkgs .= ' pkg-config';
         }
     } elsif ($dist eq 'arch') {
-        $pkgs .= ' desktop-file-utils gmp graphviz hicolor-icon-theme libxml2 libxslt zlib';
-        $needCJP and $pkgs .= ' cppunit jansson popt';
-        ($needBoostHeadersOnly or $needBoostLibs) and $pkgs .= ' boost';
+        $pkgs .= ' gmp';
+        $needXML and $pkgs .= ' libxml2 zlib';
+        $needXSLT and $pkgs .= ' libxslt';
+        # Regarding KVStore: tokyocabinet is shipped in our own arch repository.
+        $needCppUnit and $pkgs .= ' cppunit';
+        # Note: if $needGraphvizRuntime is true then we already have graphviz.
+        ($needGraphvizLibs and not $needGraphvizRuntime) and $pkgs .= ' graphviz';
+        $needJansson and $pkgs .= ' jansson';
+        $needPopt and $pkgs .= ' popt';
         $needSourceHighlight and $pkgs .= ' source-highlight';
-        $pkgs .= ' python';
-        if ($maxQt <= 4) {
-            die 'Qt4 is no longer available on arch';
-        } elsif ($maxQt <= 5) {
-            $pkgs .= ' qt5-base qt5-svg';
-        } else {
-            $pkgs .= ' qt6-base qt6-svg';
+        $needCORBA and die 'CORBA not supported for arch packaging';
+        # MPI was never included in the arch builds.
+        ($needBoostHeadersOnly or $needBoostLibs) and $pkgs .= ' boost';
+        $needPython and $pkgs .= ' python';
+        if ($needQt) {
+            $pkgs .= ' desktop-file-utils hicolor-icon-theme';
+            if ($maxQt <= 4) {
+                die 'Qt4 is no longer available on arch';
+            } elsif ($maxQt <= 5) {
+                $pkgs .= ' qt5-base qt5-svg';
+            } else {
+                $pkgs .= ' qt6-base qt6-svg';
+            }
+        } elsif ($needKDE) {
+            die 'KDE 3/4 are no longer available on arch';
+        } elsif ($needJava) {
+            die 'Java not supported for arch packaging';
         }
     } else {
         return undef;
@@ -812,14 +1007,17 @@ sub regina {
         # (which were only ever used with old versions of regina where this
         # did not matter).
         #
-        print "NOTE: Adding backported doxygen and/or cmake for $release\n";
+        my $upgrade = 'doxygen';
+        $needCmake and $upgrade .= ' cmake';
+        print "NOTE: Adding backports for $release: $upgrade\n";
+
         $data .= "RUN apt-get install -y --no-install-recommends software-properties-common\n";
         $data .= copyAndRunCommand('apt-key add /root/regina-key.asc', 'regina-key.asc');
         my $repo = "deb https://people.debian.org/~bab/backports $release/";
         $data .= addRepo($repo);
         # Note: on buster we don't backport cmake, but in this case the extra
         # cmake in the command below is harmless.
-        $data .= refreshAndInstall('doxygen cmake');
+        $data .= refreshAndInstall($upgrade);
         $data .= removeRepo($repo);
     }
     if ($dist eq 'opensuse' and $release =~ /^15\./) {
@@ -845,7 +1043,7 @@ sub regina {
             $data .= refreshAndInstall('--allow-vendor-change doxygen', 1);
         }
 
-        if (reginaVersionCmp($regver, '7.0') < 0) {
+        if ($needKVStore and reginaVersionCmp($regver, '7.0') < 0) {
             # Old versions of regina needed tokyocabinet, which openSUSE 15.x
             # does not supply at all.  We need to fetch it also from our own
             # repository, which includes "forward-ports" of tokyocabinet from
