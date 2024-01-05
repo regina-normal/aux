@@ -71,6 +71,16 @@ if [ "$oldkey" = 1 ]; then
   debootstrap_opts="$debootstrap_opts --keyring=/usr/share/keyrings/debian-archive-removed-keys.gpg"
 fi
 
+# Some extra packages that we need to support apt-check-sigs:
+if [ "$ver" = sarge ]; then
+  # Add gnupg and its dependencies.
+  debootstrap_opts="$debootstrap_opts --include=gnupg,libbz2-1.0,libldap2,libreadline5,libsasl2,libusb-0.1-4"
+elif [ "$ver" = woody ]; then
+  # Add gnupg and its dependencies, as well as wget (which has no dependencies
+  # that we do not already have).
+  debootstrap_opts="$debootstrap_opts --include=wget,gnupg,libgdbmg1,zlib1g"
+fi
+
 echo "Preparing Debian $ver ($arch) as $tag ..."
 echo
 ./mkimage.sh -t "$tag" debootstrap $debootstrap_opts $debootstrap_args

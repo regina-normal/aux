@@ -254,6 +254,19 @@ sub from {
     return "FROM $fromType/$fromVersion\n";
 }
 
+# Usage: aptUpdate()
+#
+# Returns a shell command that updates the package listings on a debian/ubuntu
+# system.  In most cases this is just 'apt-get update'; however, on ancient
+# debian systems that did not use secure APT by default, it also includes a
+# call to apt-check-sigs.
+#
+sub aptUpdate() {
+    my $cmd = 'apt-get update';
+    $dist eq 'debian' and debianCmp('sarge') <= 0 and $cmd .= ' && /usr/local/bin/apt-check-sigs';
+    return $cmd;
+}
+
 # Usage: addUniverse()
 #
 # Adds universe to the APT sources on ubuntu, does nothing otherwise.
@@ -305,7 +318,7 @@ sub refreshAndInstall {
         $dist eq 'fedora' and $slimopt = '--setopt=install_weak_deps=False ';
         $dist eq 'opensuse' and $slimopt = '--no-recommends ';
     }
-    ($dist eq 'debian' or $dist eq 'ubuntu') and return "RUN apt-get update && apt-get install -y $slimopt$pkgs\n";
+    ($dist eq 'debian' or $dist eq 'ubuntu') and return 'RUN ' . aptUpdate() . " && apt-get install -y $slimopt$pkgs\n";
     $dist eq 'fedora' and return "RUN dnf install -y -b --refresh $slimopt$pkgs\n";
     $dist eq 'opensuse' and return "RUN zypper refresh && zypper install -y $slimopt$pkgs\n";
     $dist eq 'arch' and return "RUN pacman --noconfirm --noprogressbar -Syy && pacman --noconfirm --noprogressbar -S $slimopt$pkgs\n";
@@ -331,7 +344,7 @@ sub upgradeAndInstall {
         $dist eq 'fedora' and $slimopt = '--setopt=install_weak_deps=False ';
         $dist eq 'opensuse' and $slimopt = '--no-recommends ';
     }
-    ($dist eq 'debian' or $dist eq 'ubuntu') and return "RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y $slimopt$pkgs\n";
+    ($dist eq 'debian' or $dist eq 'ubuntu') and return 'RUN ' . aptUpdate() . " && apt-get dist-upgrade -y && apt-get install -y $slimopt$pkgs\n";
     $dist eq 'fedora' and return "RUN dnf upgrade -y -b --refresh $slimopt&& dnf install -y -b $slimopt$pkgs\n";
     $dist eq 'opensuse' and return "RUN zypper refresh && zypper update -y && zypper install -y $slimopt$pkgs\n";
     $dist eq 'arch' and return "RUN pacman --noconfirm --noprogressbar -Syy && pacman --noconfirm --noprogressbar -Syu && pacman --noconfirm --noprogressbar -S $slimopt$pkgs\n";
@@ -478,6 +491,20 @@ sub basic {
     $pkgs .= ($dist eq 'fedora' ? ' vim-enhanced' : ' vim');
 
     my $data = from('bare');
+
+    if ($dist eq 'debian' and debianCmp('sarge') <= 0) {
+        # This debian release was before secure APT was the default.
+        # Set things up so that we can use apt-check-sigs ourselves.
+
+        # GnuPG needs a first run just to initialise itself.
+        # Both GnuPG runs (the initialisation and the subsequent key import)
+        # may return a non-zero exit status, and this is okay.
+        $data .= "RUN gpg < /dev/null || true\n";
+        $data .= copyAndRunCommand("gpg --import /root/$release-keys.asc || true", "$release-keys.asc");
+        $data .= "RUN mv /root/.gnupg/pubring.gpg /root/.gnupg/trustedkeys.gpg\n";
+        $data .= copyAndRunCommand('cp /root/apt-check-sigs /usr/local/bin && chmod a+x /usr/local/bin/apt-check-sigs', 'apt-check-sigs');
+    }
+
     $data .= addNonUS();
     # On the earliest ubuntus, ca-certificates was part of universe, not main.
     $dist eq 'ubuntu' and ubuntuCmp('breezy') <= 0 and $data .= addUniverse();

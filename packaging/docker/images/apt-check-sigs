@@ -240,9 +240,14 @@ if grep -q ^ NOCHECK; then
     echo
 fi
 
+rm -rf /tmp/apt-release-check
+
+# Make the exit status reflect the result, so that we can more easily
+# use this in scripts.  (Ben Burton, 2024-01-06)
 if $allokay; then
     echo 'Everything seems okay!'
     echo
+    exit 0
+else
+    exit 1
 fi
-
-rm -rf /tmp/apt-release-check
