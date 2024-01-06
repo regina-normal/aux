@@ -318,12 +318,14 @@ sub addJava {
         $ans .= addMultiverse();
     }
 
-    # Pre-seed answers to some invasive question that are otherwise asked
+    # Pre-seed answers to some invasive questions that are otherwise asked
     # during installation, since with docker build we cannot interact with the
     # installation process.
     if ($dist eq 'debian' and debianCmp('woody') <= 0) {
-        # TODO: Work out what to do here, since woody does not have
-        # debconf-set-selections (at least, not by default).
+        # Woody does not have debconf-set-selections.
+        # However, the java packages for woody also use a "manual" license
+        # agreement process rather than debconf.  So do nothing for now;
+        # we will need to deal with this at the point of installation.
     } else {
         $ans .= copyAndRunCommand('debconf-set-selections /root/java.conf', 'java.conf');
     }
@@ -658,9 +660,14 @@ sub pkgdev {
             debStyle() or die 'pkgdev-btools only supported for debian/ubuntu';
             # Note: I have not actually looked at pre-breezy ubuntus to see
             # what is available (if anything).
-            my $sdk = (debianUbuntuCmp('sarge', 'breezy') >= 0 ? 'j2sdk1.4' : 'j2sdk1.3');
             $data .= addJava();
-            $data .= refreshAndInstall($sdk);
+            if (debianUbuntuCmp('sarge', 'breezy') >= 0) {
+                $data .= refreshAndInstall('j2sdk1.4');
+            } else {
+                # TODO: Work out how to manage the license agreement.
+                # This uses pager and then read.
+                $data .= refreshAndInstall('j2sdk1.3');
+            }
         } else {
             die 'Unknown pkgdev-* type';
         }
