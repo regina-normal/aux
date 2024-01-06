@@ -297,6 +297,40 @@ sub addNonUS {
     return '';
 }
 
+# Usage: addJava()
+#
+# Adds the ancient Blackdown java-linux repositories on debian/ubuntu, does
+# nothing otherwise.
+#
+sub addJava {
+    debStyle() or return undef;
+
+    my $ans = '';
+    my $sections = (debianUbuntuCmp('sarge', 'breezy') >= 0 ? 'non-free' : 'main non-free');
+    if ($dist eq 'debian') {
+        # Use our own private mirror of the blackdown repository.
+        # We import both Ben's old and new keys, since sarge struggles with
+        # the old key (possibly due to the SHA256 digest algorithm?) and
+        # woody struggles with the new key (it cannot read the self-signature).
+        $ans .= addRepo("deb http://lab.benburton.org/archive/java/ $release $sections", 'regina-all-keys.asc');
+    } else {
+        ubuntuCmp('hardy') < 0 or die 'Blackdown java on ubuntu was removed in hardy';
+        $ans .= addMultiverse();
+    }
+
+    # Pre-seed answers to some invasive question that are otherwise asked
+    # during installation, since with docker build we cannot interact with the
+    # installation process.
+    if ($dist eq 'debian' and debianCmp('woody') <= 0) {
+        # TODO: Work out what to do here, since woody does not have
+        # debconf-set-selections (at least, not by default).
+    } else {
+        $ans .= copyAndRunCommand('debconf-set-selections /root/java.conf', 'java.conf');
+    }
+
+    return $ans;
+}
+
 # Usage: refreshAndInstall('zsh gcc ...')
 #
 # Refreshes the package list and installs the given list of packages.
@@ -429,12 +463,34 @@ sub copyAndRun {
 # The repository should either be an URL (for RPM-based distributions), or an
 # apt-line (for debian and ubuntu).  Arch and fedora are not (yet) supported.
 #
+# For debian and ubuntu, a second optional argument is supported: the name
+# of a file in this directory containing signing keys for the repository.
+# These will be added to the list of trusted keys (typically via apt-key).
+#
 # The package listings will _not_ be refreshed.
 #
 sub addRepo {
     my $repo = shift;
+    my $keyfile = shift;
     my $ans = '';
     if (debStyle()) {
+        if (defined $keyfile) {
+            if ($dist eq 'debian' and debianCmp('sarge') <= 0) {
+                # This debian release was before secure APT became the default.
+                # Add the key to trustedkeys.gpg, which is what apt-check-sigs
+                # (the manual secure APT checker) uses for verification.
+                #
+                # Side note: is there a good way to import a key directly
+                # into trustedkeys.gpg instead of going via public.gpg?
+                # (The approach below is convoluted but harmless, since
+                # we never use /root/.gnupg/public.gpg in these images.)
+                $ans .= copyAndRunCommand("mv /root/.gnupg/trustedkeys.gpg /root/.gnupg/pubring.gpg && gpg --import < /root/$keyfile || true", $keyfile);
+                $ans .= "RUN mv /root/.gnupg/pubring.gpg /root/.gnupg/trustedkeys.gpg\n";
+            } else {
+                $ans .= copyAndRunCommand("apt-key add /root/$keyfile", $keyfile);
+            }
+        }
+
         my $slimopt = (debianUbuntuCmp('etch', 'dapper') > 0 ? '--no-install-recommends ' : '');
         if ($dist eq 'debian' and debianCmp('sarge') <= 0) {
             $ans .= "RUN echo '$repo' >> /etc/apt/sources.list && cat /etc/apt/sources.list\n";
@@ -443,6 +499,7 @@ sub addRepo {
             $ans .= "RUN apt-add-repository -y '$repo' && cat /etc/apt/sources.list\n";
         }
     } elsif ($dist eq 'opensuse') {
+        defined $keyfile and die;
         $ans .= "RUN zypper addrepo '$repo' && zypper repos\n";
     } else {
         die;
@@ -602,15 +659,7 @@ sub pkgdev {
             # Note: I have not actually looked at pre-breezy ubuntus to see
             # what is available (if anything).
             my $sdk = (debianUbuntuCmp('sarge', 'breezy') >= 0 ? 'j2sdk1.4' : 'j2sdk1.3');
-            my $sections = (debianUbuntuCmp('sarge', 'breezy') >= 0 ? 'non-free' : 'main non-free');
-            if ($dist eq 'debian') {
-                # Use our own private mirror of the blackdown repository.
-                $data .= addRepo("deb http://lab.benburton.org/archive/java/ $release $sections");
-            } else {
-                ubuntuCmp('hardy') < 0 or die 'Blackdown java on ubuntu was removed in hardy';
-                $data .= addMultiverse();
-            }
-            $data .= copyAndRunCommand('debconf-set-selections /root/java.conf', 'java.conf');
+            $data .= addJava();
             $data .= refreshAndInstall($sdk);
         } else {
             die 'Unknown pkgdev-* type';
@@ -1042,9 +1091,8 @@ sub regina {
         print "NOTE: Adding backports for $release: $upgrade\n";
 
         $data .= "RUN apt-get install -y --no-install-recommends software-properties-common\n";
-        $data .= copyAndRunCommand('apt-key add /root/regina-key.asc', 'regina-key.asc');
         my $repo = "deb https://people.debian.org/~bab/backports $release/";
-        $data .= addRepo($repo);
+        $data .= addRepo($repo, 'regina-key.asc');
         # Note: on buster we don't backport cmake, but in this case the extra
         # cmake in the command below is harmless.
         $data .= refreshAndInstall($upgrade);
