@@ -312,7 +312,7 @@ sub addJava {
         # We import both Ben's old and new keys, since sarge struggles with
         # the old key (possibly due to the SHA256 digest algorithm?) and
         # woody struggles with the new key (it cannot read the self-signature).
-        $ans .= addRepo("deb http://lab.benburton.org/archive/java/ $release $sections", 'regina-all-keys.asc');
+        $ans .= addRepo("deb http://lab.benburton.org/archive/java $release $sections", 'regina-all-keys.asc');
     } else {
         ubuntuCmp('hardy') < 0 or die 'Blackdown java on ubuntu was removed in hardy';
         $ans .= addMultiverse();
