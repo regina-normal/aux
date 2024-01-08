@@ -838,7 +838,7 @@ sub regina {
     my $needBoostLibs = reginaVersionInRange($regver, '3.95', '5.1');
     my $needCmake = (reginaVersionCmp($regver, '4.90') >= 0);
     my $needCORBA = reginaVersionInRange($regver, '2.1.1', '2.4');
-    my $needCppUnit = reginaVersionInRange($regver, '3.97', '7.3');
+    my $needCppUnit = reginaVersionInRange($regver, '3.1', '7.3');
     my $needDocbookUtils = (reginaVersionCmp($regver, '4.0') <= 0);
     my $needFastJar = reginaVersionInRange($regver, '3.1', '3.2');
     my $needGraphvizLibs = (reginaVersionCmp($regver, '5.0') >= 0);
