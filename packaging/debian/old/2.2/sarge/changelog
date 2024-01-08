@@ -1,0 +1,24 @@
+regina-normal (2.2-0.sarge.1) unstable; urgency=low
+
+  * Rebuilt for sarge.
+  * Now builds against j2se1.4 (not j2se1.3).  This requires applying the
+    getUI() -> getPacketUI() patch from git commit ad976ad25d (17 Jun 2002).
+  * Explicitly builds using g++-2.95 (since this regina is too old to build
+    against g++-3.3, which is the default in sarge).
+  * Removed the CORBA server, and therefore the entire regina-normal-server
+    binary package.  This is because we cannot link regina's g++-2.95 engine
+    with the g++-3.3 omniORB4 libraries shipped with sarge.  Any attempt to
+    reinstate regina-normal-server would need to happen on woody, which
+    shipped with omniORB3 and used g++-2.95 as the default compiler.
+
+ -- Ben Burton <bab@debian.org>  Sun, 07 Jan 2024 11:28:05 +1000
+
+regina-normal (2.2-1) unstable; urgency=low
+
+  * Initial Release (closes: Bug#114151).
+
+ -- Ben Burton <benb@acm.org>  Mon,  1 Oct 2001 20:44:04 -0500
+
+Local variables:
+mode: debian-changelog
+End:

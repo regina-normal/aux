@@ -1,0 +1,17 @@
+regina-normal (2.2-0.woody.1) unstable; urgency=low
+
+  * Rebuilt for woody.
+  * Now builds against j2se1.4 (not j2se1.3).  This requires applying the
+    getUI() -> getPacketUI() patch from git commit ad976ad25d (17 Jun 2002).
+
+ -- Ben Burton <bab@debian.org>  Mon, 08 Jan 2024 11:51:03 +1000
+
+regina-normal (2.2-1) unstable; urgency=low
+
+  * Initial Release (closes: Bug#114151).
+
+ -- Ben Burton <benb@acm.org>  Mon,  1 Oct 2001 20:44:04 -0500
+
+Local variables:
+mode: debian-changelog
+End:

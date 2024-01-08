@@ -1,0 +1,45 @@
+regina-normal (2.3-0.woody.2) unstable; urgency=low
+
+  * Rebuilt for woody.
+  * Now builds against j2se1.4 (not j2se1.3).  This requires applying the
+    getUI() -> getPacketUI() patch from git commit ad976ad25d (17 Jun 2002).
+
+ -- Ben Burton <bab@debian.org>  Mon, 08 Jan 2024 11:51:03 +1000
+
+regina-normal (2.3-2) unstable; urgency=low
+
+  * Support both old and new versions of j2se1.3.
+
+ -- Ben Burton <benb@acm.org>  Tue, 29 Jan 2002 01:24:34 +1100
+
+regina-normal (2.3-1.2) unstable; urgency=low
+
+  * And put regina-normal-dev back again now 2.3 is in the archives.
+
+ -- Ben Burton <benb@acm.org>  Mon, 31 Dec 2001 11:39:47 +1000
+
+regina-normal (2.3-1.1) unstable; urgency=low
+
+  * Don't build regina-normal-dev since the ftp admins have kept it on
+    hold for half a month and I really want regina-normal-2.3 available.
+
+ -- Ben Burton <benb@acm.org>  Sun, 30 Dec 2001 11:14:38 +1000
+
+regina-normal (2.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Added package regina-normal-dev.
+  * Depends and build-depends on newer versions of omniorb(-dev).
+  * Updated to conform to new java policy.
+
+ -- Ben Burton <benb@acm.org>  Wed, 12 Dec 2001 01:08:52 -0600
+
+regina-normal (2.2-1) unstable; urgency=low
+
+  * Initial Release (closes: Bug#114151).
+
+ -- Ben Burton <benb@acm.org>  Mon,  1 Oct 2001 20:44:04 -0500
+
+Local variables:
+mode: debian-changelog
+End:

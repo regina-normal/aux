@@ -1,0 +1,134 @@
+--- regina-normal-2.2.orig/Makefile
++++ regina-normal-2.2/Makefile
+@@ -65,7 +65,7 @@
+ 	debug debugjni debugcorba \
+ 	clean purge
+ 
+-binengine : binenginejni binenginecorba
++binengine : binenginejni
+ binenginejni : prepenginejni
+ 	cd engine && $(MAKE) binjni
+ binenginecorba : prepenginecorba
+--- regina-normal-2.2.orig/Makefile.options.linux
++++ regina-normal-2.2/Makefile.options.linux
+@@ -109,10 +109,10 @@
+ # SED: Run sed, the stream editor.
+ # TOUCH: Create a new empty file with the given name.
+ 
+-export MAKEDEP := g++ -MM
+-export COMPILE := g++ -O2 -c -Wall # -DDEBUG
+-export LINKLIB := g++ -O2 -shared
+-export LINKEXEC := g++ -O2
++export MAKEDEP := g++-2.95 -MM
++export COMPILE := g++-2.95 -O2 -c -Wall # -DDEBUG
++export LINKLIB := g++-2.95 -O2 -shared
++export LINKEXEC := g++-2.95 -O2
+ export DOXYGEN := doxygen
+ #export JAVAC := javac -target 1.1
+ export JAVAC := jikes
+--- regina-normal-2.2.orig/javaui/normal/mainui/PacketPane.java
++++ regina-normal-2.2/javaui/normal/mainui/PacketPane.java
+@@ -42,7 +42,7 @@
+  * A pane in which the user can interact with a packet.
+  * This will generally contain a <tt>PacketUI</tt> which will be
+  * responsible for the actual interaction; this can be accessed
+- * through the method <tt>getUI()</tt>.
++ * through the method <tt>getPacketUI()</tt>.
+  * This pane will also display packet identification details and give
+  * the user some buttons for standard actions.
+  * <p>
+@@ -228,7 +228,7 @@
+      *
+      * @return the associated <tt>PacketUI</tt> interface.
+      */
+-    public PacketUI getUI() {
++    public PacketUI getPacketUI() {
+         return ui;
+     }
+ 
+--- regina-normal-2.2.orig/javaui/normal/mainui/TopologyPane.java
++++ regina-normal-2.2/javaui/normal/mainui/TopologyPane.java
+@@ -878,7 +878,7 @@
+         workingArea.add(pane, BorderLayout.CENTER);
+         workingArea.validate();
+         workingPane = pane;
+-        setWorkingTextComponent(pane.getUI().getPrimaryTextComponent());
++        setWorkingTextComponent(pane.getPacketUI().getPrimaryTextComponent());
+         return true;
+     }
+     
+@@ -982,7 +982,7 @@
+         Enumeration e = allPacketPanes.elements();
+         while (e.hasMoreElements()) {
+             pane = (PacketPane)e.nextElement();
+-            if (pane.getUI().hasChanges())
++            if (pane.getPacketUI().hasChanges())
+                 return true;
+         }
+         return false;
+@@ -1006,7 +1006,8 @@
+         Enumeration e = allPacketPanes.elements();
+         while (e.hasMoreElements()) {
+             pane = (PacketPane)e.nextElement();
+-            pane.getUI().packetWasChanged(packet, ui, pane.getParentFrame());
++            pane.getPacketUI().packetWasChanged(packet, ui,
++                pane.getParentFrame());
+         }
+     }
+ 
+@@ -1031,7 +1032,8 @@
+         Enumeration e = allPacketPanes.elements();
+         while (e.hasMoreElements()) {
+             pane = (PacketPane)e.nextElement();
+-            pane.getUI().packetWasRenamed(packet, ui, pane.getParentFrame());
++            pane.getPacketUI().packetWasRenamed(packet, ui,
++                pane.getParentFrame());
+             if (packet.sameObject(pane.getPacket())) {
+                 pane.refreshLabel();
+                 Frame f = pane.getSurroundingFrame();
+@@ -1078,7 +1080,7 @@
+             if (subtree.isGrandparentOf(pane.getPacket()))
+                 dieplease.add(pane);
+             else
+-                pane.getUI().subtreeToBeDeleted(subtree, ui,
++                pane.getPacketUI().subtreeToBeDeleted(subtree, ui,
+                     pane.getParentFrame());
+         }
+         e = dieplease.elements();
+@@ -1123,7 +1125,7 @@
+         Enumeration e = allPacketPanes.elements();
+         while (e.hasMoreElements()) {
+             pane = (PacketPane)e.nextElement();
+-            pane.getUI().subtreeWasDeleted(parent, ui,
++            pane.getPacketUI().subtreeWasDeleted(parent, ui,
+                 pane.getParentFrame());
+         }
+     }
+@@ -1156,7 +1158,8 @@
+         Enumeration e = allPacketPanes.elements();
+         while (e.hasMoreElements()) {
+             pane = (PacketPane)e.nextElement();
+-            pane.getUI().subtreeWasInserted(subtree, ui, pane.getParentFrame());
++            pane.getPacketUI().subtreeWasInserted(subtree, ui,
++                pane.getParentFrame());
+         }
+ 
+         // Update the visual tree.
+@@ -1218,7 +1221,7 @@
+                    if (f != null)
+                        f.setTitle(pane.getPacket().getFullName());
+             }
+-            pane.getUI().subtreeHasChanged(subtree, ui,
++            pane.getPacketUI().subtreeHasChanged(subtree, ui,
+                 pane.getParentFrame());
+         }
+ 
+--- regina-normal-2.2.orig/Makefile.sources
++++ regina-normal-2.2/Makefile.sources
+@@ -25,5 +25,5 @@
+ misc_doc_mask = *.hs *.jhm *.txt *.gif *.jpg *.sgml *.dsl \
+ 	images/*.txt images/*.gif
+ gen_doc_mask = *.html *.1 *.5 *.7 \
+-	engine/*.gif engine/*.html engine/*.css engine/*.dot \
++	engine/*.png engine/*.html engine/*.css engine/*.dot \
+ 	javaui/normal javaui/package-list javaui/*.html javaui/*.css
