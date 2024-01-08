@@ -267,6 +267,20 @@ sub aptUpdate() {
     return $cmd;
 }
 
+# Usage: addNonFree()
+#
+# Adds contrib and non-free to the APT sources on debian, does nothing otherwise.
+#
+sub addNonFree {
+    $dist eq 'debian' or return '';
+    if (debianCmp('woody') > 0) {
+        return "RUN sed -i -s 's/ main\$/ main contrib non-free/' /etc/apt/sources.list; cat /etc/apt/sources.list\n";
+    } else {
+        # This predates the in-place option for sed.
+        return "RUN sed -e 's/ main\$/ main contrib non-free/' < /etc/apt/sources.list > /etc/apt/sources.list.tmp && mv -f /etc/apt/sources.list.tmp /etc/apt/sources.list && cat /etc/apt/sources.list\n";
+    }
+}
+
 # Usage: addUniverse()
 #
 # Adds universe to the APT sources on ubuntu, does nothing otherwise.
@@ -303,7 +317,7 @@ sub addNonUS {
 # nothing otherwise.
 #
 sub addJava {
-    debStyle() or return undef;
+    debStyle() or return '';
 
     my $ans = '';
     my $sections = (debianUbuntuCmp('sarge', 'breezy') >= 0 ? 'non-free' : 'main non-free');
@@ -489,12 +503,18 @@ sub addRepo {
                 $ans .= copyAndRunCommand("mv /root/.gnupg/trustedkeys.gpg /root/.gnupg/pubring.gpg && gpg --import < /root/$keyfile || true", $keyfile);
                 $ans .= "RUN mv /root/.gnupg/pubring.gpg /root/.gnupg/trustedkeys.gpg\n";
             } else {
-                $ans .= copyAndRunCommand("apt-key add /root/$keyfile", $keyfile);
+                # Sometimes apt-key can return a non-zero status (e.g., in
+                # ancient debian releases that can handle Ben's old key but
+                # not his new key).  We therefore ignore any errors here,
+                # and assume that if the errors were so catastrophic that
+                # _no_ keys were added, then we will see a release verification
+                # error further down the line.
+                $ans .= copyAndRunCommand("apt-key add /root/$keyfile || true", $keyfile);
             }
         }
 
         my $slimopt = (debianUbuntuCmp('etch', 'dapper') > 0 ? '--no-install-recommends ' : '');
-        if ($dist eq 'debian' and debianCmp('sarge') <= 0) {
+        if (debianUbuntuCmp('squeeze', 'natty') <= 0) {
             $ans .= "RUN echo '$repo' >> /etc/apt/sources.list && cat /etc/apt/sources.list\n";
         } else {
             $hasAddedRepo or $ans = "RUN apt-get install -y ${slimopt}software-properties-common\n";
@@ -661,13 +681,7 @@ sub pkgdev {
             # Note: I have not actually looked at pre-breezy ubuntus to see
             # what is available (if anything).
             $data .= addJava();
-            if (debianUbuntuCmp('sarge', 'breezy') >= 0) {
-                $data .= refreshAndInstall('j2sdk1.4');
-            } else {
-                # TODO: Work out how to manage the license agreement.
-                # This uses pager and then read.
-                $data .= refreshAndInstall('j2sdk1.3');
-            }
+            $data .= refreshAndInstall('j2sdk1.4');
         } else {
             die 'Unknown pkgdev-* type';
         }
@@ -741,6 +755,7 @@ sub pkgdev {
         # the trusty port does not actually _have_ these extra compilers.
         # (I should check, maybe that port did not include universe at all?)
         my @gcc = ();
+        $release eq 'breezy' and @gcc = qw(2.95 3.3 3.4 4.0);
         $release eq 'dapper' and @gcc = qw(2.95 3.3 3.4 4.0);
         $release eq 'hardy' and @gcc = qw(3.3 3.4 4.1 4.2);
         $release eq 'lucid' and @gcc = qw(4.1 4.3 4.4);
@@ -822,7 +837,7 @@ sub regina {
     my $needBoostHeadersOnly = reginaVersionInRangeStrict($regver, '5.1', '7.0');
     my $needBoostLibs = reginaVersionInRange($regver, '3.95', '5.1');
     my $needCmake = (reginaVersionCmp($regver, '4.90') >= 0);
-    my $needCORBA = reginaVersionInRange($regver, '2.3', '2.4');
+    my $needCORBA = reginaVersionInRange($regver, '2.1.1', '2.4');
     my $needCppUnit = reginaVersionInRange($regver, '3.97', '7.3');
     my $needDocbookUtils = (reginaVersionCmp($regver, '4.0') <= 0);
     my $needFastJar = reginaVersionInRange($regver, '3.1', '3.2');
@@ -861,6 +876,8 @@ sub regina {
     $needJade and $pkgs .= ' jade';
     $needCmake and $pkgs .= ' cmake';
     $needSharedMimeInfo and $pkgs .= ' shared-mime-info';
+    # TODO: edge..gutsy (and possibly later) fail to install TeX packages,
+    # which docbook-utils needs.
     $needDocbookUtils and $pkgs .= ' docbook-utils';
     $needFastJar and $pkgs .= ' fastjar';
     if (debStyle()) {
@@ -885,7 +902,7 @@ sub regina {
         $needJansson and $pkgs .= ' libjansson-dev';
         $needPopt and $pkgs .= ' libpopt-dev';
         $needSourceHighlight and $pkgs .= ' libsource-highlight-dev';
-        $needCORBA and $pkgs .= ' omniorb-dev';
+        $needCORBA and $pkgs .= (debianUbuntuCmp('sarge', 'warty') < 0 ? ' omniorb-dev omniidl' : ' libomniorb4-dev omniidl4');
         $needMPI and $pkgs .= (reginaVersionCmp($regver, '4.90') >= 0 ? ' mpi-default-dev' : ' libmpich1.0-dev');
         $needBoostHeadersOnly and $pkgs .= ' libboost-dev';
         if ($needBoostLibs) {
@@ -931,7 +948,8 @@ sub regina {
             # Note: kdelibs5 was from KDE4, and kdelibs4 was from KDE3.
             $pkgs .= ($useKDE == 4 ? ' kdelibs5-dev pkg-kde-tools' : ' kdelibs4-dev');
         } elsif ($needJava) {
-            # TODO: jython libbtools-java j2sdk1.x
+            # This requires extra repositories.  We will sort it out later,
+            # after the simpler packages have been installed.
         }
     } elsif ($dist eq 'fedora') {
         $pkgs .= ' gmp-devel';
@@ -1083,6 +1101,7 @@ sub regina {
     }
 
     my $data = from('pkgdev');
+    $needGraphvizRuntime and $dist eq 'debian' and debianCmp('woody') <= 0 and $data .= addNonFree();
     $data .= upgradeAndInstall($pkgs, 1);
 
     if ($release eq 'bionic' or $release eq 'buster') {
@@ -1137,6 +1156,30 @@ sub regina {
             $data .= addRepo("https://people.debian.org/~bab/rpm/tokyocabinet/opensuse/$release/tokyocabinet.repo");
             $data .= refreshAndInstall('libtokyocabinet-devel', 1);
         }
+    }
+
+    if ($needJava) {
+        # This test is redundant - if we reach this point we already know we
+        # are on a debian or ubuntu system.
+        debStyle() or die;
+
+        # We will need to add the blackdown repository for j2sdk1.x, and the
+        # btools repository for libbtools-java.  Happily jython just lives in
+        # debian's main section.
+
+        # Install java separately, since it could get messy in trying to click
+        # through the license agreement when docker build is non-interactive.
+        $data .= addJava();
+        $data .= refreshAndInstall('j2sdk1.4');
+
+        # Now for btools and jython.
+        # Like in addJava(), we import both Ben's old and new keys for the
+        # btools repository, since different debian versions can work with
+        # different keys.
+        $data .= addRepo("deb http://lab.benburton.org/archive/btools $release contrib", 'regina-all-keys.asc');
+        $data .= refreshAndInstall('jython libbtools-java');
+        # TODO: dapper fails here because it is missing jython (though both
+        # breezy and edgy have it).
     }
 
     $data .= cleanup();
