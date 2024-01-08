@@ -1,0 +1,27 @@
+--- regina-normal-3.2.orig/docs/man/Makefile.am
++++ regina-normal-3.2/docs/man/Makefile.am
+@@ -19,8 +19,12 @@
+ 
+ SUFFIXES = .1 .2 .3 .4 .5 .6 .7 .8
+ 
++## On debian sarge, docbook2man fails due to an unknown entity &quot; in the
++## file format reference.  However, all the manpages we actually need will
++## have been output by this point and so we just allow docbook2man to fail.
++##
+ %.1 %.2 %.3 %.4 %.5 %.6 %.7 %.8 :
+-	cd .. && @DOCBOOK2MAN@ -o man regina.sgml
++	cd .. && @DOCBOOK2MAN@ -o man regina.sgml || true
+ 	rm -f *.5reg
+ 	if [ "x@PACKAGE@" != "xregina" ]; then \
+ 		mv regina.1 @PACKAGE@.1; \
+--- regina-normal-3.2.orig/admin/configure.ac.top
++++ regina-normal-3.2/admin/configure.ac.top
+@@ -234,7 +234,7 @@
+ ###########################################################
+ 
+ # Includes required by the calculation engine.
+-ENGINE_INCLUDES="-I\$(top_srcdir)/engine/engine $XML_CFLAGS"
++ENGINE_INCLUDES="-I\$(top_srcdir)/engine/engine $XML_CPPFLAGS"
+ AC_SUBST(ENGINE_INCLUDES)
+ 
+ # Libraries required by the calculation engine.
