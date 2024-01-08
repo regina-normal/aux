@@ -3,6 +3,8 @@ regina-normal (2.4-0.sarge.1) unstable; urgency=low
   * Rebuilt for sarge.
   * Now builds against j2se1.4 (not j2se1.3).  This requires applying the
     getUI() -> getPacketUI() patch from git commit ad976ad25d (17 Jun 2002).
+  * Added a runtime dependency on xlibs, since j2re1.4 only recommends it
+    but regina's java GUI requires it.
   * Explicitly builds using g++-2.95 (since this regina is too old to build
     against g++-3.3, which is the default in sarge).
   * Removed the CORBA server, and therefore the entire regina-normal-server
