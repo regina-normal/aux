@@ -1,0 +1,130 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This is the debhelper compatability version to use.
+export DH_COMPAT=3
+
+tmp = debian/tmp
+javadir = $(tmp)/usr/share/java
+regdir = $(tmp)/usr/share/regina-normal
+docpkgdir = $(tmp)/usr/share/doc/regina-normal-doc
+htmldir = $(docpkgdir)/html
+confdir = $(tmp)/etc/regina-normal
+overrides = $(tmp)/usr/share/lintian/overrides
+
+INSTALL_DIR = install -p -d -o root -g root -m 755
+INSTALL_FILE = install -p -o root -g root -m 644
+INSTALL_BIN = install -p -o root -g root -m 755
+INSTALL_SCRIPT = install -p -o root -g root -m 755
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	./configure --prefix=/usr --mandir=/usr/share/man \
+	  PKGNAME=regina-normal \
+	  JAVAC=/usr/lib/j2se/1.4/bin/javac
+	touch configure-stamp
+
+build: configure-stamp build-stamp
+build-stamp:
+	dh_testdir
+	$(MAKE)
+	$(MAKE) check
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	-$(MAKE) distclean
+	rm -f build-stamp configure-stamp
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	# Main install.
+	$(MAKE) install DESTDIR=`pwd`/$(tmp)
+
+	# Move the jars into the standard debian location.
+	$(INSTALL_DIR) $(javadir)
+	cd $(regdir)/jar && for i in *.jar; do \
+	  mv $$i ../../java; \
+	  ln -s ../../java/$$i $$i; \
+	done
+
+	# Move the docs and examples into the standard debian location.
+	$(INSTALL_DIR) $(htmldir)
+	mv $(regdir)/doc/* $(htmldir)
+	mv $(regdir)/examples $(docpkgdir)
+	for i in $(docpkgdir)/examples/*.rga; do \
+	  utils/regconvert -x $$i $$i; \
+	done
+
+	# Ensure sample data files are stored as compressed XML.
+
+	# Clean up the documentation directory.
+	rm -f $(htmldir)/*.txt
+	rm -f $(htmldir)/*.hs
+	rm -f $(htmldir)/*.jhm
+	rm -f $(htmldir)/images/admon/COPYING.txt
+
+	# Install the configuration files.
+	$(INSTALL_DIR) $(confdir)
+	$(INSTALL_FILE) debian/*.conf $(confdir)
+
+	# Install overrides.
+	$(INSTALL_DIR) $(overrides)
+	$(INSTALL_FILE) debian/regina-normal.overrides $(overrides)/regina-normal
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_movefiles -i
+	dh_installdocs -i
+	dh_installexamples -i
+	dh_installmenu -i
+	dh_installchangelogs -i CHANGES.txt
+	dh_link -i
+	dh_strip -i
+	dh_compress -i -X.rga
+	dh_fixperms -i
+	# dh_makeshlibs -i
+	dh_installdeb -i
+	dh_perl -i
+	dh_shlibdeps -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_movefiles -a
+	dh_installdocs -a
+	dh_installexamples -a
+	dh_installmenu -a
+	dh_installmime -a
+	dh_installinit -a
+	dh_installman -a
+	dh_installchangelogs -a CHANGES.txt
+	dh_link -a
+	dh_strip -a
+	dh_compress -a -X.rga
+	dh_fixperms -a
+	dh_makeshlibs -a
+	dh_installdeb -a
+	dh_perl -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure

@@ -1,0 +1,17 @@
+--- regina-normal-3.0.orig/Makefile.options.linux
++++ regina-normal-3.0/Makefile.options.linux
+@@ -104,10 +104,10 @@
+ # SED: Run sed, the stream editor.
+ # TOUCH: Create a new empty file with the given name.
+ 
+-export MAKEDEP := g++ -MM
+-export COMPILE := g++ -O2 -c -Wall # -DDEBUG
+-export LINKEXEC := g++ -O2
+-export LINKLIB := g++ -O2 -shared
++export MAKEDEP := g++-2.95 -MM
++export COMPILE := g++-2.95 -O2 -c -Wall # -DDEBUG
++export LINKEXEC := g++-2.95 -O2
++export LINKLIB := g++-2.95 -O2 -shared
+ export LINKSTATIC := ar cru
+ export DOXYGEN := doxygen
+ export JAVAC := javac -target 1.1
