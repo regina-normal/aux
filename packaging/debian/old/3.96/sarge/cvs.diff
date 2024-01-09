@@ -1,0 +1,11 @@
+--- regina-normal-3.96.orig/kdeui/src/part/packettypes/ntextui.cpp
++++ regina-normal-3.96/kdeui/src/part/packettypes/ntextui.cpp
+@@ -80,7 +80,7 @@
+ }
+ 
+ void NTextUI::commit() {
+-    text->setText(editInterface->text());
++    text->setText(editInterface->text().ascii());
+     setDirty(false);
+ }
+ 

@@ -1,0 +1,39 @@
+--- regina-normal-3.97.orig/kdeui/src/common/python/pythonconsole.cpp
++++ regina-normal-3.97/kdeui/src/common/python/pythonconsole.cpp
+@@ -29,11 +29,13 @@
+ #include "regina-config.h"
+ #include "packet/npacket.h"
+ 
++// Must come before any Qt headers, to avoid conflicts with "slots".
++#include "pythoninterpreter.h"
++
+ #include "../pythonmanager.h"
+ #include "../reginafilter.h"
+ #include "commandedit.h"
+ #include "pythonconsole.h"
+-#include "pythoninterpreter.h"
+ 
+ #include <fstream>
+ #include <iostream>
+--- regina-normal-3.97.orig/kdeui/src/part/packettypes/ntextui.cpp
++++ regina-normal-3.97/kdeui/src/part/packettypes/ntextui.cpp
+@@ -83,7 +83,7 @@
+ }
+ 
+ void NTextUI::commit() {
+-    text->setText(editInterface->text());
++    text->setText(editInterface->text().ascii());
+     setDirty(false);
+ }
+ 
+--- regina-normal-3.97.orig/python/regina-python.in
++++ regina-normal-3.97/python/regina-python.in
+@@ -162,7 +162,7 @@
+ 
+ if (! $python_cmd) {
+     my $which_python;
+-    chomp($which_python = `which python`);
++    chomp($which_python = `which python2.3`);
+     if (! $which_python) {
+         &err("E: A Python interpreter could not be found.\n");
+         &err("E: Set \$REGINA_PYTHON to a Python interpreter (such as /usr/bin/python)\n");
