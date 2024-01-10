@@ -815,6 +815,11 @@ sub pkgdev {
     }
     $data .= addUser('build');
     rpmStyle() and $data .= "RUN mkdir /home/build/rpmbuild && mkdir /home/build/rpmbuild/{SOURCES,SPECS} && chown -R build:build /home/build/rpmbuild\n";
+
+    # Keep dpkg-source happy on ancient systems (this avoids a warning from
+    # within /usr/lib/dpkg/controllib.pl when deducing file ownership):
+    debStyle() and debianUbuntuCmp('sarge', 'dapper') <= 0 and $data .= "RUN echo 'export LOGNAME=build' >> /home/build/.bashrc\n";
+
     return $data;
 }
 
