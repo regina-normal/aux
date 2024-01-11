@@ -99,6 +99,10 @@ if ($imagetype eq 'basic') {
     $dockerdata = regina();
 } elsif ($imagetype =~ /^regina-([0-9.]+)$/) {
     $dockerdata = regina($1);
+} elsif ($imagetype eq 'vnc') {
+    $dockerdata = vnc();
+} elsif ($imagetype =~ /^vnc-([a-z0-9]+)$/) {
+    $dockerdata = vnc($1);
 } elsif ($imagetype eq 'archive') {
     $dockerdata = archive();
 } else {
@@ -1188,6 +1192,148 @@ sub regina {
     }
 
     $data .= cleanup();
+    return $data;
+}
+
+# --------------------------------------------------------------------------
+# VNC server running a window manager
+# --------------------------------------------------------------------------
+
+sub vnc {
+    print("VNC server for $dist $release\n");
+
+    # TODO: Support non-debian/ubuntu distributions.
+    debStyle() or die;
+
+    my $wm = shift;
+    defined $wm or $wm = 'xfce';
+
+    my ($wmpkgs, $xpkgs, $vncpkgs);
+    my ($wmstyle, $vncstyle);
+
+    my $xstartup = "#!/bin/sh\n[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup\n";
+
+    $xpkgs = 'xbase-clients xfonts-base xterm';
+
+    if (debianUbuntuCmp('sarge', 'hoary') < 0) {
+        $vncpkgs = 'vncserver';
+        $vncstyle = 'vnc3';
+    } elsif (debianUbuntuCmp('stretch', 'disco') < 0) {
+        $vncpkgs = 'vnc4server';
+        $vncstyle = 'vnc4';
+        $xstartup .= "[ -r \$HOME/.Xresources ] && xrdb \$HOME/.Xresources\n";
+    } else {
+        # TODO: It seems we cannot connect to the tigervnc server.
+        $vncpkgs = 'tigervnc-standalone-server';
+        $vncstyle = 'tigervnc';
+        $xstartup .= "[ -r \$HOME/.Xresources ] && xrdb \$HOME/.Xresources\n";
+    }
+
+    # $xstartup .= "vncconfig -iconic &\n";
+    $xstartup .= "xterm -geometry 80x24+30+30 -ls -title 'VNC Desktop' &\n";
+
+    if ($wm eq 'twm') {
+        # Probably this is going to be an unpleasant experience without
+        # three mouse buttons.
+        $wmpkgs = 'twm';
+        $wmstyle = 'twm';
+        $xstartup .= "xsetroot -solid skyblue\n";
+        $xstartup .= "exec twm\n";
+    } elsif ($wm eq 'xfce') {
+        # Note: ubuntu warty/hoary offer both xfce and xfce4.
+        if ($dist eq 'debian' and debianCmp('woody') <= 0) {
+            $wmpkgs = 'xfce';
+            $wmstyle = 'xfce3';
+            # Note: the setup here is not pretty (and things are placed
+            # very badly on the desktop).  There is a script xfce_setup which
+            # we can run inside the VM if we want to try for something better.
+            $xstartup .= "xsetroot -solid skyblue\n";
+            $xstartup .= "xset fp+ /usr/share/xfce/fonts\n";
+            $xstartup .= "exec xfwm\n";
+        } else {
+            $wmpkgs = 'xfce4';
+            $wmstyle = 'xfce4';
+            $xstartup .= "/usr/bin/xfce-mcs-manager\n";
+            $xstartup .= "/usr/bin/xfwm4 --daemon\n";
+            $xstartup .= "/usr/bin/xftaskbar4 &\n";
+            $xstartup .= "/usr/bin/xfdesktop &\n";
+            $xstartup .= "exec /usr/bin/xfce4-panel\n";
+        }
+    } elsif ($wm eq 'kde') {
+        if ($dist eq 'debian' and debianCmp('woody') <= 0) {
+            # TODO: set up ~/.kde/share/config
+            $wmpkgs = 'kdebase konsole konqueror';
+            $wmstyle = 'kde2';
+            $xstartup .= "exec startkde\n";
+        } elsif (debianUbuntuCmp('lenny', 'hardy') <= 0) {
+            # TODO: set up ~/.kde/share/config
+            $wmpkgs = 'kdebase';
+            $wmstyle = 'kde3';
+            $xstartup .= "exec startkde\n";
+        } elsif ($dist eq 'ubuntu' and debianCmp('jaunty') <= 0) {
+            # TODO: config?
+            $wmpkgs = 'kdebase';
+            $wmstyle = 'kde4';
+            $xstartup .= "exec startkde\n";
+        } elsif ($dist eq 'ubuntu' and debianCmp('lucid') <= 0) {
+            # TODO: config?
+            $wmpkgs = 'kde-minimal';
+            $wmstyle = 'kde4';
+            $xstartup .= "exec startkde\n";
+        } elsif (debianUbuntuCmp('jessie', 'utopic') <= 0) {
+            # TODO: config?
+            # TODO: configuring keyboard-configuration requires interaction
+            $wmpkgs = 'kde-plasma-desktop';
+            $wmstyle = 'kde4';
+            $xstartup .= "exec startkde\n";
+        } elsif ($dist eq 'ubuntu' and debianCmp('zesty') <= 0) {
+            # There are signs in the meta-kde sources that there _should_ be a
+            # kde-plasma-desktop package. However, I cannot see it on the
+            # servers. Not sure what's happening.
+            # This probably makes vnc-kde uninstallatle for vivid..zesty.
+            # In the meantime, we keep the code that _should_ work (but won't):
+            $wmpkgs = 'kde-plasma-desktop';
+            $wmstyle = 'kde5';
+            $xstartup .= "exec startplasma-x11\n";
+        } else {
+            # TODO: config?
+            # TODO: configuring keyboard-configuration requires interaction
+            $wmpkgs = 'kde-plasma-desktop';
+            $wmstyle = 'kde5';
+            $xstartup .= "exec startplasma-x11\n";
+        }
+    } else {
+        die "Unsupported window manager: $wm";
+    }
+
+    my $data = from('basic');
+    $data .= addUniverse(); # For alternate desktop environments on ubuntu
+    $data .= refreshAndInstall("sudo $vncpkgs $xpkgs $wmpkgs");
+    $data .= "RUN adduser user sudo\n";
+    debStyle() and debianUbuntuCmp('lenny', 'karmic') <= 0 and $data .= "RUN echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers\n";
+    $data .= cleanup();
+
+    $data .= "RUN mkdir /home/user/.vnc && chown user:user /home/user/.vnc && chmod 0755 /home/user/.vnc\n";
+
+    -e 'vnc.passwd' or die 'Please create a local vnc.passwd file';
+    copy('vnc.passwd', "$context/vnc.passwd") or die;
+    $data .= "ADD --chown=user:user vnc.passwd /home/user/.vnc/passwd\n";
+    $data .= "RUN chmod 0700 /home/user/.vnc/passwd\n";
+
+    open(XSTARTUP, '>', "$context/xstartup") or die;
+    print XSTARTUP $xstartup;
+    close(XSTARTUP);
+    if ($vncstyle eq 'vnc3') {
+        $data .= "ADD --chown=user:user xstartup /home/user/.Xsession\n";
+    } else {
+        $data .= "ADD --chown=user:user xstartup /home/user/.vnc/xstartup\n";
+        $data .= "RUN chmod 0755 /home/user/.vnc/xstartup\n";
+    }
+
+    copy('startvnc.sh', "$context/startvnc.sh") or die;
+    $data .= "ADD --chown=user:user startvnc.sh /home/user/startvnc.sh\n";
+    $data .= "USER user\n";
+    $data .= "ENTRYPOINT /bin/bash --login /home/user/startvnc.sh\n";
     return $data;
 }
 
