@@ -1,0 +1,18 @@
+#!/usr/bin/perl -w
+use strict;
+
+my $out = `docker images | grep '<none>'`;
+if (! $out) {
+    print "No anonymous docker images\n";
+    exit 0;
+}
+
+$out =~ s/^<none>\s+<none>\s+(\S+)\s+\S.*$/$1/mg;
+$out =~ /^([0-9a-f]{12}\n)+$/ or die "Unexpected image data: $out";
+
+print "Removing images:\n$out\n";
+
+chomp $out;
+$out =~ s/\n/ /g;
+system "docker rmi $out" and die;
+exit 0;
