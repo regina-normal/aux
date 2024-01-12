@@ -10,5 +10,5 @@ else
   exit 1
 fi
 
-"$cmd" :1 -geometry 1280x1024 -rfbport 5901
+"$cmd" :1 -geometry 1280x960 -rfbport 5901
 sleep infinity

@@ -1202,15 +1202,6 @@ sub regina {
 sub vnc {
     print("VNC server for $dist $release\n");
 
-    # TODO: squeeze: colours badly broken
-    # TODO: squeeze, wheezy, jessie: keyboard unresponsive [this is kde4]
-    # TODO: stretch, buster: no startplasma-x11 (tigervnc cannot start)
-    # TODO: bullseye, bookworm: unresponsive, and kde5 doesn't seem to start
-    # TODO: trusty: unresponsive
-    # TODO: bionic: unresponsive, and kde5 doesn't seem to start
-    # NOTE: Unresponsive keyboards appear to be an issue with the macOS VNC
-    # client: switching to the tigervnc client works.
-
     # TODO: Support non-debian/ubuntu distributions.
     debStyle() or die;
 
@@ -1231,6 +1222,14 @@ sub vnc {
         $vncpkgs = 'vnc4server';
         $vncstyle = 'vnc4';
         $xstartup .= "[ -r \$HOME/.Xresources ] && xrdb \$HOME/.Xresources\n";
+
+        print <<__END__;
+==============================================================================
+NOTE: If the keyboard or mouse becomes unresponsive, this may be an issue with
+      the VNC client.  This is seen in particular with the in-built Screen
+      Sharing on macOS.  Try the TigerVNC viewer instead.
+==============================================================================
+__END__
     } else {
         $vncpkgs = 'tigervnc-standalone-server';
         $vncstyle = 'tigervnc';
@@ -1277,6 +1276,9 @@ sub vnc {
             $xstartup .= "xset fp+ /usr/share/xfce/fonts\n";
             $xstartup .= "exec xfwm\n";
         } else {
+            # TODO: Fails to install on wheezy due to failure to configure
+            # dictionaries-common.
+            # TODO: jessie: panel icons missing (from tango-icon-theme)
             $wmpkgs = 'xfce4';
             debianCmp('etch') > 0 and $wmpkgs .= ' dbus-x11';
             $wmstyle = 'xfce4';
@@ -1289,28 +1291,26 @@ sub vnc {
             # Hidden=true
         }
     } elsif ($wm eq 'kde') {
+        # TODO: Do we want to pre-initialise a basic KDE user config?
         if ($dist eq 'debian' and debianCmp('woody') <= 0) {
-            # TODO: set up ~/.kde/share/config
             $wmpkgs = 'kdebase konsole konqueror';
             $wmstyle = 'kde2';
             $xstartup .= "exec startkde\n";
         } elsif (debianUbuntuCmp('lenny', 'hardy') <= 0) {
-            # TODO: set up ~/.kde/share/config
             $wmpkgs = 'kdebase';
             $wmstyle = 'kde3';
             $xstartup .= "exec startkde\n";
         } elsif ($dist eq 'ubuntu' and ubuntuCmp('jaunty') <= 0) {
-            # TODO: KDE config?
             $wmpkgs = 'kdebase';
             $wmstyle = 'kde4';
             $xstartup .= "exec startkde\n";
         } elsif ($dist eq 'ubuntu' and ubuntuCmp('lucid') <= 0) {
-            # TODO: KDE config?
             $wmpkgs = 'kde-minimal';
             $wmstyle = 'kde4';
             $xstartup .= "exec startkde\n";
         } elsif (debianUbuntuCmp('jessie', 'utopic') <= 0) {
-            # TODO: KDE config?
+            # TODO: On squeeze, the colours are badly broken.
+            # (This is only for KDE: for Xfce the colours are fine.)
             $wmpkgs = 'kde-plasma-desktop';
             $wmstyle = 'kde4';
             $xstartup .= "exec startkde\n";
@@ -1324,7 +1324,8 @@ sub vnc {
             $wmstyle = 'kde5';
             $xstartup .= "exec startplasma-x11\n";
         } else {
-            # TODO: KDE config?
+            # TODO: stretch, buster: no startplasma-x11 at all
+            # TODO: bullseye, bookworm, bionic: present but doesn't start.
             $wmpkgs = 'kde-plasma-desktop';
             $wmstyle = 'kde5';
             $xstartup .= "exec startplasma-x11\n";
