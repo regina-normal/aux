@@ -1281,6 +1281,12 @@ sub vnc {
             debianCmp('etch') > 0 and $wmpkgs .= ' dbus-x11';
             $wmstyle = 'xfce4';
             $xstartup .= "exec /usr/bin/xfce4-session\n";
+            # If the tip-of-the-day is frustrating (it appears only on some
+            # distros, e.g., lenny), then create:
+            # ~/.config/autostart/xfce4-tips-autostart.desktop
+            # with the contents:
+            # [Desktop Entry]
+            # Hidden=true
         }
     } elsif ($wm eq 'kde') {
         if ($dist eq 'debian' and debianCmp('woody') <= 0) {
