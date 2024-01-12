@@ -1232,6 +1232,24 @@ sub vnc {
     # $xstartup .= "vncconfig -iconic &\n";
     $xstartup .= "xterm -geometry 80x24+30+30 -ls -title 'VNC Desktop' &\n";
 
+    # Regardless of what else is happening, give ourselves firefox - this
+    # could be useful in case of things going wrong.
+    if ($dist eq 'debian') {
+        if (debianCmp('woody') <= 0) {
+            $xpkgs .= ' mozilla-browser';
+        } elsif (debianCmp('sarge') <= 0) {
+            $xpkgs .= ' mozilla-firefox';
+        } elsif (debianCmp('wheezy') <= 0) {
+            $xpkgs .= ' iceweasel';
+        } elsif (debianCmp('sarge') <= 0) {
+            $xpkgs .= ' firefox-esr';
+        }
+    } else {
+        # In ubuntu firefox always appears as 'firefox'.
+        # Note however that from jammy onwards, this is shipped as a snap.
+        $xpkgs .= ' firefox';
+    }
+
     if ($wm eq 'twm') {
         # Probably this is going to be an unpleasant experience without
         # three mouse buttons.
@@ -1271,18 +1289,18 @@ sub vnc {
             $wmstyle = 'kde3';
             $xstartup .= "exec startkde\n";
         } elsif ($dist eq 'ubuntu' and debianCmp('jaunty') <= 0) {
-            # TODO: config?
+            # TODO: KDE config?
             $wmpkgs = 'kdebase';
             $wmstyle = 'kde4';
             $xstartup .= "exec startkde\n";
         } elsif ($dist eq 'ubuntu' and debianCmp('lucid') <= 0) {
-            # TODO: config?
+            # TODO: KDE config?
             $wmpkgs = 'kde-minimal';
             $wmstyle = 'kde4';
             $xstartup .= "exec startkde\n";
         } elsif (debianUbuntuCmp('jessie', 'utopic') <= 0) {
-            # TODO: config?
-            # TODO: configuring keyboard-configuration requires interaction
+            # TODO: KDE config?
+            # TODO: this connecion seems unreliable (xfce also)
             $wmpkgs = 'kde-plasma-desktop';
             $wmstyle = 'kde4';
             $xstartup .= "exec startkde\n";
@@ -1296,8 +1314,7 @@ sub vnc {
             $wmstyle = 'kde5';
             $xstartup .= "exec startplasma-x11\n";
         } else {
-            # TODO: config?
-            # TODO: configuring keyboard-configuration requires interaction
+            # TODO: KDE config?
             $wmpkgs = 'kde-plasma-desktop';
             $wmstyle = 'kde5';
             $xstartup .= "exec startplasma-x11\n";
@@ -1307,10 +1324,39 @@ sub vnc {
     }
 
     my $data = from('basic');
+
+    # keyboard-configuration insists on getting input at the configuration
+    # stage.  We supply this input now via debconf.
+    # We only need to do this for debian, since ubuntu already comes with
+    # keyboard-configuration installed.
+    if ($dist eq 'debian') {
+        my $kb_config;
+        if (debianCmp('bookworm') >= 0) {
+            $kb_config = 'kb_bookworm.conf';
+        } elsif (debianCmp('buster') >= 0) {
+            $kb_config = 'kb_buster.conf';
+        } elsif (debianCmp('wheezy') >= 0) {
+            $kb_config = 'kb_wheezy.conf';
+        } elsif (debianCmp('squeeze') >= 0) {
+            # Note: squeeze was the first release to offer keyboard-configuration.
+            $kb_config = 'kb_squeeze.conf';
+        }
+        $kb_config and $data .= copyAndRunCommand("debconf-set-selections /root/$kb_config", $kb_config);
+    }
+
     $data .= addUniverse(); # For alternate desktop environments on ubuntu
     $data .= refreshAndInstall("sudo $vncpkgs $xpkgs $wmpkgs");
     $data .= "RUN adduser user sudo\n";
-    debStyle() and debianUbuntuCmp('lenny', 'karmic') <= 0 and $data .= "RUN echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers\n";
+    if (debStyle()) {
+        if (debianUbuntuCmp('lenny', 'gutsy') < 0) {
+            $data .= "RUN echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers\n";
+        } else {
+            # The debian sudo packages require NOPASSWD: as of sudo 1.6.8p12-5.
+            # Note: everything _after_ lenny will already have an entry for
+            # %sudo, but without the NOPASSWD: tag.
+            $data .= "RUN echo '%sudo ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers\n";
+        }
+    }
     $data .= cleanup();
 
     $data .= "RUN mkdir /home/user/.vnc && chown user:user /home/user/.vnc && chmod 0755 /home/user/.vnc\n";
