@@ -1247,7 +1247,7 @@ sub vnc {
             $xpkgs .= ' mozilla-firefox';
         } elsif (debianCmp('wheezy') <= 0) {
             $xpkgs .= ' iceweasel';
-        } elsif (debianCmp('sarge') <= 0) {
+        } else {
             $xpkgs .= ' firefox-esr';
         }
     } else {
