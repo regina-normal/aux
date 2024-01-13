@@ -1292,6 +1292,8 @@ __END__
         }
     } elsif ($wm eq 'kde') {
         # TODO: Do we want to pre-initialise a basic KDE user config?
+        # This is most relevant for kde2 and kde3, which otherwise throw us
+        # through the KDE personaliser.
         if ($dist eq 'debian' and debianCmp('woody') <= 0) {
             $wmpkgs = 'kdebase konsole konqueror';
             $wmstyle = 'kde2';
@@ -1318,15 +1320,25 @@ __END__
             # There are signs in the meta-kde sources that there _should_ be a
             # kde-plasma-desktop package. However, I cannot see it on the
             # servers. Not sure what's happening.
-            # This probably makes vnc-kde uninstallatle for vivid..zesty.
-            # In the meantime, we keep the code that _should_ work (but won't):
-            $wmpkgs = 'kde-plasma-desktop';
+            # TODO: On xenial, startkde just does nothing.
+            $wmpkgs = 'kde-baseapps kde-runtime plasma-desktop plasma-workspace dbus-x11';
             $wmstyle = 'kde5';
-            $xstartup .= "exec startplasma-x11\n";
+            $xstartup .= "exec startkde\n";
+        } elsif (debianUbuntuCmp('buster', 'eoan') <= 0) {
+            # TODO: Check buster | bionic
+            # TODO: Buster: Could not start kdeinit5. Check your installation.
+            # TODO: Buster: start_kdeinit: Operation not permitted
+            # TODO: See if kde-desktop fixes it, and work out what was missing
+            # TODO: There should be a messages log
+            # TODO: bionic is the same issue as buster (but stretch is ok)
+            $wmpkgs = 'kde-plasma-desktop dbus-x11';
+            # Hmm.. kde-runtime looks like we should have it but it is also
+            # missing from kde-plasma-desktop on buster (and only buster):
+            $release eq 'buster' and $wmpkgs .= ' kde-runtime';
+            $wmstyle = 'kde5';
+            $xstartup .= "exec startkde\n";
         } else {
-            # TODO: stretch, buster: no startplasma-x11 at all
-            # TODO: bullseye, bookworm, bionic: present but doesn't start.
-            $wmpkgs = 'kde-plasma-desktop';
+            $wmpkgs = 'kde-plasma-desktop dbus-x11';
             $wmstyle = 'kde5';
             $xstartup .= "exec startplasma-x11\n";
         }
