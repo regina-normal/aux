@@ -47,7 +47,7 @@ my %ubuntuVersion = (
     'eoan' => '19.10', 'focal' => '20.04', 'groovy' => '20.10',
     'hirsute' => '21.04', 'impish' => '21.10', 'jammy' => '22.04',
     'kinetic' => '22.10', 'lunar' => '23.04', 'mantic' => '23.10',
-    'noble' => '24.04' );
+    'noble' => '24.04', 'oracular' => '24.10' );
 
 my @alldists = qw(debian ubuntu fedora opensuse arch);
 my $dist;
@@ -1320,17 +1320,16 @@ __END__
             # There are signs in the meta-kde sources that there _should_ be a
             # kde-plasma-desktop package. However, I cannot see it on the
             # servers. Not sure what's happening.
-            # TODO: On xenial, startkde just does nothing.
+            # TODO: On vivid..zesty, startkde just does nothing.
             $wmpkgs = 'kde-baseapps kde-runtime plasma-desktop plasma-workspace dbus-x11';
             $wmstyle = 'kde5';
             $xstartup .= "exec startkde\n";
         } elsif (debianUbuntuCmp('buster', 'eoan') <= 0) {
-            # TODO: Check buster | bionic
             # TODO: Buster: Could not start kdeinit5. Check your installation.
             # TODO: Buster: start_kdeinit: Operation not permitted
-            # TODO: See if kde-desktop fixes it, and work out what was missing
-            # TODO: There should be a messages log
-            # TODO: bionic is the same issue as buster (but stretch is ok)
+            #
+            # TODO: On artful, startkde does nothing (like vivid..zesty)
+            # TODO: bionic..cosmic is the same issue as buster
             $wmpkgs = 'kde-plasma-desktop dbus-x11';
             # Hmm.. kde-runtime looks like we should have it but it is also
             # missing from kde-plasma-desktop on buster (and only buster):
@@ -1371,6 +1370,13 @@ __END__
         }
         $kb_config and $data .= copyAndRunCommand("debconf-set-selections /root/$kb_config", $kb_config);
         $cs_config and $data .= copyAndRunCommand("debconf-set-selections /root/$cs_config", $cs_config);
+    }
+
+    # On some ubuntu versions, gdm insists on user input for choosing a
+    # default display manager (the options are gdm3 and sddm).  Again we
+    # supply this input now via debconf.
+    if ($dist eq 'ubuntu' and ubuntuCmp('disco') >= 0 and ubuntuCmp('hirsute') <= 0) {
+        $data .= copyAndRunCommand('debconf-set-selections /root/dm_ubuntu.conf', 'dm_ubuntu.conf');
     }
 
     $data .= addUniverse(); # For alternate desktop environments on ubuntu
