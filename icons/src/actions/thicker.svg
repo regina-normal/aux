@@ -24,6 +24,8 @@
 		<path display="inline" fill="#29ABE2" stroke="#2E3192" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 		M394.724,620L619,399.783L394.724,620z"/>
 </g>
-<circle fill="none" stroke="#0C64B0" stroke-width="28" stroke-linejoin="round" cx="320" cy="320" r="256"/>
-<circle fill="#4AABFF" cx="320" cy="320" r="181.746"/>
+<g>
+	<circle fill="none" stroke="#0C64B0" stroke-width="28" stroke-linejoin="round" cx="320" cy="320" r="192"/>
+	<circle fill="#4AABFF" cx="320" cy="320" r="136.31"/>
+</g>
 </svg>

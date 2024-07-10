@@ -24,14 +24,10 @@
 		<path display="inline" fill="#29ABE2" stroke="#2E3192" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 		M394.724,620L619,399.783L394.724,620z"/>
 </g>
-<g>
-	<path fill="none" stroke="#0C64B0" stroke-width="28" stroke-linejoin="round" d="M140,535.157c27-108,314.538-2.466,288-144
-		c-27-144-189,0-216-144c-26.538-141.534,243-36,288-144"/>
-	<g>
-		<circle fill="#A4CFF5" stroke="#0C64B0" stroke-width="18" stroke-linejoin="round" cx="140.843" cy="536" r="36.843"/>
-		<circle fill="#A4CFF5" stroke="#0C64B0" stroke-width="18" stroke-linejoin="round" cx="212.843" cy="248" r="36.843"/>
-		<circle fill="#A4CFF5" stroke="#0C64B0" stroke-width="18" stroke-linejoin="round" cx="428.843" cy="392" r="36.843"/>
-		<circle fill="#A4CFF5" stroke="#0C64B0" stroke-width="18" stroke-linejoin="round" cx="499.157" cy="104" r="36.843"/>
-	</g>
-</g>
+<path fill="none" stroke="#0C64B0" stroke-width="28" stroke-linejoin="round" d="M140,535.157
+	c108.431,0,240.675-2.958,267.843-98.157c36.843-129.1-211.843-93.741-175-235c24.733-94.828,161.616-98,267.157-98.843"/>
+<circle fill="#A4CFF5" stroke="#0C64B0" stroke-width="18" stroke-linejoin="round" cx="140.843" cy="536" r="36.843"/>
+<circle fill="#A4CFF5" stroke="#0C64B0" stroke-width="18" stroke-linejoin="round" cx="232.843" cy="202" r="36.843"/>
+<circle fill="#A4CFF5" stroke="#0C64B0" stroke-width="18" stroke-linejoin="round" cx="407.843" cy="437" r="36.843"/>
+<circle fill="#A4CFF5" stroke="#0C64B0" stroke-width="18" stroke-linejoin="round" cx="499.157" cy="104" r="36.843"/>
 </svg>
