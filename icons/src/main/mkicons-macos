@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+# Usage: render source.svg dest.png size
+function render {
+  rsvg-convert -w$3 -h$3 "$1" -o "$2"
+  # inkscape -z -e "$2" -w $3 -h $3 "$1"
+}
+
+# The iOS app icons (reversed), for the macOS build:
+rm -rf macos
+mkdir macos
+for i in 16 32 64 128 256 512 1024; do
+  render app.svg macos/app-$i.png $i
+done
+
+for i in 32 256 512; do
+  # These sizes are used twice.
+  cp -p macos/app-$i.png macos/app-${i}-1.png
+done
+

@@ -1,0 +1,44 @@
+#!/bin/bash
+set -e
+
+# Usage: render source.svg dest.png size
+function render {
+  rsvg-convert -w$3 -h$3 "$1" -o "$2"
+  # inkscape -z -e "$2" -w $3 -h $3 "$1"
+}
+
+# iOS document icons:
+# - ReginaLarge: 310 (x1,2,3)
+# - Packets/Document: 32 (x1,2,3)
+# - RGA DocType: 64 320
+rm -rf ios
+mkdir ios
+for i in 32 310; do
+  size=$i
+  render regina.svg ios/regina-${i}.png $size
+  size=$(($i+$i))
+  render regina.svg ios/regina-${i}@2x.png $size
+  size=$(($i+$i+$i))
+  render regina.svg ios/regina-${i}@3x.png $size
+done
+for i in 64 320; do
+  size=$i
+  render regina.svg ios/regina-doc-${size}.png $size
+done
+
+# iOS app icons (reversed):
+for i in 40 58 60 76 80 87 114 120 128 136 152 167 180 192 1024; do
+  render app.svg ios/app-$i.png $i
+  render app-dark.svg ios/app-dark-$i.png $i
+  render app-tinted.svg ios/app-tinted-$i.png $i
+done
+
+for i in 120; do
+  # These sizes are used twice.
+  cp -p ios/app-$i.png ios/app-${i}-1.png
+  cp -p ios/app-dark-$i.png ios/app-dark-${i}-1.png
+  cp -p ios/app-tinted-$i.png ios/app-tinted-${i}-1.png
+done
+
+convert -alpha off ios/app-1024.png appstore.png
+
