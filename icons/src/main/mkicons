@@ -84,11 +84,15 @@ done
 # iOS app icons (reversed):
 for i in 40 58 60 76 80 87 114 120 128 136 152 167 180 192 1024; do
   render app.svg ios/app-$i.png $i
+  render app-dark.svg ios/app-dark-$i.png $i
+  render app-tinted.svg ios/app-tinted-$i.png $i
 done
 
 for i in 120; do
   # These sizes are used twice.
   cp -p ios/app-$i.png ios/app-${i}-1.png
+  cp -p ios/app-dark-$i.png ios/app-dark-${i}-1.png
+  cp -p ios/app-tinted-$i.png ios/app-tinted-${i}-1.png
 done
 
 # The same iOS app icons (reversed) but for the macOS build:
