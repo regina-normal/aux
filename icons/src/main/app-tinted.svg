@@ -28,14 +28,14 @@
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#d1d1d1"
    inkscape:zoom="0.36875"
-   inkscape:cx="189.83051"
+   inkscape:cx="192.54237"
    inkscape:cy="374.23729"
    inkscape:window-width="1312"
    inkscape:window-height="625"
    inkscape:window-x="332"
-   inkscape:window-y="264"
+   inkscape:window-y="236"
    inkscape:window-maximized="0"
-   inkscape:current-layer="g17" />&#10;<polygon
+   inkscape:current-layer="Layer_1" />&#10;<polygon
    fill="#FFFFFF"
    stroke="#000000"
    stroke-miterlimit="10"
@@ -118,7 +118,7 @@
    stroke-miterlimit="10"
    points="   204.72,247.504 376.645,286.994 483.015,462.762 291.529,390.435  "
    id="polygon16"
-   style="fill:#9d9d9d;fill-opacity:1" /><polygon
+   style="fill:#8f8f8f;fill-opacity:1;stroke:#e5e5e5;stroke-opacity:1" /><polygon
    fill="none"
    stroke="#FFFFFF"
    stroke-width="25"
@@ -126,7 +126,8 @@
    stroke-linejoin="round"
    stroke-miterlimit="10"
    points="   337.478,51 92.098,414.204 425.728,582.723 531.197,361.869  "
-   id="polygon15" />&#10;	&#10;		<line
+   id="polygon15"
+   style="stroke:#e5e5e5;stroke-opacity:1" />&#10;	&#10;		<line
    fill="none"
    stroke="#FFFFFF"
    stroke-width="25"
@@ -137,7 +138,8 @@
    y1="51"
    x2="425.728"
    y2="582.723"
-   id="line15" />&#10;	&#10;		&#10;	<g
+   id="line15"
+   style="stroke:#e5e5e5;stroke-opacity:1" />&#10;	&#10;		&#10;	<g
    id="g16">&#10;		<defs
    id="defs16">&#10;			<polygon
    id="SVGID_5_"
@@ -157,4 +159,5 @@
    y1="414.204"
    x2="531.197"
    y2="361.869"
-   id="line16" />&#10;	</g>&#10;</g>&#10;</svg>
+   id="line16"
+   style="stroke:#e5e5e5;stroke-opacity:1" />&#10;	</g>&#10;</g>&#10;</svg>
