@@ -25,6 +25,6 @@ requires ios regina-32@2x.png
 requires ios regina-32@3x.png
 mv ios/regina-32{,@2x,@3x}.png ~/git/regina/ios/Images.xcassets/Packets/Document.imageset
 
-requires ios app-64.png
-requires ios app-80-1.png
-mv ios/app*.png ~/git/regina/ios/Images.xcassets/AppIcon.appiconset
+requires ios app-60.png
+requires ios app-120-1.png
+mv ios/app*.png ~/git/regina/swiftui/Assets.xcassets/AppIcon.appiconset
