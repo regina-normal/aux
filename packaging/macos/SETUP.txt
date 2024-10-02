@@ -32,19 +32,21 @@ BUILDING PARALLELS VMs
 
 0. Download the installer through the App Store:
 
+  https://apps.apple.com/au/app/macos-sequoia/id6596773750?mt=12
+  https://apps.apple.com/au/app/macos-sonoma/id6450717509?mt=12
   https://apps.apple.com/au/app/macos-ventura/id1638787999?mt=12
   https://apps.apple.com/au/app/macos-monterey/id1576738294?mt=12
   https://apps.apple.com/au/app/macos-big-sur/id1526878132?mt=12
 
 1. Create an installer ISO from the installer app:
 
-  hdiutil create -o /tmp/Ventura.cdr -size 14g -layout SPUD -fs HFS+J
-  hdiutil attach /tmp/Ventura.cdr.dmg -noverify -mountpoint /Volumes/install_build
-  sudo /Applications/Install\ macOS\ Ventura.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build
-  hdiutil detach /Volumes/Install\ macOS\ Ventura
-  hdiutil convert /tmp/Ventura.cdr.dmg -format UDTO -o Ventura.iso
-  rm /tmp/Ventura.cdr.dmg
-  mv Ventura.iso.cdr Ventura.iso
+  hdiutil create -o /tmp/Sonoma.cdr -size 16g -layout SPUD -fs HFS+J
+  hdiutil attach /tmp/Sonoma.cdr.dmg -noverify -mountpoint /Volumes/install_build
+  sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build
+  hdiutil detach /Volumes/Install\ macOS\ Sonoma
+  hdiutil convert /tmp/Sonoma.cdr.dmg -format UDTO -o Sonoma.iso
+  rm /tmp/Sonoma.cdr.dmg
+  mv Sonoma.iso.cdr Sonoma.iso
 
 2. Boot from the ISO and run the GUI installer.
 
