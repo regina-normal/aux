@@ -770,6 +770,7 @@ sub pkgdev {
         $release eq 'bionic' and @gcc = qw(4.8 5 6 7 8);
         $release eq 'focal' and @gcc = qw(7 8 9 10);
         $release eq 'jammy' and @gcc = qw(9 10 11 12);
+        $release eq 'noble' and @gcc = qw(9 10 11 12 13 14);
         $pkgs .= " gcc-$_ g++-$_" foreach @gcc;
 
         my @clang = ();
@@ -783,6 +784,7 @@ sub pkgdev {
         $release eq 'bionic' and @clang = qw(3.9 4.0 5.0 6.0 8 9 10);
         $release eq 'focal' and @clang = qw(6.0 7 8 9 10 12);
         $release eq 'jammy' and @clang = qw(11 12 13 14 15);
+        $release eq 'noble' and @clang = qw(14 15 16 17 18);
         $pkgs .= " clang-$_" foreach @clang;
         # These LTS releases just had a "clang" package, without versions.
         $release eq 'lucid' and $pkgs .= ' clang';
