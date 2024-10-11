@@ -1,25 +1,35 @@
 GCC versions seen in the wild:
 
+14-pre:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
+13.2.0:
+  - Ubuntu noble (24.04 LTS)
 13.0.1:
   - Fedora 38
+12.3.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
 12.2.x:
   - Debian bookworm
   - Fedora 37
-  - Ubuntu kinetic (22.10)
-  - Ubuntu lunar (23.04)
 12.0.x:
   - Fedora 36
 12 (prerelease):
   - OPTIONAL Ubuntu jammy (22.04 LTS)
+11.4.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
 11.3.x:
   - OPTIONAL Debian bookworm
 11.2.x:
   - Ubuntu jammy (22.04 LTS)
+10.5.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
 10.3.x:
   - OPTIONAL Ubuntu jammy (22.04 LTS)
 10.2.x:
   - Debian bullseye
   - OPTIONAL Ubuntu focal (20.04 LTS)
+9.5.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
 9.4.x:
   - OPTIONAL Ubuntu jammy (22.04 LTS)
 9.3.x:
@@ -35,12 +45,18 @@ GCC versions seen in the wild:
 
 Clang versions seen in the wild (debian/ubuntu only):
 
+18.1.x:
+  - Ubuntu noble (24.04 LTS)
+17.0.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
+16.0.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
 15.0.x:
   - OPTIONAL Debian bookworm
-  - Ubuntu lunar (23.04)
-  - Ubuntu kinetic (22.10)
+  - OPTIONAL Ubuntu noble (24.04 LTS)
 14.0.x:
   - Debian bookworm
+  - OPTIONAL Ubuntu noble (24.04 LTS)
   - Ubuntu jammy (22.04 LTS)
 13.0.x:
   - OPTIONAL Debian bookworm
@@ -65,13 +81,12 @@ Clang versions seen in the wild (debian/ubuntu only):
 
 CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
+3.28.3:
+  - Ubuntu noble (24.04 LTS)
 3.26.2:
   - Fedora 38
 3.25.1:
   - Debian bookworm
-  - Ubuntu lunar (23.04)
-3.24.2:
-  - Ubuntu kinetic (22.10)
 3.24.1:
   - Fedora 37
 3.22.2:
@@ -89,17 +104,17 @@ CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
 Doxygen versions [regina needs 1.8.17]
 
+1.9.8:
+  - Ubuntu noble (24.04 LTS)
 1.9.6:
   - Fedora 38
 1.9.5:
   - Fedora 37
 1.9.4:
   - Debian bookworm
-  - Ubuntu lunar (23.04)
 1.9.1:
   - Debian bullseye
   - Fedora 36
-  - Ubuntu kinetic (22.10)
   - Ubuntu jammy (22.04 LTS)
 1.8.17:
   - Ubuntu focal (20.04 LTS)
@@ -108,14 +123,13 @@ Doxygen versions [regina needs 1.8.17]
 
 Python versions [regina needs 3.6]:
 
+3.12.3:
+  - Ubuntu noble (24.04 LTS)
 3.11.2:
   - Debian bookworm
   - Fedora 38
-  - Ubuntu lunar (23.04)
 3.11.0:
   - Fedora 37
-3.10.7:
-  - Ubuntu kinetic (22.10)
 3.10.4:
   - Fedora 36
   - Ubuntu jammy (22.04 LTS)
@@ -132,9 +146,8 @@ Qt versions:
   - Fedora 38
 6.4.2:
   - Debian bookworm
-  - Ubuntu lunar (23.04)
+  - Ubuntu noble (24.04 LTS)
 6.3.1:
-  - Ubuntu kinetic (22.10)
   - Fedora 37
 6.2.4:
   - Ubuntu jammy (22.04 LTS)
