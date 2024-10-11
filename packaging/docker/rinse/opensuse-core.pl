@@ -40,6 +40,12 @@ while ($#latest >= 0) {
             $dep =~ s/^\((.*) or busybox\)$/$1/;
             $dep =~ s/^\((compat-usrmerge-tools) or .*\)$/$1/;
             $dep =~ /^\(.* if systemd\)$/ and next;
+            # The libsolv-tools-base versioned dependency below appears in
+            # openSUSE 15.6, as a dependency of libzypp.
+            # As a result it drags in findutils, since the version test passes.
+            # We should keep an eye on whether this causes problems with later
+            # openSUSE releases, where the version test might fail.
+            $dep =~ s/^\((.*) if libsolv-tools-base <= 0\.7\.31\)$/$1/;
             $dep =~ s/^(\S*) >= .*$/$1/;
             $dep =~ s/^(\S*) = .*$/$1/;
             if (defined $deps{$dep}) {

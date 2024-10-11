@@ -195,7 +195,11 @@ if [ "$ver" -ge 36 ]; then
   chroot "$rootfsDir" dnf install -y -b --setopt=install_weak_deps=False \
     authselect pam
   echo '----- Initialising authselect -----'
-  chroot "$rootfsDir" authselect select minimal --force
+  if [ "$ver" -ge 40 ]; then
+    chroot "$rootfsDir" authselect select local --force
+  else
+    chroot "$rootfsDir" authselect select minimal --force
+  fi
 fi
 
 echo '----- Creating Dockerfile -----'
