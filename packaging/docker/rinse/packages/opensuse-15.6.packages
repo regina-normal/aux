@@ -107,7 +107,7 @@ libzstd1
 libzypp
 login_defs
 openSUSE-release
-openSUSE-release-dvd
+openSUSE-release-ftp
 pam
 perl-base
 permissions
