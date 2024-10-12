@@ -144,7 +144,8 @@ Parallels configuration:
 
 Installer notes:
 - Fedora/aarch64 installer: if the "Everything" image must be used, be sure to
-  choose "Workstation" as the base software environment.
+  choose "Workstation" as the base software environment.  The additional
+  X server (which might be selected by default) is not required.
 - Fedora/aarch64 installer via UTM: if the image is .raw.xz, not .iso, then to
   use this: uncompress the image (unxz < foo.raw.xz > foo.raw), and add a new
   VirtIO drive that is read-only, non-removable, and uses this image.
