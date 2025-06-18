@@ -1,4 +1,4 @@
-regina-normal (7.4-1~ubuntu23.04.1~regina1) mantic; urgency=low
+regina-normal (7.4-1~ubuntu23.10.1~regina1) mantic; urgency=low
 
   * New upstream release, packaged for mantic.
   * No longer build-depends on libcppunit-dev, libjansson-dev or libpopt-dev.
