@@ -40,6 +40,8 @@ while ($#latest >= 0) {
             $dep =~ s/^\((.*) or busybox\)$/$1/;
             $dep =~ s/^\((compat-usrmerge-tools) or .*\)$/$1/;
             $dep =~ /^\(.* if systemd\)$/ and next;
+            $dep =~ /^\(.* if dbus-service\)$/ and next;
+            $dep =~ /^rpmlib\(/ and next;
             # The libsolv-tools-base versioned dependency below appears in
             # openSUSE 15.6, as a dependency of libzypp.
             # As a result it drags in findutils, since the version test passes.
@@ -51,7 +53,7 @@ while ($#latest >= 0) {
             if (defined $deps{$dep}) {
                 # print("$target: $dep -> $deps{$dep} [seen]\n");
             } else {
-                my $pkg = `rpm -q --whatprovides '$dep'`;
+                my $pkg = `rpm -q --whatprovides '$dep' | head -n1`;
                 chomp $pkg;
                 $pkg =~ s/(.*)-.*?-.*?$/$1/g or die "$info -> $dep -> $pkg";
                 $deps{$dep} = $pkg;

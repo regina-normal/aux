@@ -134,15 +134,21 @@ download and use the key each time.  It appears that importing a key for
 repository verification is *still* as of 2021 an open problem.
 
 
-Setting up Parallels virtual machines
+Setting up Parallels / UTM virtual machines
 -------------------------------------
 
-Configuration:
+Parallels configuration:
 - Options / Sharing (nothing but Public/ and Drop Box/)
 - Options / Applications (no sharing, just full-screen apps)
 - Hardware / Memory (2 CPUs, 4096 MB RAM)
 
 Installer notes:
+- Fedora/aarch64 installer: if the "Everything" image must be used, be sure to
+  choose "Workstation" as the base software environment.  The additional
+  X server (which might be selected by default) is not required.
+- Fedora/aarch64 installer via UTM: if the image is .raw.xz, not .iso, then to
+  use this: uncompress the image (unxz < foo.raw.xz > foo.raw), and add a new
+  VirtIO drive that is read-only, non-removable, and uses this image.
 - openSUSE installer: select KDE plasma desktop
 - openSUSE installer: disable online repositories when asked
 - openSUSE/aarch64 installer via UTM: will not boot past the grub screen.
@@ -154,7 +160,7 @@ Disable updates:
 - Fedora in /etc/yum.repos.d (set enabled=0 in updates repos)
 - openSUSE by "zypper repos", then "zypper modifyrepo -d <reponame>"
 
-Check for unwanted newer packages:
+Check for unwanted newer packages, if making a build machine:
 - Fedora:
   * Run rpm-versions-fedora, copied from this directory
 - openSUSE:
