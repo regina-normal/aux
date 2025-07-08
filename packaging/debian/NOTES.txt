@@ -33,8 +33,8 @@ Regina:
   quilt source format where possible.
 
 
-Setting up Parallels virtual machines
--------------------------------------
+Setting up Parallels / UTM virtual machines
+-------------------------------------------
 
 Configuration:
 - Options / Sharing (nothing but Public/ and Drop Box/)
@@ -47,16 +47,24 @@ Installer notes:
 - Ubuntu installer: disable "download updates while installing"
 - Ubuntu kinetic/amd64: desktop install fails at partitioning stage; need to
     go via server install as on arm64
-- Ubuntu */arm64:
-  + Currently requires a server image from https://cdimage.ubuntu.com/releases/
+- Ubuntu */arm64, ≤ 24.10 (oracular):
+  + Fetch a desktop image from https://cdimage.ubuntu.com/releases/ and
+    install as per normal
+- Ubuntu */arm64, ≤ 24.04 (noble):
+  + Requires a server image from https://cdimage.ubuntu.com/releases/
   + Do not set up LVM groups on the hard drive
   + Do not install server snaps
   + Need to install ubuntu-desktop-minimal after initial install
+  + Need to disable systemd-networkd.service to avoid slow/failed boots due to
+    conflicting network services (note: systemctl supports tab completion):
+    https://askubuntu.com/questions/1217252/boot-process-hangs-at-systemd-networkd-wait-online/1501504#1501504
 
 Configure updates:
 - Debian in /etc/apt/sources.list
 - Ubuntu via the Software app (-security always, -updates for test machines
   but not build machines; -backports never; not auto-install)
+- On ubuntu, if updates are delayed due to phasing:
+  sudo apt -o APT::Get::Always-Include-Phased-Updates=true upgrade
 
 Check for unwanted newer packages:
 - Debian/Ubuntu:

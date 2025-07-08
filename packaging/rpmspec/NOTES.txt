@@ -135,7 +135,7 @@ repository verification is *still* as of 2021 an open problem.
 
 
 Setting up Parallels / UTM virtual machines
--------------------------------------
+-------------------------------------------
 
 Parallels configuration:
 - Options / Sharing (nothing but Public/ and Drop Box/)
