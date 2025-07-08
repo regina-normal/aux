@@ -168,7 +168,12 @@ chroot "$rootfsDir" dnf upgrade -y --best --refresh --setopt=install_weak_deps=F
 
 chroot "$rootfsDir" dnf install -y --best --setopt=install_weak_deps=False \
   dnf-plugins-core
-chroot "$rootfsDir" dnf config-manager --set-enabled fedora-source
+if [ "$ver" -ge 41 ]; then
+  # dnf5 does not yet support config-manager, but dnf-3 works for this.
+  chroot "$rootfsDir" dnf-3 config-manager --set-enabled fedora-source
+else
+  chroot "$rootfsDir" dnf config-manager --set-enabled fedora-source
+fi
 
 # On Fedora 37, curl is broken which means rinse fails to install some helper
 # packages.  The curl error seems to be this one:
