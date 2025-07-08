@@ -1,6 +1,6 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 7.4
+Version: 7.3.1
 Release: 1%{?dist}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
@@ -15,6 +15,7 @@ Requires: python3
 Conflicts: regina
 
 BuildRequires: cmake
+BuildRequires: cppunit-devel
 BuildRequires: desktop-file-utils
 BuildRequires: doxygen
 BuildRequires: gcc
@@ -22,10 +23,12 @@ BuildRequires: gcc-c++
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
+BuildRequires: jansson-devel
 BuildRequires: libstdc++-devel
 BuildRequires: libxml2-devel
 BuildRequires: libxslt
 BuildRequires: pkgconfig
+BuildRequires: popt-devel
 BuildRequires: python3-devel
 BuildRequires: qt6-qtbase-devel
 BuildRequires: qt6-qtsvg-devel
@@ -146,7 +149,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_mandir}/*/*
 
 %changelog
-* Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.4
+* Tue Jul 8 2025 Ben Burton <bab@debian.org> 7.3.1
 - New upstream release.
 
 * Tue May 9 2023 Ben Burton <bab@debian.org> 7.3-2
