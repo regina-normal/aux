@@ -1,0 +1,63 @@
+# Maintainer: Ben Burton <bab@debian.org>
+pkgname=regina-normal
+pkgver=7.3.1
+pkgrel=1
+pkgdesc="Mathematical software for low-dimensional topology"
+arch=('x86_64')
+url="https://regina-normal.github.io/"
+license=('GPL')
+# The Arch Linux packaging guidelines say *not* to rely on transitive
+# dependencies.  So, although namcap complains about them, we include
+# them here nevertheless.  They include:
+#   - gmp (<- coreutils <- base)
+#   - libxml2 (<- shared-mime-info)
+#   - perl (<- netpbm <- gts <- graphviz)
+#   - popt (<- cryptsetup <- systemd <- base)
+#   - qt6-base (<- qt6-svg)
+#   - shared-mime-info (<- qt6-base)
+#   - zlib (<- python)
+depends=(gmp
+         graphviz
+         jansson
+         hicolor-icon-theme
+         libxml2
+         lmdb
+         perl
+         popt
+         python
+         qt6-base
+         qt6-svg
+         shared-mime-info
+         zlib)
+makedepends=(cmake
+             cppunit
+             doxygen
+             libxslt)
+checkdepends=(cppunit)
+source=("regina-$pkgver.tar.gz")
+sha256sums=(SKIP)
+
+build() {
+    cd "$srcdir/regina-$pkgver"
+    rm -rf build
+    mkdir build
+    cd build
+    cmake -DPACKAGE_NAME=regina-normal \
+          -DCMAKE_INSTALL_PREFIX=/usr \
+          -DPython_EXECUTABLE=/usr/bin/python3 \
+          -DPACKAGING_MODE=1 \
+          -DDISABLE_RPATH=1 \
+          -DBUILD_INFO="Upstream Arch Linux package" \
+          ..
+    make
+}
+
+check() {
+    cd "$srcdir/regina-$pkgver/build"
+    make test ARGS=-V
+}
+
+package() {
+    cd "$srcdir/regina-$pkgver/build"
+    make DESTDIR="$pkgdir/" install
+}
