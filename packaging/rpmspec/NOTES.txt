@@ -151,6 +151,8 @@ Installer notes:
 - Fedora/aarch64 installer via UTM: if the image is .raw.xz, not .iso, then to
   use this: uncompress the image (unxz < foo.raw.xz > foo.raw), and add a new
   VirtIO drive that is read-only, non-removable, and uses this image.
+  Note: an Everything/iso release seems more reliable for installation than
+  a Workstation/raw release.
 - openSUSE installer: select KDE plasma desktop
 - openSUSE installer: disable online repositories when asked
 - openSUSE/aarch64 installer via UTM: will not boot past the grub screen.
@@ -158,9 +160,10 @@ Installer notes:
   settings and add a serial console instead).  After installation, remove
   the serial console and add a display again, and it should boot fine.
 
-Disable updates:
-- Fedora in /etc/yum.repos.d (set enabled=0 in updates repos)
+Disable unwanted updates:
+- Fedora in /etc/yum.repos.d (set enabled=0 in unwanted repos)
 - openSUSE by "zypper repos", then "zypper modifyrepo -d <reponame>"
+- Keep updates repos for test machines but not build machines
 
 Check for unwanted newer packages, if making a build machine:
 - Fedora:
@@ -183,7 +186,7 @@ GUI breakage:
   * zypper modifyrepo -d repo-backports-update
 
 Desktop tweaks:
-- Fedora: put Terminal in sidebar
+- Fedora: pin Terminal to dash
 - All: disable screen saver and automatic suspend
 - openSUSE: disable screen locking (Settings / Workspace Behaviour)
 

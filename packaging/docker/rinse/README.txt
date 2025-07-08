@@ -30,12 +30,19 @@ To create *.packages files for new fedora/opensuse releases:
 For new fedora, we begin with the processs described on the rinse manpage
 (almost) - start a VM with the corresponding distribution installed and run:
 
-  dnf repoquery --disablerepo fedora-source \
-    --requires --resolve --recursive dnf | \
-    perl -pe 's/(.*)-.*?-.*?$/$1/g' | sort -u | \
-    grep -E -v 'glibc-all-langpacks|glibc-langpack-'
+  For fedora ≥ 41:
+    dnf5 repoquery --disablerepo fedora-source \
+      --providers-of=requires --recursive dnf5 | \
+      perl -pe 's/(.*)-.*?-.*?$/$1/g' | sort -u | \
+      grep -E -v 'glibc-all-langpacks|glibc-langpack-'
 
-Then add dnf (which is not included in the list), and strip out all
+  For fedora 26-40:
+    dnf repoquery --disablerepo fedora-source \
+      --requires --resolve --recursive dnf | \
+      perl -pe 's/(.*)-.*?-.*?$/$1/g' | sort -u | \
+      grep -E -v 'glibc-all-langpacks|glibc-langpack-'
+
+Then add dnf5 or dnf (which is not included in the list), and strip out all
 fedora-release-* and generic-release-*, except for
 fedora-release{,-common,-identity-basic}.  We should probably
 revisit this latter decision at a later date to see if it still makes sense.
