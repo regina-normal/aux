@@ -373,7 +373,7 @@ sub refreshAndInstall {
         $dist eq 'opensuse' and $slimopt = '--no-recommends ';
     }
     ($dist eq 'debian' or $dist eq 'ubuntu') and return 'RUN ' . aptUpdate() . " && apt-get install -y $slimopt$pkgs\n";
-    $dist eq 'fedora' and return "RUN dnf install -y -b --refresh $slimopt$pkgs\n";
+    $dist eq 'fedora' and return "RUN dnf install -y --best --refresh $slimopt$pkgs\n";
     $dist eq 'opensuse' and return "RUN zypper refresh && zypper install -y $slimopt$pkgs\n";
     $dist eq 'arch' and return "RUN pacman --noconfirm --noprogressbar -Syy && pacman --noconfirm --noprogressbar -S $slimopt$pkgs\n";
     die;
@@ -399,7 +399,7 @@ sub upgradeAndInstall {
         $dist eq 'opensuse' and $slimopt = '--no-recommends ';
     }
     ($dist eq 'debian' or $dist eq 'ubuntu') and return 'RUN ' . aptUpdate() . " && apt-get dist-upgrade -y && apt-get install -y $slimopt$pkgs\n";
-    $dist eq 'fedora' and return "RUN dnf upgrade -y -b --refresh $slimopt&& dnf install -y -b $slimopt$pkgs\n";
+    $dist eq 'fedora' and return "RUN dnf upgrade -y --best --refresh $slimopt&& dnf install -y --best $slimopt$pkgs\n";
     $dist eq 'opensuse' and return "RUN zypper refresh && zypper update -y && zypper install -y $slimopt$pkgs\n";
     $dist eq 'arch' and return "RUN pacman --noconfirm --noprogressbar -Syy && pacman --noconfirm --noprogressbar -Syu && pacman --noconfirm --noprogressbar -S $slimopt$pkgs\n";
     die;
@@ -646,7 +646,7 @@ sub desktop {
     } elsif ($dist eq 'ubuntu') {
         $data .= upgradeAndInstall('ubuntu-desktop');
     } elsif ($dist eq 'fedora') {
-        $data .= "RUN dnf upgrade -y -b --refresh && dnf group install -y -b GNOME\n";
+        $data .= "RUN dnf upgrade -y --best --refresh && dnf group install -y --best GNOME\n";
     } elsif ($dist eq 'opensuse') {
         $data .= upgradeAndInstall('patterns-kde-kde');
     } elsif ($dist eq 'arch') {

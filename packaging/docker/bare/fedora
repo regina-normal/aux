@@ -164,9 +164,9 @@ if [ "$ver" -ge 24 ]; then
   sed -i -e 's/^enabled=1/enabled=0/' "$rootfsDir"/etc/yum.repos.d/*cisco*.repo
 fi
 
-chroot "$rootfsDir" dnf upgrade -y -b --refresh --setopt=install_weak_deps=False
+chroot "$rootfsDir" dnf upgrade -y --best --refresh --setopt=install_weak_deps=False
 
-chroot "$rootfsDir" dnf install -y -b --setopt=install_weak_deps=False \
+chroot "$rootfsDir" dnf install -y --best --setopt=install_weak_deps=False \
   dnf-plugins-core
 chroot "$rootfsDir" dnf config-manager --set-enabled fedora-source
 
@@ -175,7 +175,7 @@ chroot "$rootfsDir" dnf config-manager --set-enabled fedora-source
 # https://github.com/aarond10/https_dns_proxy/issues/136
 # By this point in the installation, however, things should be working and so
 # we can just install those missing packages now.
-chroot "$rootfsDir" dnf install -y -b --setopt=install_weak_deps=False \
+chroot "$rootfsDir" dnf install -y --best --setopt=install_weak_deps=False \
   vim-minimal dhclient
 
 chroot "$rootfsDir" dnf clean --quiet all
@@ -192,7 +192,7 @@ rm -rf "$rootfsDir/dev" "$rootfsDir/proc"
 mkdir -p "$rootfsDir/dev" "$rootfsDir/proc"
 
 if [ "$ver" -ge 36 ]; then
-  chroot "$rootfsDir" dnf install -y -b --setopt=install_weak_deps=False \
+  chroot "$rootfsDir" dnf install -y --best --setopt=install_weak_deps=False \
     authselect pam
   echo '----- Initialising authselect -----'
   if [ "$ver" -ge 40 ]; then
