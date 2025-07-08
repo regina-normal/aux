@@ -143,6 +143,8 @@ Parallels configuration:
 - Hardware / Memory (2 CPUs, 4096 MB RAM)
 
 Installer notes:
+- Fedora downloads: newer signing keys are available in older fedoras
+  under /etc/pki/rpm-gpg/
 - Fedora/aarch64 installer: if the "Everything" image must be used, be sure to
   choose "Workstation" as the base software environment.  The additional
   X server (which might be selected by default) is not required.
