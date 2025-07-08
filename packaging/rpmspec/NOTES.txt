@@ -160,7 +160,7 @@ Installer notes:
   settings and add a serial console instead).  After installation, remove
   the serial console and add a display again, and it should boot fine.
 
-Disable unwanted updates:
+Disable unwanted updates, if making a build machine:
 - Fedora in /etc/yum.repos.d (set enabled=0 in unwanted repos)
 - openSUSE by "zypper repos", then "zypper modifyrepo -d <reponame>"
 - Keep updates repos for test machines but not build machines
