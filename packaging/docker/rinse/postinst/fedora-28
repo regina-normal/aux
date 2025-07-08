@@ -39,6 +39,8 @@ mirror=`dirname $mirror`
 # save original yum config
 mv ${prefix}/etc/yum.repos.d ${prefix}/etc/yum.repos.d.orig
 
+# note: dnf5 does not seem to check signatures unless we include
+# gpgcheck=1 in the specific repository section, i.e., [fedora].
 mkdir ${prefix}/etc/yum.repos.d
 cat > ${prefix}/etc/yum.repos.d/rinse.repo <<EOF
 [main]
@@ -51,6 +53,7 @@ repo_gpgcheck=1
 name=Fedora
 baseurl=$mirror
 enabled=1
+gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-$dist-$arch
 EOF
 
