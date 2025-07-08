@@ -90,6 +90,8 @@ case "$ver" in
   hirsute ) archive=1 ;;            # 21.04
   impish ) archive=1 ;;             # 21.10
   kinetic ) archive=1 ;;            # 22.10
+  lunar ) archive=1 ;;              # 23.04
+  mantic ) archive=1 ;;             # 23.10
   # For non-ancient LTS releases (>= trusty) and the newest interim releases,
   # debootstrap gets everything right by default.
   * ) ;;
