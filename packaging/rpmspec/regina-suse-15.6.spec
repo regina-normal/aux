@@ -1,7 +1,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 7.4
-Release: lp154.1
+Release: lp156.1
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -16,11 +16,11 @@ Conflicts: regina
 
 BuildRequires: cmake
 BuildRequires: doxygen
-# We use gcc11 because the default is gcc7, which cannot work with Qt6 due to
+# We use gcc13 because the default is gcc7, which cannot work with Qt6 due to
 # its lack of support for std::filesystem.  It would be super nice if, in the
-# year 2022, openSUSE could move to a compiler that is even remotely modern.
-BuildRequires: gcc11
-BuildRequires: gcc11-c++
+# year 2025, openSUSE could move to a compiler that is even remotely modern.
+BuildRequires: gcc13
+BuildRequires: gcc13-c++
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
@@ -65,11 +65,11 @@ export LDFLAGS="-Wl,-Bsymbolic-functions $LDFLAGS"
 mkdir build
 cd build
 
-cmake -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_CXX_COMPILER=g++-11 \
+cmake -DCMAKE_C_COMPILER=gcc-13 -DCMAKE_CXX_COMPILER=g++-13 \
   -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBEXECDIR=lib \
   -DPACKAGING_MODE=1 \
   -DPython_EXECUTABLE=/usr/bin/python3 \
-  -DBUILD_INFO="Upstream openSUSE Leap 15.4 package" \
+  -DBUILD_INFO="Upstream openSUSE Leap 15.6 package" \
   -DREGINA_KVSTORE=lmdb \
   ..
 
@@ -118,6 +118,9 @@ rm -rf "$RPM_BUILD_ROOT"
 
 %changelog
 * Tue May 9 2023 Ben Burton <bab@debian.org> 7.4
+- New upstream release.
+
+* Tue Jul 8 2025 Ben Burton <bab@debian.org> 7.3.1
 - New upstream release.
 
 * Tue May 9 2023 Ben Burton <bab@debian.org> 7.3-2

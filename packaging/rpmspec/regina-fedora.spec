@@ -149,6 +149,9 @@ rm -rf "$RPM_BUILD_ROOT"
 * Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.4
 - New upstream release.
 
+* Tue Jul 8 2025 Ben Burton <bab@debian.org> 7.3.1
+- New upstream release.
+
 * Tue May 9 2023 Ben Burton <bab@debian.org> 7.3-2
 - Backported some recent fixes from the repository:
   * Fixed a bug where Link::resolve() would not clear calculated properties,

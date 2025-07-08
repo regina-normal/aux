@@ -1,7 +1,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 7.4
-Release: lp155.1
+Version: 7.3.1
+Release: lp156.1
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -15,20 +15,24 @@ Requires: python3
 Conflicts: regina
 
 BuildRequires: cmake
+BuildRequires: cppunit-devel
 BuildRequires: doxygen
-# We use gcc12 because the default is gcc7, which cannot work with Qt6 due to
+# We use gcc13 because the default is gcc7, which cannot work with Qt6 due to
 # its lack of support for std::filesystem.  It would be super nice if, in the
-# year 2023, openSUSE could move to a compiler that is even remotely modern.
-BuildRequires: gcc12
-BuildRequires: gcc12-c++
+# year 2025, openSUSE could move to a compiler that is even remotely modern.
+BuildRequires: gcc13
+BuildRequires: gcc13-c++
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
+BuildRequires: libbz2-devel
+BuildRequires: libjansson-devel
 BuildRequires: libstdc++-devel
 BuildRequires: libxml2-devel
 BuildRequires: libxslt-tools
 BuildRequires: lmdb-devel
 BuildRequires: pkg-config
+BuildRequires: popt-devel
 BuildRequires: python3-devel
 BuildRequires: qt6-base-devel
 BuildRequires: qt6-svg-devel
@@ -65,11 +69,11 @@ export LDFLAGS="-Wl,-Bsymbolic-functions $LDFLAGS"
 mkdir build
 cd build
 
-cmake -DCMAKE_C_COMPILER=gcc-12 -DCMAKE_CXX_COMPILER=g++-12 \
+cmake -DCMAKE_C_COMPILER=gcc-13 -DCMAKE_CXX_COMPILER=g++-13 \
   -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBEXECDIR=lib \
   -DPACKAGING_MODE=1 \
   -DPython_EXECUTABLE=/usr/bin/python3 \
-  -DBUILD_INFO="Upstream openSUSE Leap 15.5 package" \
+  -DBUILD_INFO="Upstream openSUSE Leap 15.6 package" \
   -DREGINA_KVSTORE=lmdb \
   ..
 
@@ -117,7 +121,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_prefix}/lib/python3.6/site-packages/regina/
 
 %changelog
-* Tue May 9 2023 Ben Burton <bab@debian.org> 7.4
+* Tue Jul 8 2025 Ben Burton <bab@debian.org> 7.3.1
 - New upstream release.
 
 * Tue May 9 2023 Ben Burton <bab@debian.org> 7.3-2
