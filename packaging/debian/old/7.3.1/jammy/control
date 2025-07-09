@@ -29,6 +29,7 @@ Standards-Version: 4.6.0
 
 Package: regina-normal
 Architecture: any
+Multi-Arch: no
 Section: math
 Pre-Depends: ${misc:Pre-Depends}
 Depends:
@@ -61,6 +62,7 @@ Description: mathematical software for low-dimensional topology
 
 Package: regina-normal-dev
 Architecture: any
+Multi-Arch: no
 Section: libdevel
 Depends:
     regina-normal (= ${binary:Version}),
@@ -84,6 +86,7 @@ Description: development files for Regina, the topology software
 
 Package: regina-normal-doc
 Architecture: all
+Multi-Arch: foreign
 Section: doc
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends}
