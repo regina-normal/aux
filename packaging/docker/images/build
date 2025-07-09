@@ -905,7 +905,8 @@ sub regina {
         $pkgs .= (debianUbuntuCmp('wheezy', 'oneiric') < 0 ? ' libgmp3-dev' : ' libgmp-dev');
         $needXML and $pkgs .= ' libxml2-dev zlib1g-dev';
         $needXSLT and $pkgs .= ' xsltproc';
-        $needKVStore and $pkgs .= ' libtokyocabinet-dev pkg-config';
+        $needKVStore and $pkgs .= ' libtokyocabinet-dev';
+        $needKVStore and $pkgs .= (debianUbuntuCmp('bookworm', 'lunar') < 0 ? ' pkg-config' : ' pkgconf');
         # For the cppunit package name, the threshold of hoary below might need
         # to be earlier; this has not been tested.  This is also harmless,
         # since breezy still had a transitional cppunit package.
