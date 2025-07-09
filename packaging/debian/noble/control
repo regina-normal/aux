@@ -14,7 +14,7 @@ Build-Depends:
     libqt6svg6-dev,
     libtokyocabinet-dev,
     libxml2-dev,
-    pkg-config,
+    pkgconf,
     python3-dev,
     qt6-base-dev,
     shared-mime-info,
