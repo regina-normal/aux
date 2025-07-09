@@ -6,8 +6,13 @@ shift
 
 test="python/testsuite/$name.test"
 out="$AUTOPKGTEST_ARTIFACTS/python-$name.out"
-expect="python/testsuite/$name.out"
 filter="python/testsuite/$name.filter"
+
+expect="python/testsuite/$name.out"
+if [ ! -e "$expect" ]; then
+	# This debian release uses python >= 3.12.
+	expect="python/testsuite/$name.out.v3"
+fi
 
 if [ -e "$filter" ]; then
 	/usr/bin/regina-python "$test" "$@" | "$filter" > "$out"
