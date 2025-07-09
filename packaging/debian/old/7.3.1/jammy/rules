@@ -14,11 +14,8 @@ pyver = $(subst python,,$(shell /usr/bin/py3versions --default))
 
 DEB_HOST_MULTIARCH ?=$(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
-# Override LIBDIR to use plain /usr/lib instead of /usr/lib/$DEB_HOST_MULTIARCH.
-# Making regina-normal a multiarch-aware package will require somewhat more work.
 override_dh_auto_configure:
 	dh_auto_configure -- \
-		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DPACKAGE_NAME=regina-normal -DPACKAGING_MODE=1 \
 		-DPython_EXECUTABLE=/usr/bin/python${pyver} \
 		-DBUILD_INFO="Upstream Ubuntu 22.04 package" \
