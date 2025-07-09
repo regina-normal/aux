@@ -1,4 +1,0 @@
-symlink_to_dir /usr/share/regina-normal/docs ../doc/regina-normal-doc/docs 5.1-4~
-symlink_to_dir /usr/share/regina-normal/engine-docs ../doc/regina-normal-doc/engine-docs 5.1-4~
-dir_to_symlink /usr/share/doc/regina-normal-doc/docs ../../regina-normal/docs 5.1-4~
-dir_to_symlink /usr/share/doc/regina-normal-doc/engine-docs ../../regina-normal/engine-docs 5.1-4~
