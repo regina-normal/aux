@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use File::Copy;
 use File::Path;
-use Version::Util qw(cmp_version);
+use Sort::Versions;
 use strict;
 
 -e 'build' or die "This script must be run from within its own directory";
@@ -144,7 +144,7 @@ sub reginaVersionCmp {
     (defined $lhs and defined $rhs) or die;
     $lhs eq 'current' and return ($rhs eq 'current' ? 0 : 1);
     $rhs eq 'current' and return -1;
-    return cmp_version($lhs, $rhs);
+    return versioncmp($lhs, $rhs);
 }
 
 # Usage: reginaVersionInRange('7.0', '6.0.1', '7.3')
@@ -211,7 +211,7 @@ sub ubuntuCmp {
     my $rhs = $ubuntuVersion{$arg};
     defined $lhs or die "Unrecognised ubuntu release: $release";
     defined $rhs or die "Unrecognised ubuntu release: $$arg";
-    return cmp_version($lhs, $rhs);
+    return versioncmp($lhs, $rhs);
 }
 
 # Usage: debianUbuntuCmp('stretch', 'focal')
