@@ -1048,6 +1048,12 @@ sub regina {
         if ($needPython) {
             if ($maxPython == 2 or $release =~ /^42\./) {
                 $pkgs .= ' python2-devel';
+            } elsif ($release eq '15.6') {
+                # Enough.  In 2025 openSUSE still ships with Python 3.6.
+                # This is ancient and newer regina does not support it.
+                # Hopefully the default Python in the openSUSE 16 series
+                # is much newer.
+                $pkgs .= ' python312-devel';
             } else {
                 $pkgs .= ' python3-devel';
             }

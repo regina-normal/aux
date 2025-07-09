@@ -11,7 +11,7 @@ Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Requires: mimehandler(application/pdf)
-Requires: python3
+Requires: python312
 Conflicts: regina
 
 BuildRequires: cmake
@@ -29,7 +29,7 @@ BuildRequires: libxml2-devel
 BuildRequires: libxslt-tools
 BuildRequires: lmdb-devel
 BuildRequires: pkg-config
-BuildRequires: python3-devel
+BuildRequires: python312-devel
 BuildRequires: qt6-base-devel
 BuildRequires: qt6-svg-devel
 BuildRequires: sed
@@ -68,7 +68,7 @@ cd build
 cmake -DCMAKE_C_COMPILER=gcc-13 -DCMAKE_CXX_COMPILER=g++-13 \
   -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBEXECDIR=lib \
   -DPACKAGING_MODE=1 \
-  -DPython_EXECUTABLE=/usr/bin/python3 \
+  -DPython_EXECUTABLE=/usr/bin/python3.12 \
   -DBUILD_INFO="Upstream openSUSE Leap 15.6 package" \
   -DREGINA_KVSTORE=lmdb \
   ..
@@ -114,7 +114,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_libdir}/libregina-engine.so.%{version}
 %{_libexecdir}/regina/
 %{_mandir}/*/*
-%{_prefix}/lib/python3.6/site-packages/regina/
+%{_prefix}/lib/python3.12/site-packages/regina/
 
 %changelog
 * Tue May 9 2023 Ben Burton <bab@debian.org> 7.4
@@ -122,6 +122,7 @@ rm -rf "$RPM_BUILD_ROOT"
 
 * Tue Jul 8 2025 Ben Burton <bab@debian.org> 7.3.1
 - New upstream release.
+- The openSUSE 15.6 package now uses Python 3.12, not the default Python 3.6.
 
 * Tue May 9 2023 Ben Burton <bab@debian.org> 7.3-2
 - Backported some recent fixes from the repository:
