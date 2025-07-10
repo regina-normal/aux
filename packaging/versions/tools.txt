@@ -141,6 +141,10 @@ Doxygen versions [regina needs 1.9.2]
 
 Python versions [regina needs 3.6]:
 
+3.13.2:
+  - Fedora 42
+3.13.0:
+  - Fedora 41
 3.12.3:
   - Ubuntu noble (24.04 LTS)
 3.12.2:
@@ -160,7 +164,7 @@ Python versions [regina needs 3.6]:
 3.8.5:
   - Ubuntu focal (20.04 LTS)
 3.6.15:
-  - openSUSE Leap 15.6
+  - openSUSE Leap 15.6 (but using optional 3.12.3)
   - openSUSE Leap 15.5
   - openSUSE Leap 15.4
 
