@@ -84,7 +84,7 @@ desktop-file-validate \
   "$RPM_BUILD_ROOT%{_datadir}/applications/org.computop.Regina.desktop" ||:
 
 %post
-/sbin/ldconfig
+%?ldconfig
 /usr/bin/update-desktop-database &> /dev/null ||:
 /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null ||:
 /bin/touch --no-create %{_datadir}/icons/hicolor &> /dev/null ||:
@@ -93,7 +93,7 @@ desktop-file-validate \
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &> /dev/null ||:
 
 %postun
-/sbin/ldconfig
+%?ldconfig
 /usr/bin/update-desktop-database &> /dev/null ||:
 /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null ||:
 if [ $1 -eq 0 ]; then
