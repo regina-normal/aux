@@ -1073,7 +1073,7 @@ sub regina {
         }
         if ($needKVStore) {
             if (reginaVersionCmp($regver, '7.0') >= 0) {
-                $pkgs .= ' lmdb-devel';
+                $pkgs .= ' lmdb-devel libbz2-devel';
             } elsif ($release =~ /^42\./) {
                 $pkgs .= ' libtokyocabinet-devel libbz2-devel';
             } else {
