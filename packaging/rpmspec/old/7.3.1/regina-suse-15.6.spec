@@ -68,9 +68,10 @@ export CXXFLAGS=$RPM_OPT_FLAGS
 export LDFLAGS="-Wl,-Bsymbolic-functions $LDFLAGS"
 mkdir build
 cd build
+export LIB_SUFFIX=$(echo %_lib | cut -b4-)
 
 cmake -DCMAKE_C_COMPILER=gcc-13 -DCMAKE_CXX_COMPILER=g++-13 \
-  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr \
+  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DLIB_SUFFIX=$LIB_SUFFIX \
   -DPACKAGING_MODE=1 \
   -DPython_EXECUTABLE=/usr/bin/python3.12 \
   -DBUILD_INFO="Upstream openSUSE Leap 15.6 package" \
