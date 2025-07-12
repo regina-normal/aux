@@ -110,6 +110,16 @@ if [ -d "$rootfsDir/etc/sysconfig" ]; then
 	echo 'NETWORKING=yes' > "$rootfsDir/etc/sysconfig/network"
 fi
 
+if [ "$ver" -ge 42 ]; then
+  echo '----- Creating sbin symlinks -----'
+  if [ ! -e "$rootfsDir/usr/sbin" ]; then
+    ln -snf bin "$rootfsDir/usr/sbin"
+  fi
+  if [ ! -e "$rootfsDir/usr/local/sbin" ]; then
+    ln -snf bin "$rootfsDir/usr/local/sbin"
+  fi
+fi
+
 echo '----- Creating /etc/resolv.conf -----'
 
 # make sure /etc/resolv.conf has something useful in it
