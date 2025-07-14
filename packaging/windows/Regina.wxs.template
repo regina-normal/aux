@@ -78,7 +78,7 @@
 
           <Directory Id="BINDIR" Name="bin">
             <Component Id="MainExecutable" Guid="73EDE905-640E-49AA-97FD-F690BAE5BD4C">
-              <File Name="regina-gui.exe" KeyPath="yes">
+              <File Id="regina_gui.exe" Name="regina-gui.exe" KeyPath="yes">
                 <Shortcut Id="startmenuRegina"
                           Directory="ProgramMenuDir"
                           Name="Regina"
