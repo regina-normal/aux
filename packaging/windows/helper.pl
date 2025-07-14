@@ -17,7 +17,7 @@ my $regina_build_suffix = 0;
 
 # Constants and commands:
 my $regina_wxs = 'Regina.wxs';
-my @plugins = ( "platforms/qwindows.dll", "styles/qwindowsvistastyle.dll" );
+my @plugins = ( "platforms/qwindows.dll", "styles/qmodernwindowsstyle.dll" );
 
 my %major_commands = (
     'dlls' => 'update DLLs/plugins/etc. in the install tree (cleandlls + copydlls + cleanpython + copypython)',
@@ -277,6 +277,7 @@ sub find_dlls {
             # be found *can* be found, and any missing DLLs should become
             # apparent at runtime anyway.
             / not found\s*$/ and next;
+            /^\s+\S+\.exe => c:\\windows\\system/i and next;
 
             /^\s+(\S+\.dll) => (\S+\.dll) /i or
                 die "Cannot interpret ldd output: $_";
