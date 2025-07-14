@@ -20,8 +20,6 @@
 
     <Media Id="1" Cabinet="Regina.cab" EmbedCab="yes" DiskPrompt="Disk #1" />
     <Property Id="DiskPrompt" Value="Regina $regina_version Installation [1]" />
-    <UIRef Id='WixUI_Regina'/ >
-    <UIRef Id='WixUI_ErrorProgressText' />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
     <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
