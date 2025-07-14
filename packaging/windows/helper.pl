@@ -107,7 +107,10 @@ $pyzlibdir = "$mingw/lib/python$pyver/lib-dynload";
 $pyzlib = "zlib-cpython-$pyver_short.dll";
 if (! -e "$pyzlibdir/$pyzlib") {
     $pyzlib = "zlib.cp$pyver_short-mingw_$arch.pyd";
-    -e "$pyzlibdir/$pyzlib" or die "ERROR: Could not find python zlib module";
+    if (! -e "$pyzlibdir/$pyzlib") {
+        $pyzlib = "zlib.cp$pyver_short-mingw_${arch}_msvcrt_gnu.pyd";
+        -e "$pyzlibdir/$pyzlib" or die "ERROR: Could not find python zlib module";
+    }
 }
 
 foreach (glob('/c/Qt/*/mingw*')) {
