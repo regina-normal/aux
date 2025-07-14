@@ -1,8 +1,18 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="Regina $regina_version" UpgradeCode="C3D9D7D7-6614-4F3F-9D8E-EEA184C24A99" Language="1033" Codepage="1252" Version="$regina_build" Manufacturer="Regina development team" InstallerVersion="200">
-    <SummaryInformation Keywords="Installer" Description="Regina $regina_version Installer" Manufacturer="Regina development team" />
+  <Package Name="Regina $regina_version"
+           UpgradeCode="C3D9D7D7-6614-4F3F-9D8E-EEA184C24A99"
+           Language="1033"
+           Codepage="1252"
+           Version="$regina_build"
+           Manufacturer="Regina development team"
+           InstallerVersion="200">
+    <SummaryInformation Keywords="Installer"
+                        Description="Regina $regina_version Installer"
+                        Manufacturer="Regina development team" />
     <Upgrade Id="C3D9D7D7-6614-4F3F-9D8E-EEA184C24A99">
-      <UpgradeVersion OnlyDetect="no" Property="PREVIOUSFOUND" Minimum="0.0.0" />
+      <UpgradeVersion OnlyDetect="no"
+                      Property="PREVIOUSFOUND"
+                      Minimum="0.0.0" />
     </Upgrade>
     <InstallExecuteSequence>
       <RemoveExistingProducts After="InstallInitialize" />
@@ -16,8 +26,21 @@
     <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
 
-    <Feature Id="Complete" Title="Regina $regina_version" Description="The complete package." AllowAdvertise="no" InstallDefault="local" Display="expand" Level="1" ConfigurableDirectory="INSTALLDIR">
-      <Feature Id="MainProgram" Title="Program and data" Description="The main executable and all supporting data." AllowAdvertise="no" InstallDefault="local" Level="1" AllowAbsent="no">
+    <Feature Id="Complete"
+             Title="Regina $regina_version"
+             Description="The complete package."
+             AllowAdvertise="no"
+             InstallDefault="local"
+             Display="expand"
+             Level="1"
+             ConfigurableDirectory="INSTALLDIR">
+      <Feature Id="MainProgram"
+               Title="Program and data"
+               Description="The main executable and all supporting data."
+               AllowAdvertise="no"
+               InstallDefault="local"
+               Level="1"
+               AllowAbsent="no">
         <ComponentRef Id="MainExecutable" />
         <ComponentRef Id="Utils" />
         <ComponentRef Id="CoreDLLs" />
@@ -35,7 +58,13 @@
         <ComponentRef Id="SnapPeaData" />
         <ComponentRef Id="ProgramMenuDir" />
       </Feature>
-      <Feature Id="Documentation" Title="Documentation" Description="The users' handbooks and Python API reference." AllowAdvertise="no" InstallDefault="local" Level="2" AllowAbsent="no">
+      <Feature Id="Documentation"
+               Title="Documentation"
+               Description="The users' handbooks and Python API reference."
+               AllowAdvertise="no"
+               InstallDefault="local"
+               Level="2"
+               AllowAbsent="no">
         <ComponentRef Id="HandbookRegina_EN" />
         <ComponentRef Id="HandbookReginaXML_EN" />
         <ComponentRef Id="APIDocs" />
@@ -52,14 +81,27 @@
           <Directory Id="BINDIR" Name="bin">
             <Component Id="MainExecutable" Guid="73EDE905-640E-49AA-97FD-F690BAE5BD4C">
               <File Name="regina-gui.exe" KeyPath="yes">
-                <Shortcut Id="startmenuRegina" Directory="ProgramMenuDir" Name="Regina" WorkingDirectory="PersonalFolder" Icon="regina.ico" Advertise="yes" />
-                <Shortcut Id="desktopRegina" Directory="DesktopFolder" Name="Regina $regina_version" WorkingDirectory="PersonalFolder" Icon="regina.ico" Advertise="yes" />
+                <Shortcut Id="startmenuRegina"
+                          Directory="ProgramMenuDir"
+                          Name="Regina"
+                          WorkingDirectory="PersonalFolder"
+                          Icon="regina.ico"
+                          Advertise="yes" />
+                <Shortcut Id="desktopRegina"
+                          Directory="DesktopFolder"
+                          Name="Regina $regina_version"
+                          WorkingDirectory="PersonalFolder"
+                          Icon="regina.ico"
+                          Advertise="yes" />
               </File>
               <File Name="libregina-engine.dll" />
               <File Name="x-regina.ico" Id="x_regina.ico" />
               <ProgId Id="Regina.rgafile" Description="Regina data file" Icon="x_regina.ico">
                 <Extension Id="rga" ContentType="application/x-regina">
-                  <Verb Id="open" Command="Open" TargetFile="regina_gui.exe" Argument="&quot;%1&quot;" />
+                  <Verb Id="open"
+                        Command="Open"
+                        TargetFile="regina_gui.exe"
+                        Argument="&quot;%1&quot;" />
                 </Extension>
               </ProgId>
             </Component>
@@ -123,7 +165,11 @@
                   <Directory Id="PKGDATADIR_docs_en_regina" Name="regina">
                     <Component Id="HandbookRegina_EN" Guid="7CB45E64-59E6-4AD0-A3FE-1359AD242D4E">
                       <File Name="index.html" Id="regina_en_index.html" KeyPath="yes">
-                        <Shortcut Id="startmenuHandbook" Directory="ProgramMenuDir" Name="Users' Handbook" Icon="manual.ico" Advertise="yes" />
+                        <Shortcut Id="startmenuHandbook"
+                                  Directory="ProgramMenuDir"
+                                  Name="Users' Handbook"
+                                  Icon="manual.ico"
+                                  Advertise="yes" />
                       </File>
                       <File Name="kde-default.css" Id="regina_kde_default.css" />
                       <File Name="regina_logo.png" Id="regina_regina_logo.png" />
@@ -134,7 +180,11 @@
                   <Directory Id="PKGDATADIR_docs_en_regina_xml" Name="regina-xml">
                     <Component Id="HandbookReginaXML_EN" Guid="A36E5E58-37AB-4CE0-96D8-8563D42E1182">
                       <File Name="index.html" Id="regina_xml_en_index.html" KeyPath="yes">
-                        <Shortcut Id="startmenuXMLHandbook" Directory="ProgramMenuDir" Name="File Format Reference" Icon="manual.ico" Advertise="yes" />
+                        <Shortcut Id="startmenuXMLHandbook"
+                                  Directory="ProgramMenuDir"
+                                  Name="File Format Reference"
+                                  Icon="manual.ico"
+                                  Advertise="yes" />
                       </File>
                       <File Name="kde-default.css" Id="regina_xml_kde_default.css" />
                       <File Name="regina_logo.png" Id="regina_xml_regina_logo.png" />
@@ -147,7 +197,11 @@
               <Directory Id="PKGDATADIR_engine_docs" Name="engine-docs">
                 <Component Id="APIDocs" Guid="8627189D-1555-46C7-BD6A-8719B08AC9EA">
                       <File Name="index.html" Id="engine_docs_index.html" KeyPath="yes">
-                        <Shortcut Id="startmenuEngineDocs" Directory="ProgramMenuDir" Name="Python API Reference" Icon="manual.ico" Advertise="yes" />
+                        <Shortcut Id="startmenuEngineDocs"
+                                  Directory="ProgramMenuDir"
+                                  Name="Python API Reference"
+                                  Icon="manual.ico"
+                                  Advertise="yes" />
                       </File>
                       <File Name="*.{html,png,css,js}" />
                 </Component>
@@ -219,7 +273,11 @@
       <Directory Id="ProgramMenuDir" Name="Regina $regina_version">
         <Component Id="ProgramMenuDir" Guid="2EF46552-9E7B-4822-A773-621B48A205B4">
           <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
-          <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
+          <RegistryValue Root="HKCU"
+                         Key="Software\[Manufacturer]\[ProductName]"
+                         Type="string"
+                         Value=""
+                         KeyPath="yes" />
         </Component>
       </Directory>
     </StandardDirectory>
