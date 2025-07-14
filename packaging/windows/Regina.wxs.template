@@ -51,11 +51,11 @@
 
           <Directory Id="BINDIR" Name="bin">
             <Component Id="MainExecutable" Guid="73EDE905-640E-49AA-97FD-F690BAE5BD4C">
-              <File Id="regina_gui.exe" Name="regina-gui.exe" KeyPath="yes">
+              <File Name="regina-gui.exe" KeyPath="yes">
                 <Shortcut Id="startmenuRegina" Directory="ProgramMenuDir" Name="Regina" WorkingDirectory="PersonalFolder" Icon="regina.ico" Advertise="yes" />
                 <Shortcut Id="desktopRegina" Directory="DesktopFolder" Name="Regina $regina_version" WorkingDirectory="PersonalFolder" Icon="regina.ico" Advertise="yes" />
               </File>
-              <File Id="libregina_engine.dll" Name="libregina-engine.dll" />
+              <File Name="libregina-engine.dll" />
               <File Name="x-regina.ico" Id="x_regina.ico" />
               <ProgId Id="Regina.rgafile" Description="Regina data file" Icon="x_regina.ico">
                 <Extension Id="rga" ContentType="application/x-regina">
@@ -64,17 +64,17 @@
               </ProgId>
             </Component>
             <Component Id="Utils" Guid="0079C4E6-03BE-43F3-9A4B-1954EFF3F551">
-              <File Id="censuslookup.exe" Name="censuslookup.exe" />
-              <File Id="dgt.exe" Name="dgt.exe" />
-              <File Id="regconcat.exe" Name="regconcat.exe" KeyPath="yes" />
-              <File Id="regconvert.exe" Name="regconvert.exe" />
-              <File Id="regfiledump.exe" Name="regfiledump.exe" />
-              <File Id="regfiletype.exe" Name="regfiletype.exe" />
-              <File Id="regina_python" Name="regina-python" />
-              <File Id="retriangulate.exe" Name="retriangulate.exe" />
-              <File Id="sigcensus.exe" Name="sigcensus.exe" />
-              <File Id="tricensus.exe" Name="tricensus.exe" />
-              <File Id="trisetcmp.exe" Name="trisetcmp.exe" />
+              <File Name="censuslookup.exe" />
+              <File Name="dgt.exe" />
+              <File Name="regconcat.exe" KeyPath="yes" />
+              <File Name="regconvert.exe" />
+              <File Name="regfiledump.exe" />
+              <File Name="regfiletype.exe" />
+              <File Name="regina-python" />
+              <File Name="retriangulate.exe" />
+              <File Name="sigcensus.exe" />
+              <File Name="tricensus.exe" />
+              <File Name="trisetcmp.exe" />
             </Component>
             <Component Id="CoreDLLs" Guid="7D74E2A7-1970-4751-94E2-DB9674CA2C64">
               $coredlls
@@ -83,17 +83,17 @@
               $pythondll
             </Component>
             <Component Id="QtConf" Guid="7C377F9D-9AF4-4855-8E36-7298223610A5">
-              <File Id="qt.conf" Source="$srctree\qtui\src\qt.conf" KeyPath="yes" />
+              <File Source="$srctree\qtui\src\qt.conf" KeyPath="yes" />
             </Component>
             <Directory Id="BINDIR_plugins" Name="plugins">
               <Directory Id="BINDIR_plugins_platforms" Name="platforms">
                 <Component Id="QtPlatforms" Guid="8265E5B7-99EE-4BC3-84FD-B2C871AD10C3">
-                  <File Id="qwindows.dll" Source="$qt\plugins\platforms\qwindows.dll" KeyPath="yes" />
+                  <File Source="$qt\plugins\platforms\qwindows.dll" KeyPath="yes" />
                 </Component>
               </Directory>
               <Directory Id="BINDIR_plugins_styles" Name="styles">
                 <Component Id="QtStyles" Guid="7894BBD8-BE9A-4BFB-B8D1-9F1E56C3F549">
-                  <File Id="qmodernwindowsstyle.dll" Source="$qt\plugins\styles\qmodernwindowsstyle.dll" KeyPath="yes" />
+                  <File Source="$qt\plugins\styles\qmodernwindowsstyle.dll" KeyPath="yes" />
                 </Component>
               </Directory>
             </Directory>
@@ -108,7 +108,7 @@
                 </Component>
                 <Directory Id="PYMODULEDIR" Name="regina">
                   <Component Id="PythonModule" Guid="08F2657D-7CD7-4343-87A3-935CDA64C286">
-                    <File Id="engine.pyd" Name="engine.pyd" KeyPath="yes" />
+                    <File Name="engine.pyd" KeyPath="yes" />
                     <File Name="*.py" />
                   </Component>
                 </Directory>
@@ -162,7 +162,7 @@
 
               <Directory Id="PKGDATADIR_syntax" Name="syntax">
                 <Component Id="Syntax" Guid="C8681025-2207-4D2B-84DA-E3186DE066F2">
-                  <File Id="default.theme" Name="default.theme" KeyPath="yes" />
+                  <File Name="default.theme" KeyPath="yes" />
                   <File Name="*.xml" />
                 </Component>
               </Directory>
@@ -175,7 +175,7 @@
                 </Directory>
 
                 <Component Id="IconsRegina" Guid="555B7874-574B-4323-9D12-9DF00DF9024B">
-                  <File Id="SOURCES" Name="SOURCES" KeyPath="yes" />
+                  <File Name="SOURCES" KeyPath="yes" />
                   <File Name="crossing+l-16.png" Id="crossingpl16.png" />
                   <File Name="crossing+l-16@2x.png" Id="crossingpl16x2.png" />
                   <File Name="crossing+l-22.png" Id="crossingpl22.png" />
@@ -199,13 +199,13 @@
               <Directory Id="PKGDATADIR_data" Name="data">
                <Directory Id="PKGDATADIR_data_census" Name="census">
                  <Component Id="CensusData" Guid="C4C8C04A-F2E3-4051-8EFD-DD555A661F2F">
-                   <File Id="cusped_hyp_or_census_9.lmdb" Name="cusped-hyp-or-census-9.lmdb" KeyPath="yes" />
+                   <File Name="cusped-hyp-or-census-9.lmdb" KeyPath="yes" />
                    <File Name="*.lmdb" />
                  </Component>
                </Directory>
                <Directory Id="PKGDATADIR_data_snappea" Name="snappea">
                  <Component Id="SnapPeaData" Guid="6B589D6A-9A36-4132-9CCA-52B5ACDBB39C">
-                   <File Id="snappea_census_sec5.dat" Name="snappea-census-sec5.dat" KeyPath="yes" />
+                   <File Name="snappea-census-sec5.dat" KeyPath="yes" />
                    <File Name="*.dat" />
                  </Component>
                </Directory>
