@@ -518,11 +518,11 @@ sub mkwxs {
                     $found_key and die "Found multiple KeyPath DLLs";
                     $found_key = 1;
                     print "    $_  (KeyPath)\n";
-                    print WXS "$indent<File Source='$path'\n";
-                    print WXS "$indent KeyPath='yes'/>\n";
+                    print WXS "$indent<File Source=\"$path\"\n";
+                    print WXS "$indent KeyPath=\"yes\" />\n";
                 } else {
                     print "    $_\n";
-                    print WXS "$indent<File Source='$path'/>\n";
+                    print WXS "$indent<File Source=\"$path\" />\n";
                 }
             }
             $found_py or die "Could not find python DLL";
@@ -543,8 +543,8 @@ sub mkwxs {
 
                 $path = path_for_mswin($_);
                 print "    $_  (KeyPath)\n";
-                print WXS "$indent<File Source='$path'\n";
-                print WXS "$indent KeyPath='yes'/>\n";
+                print WXS "$indent<File Source=\"$path\"\n";
+                print WXS "$indent KeyPath=\"yes\" />\n";
             }
             $found_py or die "Could not find python DLL";
 

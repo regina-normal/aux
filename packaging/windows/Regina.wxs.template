@@ -1,331 +1,227 @@
-<?xml version='1.0' encoding='windows-1252'?>
-<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
-  <Product Id='*'
-   Name='Regina $regina_version'
-   UpgradeCode='C3D9D7D7-6614-4F3F-9D8E-EEA184C24A99'
-   Language='1033'
-   Codepage='1252'
-   Version='$regina_build'
-   Manufacturer='Regina development team'>
-    <Package Id='*'
-     Keywords='Installer'
-     Description='Regina $regina_version Installer'
-     Manufacturer='Regina development team'
-     Languages='1033'
-     Compressed='yes'
-     InstallerVersion='200'
-     SummaryCodepage='1252'/>
-    <Upgrade Id='C3D9D7D7-6614-4F3F-9D8E-EEA184C24A99'>
-      <UpgradeVersion OnlyDetect='no' Property="PREVIOUSFOUND" Minimum="0.0.0"/>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="Regina $regina_version" UpgradeCode="C3D9D7D7-6614-4F3F-9D8E-EEA184C24A99" Language="1033" Codepage="1252" Version="$regina_version.0" Manufacturer="Regina development team" InstallerVersion="200"><SummaryInformation Keywords="Installer" Description="Regina $regina_version Installer" Manufacturer="Regina development team" />
+    <Upgrade Id="C3D9D7D7-6614-4F3F-9D8E-EEA184C24A99">
+      <UpgradeVersion OnlyDetect="no" Property="PREVIOUSFOUND" Minimum="0.0.0" />
     </Upgrade>
     <InstallExecuteSequence>
-      <RemoveExistingProducts After="InstallInitialize"/>
+      <RemoveExistingProducts After="InstallInitialize" />
     </InstallExecuteSequence>
 
-    <Media Id='1' Cabinet='Regina.cab' EmbedCab='yes' DiskPrompt='Disk #1'/>
-    <Property Id='DiskPrompt' Value='Regina $regina_version Installation [1]'/>
-    <UIRef Id='WixUI_Regina'/>
-    <UIRef Id='WixUI_ErrorProgressText'/>
-    <Property Id='WIXUI_INSTALLDIR' Value='INSTALLDIR'/>
-    <WixVariable Id="WixUIBannerBmp" Value="banner.bmp"/>
-    <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp"/>
+    <Media Id="1" Cabinet="Regina.cab" EmbedCab="yes" DiskPrompt="Disk #1" />
+    <Property Id="DiskPrompt" Value="Regina $regina_version Installation [1]" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+    <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
 
-    <Directory Id='TARGETDIR' Name='SourceDir'>
-      <Directory Id='$programfiles' Name='PFiles'>
-        <Directory Id='Regina' Name='Regina'>
-          <Directory Id='INSTALLDIR' Name='Regina $regina_version'
-           FileSource='$installtree'>
+    <Feature Id="Complete" Title="Regina $regina_version" Description="The complete package." AllowAdvertise="no" InstallDefault="local" Display="expand" Level="1" ConfigurableDirectory="INSTALLDIR">
+      <Feature Id="MainProgram" Title="Program and data" Description="The main executable and all supporting data." AllowAdvertise="no" InstallDefault="local" Level="1" AllowAbsent="no">
+        <ComponentRef Id="MainExecutable" />
+        <ComponentRef Id="Utils" />
+        <ComponentRef Id="CoreDLLs" />
+        <ComponentRef Id="PythonCore" />
+        <ComponentRef Id="PythonCoreLibs" />
+        <ComponentRef Id="PythonModule" />
+        <ComponentRef Id="QtConf" />
+        <ComponentRef Id="QtPlatforms" />
+        <ComponentRef Id="QtStyles" />
+        <ComponentRef Id="Examples" />
+        <ComponentRef Id="Syntax" />
+        <ComponentRef Id="IconsRegina" />
+        <ComponentRef Id="IconsSystem" />
+        <ComponentRef Id="CensusData" />
+        <ComponentRef Id="SnapPeaData" />
+        <ComponentRef Id="ProgramMenuDir" />
+      </Feature>
+      <Feature Id="Documentation" Title="Documentation" Description="The users' handbooks and Python API reference." AllowAdvertise="no" InstallDefault="local" Level="2" AllowAbsent="no">
+        <ComponentRef Id="HandbookRegina_EN" />
+        <ComponentRef Id="HandbookReginaXML_EN" />
+        <ComponentRef Id="APIDocs" />
+      </Feature>
+    </Feature>
 
-            <Directory Id='BINDIR' Name='bin'>
-              <Component Id='MainExecutable'
-               Guid='73EDE905-640E-49AA-97FD-F690BAE5BD4C'>
-                <File Id='regina_gui.exe'
-                 Name='regina-gui.exe'
-                 KeyPath='yes'>
-                  <Shortcut Id='startmenuRegina'
-                   Directory='ProgramMenuDir'
-                   Name='Regina'
-                   WorkingDirectory='PersonalFolder'
-                   Icon='regina.ico'
-                   Advertise='yes'/>
-                  <Shortcut Id='desktopRegina'
-                   Directory='DesktopFolder'
-                   Name='Regina $regina_version'
-                   WorkingDirectory='PersonalFolder'
-                   Icon='regina.ico'
-                   Advertise='yes'/>
-                </File>
-                <File Name='libregina-engine.dll'/>
-                <File Name='x-regina.ico' Id='x_regina.ico'/>
-                <ProgId Id='Regina.rgafile'
-                 Description='Regina data file'
-                 Icon='x_regina.ico'>
-                  <Extension Id='rga' ContentType='application/x-regina'>
-                    <Verb Id='open'
-                     Command='Open'
-                     TargetFile='regina_gui.exe'
-                     Argument='"%1"'/>
-                  </Extension>
-                </ProgId>
-              </Component>
-              <Component Id='Utils'
-               Guid='0079C4E6-03BE-43F3-9A4B-1954EFF3F551'>
-                <File Name='censuslookup.exe'/>
-                <File Name='dgt.exe'/>
-                <File Name='regconcat.exe' KeyPath='yes'/>
-                <File Name='regconvert.exe'/>
-                <File Name='regfiledump.exe'/>
-                <File Name='regfiletype.exe'/>
-                <File Name='regina-python'/>
-                <File Name='retriangulate.exe'/>
-                <File Name='sigcensus.exe'/>
-                <File Name='tricensus.exe'/>
-                <File Name='trisetcmp.exe'/>
-              </Component>
-              <Component Id='CoreDLLs'
-               Guid='7D74E2A7-1970-4751-94E2-DB9674CA2C64'>
-                $coredlls
-              </Component>
-              <Component Id='PythonCore'
-               Guid='487000C7-4872-4E6D-A110-4492A9A30F3C'>
-                $pythondll
-              </Component>
-              <Component Id='QtConf'
-               Guid='7C377F9D-9AF4-4855-8E36-7298223610A5'>
-                <File Source='$srctree\qtui\src\qt.conf'
-                 KeyPath='yes'/>
-              </Component>
-              <Directory Id='BINDIR_plugins' Name='plugins'>
-                <Directory Id='BINDIR_plugins_platforms' Name='platforms'>
-                  <Component Id='QtPlatforms'
-                   Guid='8265E5B7-99EE-4BC3-84FD-B2C871AD10C3'>
-                    <File Source='$qt\plugins\platforms\qwindows.dll'
-                     KeyPath='yes'/>
-                  </Component>
-                </Directory>
-                <Directory Id='BINDIR_plugins_styles' Name='styles'>
-                  <Component Id='QtStyles'
-                   Guid='7894BBD8-BE9A-4BFB-B8D1-9F1E56C3F549'>
-                    <File Source='$qt\plugins\styles\qwindowsvistastyle.dll'
-                     KeyPath='yes'/>
+    <Icon Id="regina.ico" SourceFile="$srctree\qtui\src\regina.ico" />
+    <Icon Id="manual.ico" SourceFile="$srctree\qtui\src\manual.ico" />
+
+    <StandardDirectory Id="$programfiles">
+      <Directory Id="Regina" Name="Regina">
+        <Directory Id="INSTALLDIR" Name="Regina $regina_version" FileSource="$installtree">
+
+          <Directory Id="BINDIR" Name="bin">
+            <Component Id="MainExecutable" Guid="73EDE905-640E-49AA-97FD-F690BAE5BD4C">
+              <File Id="regina_gui.exe" Name="regina-gui.exe" KeyPath="yes">
+                <Shortcut Id="startmenuRegina" Directory="ProgramMenuDir" Name="Regina" WorkingDirectory="PersonalFolder" Icon="regina.ico" Advertise="yes" />
+                <Shortcut Id="desktopRegina" Directory="DesktopFolder" Name="Regina $regina_version" WorkingDirectory="PersonalFolder" Icon="regina.ico" Advertise="yes" />
+              </File>
+              <File Id="libregina_engine.dll" Name="libregina-engine.dll" />
+              <File Name="x-regina.ico" Id="x_regina.ico" />
+              <ProgId Id="Regina.rgafile" Description="Regina data file" Icon="x_regina.ico">
+                <Extension Id="rga" ContentType="application/x-regina">
+                  <Verb Id="open" Command="Open" TargetFile="regina_gui.exe" Argument="&quot;%1&quot;" />
+                </Extension>
+              </ProgId>
+            </Component>
+            <Component Id="Utils" Guid="0079C4E6-03BE-43F3-9A4B-1954EFF3F551">
+              <File Id="censuslookup.exe" Name="censuslookup.exe" />
+              <File Id="dgt.exe" Name="dgt.exe" />
+              <File Id="regconcat.exe" Name="regconcat.exe" KeyPath="yes" />
+              <File Id="regconvert.exe" Name="regconvert.exe" />
+              <File Id="regfiledump.exe" Name="regfiledump.exe" />
+              <File Id="regfiletype.exe" Name="regfiletype.exe" />
+              <File Id="regina_python" Name="regina-python" />
+              <File Id="retriangulate.exe" Name="retriangulate.exe" />
+              <File Id="sigcensus.exe" Name="sigcensus.exe" />
+              <File Id="tricensus.exe" Name="tricensus.exe" />
+              <File Id="trisetcmp.exe" Name="trisetcmp.exe" />
+            </Component>
+            <Component Id="CoreDLLs" Guid="7D74E2A7-1970-4751-94E2-DB9674CA2C64">
+              $coredlls
+            </Component>
+            <Component Id="PythonCore" Guid="487000C7-4872-4E6D-A110-4492A9A30F3C">
+              $pythondll
+            </Component>
+            <Component Id="QtConf" Guid="7C377F9D-9AF4-4855-8E36-7298223610A5">
+              <File Id="qt.conf" Source="$srctree\qtui\src\qt.conf" KeyPath="yes" />
+            </Component>
+            <Directory Id="BINDIR_plugins" Name="plugins">
+              <Directory Id="BINDIR_plugins_platforms" Name="platforms">
+                <Component Id="QtPlatforms" Guid="8265E5B7-99EE-4BC3-84FD-B2C871AD10C3">
+                  <File Id="qwindows.dll" Source="$qt\plugins\platforms\qwindows.dll" KeyPath="yes" />
+                </Component>
+              </Directory>
+              <Directory Id="BINDIR_plugins_styles" Name="styles">
+                <Component Id="QtStyles" Guid="7894BBD8-BE9A-4BFB-B8D1-9F1E56C3F549">
+                  <File Id="qmodernwindowsstyle.dll" Source="$qt\plugins\styles\qmodernwindowsstyle.dll" KeyPath="yes" />
+                </Component>
+              </Directory>
+            </Directory>
+          </Directory>
+
+          <Directory Id="LIBDIR" Name="lib">
+            <Directory Id="PKGLIBDIR" Name="regina">
+              <Directory Id="PYLIBDIR" Name="python">
+                <Component Id="PythonCoreLibs" Guid="F8BD8335-473C-4406-9F86-CEBB40CD2752">
+                  <File Source="$python_core" KeyPath="yes" />
+                  <File Source="$python_zlib" />
+                </Component>
+                <Directory Id="PYMODULEDIR" Name="regina">
+                  <Component Id="PythonModule" Guid="08F2657D-7CD7-4343-87A3-935CDA64C286">
+                    <File Id="engine.pyd" Name="engine.pyd" KeyPath="yes" />
+                    <File Name='*.py' />
                   </Component>
                 </Directory>
               </Directory>
             </Directory>
+          </Directory>
 
-            <Directory Id='LIBDIR' Name='lib'>
-              <Directory Id='PKGLIBDIR' Name='regina'>
-                <Directory Id='PYLIBDIR' Name='python'>
-                  <Component Id='PythonCoreLibs'
-                   Guid='F8BD8335-473C-4406-9F86-CEBB40CD2752'>
-                    <File Source='$python_core' KeyPath='yes'/>
-                    <File Source='$python_zlib'/>
-                  </Component>
-                  <Directory Id='PYMODULEDIR' Name='regina'>
-                    <Component Id='PythonModule'
-                     Guid='08F2657D-7CD7-4343-87A3-935CDA64C286'>
-                      <File Name='engine.pyd' KeyPath='yes'/>
-                      <File Name='*.py'/>
+          <Directory Id="DATADIR" Name="share">
+            <Directory Id="PKGDATADIR" Name="regina">
+              <Directory Id="PKGDATADIR_docs" Name="docs">
+                <Directory Id="PKGDATADIR_docs_en" Name="en">
+                  <Directory Id="PKGDATADIR_docs_en_regina" Name="regina">
+                    <Component Id="HandbookRegina_EN" Guid="7CB45E64-59E6-4AD0-A3FE-1359AD242D4E">
+                      <File Name="index.html" Id="regina_en_index.html" KeyPath="yes">
+                        <Shortcut Id="startmenuHandbook" Directory="ProgramMenuDir" Name="Users' Handbook" Icon="manual.ico" Advertise="yes" />
+                      </File>
+                      <File Name="kde-default.css" Id="regina_kde_default.css" />
+                      <File Name="regina_logo.png" Id="regina_regina_logo.png" />
+                      <File Name='*.{html,png}' />
+                    </Component>
+                  </Directory>
+
+                  <Directory Id="PKGDATADIR_docs_en_regina_xml" Name="regina-xml">
+                    <Component Id="HandbookReginaXML_EN" Guid="A36E5E58-37AB-4CE0-96D8-8563D42E1182">
+                      <File Name="index.html" Id="regina_xml_en_index.html" KeyPath="yes">
+                        <Shortcut Id="startmenuXMLHandbook" Directory="ProgramMenuDir" Name="File Format Reference" Icon="manual.ico" Advertise="yes" />
+                      </File>
+                      <File Name="kde-default.css" Id="regina_xml_kde_default.css" />
+                      <File Name="regina_logo.png" Id="regina_xml_regina_logo.png" />
+                      <File Name='*.{html,png}' />
                     </Component>
                   </Directory>
                 </Directory>
               </Directory>
-            </Directory>
 
-            <Directory Id='DATADIR' Name='share'>
-              <Directory Id='PKGDATADIR' Name='regina'>
-                <Directory Id='PKGDATADIR_docs' Name='docs'>
-                  <Directory Id='PKGDATADIR_docs_en' Name='en'>
-                    <Directory Id='PKGDATADIR_docs_en_regina' Name='regina'>
-                      <Component Id='HandbookRegina_EN'
-                       Guid='7CB45E64-59E6-4AD0-A3FE-1359AD242D4E'>
-                        <File Name='index.html'
-                         Id='regina_en_index.html'
-                         KeyPath='yes'>
-                          <Shortcut Id='startmenuHandbook'
-                           Directory='ProgramMenuDir'
-                           Name="Users' Handbook"
-                           Icon='manual.ico'
-                           Advertise='yes'/>
-                        </File>
-                        <File Name='kde-default.css'
-                         Id='regina_kde_default.css'/>
-                        <File Name='regina_logo.png'
-                         Id='regina_regina_logo.png'/>
-                        <File Name='*.{html,png}'/>
-                      </Component>
-                    </Directory>
+              <Directory Id="PKGDATADIR_engine_docs" Name="engine-docs">
+                <Component Id="APIDocs" Guid="8627189D-1555-46C7-BD6A-8719B08AC9EA">
+                      <File Name="index.html" Id="engine_docs_index.html" KeyPath="yes">
+                        <Shortcut Id="startmenuEngineDocs" Directory="ProgramMenuDir" Name="Python API Reference" Icon="manual.ico" Advertise="yes" />
+                      </File>
+                      <File Name='*.{html,png,css,js}' />
+                </Component>
+              </Directory>
 
-                    <Directory Id='PKGDATADIR_docs_en_regina_xml' Name='regina-xml'>
-                      <Component Id='HandbookReginaXML_EN'
-                       Guid='A36E5E58-37AB-4CE0-96D8-8563D42E1182'>
-                        <File Name='index.html'
-                         Id='regina_xml_en_index.html'
-                         KeyPath='yes'>
-                          <Shortcut Id='startmenuXMLHandbook'
-                           Directory='ProgramMenuDir'
-                           Name='File Format Reference'
-                           Icon='manual.ico'
-                           Advertise='yes'/>
-                        </File>
-                        <File Name='kde-default.css'
-                         Id='regina_xml_kde_default.css'/>
-                        <File Name='regina_logo.png'
-                         Id='regina_xml_regina_logo.png'/>
-                        <File Name='*.{html,png}'/>
-                      </Component>
-                    </Directory>
-                  </Directory>
-                </Directory>
+              <Directory Id="PKGDATADIR_examples" Name="examples">
+                <Component Id="Examples" Guid="55C80D32-D843-4C37-B6E7-B19028139CA1">
+                  <File Name="README.txt" Id="examples_README" KeyPath="yes" />
+                  <File Name='*.{rga,py,session}' />
+                </Component>
+              </Directory>
 
-                <Directory Id='PKGDATADIR_engine_docs' Name='engine-docs'>
-                  <Component Id='APIDocs'
-                   Guid='8627189D-1555-46C7-BD6A-8719B08AC9EA'>
-                        <File Name='index.html'
-                         Id='engine_docs_index.html'
-                         KeyPath='yes'>
-                          <Shortcut Id='startmenuEngineDocs'
-                           Directory='ProgramMenuDir'
-                           Name='Python API Reference'
-                           Icon='manual.ico'
-                           Advertise='yes'/>
-                        </File>
-                        <File Name='*.{html,png,css,js}'/>
+              <Directory Id="PKGDATADIR_syntax" Name="syntax">
+                <Component Id="Syntax" Guid="C8681025-2207-4D2B-84DA-E3186DE066F2">
+                  <File Id="default.theme" Name="default.theme" KeyPath="yes" />
+                  <File Name='*.xml' />
+                </Component>
+              </Directory>
+
+              <Directory Id="PKGDATADIR_icons" Name="icons">
+                <Directory Id="PKGDATADIR_icons_system" Name="system">
+                  <Component Id="IconsSystem" Guid="8d052881-67c6-4f47-82a9-3f94ebfa2e3a">
+                    <File Name='*.png' />
                   </Component>
                 </Directory>
 
-                <Directory Id='PKGDATADIR_examples' Name='examples'>
-                  <Component Id='Examples'
-                   Guid='55C80D32-D843-4C37-B6E7-B19028139CA1'>
-                    <File Name='README.txt' Id='examples_README' KeyPath='yes'/>
-                    <File Name='*.{rga,py,session}'/>
-                  </Component>
-                </Directory>
+                <Component Id="IconsRegina" Guid="555B7874-574B-4323-9D12-9DF00DF9024B">
+                  <File Id="SOURCES" Name="SOURCES" KeyPath="yes" />
+                  <File Name="crossing+l-16.png" Id="crossingpl16.png" />
+                  <File Name="crossing+l-16@2x.png" Id="crossingpl16x2.png" />
+                  <File Name="crossing+l-22.png" Id="crossingpl22.png" />
+                  <File Name="crossing+l-22@2x.png" Id="crossingpl22x2.png" />
+                  <File Name="crossing+u-16.png" Id="crossingpu16.png" />
+                  <File Name="crossing+u-16@2x.png" Id="crossingpu16x2.png" />
+                  <File Name="crossing+u-22.png" Id="crossingpu22.png" />
+                  <File Name="crossing+u-22@2x.png" Id="crossingpu22x2.png" />
+                  <File Name="crossing-l-16.png" Id="crossingnl16.png" />
+                  <File Name="crossing-l-16@2x.png" Id="crossingnl16x2.png" />
+                  <File Name="crossing-l-22.png" Id="crossingnl22.png" />
+                  <File Name="crossing-l-22@2x.png" Id="crossingnl22x2.png" />
+                  <File Name="crossing-u-16.png" Id="crossingnu16.png" />
+                  <File Name="crossing-u-16@2x.png" Id="crossingnu16x2.png" />
+                  <File Name="crossing-u-22.png" Id="crossingnu22.png" />
+                  <File Name="crossing-u-22@2x.png" Id="crossingnu22x2.png" />
+                  <File Name='*.png' />
+                </Component>
+              </Directory>
 
-                <Directory Id='PKGDATADIR_syntax' Name='syntax'>
-                  <Component Id='Syntax'
-                   Guid='C8681025-2207-4D2B-84DA-E3186DE066F2'>
-                    <File Name='default.theme' KeyPath='yes'/>
-                    <File Name='*.xml'/>
-                  </Component>
-                </Directory>
-
-                <Directory Id='PKGDATADIR_icons' Name='icons'>
-                  <Directory Id='PKGDATADIR_icons_system' Name='system'>
-                    <Component Id='IconsSystem'
-                     Guid='8d052881-67c6-4f47-82a9-3f94ebfa2e3a'>
-                      <File Name='*.png'/>
-                    </Component>
-                  </Directory>
-
-                  <Component Id='IconsRegina'
-                   Guid='555B7874-574B-4323-9D12-9DF00DF9024B'>
-                    <File Name='SOURCES' KeyPath='yes'/>
-                    <File Name='crossing+l-16.png' Id='crossingpl16.png'/>
-                    <File Name='crossing+l-16@2x.png' Id='crossingpl16x2.png'/>
-                    <File Name='crossing+l-22.png' Id='crossingpl22.png'/>
-                    <File Name='crossing+l-22@2x.png' Id='crossingpl22x2.png'/>
-                    <File Name='crossing+u-16.png' Id='crossingpu16.png'/>
-                    <File Name='crossing+u-16@2x.png' Id='crossingpu16x2.png'/>
-                    <File Name='crossing+u-22.png' Id='crossingpu22.png'/>
-                    <File Name='crossing+u-22@2x.png' Id='crossingpu22x2.png'/>
-                    <File Name='crossing-l-16.png' Id='crossingnl16.png'/>
-                    <File Name='crossing-l-16@2x.png' Id='crossingnl16x2.png'/>
-                    <File Name='crossing-l-22.png' Id='crossingnl22.png'/>
-                    <File Name='crossing-l-22@2x.png' Id='crossingnl22x2.png'/>
-                    <File Name='crossing-u-16.png' Id='crossingnu16.png'/>
-                    <File Name='crossing-u-16@2x.png' Id='crossingnu16x2.png'/>
-                    <File Name='crossing-u-22.png' Id='crossingnu22.png'/>
-                    <File Name='crossing-u-22@2x.png' Id='crossingnu22x2.png'/>
-                    <File Name='*.png'/>
-                  </Component>
-                </Directory>
-
-                <Directory Id='PKGDATADIR_data' Name='data'>
-                 <Directory Id='PKGDATADIR_data_census' Name='census'>
-                   <Component Id='CensusData'
-                    Guid='C4C8C04A-F2E3-4051-8EFD-DD555A661F2F'>
-                     <File Name='cusped-hyp-or-census-9.lmdb' KeyPath='yes'/>
-                     <File Name='*.lmdb'/>
-                   </Component>
-                 </Directory>
-                 <Directory Id='PKGDATADIR_data_snappea' Name='snappea'>
-                   <Component Id='SnapPeaData'
-                    Guid='6B589D6A-9A36-4132-9CCA-52B5ACDBB39C'>
-                     <File Name='snappea-census-sec5.dat' KeyPath='yes'/>
-                     <File Name='*.dat'/>
-                   </Component>
-                 </Directory>
-                </Directory>
+              <Directory Id="PKGDATADIR_data" Name="data">
+               <Directory Id="PKGDATADIR_data_census" Name="census">
+                 <Component Id="CensusData" Guid="C4C8C04A-F2E3-4051-8EFD-DD555A661F2F">
+                   <File Id="cusped_hyp_or_census_9.lmdb" Name="cusped-hyp-or-census-9.lmdb" KeyPath="yes" />
+                   <File Name='*.lmdb' />
+                 </Component>
+               </Directory>
+               <Directory Id="PKGDATADIR_data_snappea" Name="snappea">
+                 <Component Id="SnapPeaData" Guid="6B589D6A-9A36-4132-9CCA-52B5ACDBB39C">
+                   <File Id="snappea_census_sec5.dat" Name="snappea-census-sec5.dat" KeyPath="yes" />
+                   <File Name='*.dat' />
+                 </Component>
+               </Directory>
               </Directory>
             </Directory>
           </Directory>
         </Directory>
       </Directory>
-      <Directory Id='ProgramMenuFolder' Name='Programs'>
-        <Directory Id='ProgramMenuDir' Name='Regina $regina_version'>
-          <Component Id='ProgramMenuDir'
-           Guid='2EF46552-9E7B-4822-A773-621B48A205B4'>
-            <RemoveFolder Id='ProgramMenuDir' On='uninstall'/>
-            <RegistryValue Root='HKCU'
-             Key='Software\[Manufacturer]\[ProductName]'
-             Type='string' Value='' KeyPath='yes'/>
-          </Component>
-        </Directory>
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ProgramMenuDir" Name="Regina $regina_version">
+        <Component Id="ProgramMenuDir" Guid="2EF46552-9E7B-4822-A773-621B48A205B4">
+          <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+          <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
+        </Component>
       </Directory>
+    </StandardDirectory>
 
-      <Directory Id='DesktopFolder' Name='Desktop'/>
-    </Directory>
-
-    <Feature Id='Complete'
-     Title='Regina $regina_version'
-     Description='The complete package.'
-     AllowAdvertise='no'
-     InstallDefault='local'
-     Display='expand'
-     Level='1'
-     ConfigurableDirectory='INSTALLDIR'>
-      <Feature Id='MainProgram'
-       Title='Program and data'
-       Description='The main executable and all supporting data.'
-       AllowAdvertise='no'
-       InstallDefault='local'
-       Absent='disallow'
-       Level='1'>
-        <ComponentRef Id='MainExecutable'/>
-        <ComponentRef Id='Utils'/>
-        <ComponentRef Id='CoreDLLs'/>
-        <ComponentRef Id='PythonCore'/>
-        <ComponentRef Id='PythonCoreLibs'/>
-        <ComponentRef Id='PythonModule'/>
-        <ComponentRef Id='QtConf'/>
-        <ComponentRef Id='QtPlatforms'/>
-        <ComponentRef Id='QtStyles'/>
-        <ComponentRef Id='Examples'/>
-        <ComponentRef Id='Syntax'/>
-        <ComponentRef Id='IconsRegina'/>
-        <ComponentRef Id='IconsSystem'/>
-        <ComponentRef Id='CensusData'/>
-        <ComponentRef Id='SnapPeaData'/>
-        <ComponentRef Id='ProgramMenuDir'/>
-      </Feature>
-      <Feature Id='Documentation'
-       Title='Documentation'
-       Description="The users' handbooks and Python API reference."
-       AllowAdvertise='no'
-       InstallDefault='local'
-       Absent='disallow'
-       Level='2'>
-        <ComponentRef Id='HandbookRegina_EN'/>
-        <ComponentRef Id='HandbookReginaXML_EN'/>
-        <ComponentRef Id='APIDocs'/>
-      </Feature>
-    </Feature>
-
-    <Icon Id='regina.ico'
-     SourceFile='$srctree\qtui\src\regina.ico'/>
-    <Icon Id='manual.ico'
-     SourceFile='$srctree\qtui\src\manual.ico'/>
-  </Product>
+    <StandardDirectory Id="DesktopFolder" />
+  </Package>
 </Wix>
 
