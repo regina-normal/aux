@@ -623,13 +623,10 @@ sub mkmsi {
 
     my $msi = "Regina-$regina_version-$arch.msi";
 
-    system "$wix/bin/candle.exe", '-arch', $wixarch,
-        $regina_wxs, 'WixUI_Regina.wxs' and die;
+    system "$wix/bin/wix.exe", '-arch', $wixarch, '-o', $msi,
+        $regina_wxs and die;
 
     print "\n";
-
-    system "$wix/bin/light.exe", '-ext', 'WixUIExtension', '-o', $msi,
-        'Regina.wixobj', 'WixUI_Regina.wixobj' and die;
 
     print "\nSUCCESS: $msi\n";
 }

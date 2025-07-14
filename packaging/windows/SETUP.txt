@@ -40,16 +40,14 @@ Install build dependencies with standalone installers:
 
   Qt (from qt.io) - the online installer may require the VC++ redistributable:
       https://www.microsoft.com/en-gb/download/details.aspx?id=48145
-  Wix (from wixtoolset.org) - may require .NET to be installed separately;
-      on Windows 8 this is done through Control Panel -> Windows Features
+  WiX (from https://github.com/wixtoolset/wix/)
 
 To prepare WiX for use:
 
   If WiX is not on the path, add aliases to ~/.bashrc;
   note that the " (x86)" suffix is only needed for 64-bit windows:
 
-    alias candle='"/c/Program Files (x86)/WiX Toolset v3.11/bin/candle"'
-    alias light='"/c/Program Files (x86)/WiX Toolset v3.11/bin/light"'
+    alias wix='"/c/Program Files/WiX Toolset v6.0/bin/wix"'
 
 Ensure the following are UNINSTALLED:
 
