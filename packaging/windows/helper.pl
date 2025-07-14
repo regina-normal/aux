@@ -563,13 +563,13 @@ sub mkwxs {
         $line = $partial;
         $partial = '';
 
-        if ($line =~ /<Directory.*FileSource='([^']*)'/s) {
+        if ($line =~ /<Directory.*FileSource="([^"]*)"/s) {
             push @path, $currPath;
             push @exclude, $currExclude;
             $currPath = $1;
             $currExclude = {};
             print WXS "$line";
-        } elsif ($line =~ /<Directory.*Name='([^']*)'/s) {
+        } elsif ($line =~ /<Directory.*Name="([^"]*)"/s) {
             push @path, $currPath;
             push @exclude, $currExclude;
             $currPath and $currPath .= "\\$1";
@@ -579,9 +579,9 @@ sub mkwxs {
             $currPath = pop @path;
             $currExclude = pop @exclude;
             print WXS "$line";
-        } elsif ($line =~ /<File.*Source='([^']*)'/s) {
+        } elsif ($line =~ /<File.*Source="([^"]*)"/s) {
             print WXS "$line";
-        } elsif ($line =~ /^(.*<File.*Name=')([^']*)('.*)$/s) {
+        } elsif ($line =~ /^(.*<File.*Name=")([^"]*)(".*)$/s) {
             $currPath or die;
             $prefix = $1;
             $name = $2;
