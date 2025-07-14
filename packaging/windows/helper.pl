@@ -621,7 +621,7 @@ sub mkmsi {
 
     my $msi = "Regina-$regina_version-$arch.msi";
 
-    system "$wix/bin/wix.exe", '-arch', $wixarch, '-o', $msi,
+    system "$wix/bin/wix.exe", 'build', '-arch', $wixarch, '-o', $msi,
         $regina_wxs and die;
 
     print "\n";
