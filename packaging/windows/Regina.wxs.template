@@ -123,7 +123,7 @@
                 <Directory Id="PYMODULEDIR" Name="regina">
                   <Component Id="PythonModule" Guid="08F2657D-7CD7-4343-87A3-935CDA64C286">
                     <File Id="engine.pyd" Name="engine.pyd" KeyPath="yes" />
-                    <File Name='*.py' />
+                    <File Name="*.py" />
                   </Component>
                 </Directory>
               </Directory>
@@ -141,7 +141,7 @@
                       </File>
                       <File Name="kde-default.css" Id="regina_kde_default.css" />
                       <File Name="regina_logo.png" Id="regina_regina_logo.png" />
-                      <File Name='*.{html,png}' />
+                      <File Name="*.{html,png}" />
                     </Component>
                   </Directory>
 
@@ -152,7 +152,7 @@
                       </File>
                       <File Name="kde-default.css" Id="regina_xml_kde_default.css" />
                       <File Name="regina_logo.png" Id="regina_xml_regina_logo.png" />
-                      <File Name='*.{html,png}' />
+                      <File Name="*.{html,png}" />
                     </Component>
                   </Directory>
                 </Directory>
@@ -163,28 +163,28 @@
                       <File Name="index.html" Id="engine_docs_index.html" KeyPath="yes">
                         <Shortcut Id="startmenuEngineDocs" Directory="ProgramMenuDir" Name="Python API Reference" Icon="manual.ico" Advertise="yes" />
                       </File>
-                      <File Name='*.{html,png,css,js}' />
+                      <File Name="*.{html,png,css,js}" />
                 </Component>
               </Directory>
 
               <Directory Id="PKGDATADIR_examples" Name="examples">
                 <Component Id="Examples" Guid="55C80D32-D843-4C37-B6E7-B19028139CA1">
                   <File Name="README.txt" Id="examples_README" KeyPath="yes" />
-                  <File Name='*.{rga,py,session}' />
+                  <File Name="*.{rga,py,session}" />
                 </Component>
               </Directory>
 
               <Directory Id="PKGDATADIR_syntax" Name="syntax">
                 <Component Id="Syntax" Guid="C8681025-2207-4D2B-84DA-E3186DE066F2">
                   <File Id="default.theme" Name="default.theme" KeyPath="yes" />
-                  <File Name='*.xml' />
+                  <File Name="*.xml" />
                 </Component>
               </Directory>
 
               <Directory Id="PKGDATADIR_icons" Name="icons">
                 <Directory Id="PKGDATADIR_icons_system" Name="system">
                   <Component Id="IconsSystem" Guid="8d052881-67c6-4f47-82a9-3f94ebfa2e3a">
-                    <File Name='*.png' />
+                    <File Name="*.png" />
                   </Component>
                 </Directory>
 
@@ -206,7 +206,7 @@
                   <File Name="crossing-u-16@2x.png" Id="crossingnu16x2.png" />
                   <File Name="crossing-u-22.png" Id="crossingnu22.png" />
                   <File Name="crossing-u-22@2x.png" Id="crossingnu22x2.png" />
-                  <File Name='*.png' />
+                  <File Name="*.png" />
                 </Component>
               </Directory>
 
@@ -214,13 +214,13 @@
                <Directory Id="PKGDATADIR_data_census" Name="census">
                  <Component Id="CensusData" Guid="C4C8C04A-F2E3-4051-8EFD-DD555A661F2F">
                    <File Id="cusped_hyp_or_census_9.lmdb" Name="cusped-hyp-or-census-9.lmdb" KeyPath="yes" />
-                   <File Name='*.lmdb' />
+                   <File Name="*.lmdb" />
                  </Component>
                </Directory>
                <Directory Id="PKGDATADIR_data_snappea" Name="snappea">
                  <Component Id="SnapPeaData" Guid="6B589D6A-9A36-4132-9CCA-52B5ACDBB39C">
                    <File Id="snappea_census_sec5.dat" Name="snappea-census-sec5.dat" KeyPath="yes" />
-                   <File Name='*.dat' />
+                   <File Name="*.dat" />
                  </Component>
                </Directory>
               </Directory>
