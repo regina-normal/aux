@@ -5,7 +5,7 @@ pkgrel=1
 pkgdesc="Mathematical software for low-dimensional topology"
 arch=('x86_64')
 url="https://regina-normal.github.io/"
-license=('GPL')
+license=('GPL-2.0-or-later')
 # The Arch Linux packaging guidelines say *not* to rely on transitive
 # dependencies.  So, although namcap complains about them, we include
 # them here nevertheless.  They include:
