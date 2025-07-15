@@ -621,8 +621,10 @@ sub mkmsi {
 
     my $msi = "Regina-$regina_version-$arch.msi";
 
+    system "$wix/bin/wix.exe", 'extension', 'add', '-g', 'WixToolset.UI.wixext'
+        and die;
     system "$wix/bin/wix.exe", 'build', '-arch', $wixarch, '-o', $msi,
-        $regina_wxs, 'WixUI_Regina.wxs' and die;
+        '-ext', 'WixToolset.UI.wixext', $regina_wxs, 'WixUI_Regina.wxs' and die;
 
     print "\n";
 
