@@ -19,11 +19,12 @@
       <RemoveExistingProducts After="InstallInitialize" />
     </InstallExecuteSequence>
 
-    <Media Id="1" Cabinet="Regina.cab" EmbedCab="yes" DiskPrompt="Disk #1" />
-    <Property Id="DiskPrompt" Value="Regina $regina_version Installation [1]" />
-    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+    <ui:WixUI Id="WixUI_Regina" InstallDirectory="INSTALLDIR" />
     <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
+
+    <Media Id="1" Cabinet="Regina.cab" EmbedCab="yes" DiskPrompt="Disk #1" />
+    <Property Id="DiskPrompt" Value="Regina $regina_version Installation [1]" />
 
     <Feature Id="Complete"
              Title="Regina $regina_version"
