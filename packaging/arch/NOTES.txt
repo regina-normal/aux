@@ -31,6 +31,7 @@ To create a new repository or add/update packages in an existing repository:
   + Move the packages and their signatures into the repository directory
 
   $ repo-add --sign --verify regina.db.tar.gz *.zst
+    (order of *.zst matters, and you can just add the newest regina packages)
 
   + BEWARE: symlinks (db/files) seem to break over the UTM virtfs share.
     Currently these need to be fixed manually.
