@@ -1,4 +1,5 @@
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   <Package Name="Regina $regina_version"
            UpgradeCode="C3D9D7D7-6614-4F3F-9D8E-EEA184C24A99"
            Language="1033"
