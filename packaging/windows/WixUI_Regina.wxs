@@ -23,20 +23,20 @@ Patch dialog sequence:
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
     <?foreach WIXUIARCH in X86;X64;A64 ?>
     <Fragment>
-        <UI Id="WixUI_InstallDir_$(WIXUIARCH)">
+        <UI Id="WixUI_Regina_$(WIXUIARCH)">
             <Publish Dialog="BrowseDlg" Control="OK" Event="CheckTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1" />
 
             <Publish Dialog="InstallDirDlg" Control="Next" Event="CheckTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1" />
             <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="4" />
         </UI>
 
-        <UIRef Id="WixUI_InstallDir" />
+        <UIRef Id="WixUI_Regina" />
     </Fragment>
     <?endforeach?>
 
     <?foreach WIXUIARCH in X86;X64;A64 ?>
     <Fragment>
-        <UI Id="WixUI_InstallDir_ExtendedPathValidation_$(WIXUIARCH)">
+        <UI Id="WixUI_Regina_ExtendedPathValidation_$(WIXUIARCH)">
             <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath_$(WIXUIARCH)" Order="1" />
             <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="2" Condition="WIXUI_INSTALLDIR_VALID&lt;&gt;&quot;1&quot;" />
 
@@ -45,12 +45,12 @@ Patch dialog sequence:
             <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="4" Condition="WIXUI_INSTALLDIR_VALID=&quot;1&quot;" />
         </UI>
 
-        <UIRef Id="WixUI_InstallDir" />
+        <UIRef Id="WixUI_Regina" />
     </Fragment>
     <?endforeach?>
 
     <Fragment>
-        <UI Id="file WixUI_InstallDir">
+        <UI Id="file WixUI_Regina">
             <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
             <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
             <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
