@@ -243,6 +243,15 @@ sub rpmStyle {
     return ($dist eq 'fedora' or $dist eq 'opensuse');
 }
 
+# Usage: isRolling()
+#
+# Returns true if we are building an image for a rolling distribution
+# (derived from rolling/... instead of bare/...).
+#
+sub isRolling {
+    return ($dist eq 'arch' or $release eq 'sid' or $release eq 'trixie');
+}
+
 # Usage: from('basic')
 #
 # Initialises the Dockerfile as starting from the given image type.
@@ -251,7 +260,7 @@ sub rpmStyle {
 #
 sub from {
     my $fromType = shift;
-    if ($fromType eq 'bare' && ($dist eq 'arch' or $release eq 'sid')) {
+    if ($fromType eq 'bare' && isRolling()) {
         $fromType = 'rolling';
     }
     my $fromVersion = ($dist eq 'arch' ? $dist : "$dist:$relarch");
@@ -570,7 +579,7 @@ sub cleanup {
 sub basic {
     print("Basic user image for $dist $release\n");
 
-    my $bare = ($dist eq 'arch' || $release eq 'sid' ? 'rolling' : 'bare');
+    my $bare = (isRolling() ? 'rolling' : 'bare');
     my $pkgs = 'ca-certificates zsh wget';
     $dist eq 'debian' and debianCmp('etch') > 0 and $pkgs .= ' apt-transport-https';
     $pkgs .= ($dist eq 'fedora' ? ' gnupg2' : $dist eq 'opensuse' ? ' gpg2' :
@@ -741,6 +750,7 @@ sub pkgdev {
         $release eq 'buster' and @gcc = qw(7 8);
         $release eq 'bullseye' and @gcc = qw(9 10);
         $release eq 'bookworm' and @gcc = qw(11 12);
+        $release eq 'trixie' and @gcc = qw(12 13 14);
         $pkgs .= " gcc-$_ g++-$_" foreach @gcc;
 
         my @clang = ();
@@ -749,6 +759,7 @@ sub pkgdev {
         $release eq 'buster' and @clang = qw(6.0 7 11 13);
         $release eq 'bullseye' and @clang = qw(9 11 13);
         $release eq 'bookworm' and @clang = qw(13 14 15);
+        $release eq 'trixie' and @clang = qw(17 18 19);
         $pkgs .= " clang-$_" foreach @clang;
         # These releases just had a "clang" package, without versions.
         ($release eq 'squeeze' or $release eq 'wheezy') and $pkgs .= ' clang';
