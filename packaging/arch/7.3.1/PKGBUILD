@@ -34,8 +34,13 @@ makedepends=(cmake
              doxygen
              libxslt)
 checkdepends=(cppunit)
-source=("regina-$pkgver.tar.gz")
-sha256sums=(SKIP)
+source=("regina-$pkgver.tar.gz" gv-size_t.diff)
+sha256sums=(SKIP SKIP)
+
+prepare() {
+    cd "$srcdir/regina-$pkgver"
+    patch -p1 --forward --input="$srcdir/gv-size_t.diff"
+}
 
 build() {
     cd "$srcdir/regina-$pkgver"
