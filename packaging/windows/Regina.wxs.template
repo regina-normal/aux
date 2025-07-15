@@ -20,6 +20,7 @@
     </InstallExecuteSequence>
 
     <ui:WixUI Id="WixUI_Regina" InstallDirectory="INSTALLDIR" />
+    <ui:WixUI Id="ErrorProgressText" />
     <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
 
