@@ -67,7 +67,7 @@ Installation, stage 1 (from the installer):
   $ mkfs.ext4 /dev/sda1
   $ mount /dev/sda1 /mnt
 - Install the base system:
-  $ pacstrap /mnt base linux linux-firmware
+  $ pacstrap -K /mnt base linux linux-firmware
 - Prepare the filesystem for booting and mounting:
   $ genfstab -U /mnt >> /mnt/etc/fstab
 - Chroot into the system:
@@ -107,9 +107,9 @@ Installation, stage 2 (from inside the chroot):
   $ useradd -U -s /bin/bash -m bab
   $ passwd bab
 - Install a graphical desktop environment:
-  $ pacman -S xorg-server xorg-xinit mesa-libgl xterm xf86-video-vesa xfce4 xfce4-goodies sddm
+  $ pacman -S xorg-server gnome gdm
   $ pacman -S firefox wget
-  $ systemctl enable sddm
+  $ systemctl enable gdm.service
 - If desired, enable the ssh server:
   $ systemctl enable sshd
 - If desired, install development files:
