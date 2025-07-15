@@ -52,4 +52,4 @@ To create the subsequent up-to-date image, run from this directory as user bab:
   - docker build --no-cache -t rolling/DIST:VERSION -f DIST-VERSION.Dockerfile .
   - docker build --no-cache -t rolling/DIST:VERSION_i386 -f DIST-VERSION-i386.Dockerfile .
 
-Currently (DIST, VERSION) must be (debian, bookworm).
+Currently (DIST, VERSION) must be (debian, trixie).
