@@ -60,7 +60,7 @@ To create the yum repository:
 - Sign the RPMs:
     rpm --addsign *.rpm
 - Create the repository metadata:
-    createrepo_c path/to/repo_root
+    createrepo_c --compatibility path/to/repo_root
 - Sign the repository:
     gpg --detach-sign --armor path/to/repo_root/repodata/repomd.xml
 - Put a file <repoid>.repo in the root of the repository containing the
@@ -87,8 +87,8 @@ To add appstream metadata to a repository, on a Fedora machine:
       --packages-dir=path/to/RPM_folder
 - Add the metadata and icons to the repository (this copies from the given
   source location):
-    modifyrepo_c path/to/appstream.xml.gz path/to/repo_root/repodata/
-    modifyrepo_c path/to/appstream-icons.tar.gz path/to/repo_root/repodata/
+    modifyrepo_c --compress-type=gz path/to/appstream.xml.gz .../repodata/
+    modifyrepo_c --compress-type=gz path/to/appstream-icons.tar.gz .../repodata/
     gpg --detach-sign --armor path/to/repo_root/repodata/repomd.xml
 - It appears that the same appstream data can be used with multiple Fedora
   versions, though the <icon/> tag has changed slightly between Fedora 36-37.
@@ -100,8 +100,8 @@ To add appstream metadata to a repository, on an openSUSE machine:
     appstream-builder --origin=regina --basename=appdata --enable-hidpi \
       --packages-dir=path/to/RPM_folder
 - Add the metadata and icons to the repository:
-    modifyrepo_c path/to/appdata.xml.gz path/to/repo_root/repodata/
-    modifyrepo_c path/to/appdata-icons.tar.gz path/to/repo_root/repodata/
+    modifyrepo_c --compress-type=gz path/to/appdata.xml.gz .../repodata/
+    modifyrepo_c --compress-type=gz path/to/appdata-icons.tar.gz .../repodata/
     gpg --detach-sign --armor path/to/repo_root/repodata/repomd.xml
 
 To allow a virtual debian machine to access the host's private GPG keys:
