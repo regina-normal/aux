@@ -35,7 +35,7 @@ BuildRequires: libxml2-devel
 BuildRequires: libxslt
 BuildRequires: pkgconfig
 BuildRequires: popt-devel
-BuildRequires: python3-devel
+BuildRequires: python3-devel >= 3.12.2
 BuildRequires: qt6-qtbase-devel
 BuildRequires: qt6-qtsvg-devel
 BuildRequires: shared-mime-info
