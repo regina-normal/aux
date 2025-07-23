@@ -1,0 +1,70 @@
+#!/bin/bash
+set -e
+
+me="`whoami`"
+if [ "$me" = root ]; then
+  echo "This script should be run as the build user."
+  exit 1
+fi
+
+version="$1"
+if [ -z "$1" ]; then
+  echo "Example usage: $0 7.3.1"
+  exit 1
+fi
+
+distro=`(. /etc/os-release; echo "$VERSION_ID")`
+if [ -z "$distro" ]; then
+  echo "I could not determine the fedora/opensuse release version."
+  exit 1
+fi
+
+flavour=`(. /etc/os-release; echo "$NAME")`
+if [ -z "$flavour" ]; then
+  echo "I could not determine the flavour of GNU/Linux distribution."
+  exit 1
+fi
+case "$flavour" in
+  Fedora*)
+    flavour=Fedora
+    ;;
+  openSUSE*)
+    flavour=openSUSE
+    ;;
+  *)
+    echo "I could not determine the flavour of GNU/Linux distribution."
+    echo "I am trying to interpret: $flavour"
+    exit 1
+    ;;
+esac
+
+echo "Building BINARY-ONLY regina-$version for $distro... ok?"
+read
+
+export RPM_BUILD_NCPUS=16
+
+cd ~
+if [ -e .rpmmacros ]; then
+  echo 'ERROR: Pre-existing .rpmmacros:'
+  cat .rpmmacros
+  exit 1
+fi
+echo '%vendor Regina' > .rpmmacros
+
+rpm -ivh /src/pkg/"$distro"/SRPMS/*.src.rpm
+
+cd rpmbuild/SPECS
+rpmbuild -bb *.spec
+cd ..
+echo
+echo 'Happy to purge source & build directories?'
+read
+
+rm -rf BUILDROOT BUILD SPECS SOURCES
+
+echo
+echo 'BEFORE quitting, from the host machine, run:'
+echo "  docker cp VM_NAME:/home/build/rpmbuild /data/regina/bin/$distro"
+echo
+
+exit 0

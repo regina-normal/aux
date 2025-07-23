@@ -1,9 +1,13 @@
 The scripts build_* should all be copied into /data/regina/src/.
 
 The directory /data/regina/src/pkg/ should contain:
-  - the regina source tarball (e.g., regina-7.4.tar.gz);
-  - the debian/ubuntu packaging tarballs (e.g., bookworm.tgz);
-  - the RPM spec files (e.g., regina-fedora.spec).
+  - for source or source+binary builds:
+    + the regina source tarball (e.g., regina-7.4.tar.gz);
+    + the debian/ubuntu packaging tarballs (e.g., bookworm.tgz);
+    + the RPM spec files (e.g., regina-fedora.spec).
+  - for binary-only builds:
+    + debian source packages in <codename>/*.dsc (e.g., bookworm/*.dsc);
+    + RPM source packages in <distro>/SRPMS/*.src.rpm (e.g., 42/SRPMS/*.src.rpm).
 
 To build source+binary packages for debian/ubuntu:
 
@@ -14,16 +18,12 @@ To build source+binary packages for debian/ubuntu:
   /$ exit
   /# /src/build_all_deb_2_root
 
-  Use "docker cp ..." to extract packages as instructed by the last script
-
 To build source-only packages for debian sid:
 
   ./run regina-7.4/debian:sid
 
   /# su build
   /$ /src/build_src_deb_sid 7.4
-
-  Use "docker cp ..." to extract packages as instructed by the last script
 
 To build source+binary packages for fedora/opensuse:
 
@@ -32,5 +32,20 @@ To build source+binary packages for fedora/opensuse:
   /# su build
   /$ /src/build_all_rpm 7.4
 
-  Use "docker cp ..." to extract packages as instructed by the last script
+To build binary-only packages for debian/ubuntu:
+
+  ./run regina-7.4/debian:bullseye
+
+  /# su build
+  /$ /src/build_bin_deb 7.4
+
+To build binary-only packages for fedora/opensuse:
+
+  ./run regina-7.4/fedora:42
+
+  /# su build
+  /$ /src/build_bin_rpm 7.4
+
+For all builds, use "docker cp ..." to extract packages as instructed by the
+last script that was run inside the docker VM.
 
