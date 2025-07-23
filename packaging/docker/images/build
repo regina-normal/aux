@@ -905,6 +905,9 @@ sub regina {
     $needDocbookUtils and $pkgs .= ' docbook-utils';
     $needFastJar and $pkgs .= ' fastjar';
     if (debStyle()) {
+        # We need debian-keyring to verify signatures on regina-normal_*.dsc.
+        $pkgs .= ' debian-keyring';
+
         # There was a period where debian/rules reran the autotools scripts.
         # Possibly this was due to the patches to admin/kde.m4.ext, though
         # these patches only appeared in the packaging for regina 4.3.1.

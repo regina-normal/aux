@@ -1,0 +1,41 @@
+#!/bin/bash
+set -e
+
+me="`whoami`"
+if [ "$me" != root ]; then
+  echo "This script should be run as root."
+  exit 1
+fi
+
+distro=`(. /etc/os-release; echo "$VERSION_CODENAME")`
+if [ -z "$distro" ]; then
+  echo "I could not determine the debian/ubuntu codename."
+  exit 1
+fi
+
+builddir=`find . -name 'regina-normal-[0-9]*' -type d`
+builddir=`basename "$builddir"`
+
+echo
+echo "Testing builddir: $builddir... ok?"
+read
+
+cd /home/build/debian
+dpkg -i *.deb
+apt-get install sudo
+cd "$builddir"
+sudo -u build autopkgtest -B -- null
+
+echo
+echo 'Happy to purge builddir?'
+read
+
+cd ..
+rm -rf "$builddir"
+
+echo
+echo 'BEFORE quitting, from the host machine, run:'
+echo "  docker cp VM_NAME:/home/build/debian /data/regina/bin/$distro"
+echo
+
+exit 0

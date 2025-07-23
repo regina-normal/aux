@@ -1,0 +1,46 @@
+#!/bin/bash
+set -e
+
+me="`whoami`"
+if [ "$me" = root ]; then
+  echo "This script should be run as the build user."
+  exit 1
+fi
+
+version="$1"
+if [ -z "$1" ]; then
+  echo "Example usage: $0 7.3.1"
+  exit 1
+fi
+
+distro=`(. /etc/os-release; echo "$VERSION_CODENAME")`
+if [ -z "$distro" ]; then
+  echo "I could not determine the debian/ubuntu codename."
+  exit 1
+fi
+
+echo "Building BINARY-ONLY regina-$version for $distro... ok?"
+read
+
+export DEB_BUILD_OPTIONS='noautodbgsym parallel=16'
+
+cd ~
+mkdir debian
+cd debian
+dpkg-source -x /src/pkg/$distro/*.dsc
+cd regina-normal-"$version"
+debuild -B || true
+
+echo
+echo 'Happy to purge builddir?'
+read
+
+cd ..
+rm -rf regina-normal-"$version"
+
+echo
+echo 'BEFORE quitting, from the host machine, run:'
+echo "  docker cp VM_NAME:/home/build/debian /data/regina/bin/$distro"
+echo
+
+exit 0

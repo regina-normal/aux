@@ -1,0 +1,38 @@
+#!/bin/bash
+set -e
+
+me="`whoami`"
+if [ "$me" = root ]; then
+  echo "This script should be run as the build user."
+  exit 1
+fi
+
+version="$1"
+if [ -z "$1" ]; then
+  echo "Example usage: $0 7.3.1"
+  exit 1
+fi
+
+distro=`(. /etc/os-release; echo "$VERSION_CODENAME")`
+if [ -z "$distro" ]; then
+  echo "I could not determine the debian/ubuntu codename."
+  exit 1
+fi
+
+echo "Building regina-$version for $distro... ok?"
+read
+
+export DEB_BUILD_OPTIONS='noautodbgsym parallel=16'
+
+cd ~
+mkdir debian
+cd debian
+cp /src/pkg/regina-"$version".tar.gz regina-normal_"$version".orig.tar.gz
+tar -zxf regina-normal_"$version".orig.tar.gz
+mv regina-"$version" regina-normal-"$version"
+cd regina-normal-"$version"
+
+tar -zxf /src/pkg/"$distro".tgz
+debuild || true
+
+exit 0
