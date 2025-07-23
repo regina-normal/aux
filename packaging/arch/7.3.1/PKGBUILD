@@ -1,7 +1,7 @@
 # Maintainer: Ben Burton <bab@debian.org>
 pkgname=regina-normal
 pkgver=7.3.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Mathematical software for low-dimensional topology"
 arch=('x86_64')
 url="https://regina-normal.github.io/"
@@ -34,12 +34,17 @@ makedepends=(cmake
              doxygen
              libxslt)
 checkdepends=(cppunit)
-source=("regina-$pkgver.tar.gz" gv-size_t.diff)
-sha256sums=(SKIP SKIP)
+source=("regina-$pkgver.tar.gz"
+        desktop-wmclass.diff
+        doxygen-topics.diff
+        graphviz-13.diff)
+sha256sums=(SKIP SKIP SKIP SKIP)
 
 prepare() {
     cd "$srcdir/regina-$pkgver"
-    patch -p1 --forward --input="$srcdir/gv-size_t.diff"
+    patch -p1 --forward --input="$srcdir/desktop-wmclass.diff"
+    patch -p1 --forward --input="$srcdir/doxygen-topics.diff"
+    patch -p1 --forward --input="$srcdir/graphviz-13.diff"
 }
 
 build() {
