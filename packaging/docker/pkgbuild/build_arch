@@ -13,20 +13,21 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+if [ ! -e /src/pkg/PKGBUILD ]; then
+  echo 'ERROR: Cannot locate PKGBUILD.'
+  exit 1
+fi
+
 echo "Building regina-$version for arch... ok?"
 read
 
-patches=`cat /src/pkg/PKGBUILD | grep '^\s*patch .*\.diff"' | sed -e 's#.*/##'
-| sed -e 's#"##'`
-echo "$patches"
-exit 0
+patches=`cat /src/pkg/PKGBUILD | grep '^\s*patch .*\.diff"' | sed -e 's#.*/##' | sed -e 's#\"##'`
 
-# TODO
-export RPM_BUILD_NCPUS=16
+export MAKEFLAGS='-j16'
 
 cd ~
 mkdir arch
-cp /src/pkg/regina-"$version".tar.gz arch
+cp /src/pkg/PKGBUILD /src/pkg/regina-"$version".tar.gz arch
 for i in $patches; do cp /src/pkg/"$i" arch; done
 cd arch
 makepkg
@@ -34,13 +35,15 @@ echo
 echo 'Happy to continue?'
 read
 namcap PKGBUILD
-namcap *.zst
+namcap regina-normal-"$version"-*.zst
 echo
 echo 'Happy to purge source & build directories?'
 read
-exit 1
 
-rm -rf BUILDROOT BUILD SPECS SOURCES
+rm -rf pkg src
+rm -f PKGBUILD regina-"$version".tar.gz
+for i in $patches; do rm -f $i; done
+rm -rf regina-normal-debug-*.zst
 
 echo
 echo 'BEFORE quitting, from the host machine, run:'
