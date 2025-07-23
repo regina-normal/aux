@@ -34,7 +34,8 @@ To build source+binary packages for fedora/opensuse:
 
 To build binary-only packages for debian/ubuntu:
 
-  ./run regina-7.4/debian:bullseye
+  ./run regina-7.4/debian:bullseye (to use the host architecture)
+  ./run regina-7.4/debian:bullseye_i386 (to use a different architecture)
 
   /# su build
   /$ /src/build_bin_deb 7.4
