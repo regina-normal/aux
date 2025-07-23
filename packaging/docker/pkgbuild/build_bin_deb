@@ -25,11 +25,6 @@ read
 export DEB_BUILD_OPTIONS='noautodbgsym parallel=16'
 
 cd ~
-
-wget https://people.debian.org/~bab/regina-key.txt
-gpg --import < regina-key.txt
-rm regina-key.txt
-
 mkdir debian
 cd debian
 dpkg-source -x /src/pkg/$distro/*.dsc
