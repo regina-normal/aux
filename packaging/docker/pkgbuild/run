@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+if [ -z "$1" ]; then
+  echo "Example usage: $0 regina-7.3/ubuntu:noble"
+  exit 1
+fi
+
+docker run -it --rm \
+  -v /data/regina/src:/src:ro \
+  -v /data/regina/bin:/drop:ro \
+  -v /data/regina/repos:/repos:ro $@
