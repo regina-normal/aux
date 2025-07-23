@@ -1,7 +1,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 7.3.1
-Release: lp156.2
+Release: lp156.3
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -128,6 +128,10 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_prefix}/lib/python3.12/site-packages/regina/
 
 %changelog
+* Wed Jul 23 2025 Ben Burton <bab@debian.org> 7.3.1-3
+- Update the previous doxygen patch, since it appears the relevant change
+  (modules -> topics) happened in doxygen 1.9.8, not doxygen 1.10.
+
 * Wed Jul 23 2025 Ben Burton <bab@debian.org> 7.3.1-2
 - Backported some recent fixes from the repository:
   * Fixed the fact that GNOME does not recognise the GUI when it is running,

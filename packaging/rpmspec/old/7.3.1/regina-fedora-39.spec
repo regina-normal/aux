@@ -1,7 +1,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 7.3.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -45,7 +45,7 @@ BuildRequires: zlib-devel
 %patchlist
 # Fix the fact that wayland does not recognise the running app:
 desktop-wmclass.diff
-# Fix the modules/topics link for doxygen >= 1.10:
+# Fix the modules/topics link for doxygen >= 1.9.8:
 doxygen-topics.diff
 # Support building against graphviz 13:
 graphviz-13.diff
@@ -160,6 +160,10 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_mandir}/*/*
 
 %changelog
+* Wed Jul 23 2025 Ben Burton <bab@debian.org> 7.3.1-3
+- Update the previous doxygen patch, since it appears the relevant change
+  (modules -> topics) happened in doxygen 1.9.8, not doxygen 1.10.
+
 * Wed Jul 23 2025 Ben Burton <bab@debian.org> 7.3.1-2
 - Backported some recent fixes from the repository:
   * Fixed the fact that GNOME does not recognise the GUI when it is running,
