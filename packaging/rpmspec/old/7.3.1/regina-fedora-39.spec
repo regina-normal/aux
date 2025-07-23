@@ -1,7 +1,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 7.3.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -43,7 +43,12 @@ BuildRequires: tokyocabinet-devel
 BuildRequires: zlib-devel
 
 %patchlist
-# No patches for now.
+# Fix the fact that wayland does not recognise the running app:
+desktop-wmclass.diff
+# Fix the modules/topics link for doxygen >= 1.10:
+doxygen-topics.diff
+# Support building against graphviz 13:
+graphviz-13.diff
 
 %description
 Regina is a software package for 3-manifold and 4-manifold topologists,
@@ -155,6 +160,13 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_mandir}/*/*
 
 %changelog
+* Wed Jul 23 2025 Ben Burton <bab@debian.org> 7.3.1-2
+- Backported some recent fixes from the repository:
+  * Fixed the fact that GNOME does not recognise the GUI when it is running,
+    which was causing a generic icon and window name to appear in the dock.
+  * Added some compatibility patches from upstream to support graphviz >= 13
+    and doxygen >= 1.10.
+
 * Tue Jul 8 2025 Ben Burton <bab@debian.org> 7.3.1
 - New upstream release.
 

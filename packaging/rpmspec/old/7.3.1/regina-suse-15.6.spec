@@ -1,7 +1,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
 Version: 7.3.1
-Release: lp156.1
+Release: lp156.2
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -9,6 +9,10 @@ Source: https://github.com/regina-normal/regina/releases/download/regina-%{versi
 URL: http://regina-normal.github.io/
 Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
+
+Patch0: desktop-wmclass.diff
+Patch1: doxygen-topics.diff
+Patch2: graphviz-13.diff
 
 Requires: mimehandler(application/pdf)
 Requires: python312
@@ -61,6 +65,9 @@ and a low-level C++ programming interface.
 %debug_package
 %prep
 %setup -n regina-%{version}
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 export CFLAGS=$RPM_OPT_FLAGS
@@ -121,6 +128,13 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_prefix}/lib/python3.12/site-packages/regina/
 
 %changelog
+* Wed Jul 23 2025 Ben Burton <bab@debian.org> 7.3.1-2
+- Backported some recent fixes from the repository:
+  * Fixed the fact that GNOME does not recognise the GUI when it is running,
+    which was causing a generic icon and window name to appear in the dock.
+  * Added some compatibility patches from upstream to support graphviz >= 13
+    and doxygen >= 1.10.
+
 * Tue Jul 8 2025 Ben Burton <bab@debian.org> 7.3.1
 - New upstream release.
 - The openSUSE 15.6 package now uses Python 3.12, not the default Python 3.6.
