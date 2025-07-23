@@ -18,6 +18,12 @@ if [ -z "$distro" ]; then
   echo "I could not determine the debian/ubuntu codename."
   exit 1
 fi
+if [ -n "$2" ]; then
+  echo "Overriding distro: $distro -> $2"
+  echo "Typically this should be only done when building for sid."
+  echo
+  distro="$2"
+fi
 
 echo "Building regina-$version for $distro... ok?"
 read

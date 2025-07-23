@@ -15,9 +15,11 @@ To build source+binary packages for debian/ubuntu:
   ./run regina-7.4/debian:bullseye
 
   /# su build
-  /$ /src/build_all_deb_1_user 7.4
+  /$ /src/build_all_deb_1_user 7.4  (*)
   /$ exit
   /# /src/build_all_deb_2_root
+
+  (*) When building for sid, pass "sid" as a second argument here.
 
 To build source-only packages for debian sid:
 
@@ -47,6 +49,13 @@ To build binary-only packages for fedora/opensuse:
 
   /# su build
   /$ /src/build_bin_rpm 7.4
+
+To build packages for arch:
+
+  ./run regina-7.4/arch
+
+  /# su build
+  /$ /src/build_arch 7.4
 
 For all builds, use "docker cp ..." to extract packages as instructed by the
 last script that was run inside the docker VM.
