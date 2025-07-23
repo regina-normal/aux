@@ -5,6 +5,7 @@ The directory /data/regina/src/pkg/ should contain:
     + the regina source tarball (e.g., regina-7.4.tar.gz);
     + the debian/ubuntu packaging tarballs (e.g., bookworm.tgz);
     + the RPM spec files (e.g., regina-fedora.spec).
+    + any RPM patch files (e.g., graphviz-13.diff)
   - for binary-only builds:
     + debian source packages in <codename>/*.dsc (e.g., bookworm/*.dsc);
     + RPM source packages in <distro>/SRPMS/*.src.rpm (e.g., 42/SRPMS/*.src.rpm).

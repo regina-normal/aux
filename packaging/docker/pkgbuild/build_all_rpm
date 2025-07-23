@@ -62,8 +62,23 @@ if [ -e .rpmmacros ]; then
 fi
 echo '%vendor Regina' > .rpmmacros
 
+case "$flavour" in
+  Fedora)
+    patches=`cat /src/pkg/"$spec" | grep '^\S*\.diff$'`
+    ;;
+  openSUSE)
+    patches=`cat /src/pkg/"$spec" | grep ^Patch | cut -f2 -d' '`
+    ;;
+  *)
+    # Should never occur
+    echo "Unknown flavour of GNU/Linux distribution: $flavour"
+    exit 1
+    ;;
+esac
+
 cd rpmbuild
 cp /src/pkg/regina-"$version".tar.gz SOURCES
+for i in $patches; do cp /src/pkg/"$i" SOURCES; done
 cp /src/pkg/"$spec" SPECS
 cd SPECS
 rpmbuild -ba "$spec"
