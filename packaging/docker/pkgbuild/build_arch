@@ -1,0 +1,50 @@
+#!/bin/bash
+set -e
+
+me="`whoami`"
+if [ "$me" = root ]; then
+  echo "This script should be run as the build user."
+  exit 1
+fi
+
+version="$1"
+if [ -z "$1" ]; then
+  echo "Example usage: $0 7.3.1"
+  exit 1
+fi
+
+echo "Building regina-$version for arch... ok?"
+read
+
+patches=`cat /src/pkg/PKGBUILD | grep '^\s*patch .*\.diff"' | sed -e 's#.*/##'
+| sed -e 's#"##'`
+echo "$patches"
+exit 0
+
+# TODO
+export RPM_BUILD_NCPUS=16
+
+cd ~
+mkdir arch
+cp /src/pkg/regina-"$version".tar.gz arch
+for i in $patches; do cp /src/pkg/"$i" arch; done
+cd arch
+makepkg
+echo
+echo 'Happy to continue?'
+read
+namcap PKGBUILD
+namcap *.zst
+echo
+echo 'Happy to purge source & build directories?'
+read
+exit 1
+
+rm -rf BUILDROOT BUILD SPECS SOURCES
+
+echo
+echo 'BEFORE quitting, from the host machine, run:'
+echo "  docker cp VM_NAME:/home/build/arch /data/regina/bin/arch"
+echo
+
+exit 0
