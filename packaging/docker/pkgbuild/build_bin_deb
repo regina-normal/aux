@@ -37,6 +37,7 @@ read
 
 cd ..
 rm -rf regina-normal-"$version"
+rm regina-normal_"$version".orig.tar.gz
 
 echo
 echo 'BEFORE quitting, from the host machine, run:'
