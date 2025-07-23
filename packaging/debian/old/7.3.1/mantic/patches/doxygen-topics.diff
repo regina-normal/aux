@@ -1,0 +1,49 @@
+Description: fix the modules/topics link for doxygen >= 1.10
+Author: Ben Burton <bab@debian.org>
+Origin: upstream
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- regina-normal-7.3.1/CMakeLists.txt
++++ regina-normal-7.3.1/CMakeLists.txt
+@@ -412,10 +412,16 @@ ELSE (${REGINA_INSTALL_TYPE} STREQUAL HPC)
+ 
+   FIND_PACKAGE(Doxygen)
+   SET (DOXYGEN_MIN_VERSION 1.8.17)
+-  IF (DOXYGEN_FOUND AND (DOXYGEN_VERSION VERSION_LESS DOXYGEN_MIN_VERSION))
+-    MESSAGE (STATUS "Doxygen version ${DOXYGEN_VERSION} is too old; Regina requires Doxygen >= ${DOXYGEN_MIN_VERSION}.")
+-    SET (DOXYGEN_FOUND FALSE)
+-  ENDIF ()
++  IF (DOXYGEN_FOUND)
++    IF (DOXYGEN_VERSION VERSION_LESS DOXYGEN_MIN_VERSION)
++      MESSAGE (STATUS "Doxygen version ${DOXYGEN_VERSION} is too old; Regina requires Doxygen >= ${DOXYGEN_MIN_VERSION}.")
++      SET (DOXYGEN_FOUND FALSE)
++    ELSEIF (DOXYGEN_VERSION VERSION_LESS 1.10.0)
++      SET (DOXYGEN_TOPICS "<a href='modules.html'>Modules</a>")
++    ELSE ()
++      SET (DOXYGEN_TOPICS "<a href='topics.html'>Topics</a>")
++    ENDIF ()
++  ENDIF (DOXYGEN_FOUND)
+ 
+   SET (REGINA_BUILD_ENGINE_DOCS ${DOXYGEN_FOUND})
+   MACRO_LOG_FEATURE(DOXYGEN_FOUND
+--- regina-normal-7.3.1/engine/docs.h
++++ regina-normal-7.3.1/engine/docs.h
+@@ -46,7 +46,7 @@
+  *  entities in the C++ calculation engine, as well as how these can
+  *  be accessed through Python.
+  *
+- *  To start: visit the <a href="modules.html">Modules</a> page and take
++ *  To start: visit the \topics page and take
+  *  a look around, or browse through the classes regina::Triangulation<3>,
+  *  regina::Link, and regina::NormalSurfaces.
+  *
+--- regina-normal-7.3.1/engine/doxygen/docs.conf.in
++++ regina-normal-7.3.1/engine/doxygen/docs.conf.in
+@@ -54,6 +54,7 @@ ALIASES = \
+     "tidy=<i>Tidy:</i>" \
+     "tidylong=<i>Tidy (long-term):</i>" \
+     "headers=\par Headers^^" \
++    "topics=@DOXYGEN_TOPICS@" \
+     "apinotfinal=\warning The API for this class or function has not yet been finalised.  This means that the interface may change in new versions of Regina, without maintaining backward compatibility.  If you use this class directly in your own code, please check the detailed changelog with each new release to see if you need to make changes to your code."
+ 
+ # Warning and progress related options:

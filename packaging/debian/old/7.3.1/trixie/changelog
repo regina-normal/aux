@@ -1,3 +1,12 @@
+regina-normal (7.3.1-2~bpo13+1~regina1) trixie; urgency=low
+
+  * Fix the fact that GNOME does not recognise the GUI when it is running,
+    which was causing a generic icon and window name to appear in the dock.
+  * Added some compatibility patches from upstream to support graphviz >= 13
+    and doxygen >= 1.10.
+
+ -- Ben Burton <bab@debian.org>  Wed, 23 Jul 2025 11:31:50 +1000
+
 regina-normal (7.3.1-1~bpo13+1~regina1) trixie; urgency=low
 
   * New upstream release, packaged for trixie.
