@@ -1,0 +1,31 @@
+Qt versions:
+
+6.8.2:
+  - Fedora 42
+6.7.2
+  - Fedora 41
+6.6.3:
+  - openSUSE Leap 15.6
+6.6.2:
+  - Fedora 40
+6.5.2:
+  - Fedora 39
+6.4.3:
+  - Fedora 38
+6.4.2:
+  - Debian bookworm
+  - openSUSE Leap 15.5
+  - Ubuntu noble (24.04 LTS)
+6.3.1:
+  - Fedora 37
+6.2.4:
+  - Ubuntu jammy (22.04 LTS)
+6.2.3:
+  - Fedora 36
+6.2.2:
+  - openSUSE Leap 15.4
+5.15.2:
+  - Debian bullseye
+5.12.8:
+  - Ubuntu focal (20.04 LTS)
+

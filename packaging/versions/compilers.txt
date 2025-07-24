@@ -1,0 +1,90 @@
+GCC versions seen in the wild:
+
+15.0.1:
+  - Fedora 42
+14.2.1:
+  - Fedora 41
+14.0.1:
+  - Fedora 40
+14-pre:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
+13.2.1:
+  - Fedora 39
+13.2.0:
+  - Ubuntu noble (24.04 LTS)
+13.0.1:
+  - Fedora 38
+12.3.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
+12.2.x:
+  - Debian bookworm
+  - Fedora 37
+12.0.x:
+  - Fedora 36
+12 (prerelease):
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+11.4.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
+11.3.x:
+  - OPTIONAL Debian bookworm
+11.2.x:
+  - Ubuntu jammy (22.04 LTS)
+10.5.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
+10.3.x:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+10.2.x:
+  - Debian bullseye
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+9.5.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
+9.4.x:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+9.3.x:
+  - OPTIONAL Debian bullseye
+  - Ubuntu focal (20.04 LTS)
+8.4.x:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+7.5.x:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+  - openSUSE Leap 15.6
+  - openSUSE Leap 15.5
+  - openSUSE Leap 15.4
+7.2.x:
+  - Rocks 7.0 + gnu/7.2.0 module (e.g., tinaroo)
+
+Clang versions seen in the wild (debian/ubuntu only):
+
+18.1.x:
+  - Ubuntu noble (24.04 LTS)
+17.0.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
+16.0.x:
+  - OPTIONAL Ubuntu noble (24.04 LTS)
+15.0.x:
+  - OPTIONAL Debian bookworm
+  - OPTIONAL Ubuntu noble (24.04 LTS)
+14.0.x:
+  - Debian bookworm
+  - OPTIONAL Ubuntu noble (24.04 LTS)
+  - Ubuntu jammy (22.04 LTS)
+13.0.x:
+  - OPTIONAL Debian bookworm
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+12.0.x:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+11.1.x:
+  - OPTIONAL Ubuntu jammy (22.04 LTS)
+11.0.x:
+  - Debian bullseye
+10.0.x:
+  - Ubuntu focal (20.04 LTS)
+9.0.x:
+  - OPTIONAL Debian bullseye
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+8.0.x:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+7.0.x:
+  - OPTIONAL Ubuntu focal (20.04 LTS)
+6.0.x:
+  - OPTIONAL Ubuntu focal (20.04 LTS)

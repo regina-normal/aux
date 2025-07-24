@@ -1,0 +1,28 @@
+Doxygen versions [regina needs 1.9.2]
+
+1.13.2:
+  - Fedora 42
+1.12.0:
+  - Fedora 41
+1.10.0:
+  - Fedora 40
+1.9.8:
+  - Ubuntu noble (24.04 LTS)
+1.9.7:
+  - Fedora 39
+1.9.6:
+  - Fedora 38
+1.9.5:
+  - Fedora 37
+1.9.4:
+  - Debian bookworm
+1.9.1:
+  - Debian bullseye
+  - Fedora 36
+  - Ubuntu jammy (22.04 LTS)
+1.8.17:
+  - Ubuntu focal (20.04 LTS)
+1.8.14:
+  - openSUSE Leap 15.6 (but using backported doxygen 1.9.6)
+  - openSUSE Leap 15.5 (but using backported doxygen 1.9.6)
+  - openSUSE Leap 15.4 (but using backported doxygen 1.9.6)
