@@ -1,5 +1,9 @@
 GCC versions seen in the wild:
 
+15.0.1:
+  - Fedora 42
+14.2.1:
+  - Fedora 41
 14.0.1:
   - Fedora 40
 14-pre:
@@ -87,9 +91,12 @@ Clang versions seen in the wild (debian/ubuntu only):
 
 CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
+3.31.6:
+  - Fedora 42
 3.28.3:
   - openSUSE Leap 15.6
   - Ubuntu noble (24.04 LTS)
+  - Fedora 41
 3.28.2:
   - Fedora 40
 3.27.7:
@@ -116,6 +123,10 @@ CMake versions [regina needs 3.12, -DPython_EXECUTABLE needs 3.16]
 
 Doxygen versions [regina needs 1.9.2]
 
+1.13.2:
+  - Fedora 42
+1.12.0:
+  - Fedora 41
 1.10.0:
   - Fedora 40
 1.9.8:
@@ -135,9 +146,9 @@ Doxygen versions [regina needs 1.9.2]
 1.8.17:
   - Ubuntu focal (20.04 LTS)
 1.8.14:
-  - openSUSE Leap 15.6 (but using newer backport)
-  - openSUSE Leap 15.5 (but using newer backport)
-  - openSUSE Leap 15.4 (but using newer backport)
+  - openSUSE Leap 15.6 (but using backported doxygen 1.9.6)
+  - openSUSE Leap 15.5 (but using backported doxygen 1.9.6)
+  - openSUSE Leap 15.4 (but using backported doxygen 1.9.6)
 
 Python versions [regina needs 3.6]:
 
@@ -170,6 +181,10 @@ Python versions [regina needs 3.6]:
 
 Qt versions:
 
+6.8.2:
+  - Fedora 42
+6.7.2
+  - Fedora 41
 6.6.3:
   - openSUSE Leap 15.6
 6.6.2:

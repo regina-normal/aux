@@ -4,7 +4,7 @@ Final regina version in apt/yum/zypper repositories:
 
 Debian:         p.d.o reprepro          p.d.o standalone        debian archive
 
-woody:                                                          n/a
+woody:                                                          ---
 sarge:                                                          4.1.3
 etch:                                                           4.3.1
 lenny:                                                          4.5
@@ -16,6 +16,7 @@ stretch:                                5.1                     5.1
 buster:         7.0                     6.0.1                   5.1
 bullseye:       current                 6.0.1                   6.0.1
 bookworm:       current                                         7.3
+trixie:         current                                         ---
 
 ==============================================================================
 
@@ -29,8 +30,9 @@ precise:                                4.96                    4.90
 trusty:                                 5.0                     4.95
 xenial:                                 5.1                     4.96
 bionic:         7.0                     6.0.1                   5.1
-focal:          current                 6.0.1                   5.1
+focal:          7.3                     6.0.1                   5.1
 jammy:          current                                         7.0
+noble:          current                                         ---
 
 ==============================================================================
 
@@ -64,8 +66,11 @@ eoan:                                   (no repo)               5.1
 groovy:         6.0.1                   6.0.1                   git snapshot
 hirsute:        7.0                     6.0.1                   6.0.1
 impish:         7.0                                             6.0.1
-kinetic:        current                                         7.1
-lunar:          current                                         7.2
+kinetic:        7.3                                             7.1
+lunar:          7.3                                             7.2
+mantic:         7.3.1                                           7.3
+oracular:       7.3.1                                           ---
+plucky:         current                                         ---
 
 ==============================================================================
 
@@ -73,8 +78,12 @@ RPM:            Fedora                  openSUSE
 
                 32: 6.0.1               15.2: 7.0
                 33: 7.0                 15.3: 7.2
-                34: 7.0                 15.4: current
-                35: 7.2
-                36: current
-                37: current
-                38: current
+                34: 7.0                 15.4: 7.3
+                35: 7.2                 15.5: 7.3
+                36: 7.3                 15.6: current
+                37: 7.3
+                38: 7.3
+                39: 7.3.1
+                40: 7.3.1
+                41: current
+                42: current
