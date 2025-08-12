@@ -5,9 +5,8 @@
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 640 640"
 	 style="enable-background:new 0 0 640 640;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#4D4D4D;stroke:#4D4D4D;stroke-width:24;stroke-miterlimit:10;}
+	.st0{fill:none;stroke:#4D4D4D;stroke-width:24;stroke-miterlimit:10;}
 	.st1{fill:#CCCCCC;stroke:#4D4D4D;stroke-width:24;stroke-linejoin:round;}
-	.st2{fill:#4D4D4D;}
 </style>
 <line class="st0" x1="171" y1="329.5" x2="103.5" y2="545.5"/>
 <line class="st0" x1="436.5" y1="329.5" x2="342" y2="545.5"/>
@@ -20,33 +19,20 @@
 	</sodipodi:namedview>
 <g>
 	<ellipse class="st1" cx="333" cy="113.5" rx="117" ry="58.5"/>
-	<circle class="st2" cx="265.5" cy="113.5" r="13.5"/>
-	<circle class="st2" cx="310.5" cy="113.5" r="13.5"/>
-	<circle class="st2" cx="355.5" cy="113.5" r="13.5"/>
-	<circle class="st2" cx="400.5" cy="113.5" r="13.5"/>
 </g>
 <g>
 	<ellipse class="st1" cx="436.5" cy="329.5" rx="94.5" ry="58.5"/>
-	<circle class="st2" cx="391.5" cy="329.5" r="13.5"/>
-	<circle class="st2" cx="481.5" cy="329.5" r="13.5"/>
-	<circle class="st2" cx="436.5" cy="329.5" r="13.5"/>
 </g>
 <g>
 	<circle class="st1" cx="103.5" cy="545.5" r="58.5"/>
-	<circle class="st2" cx="103.5" cy="545.5" r="13.5"/>
 </g>
 <g>
 	<ellipse class="st1" cx="342" cy="545.5" rx="72" ry="58.5"/>
-	<circle class="st2" cx="319.5" cy="545.5" r="13.5"/>
-	<circle class="st2" cx="364.5" cy="545.5" r="13.5"/>
 </g>
 <g>
 	<circle class="st1" cx="526.5" cy="545.5" r="58.5"/>
-	<circle class="st2" cx="526.5" cy="545.5" r="13.5"/>
 </g>
 <g>
 	<ellipse class="st1" cx="171" cy="329.5" rx="72" ry="58.5"/>
-	<circle class="st2" cx="148.5" cy="329.5" r="13.5"/>
-	<circle class="st2" cx="193.5" cy="329.5" r="13.5"/>
 </g>
 </svg>
