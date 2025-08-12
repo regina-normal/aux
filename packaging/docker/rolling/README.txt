@@ -46,10 +46,8 @@ released, they should all be removed and replaced with a more typical
 
 To create the initial snapshot, run as root from the directory ../bare/ :
   - ./mkimage.sh -t snapshot/DIST:VERSION debootstrap --arch=amd64 VERSION
-  - ./mkimage.sh -t snapshot/DIST:VERSION_i386 debootstrap --arch=i386 VERSION
 
 To create the subsequent up-to-date image, run from this directory as user bab:
   - docker build --no-cache -t rolling/DIST:VERSION -f DIST-VERSION.Dockerfile .
-  - docker build --no-cache -t rolling/DIST:VERSION_i386 -f DIST-VERSION-i386.Dockerfile .
 
-Currently (DIST, VERSION) must be (debian, trixie).
+Currently (DIST, VERSION) must be (debian, forky).

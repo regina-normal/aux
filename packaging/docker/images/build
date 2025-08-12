@@ -250,7 +250,7 @@ sub rpmStyle {
 # (derived from rolling/... instead of bare/...).
 #
 sub isRolling {
-    return ($dist eq 'arch' or $release eq 'sid' or $release eq 'trixie');
+    return ($dist eq 'arch' or $release eq 'sid' or $release eq 'forky');
 }
 
 # Usage: from('basic')
