@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 640 640" enable-background="new 0 0 640 640" xml:space="preserve">
+<g>
+	
+		<rect x="36" y="45" fill="#F2F2F2" stroke="#333333" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" width="324" height="468"/>
+	<g>
+		<g>
+			
+				<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="126" y1="135" x2="126" y2="423"/>
+			
+				<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="126" y1="279" x2="270" y2="279"/>
+			
+				<line fill="none" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="126" y1="423" x2="270" y2="423"/>
+		</g>
+		<g>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="126" cy="135" r="36"/>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="270" cy="279" r="36"/>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="270" cy="423" r="36"/>
+		</g>
+	</g>
+</g>
+<g>
+	
+		<rect x="279" y="126" fill="#F2F2F2" stroke="#333333" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" width="324" height="468"/>
+	<g>
+		<g>
+			
+				<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="369" y1="216" x2="369" y2="504"/>
+			
+				<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="369" y1="360" x2="513" y2="360"/>
+			
+				<line fill="none" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="369" y1="504" x2="513" y2="504"/>
+		</g>
+		<g>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="369" cy="216" r="36"/>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="513" cy="360" r="36"/>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="513" cy="504" r="36"/>
+		</g>
+	</g>
+</g>
+</svg>
