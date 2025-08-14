@@ -2,56 +2,48 @@
 <!-- Generator: Adobe Illustrator 24.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 640 640" enable-background="new 0 0 640 640" xml:space="preserve">
-<rect x="32" y="13" fill="#F2F2F2" stroke="#333333" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" width="342" height="522"/>
 <g>
 	
-		<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="95" y1="86" x2="95" y2="482"/>
-	
-		<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="95" y1="194" x2="203" y2="194"/>
-	
-		<polyline fill="none" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-		95,302 203,302 203,482 	"/>
-	
-		<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="203" y1="482" x2="311" y2="482"/>
-	
-		<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="203" y1="374" x2="311" y2="374"/>
+		<rect x="27" y="40" fill="#F2F2F2" stroke="#333333" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" width="342" height="468"/>
+	<g>
+		<g>
+			
+				<line fill="none" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="126" y1="130" x2="126" y2="418"/>
+			
+				<line fill="none" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="126" y1="274" x2="270" y2="274"/>
+			
+				<line fill="none" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="126" y1="418" x2="270" y2="418"/>
+		</g>
+		<g>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="126" cy="130" r="36"/>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="270" cy="274" r="36"/>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="270" cy="418" r="36"/>
+		</g>
+	</g>
 </g>
 <g>
 	
-		<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="95" cy="76" r="36"/>
-	
-		<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="203" cy="184" r="36"/>
-	
-		<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="203" cy="292" r="36"/>
-	
-		<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="311" cy="364" r="36"/>
-	
-		<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="311" cy="472" r="36"/>
-</g>
-<rect x="266" y="105" fill="#F2F2F2" stroke="#333333" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" width="342" height="522"/>
-<g>
-	
-		<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="329" y1="158" x2="329" y2="554"/>
-	
-		<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="329" y1="266" x2="437" y2="266"/>
-	
-		<polyline fill="none" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-		329,374 437,374 437,554 	"/>
-	
-		<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="437" y1="554" x2="545" y2="554"/>
-	
-		<line fill="#FFFFFF" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="437" y1="446" x2="545" y2="446"/>
-</g>
-<g>
-	
-		<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="329" cy="168" r="36"/>
-	
-		<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="437" cy="276" r="36"/>
-	
-		<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="437" cy="384" r="36"/>
-	
-		<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="545" cy="456" r="36"/>
-	
-		<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="545" cy="564" r="36"/>
+		<rect x="271" y="132" fill="#F2F2F2" stroke="#333333" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" width="342" height="468"/>
+	<g>
+		<g>
+			
+				<line fill="none" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="370" y1="222" x2="370" y2="510"/>
+			
+				<line fill="none" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-miterlimit="10" x1="370" y1="366" x2="514" y2="366"/>
+			
+				<line fill="none" stroke="#333333" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="370" y1="510" x2="514" y2="510"/>
+		</g>
+		<g>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="370" cy="222" r="36"/>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="514" cy="366" r="36"/>
+			
+				<circle fill="#C7B299" stroke="#333333" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" cx="514" cy="510" r="36"/>
+		</g>
+	</g>
 </g>
 </svg>
