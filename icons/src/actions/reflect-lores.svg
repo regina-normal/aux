@@ -5,7 +5,11 @@
 <line fill="none" stroke="#C3922E" stroke-width="36" stroke-linejoin="round" x1="288.5" y1="45" x2="288.5" y2="243"/>
 <polyline fill="none" stroke="#C3922E" stroke-width="36" points="171.5,153 288.5,36 405.5,153 "/>
 <polyline fill="none" stroke="#C3922E" stroke-width="36" points="171.5,423 288.5,540 405.5,423 "/>
-<polygon fill="#FCBEB3" stroke="#5C1001" stroke-width="24" stroke-linejoin="round" points="554.32,348 141.4,348 22.68,227.5 
-	435.6,227.5 "/>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="68.5" y1="288" x2="508.5" y2="288">
+	<stop  offset="0" style="stop-color:#F5DEDA"/>
+	<stop  offset="1" style="stop-color:#F5EBE9"/>
+</linearGradient>
+<polygon fill="url(#SVGID_1_)" stroke="#5C1001" stroke-width="24" stroke-linejoin="round" points="508.5,363 176.756,363 
+	68.5,213 400.244,213 "/>
 <line fill="none" stroke="#C3922E" stroke-width="36" stroke-linejoin="round" x1="288.5" y1="531" x2="288.5" y2="287.75"/>
 </svg>
