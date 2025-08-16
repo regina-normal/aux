@@ -86,11 +86,11 @@
    ry="112.14513"
    transform="rotate(-23.619496)" /><path
    id="line3-1"
-   style="fill:none;stroke:#9e0035;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none"
+   style="fill:none;stroke:#7e1ec7;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
    d="M 370.82982,477.5455 144.78042,62.200151"
    sodipodi:nodetypes="cc" /><path
    id="polyline3"
    transform="translate(-4.2195836,30.200151)"
-   style="fill:none;stroke:#9e0035;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none"
+   style="fill:none;stroke:#7e1ec7;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
    d="M 80.900623,373.81753 149,32 453.95721,201.088"
    sodipodi:nodetypes="ccc" /></svg>
