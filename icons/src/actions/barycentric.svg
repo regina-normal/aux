@@ -1,25 +1,125 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="640px" height="640px" viewBox="0 0 640 640" enable-background="new 0 0 640 640" xml:space="preserve">
-<g>
-	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="288.0864" y1="-14.3311" x2="395.4539" y2="594.5802">
-		<stop  offset="0" style="stop-color:#84E5F1"/>
-		<stop  offset="1" style="stop-color:#C3ECF1"/>
+
+<svg
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="640px"
+   height="640px"
+   viewBox="0 0 640 640"
+   enable-background="new 0 0 640 640"
+   xml:space="preserve"
+   sodipodi:docname="barycentric.svg"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs6" /><sodipodi:namedview
+   id="namedview6"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="0.57608193"
+   inkscape:cx="312.45556"
+   inkscape:cy="289.88932"
+   inkscape:window-width="1304"
+   inkscape:window-height="753"
+   inkscape:window-x="0"
+   inkscape:window-y="38"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_1" />
+<g
+   id="g6">
+	<linearGradient
+   id="SVGID_1_"
+   gradientUnits="userSpaceOnUse"
+   x1="288.0864"
+   y1="-14.3311"
+   x2="395.4539"
+   y2="594.5802">
+		<stop
+   offset="0"
+   style="stop-color:#9dcce0;stop-opacity:1;"
+   id="stop1" />
+		<stop
+   offset="1"
+   style="stop-color:#b8d6e3;stop-opacity:1;"
+   id="stop2" />
 	</linearGradient>
 	
-		<polygon fill="url(#SVGID_1_)" stroke="#143E51" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-		31,31 308,610 610,308 	"/>
-	<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="342.7783" y1="233.7871" x2="441.7192" y2="405.1578">
-		<stop  offset="0" style="stop-color:#84E5F1"/>
-		<stop  offset="1" style="stop-color:#C3ECF1"/>
+		<polygon
+   fill="url(#SVGID_1_)"
+   stroke="#143E51"
+   stroke-width="22"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   stroke-miterlimit="10"
+   points="   31,31 308,610 610,308  "
+   id="polygon2" />
+	<linearGradient
+   id="SVGID_2_"
+   gradientUnits="userSpaceOnUse"
+   x1="342.7783"
+   y1="233.7871"
+   x2="441.7192"
+   y2="405.1578">
+		<stop
+   offset="0"
+   style="stop-color:#84E5F1"
+   id="stop3" />
+		<stop
+   offset="1"
+   style="stop-color:#C3ECF1"
+   id="stop4" />
 	</linearGradient>
 	
-		<line fill="url(#SVGID_2_)" stroke="#143E51" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="174.497" y1="330.944" x2="610" y2="308"/>
+		<line
+   fill="url(#SVGID_2_)"
+   stroke="#143E51"
+   stroke-width="22"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   stroke-miterlimit="10"
+   x1="174.497"
+   y1="330.944"
+   x2="610"
+   y2="308"
+   id="line4"
+   style="stroke-width:16;stroke-dasharray:none" />
 	
-		<line fill="none" stroke="#143E51" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="31" y1="31" x2="456.656" y2="461.344"/>
+		<line
+   fill="none"
+   stroke="#143E51"
+   stroke-width="22"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   stroke-miterlimit="10"
+   x1="31"
+   y1="31"
+   x2="456.656"
+   y2="461.344"
+   id="line5"
+   style="stroke-width:16;stroke-dasharray:none" />
 	
-		<line fill="none" stroke="#143E51" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="327.931" y1="173.055" x2="308" y2="610"/>
+		<line
+   fill="none"
+   stroke="#143E51"
+   stroke-width="22"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   stroke-miterlimit="10"
+   x1="327.931"
+   y1="173.055"
+   x2="308"
+   y2="610"
+   id="line6"
+   style="stroke-width:16;stroke-dasharray:none" />
 </g>
 </svg>

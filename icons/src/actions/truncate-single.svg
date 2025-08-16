@@ -1,36 +1,166 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 24.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 640 640" enable-background="new 0 0 640 640" xml:space="preserve">
-<g>
-	<g>
+
+<svg
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 640 640"
+   enable-background="new 0 0 640 640"
+   xml:space="preserve"
+   sodipodi:docname="truncate-single.svg"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs7" /><sodipodi:namedview
+   id="namedview7"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="0.32995802"
+   inkscape:cx="247.00112"
+   inkscape:cy="304.5842"
+   inkscape:window-width="912"
+   inkscape:window-height="544"
+   inkscape:window-x="583"
+   inkscape:window-y="54"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_1" />
+<g
+   id="g7">
+	<g
+   id="g3">
 		
-			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="391.119" y1="309.9413" x2="530.7691" y2="551.8223" gradientTransform="matrix(1 0 0 1 -17.1479 -9.2378)">
-			<stop  offset="0" style="stop-color:#84E5F1"/>
-			<stop  offset="1" style="stop-color:#C3ECF1"/>
+			<linearGradient
+   id="SVGID_1_"
+   gradientUnits="userSpaceOnUse"
+   x1="391.119"
+   y1="309.9413"
+   x2="530.7691"
+   y2="551.8223"
+   gradientTransform="matrix(1 0 0 1 -17.1479 -9.2378)">
+			<stop
+   offset="0"
+   style="stop-color:#9dcce0;stop-opacity:1;"
+   id="stop1" />
+			<stop
+   offset="1"
+   style="stop-color:#b8d6e3;stop-opacity:1;"
+   id="stop2" />
 		</linearGradient>
-		<path fill="url(#SVGID_1_)" d="M229.441,384.148c20.534,88.762,137.117,186.798,225.879,192.097l89.093-328.22"/>
-		<circle fill="#143E51" cx="544.413" cy="248.025" r="33.801"/>
+		<path
+   fill="url(#SVGID_1_)"
+   d="M229.441,384.148c20.534,88.762,137.117,186.798,225.879,192.097l89.093-328.22"
+   id="path2" />
+		<circle
+   fill="#143E51"
+   cx="544.413"
+   cy="248.025"
+   r="33.801"
+   id="circle2" />
 		
-			<line fill="none" stroke="#143E51" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="544.413" y1="248.025" x2="455.32" y2="576.245"/>
+			<line
+   fill="none"
+   stroke="#143E51"
+   stroke-width="22"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   stroke-miterlimit="10"
+   x1="544.413"
+   y1="248.025"
+   x2="455.32"
+   y2="576.245"
+   id="line2" />
 		
-			<line fill="none" stroke="#143E51" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="229.441" y1="384.148" x2="544.413" y2="248.025"/>
+			<line
+   fill="none"
+   stroke="#143E51"
+   stroke-width="22"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   stroke-miterlimit="10"
+   x1="229.441"
+   y1="384.148"
+   x2="544.413"
+   y2="248.025"
+   id="line3" />
 	</g>
-	<g>
+	<g
+   id="g6">
 		
-			<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="179.507" y1="146.2686" x2="319.1571" y2="388.1496" gradientTransform="matrix(1 0 0 1 -7.7791 23.9365)">
-			<stop  offset="0" style="stop-color:#84E5F1"/>
-			<stop  offset="1" style="stop-color:#C3ECF1"/>
+			<linearGradient
+   id="SVGID_2_"
+   gradientUnits="userSpaceOnUse"
+   x1="179.507"
+   y1="146.2686"
+   x2="319.1571"
+   y2="388.1496"
+   gradientTransform="matrix(1 0 0 1 -7.7791 23.9365)">
+			<stop
+   offset="0"
+   style="stop-color:#9dcce0;stop-opacity:1;"
+   id="stop3" />
+			<stop
+   offset="1"
+   style="stop-color:#b8d6e3;stop-opacity:1;"
+   id="stop4" />
 		</linearGradient>
-		<path fill="url(#SVGID_2_)" d="M61.786,233.68c20.535,88.762,137.117,186.797,225.879,192.097l59.596-219.553l-69.993-65.67
-			L61.786,233.68z"/>
-		<circle fill="#143E51" cx="376.758" cy="97.556" r="33.801"/>
+		<path
+   fill="url(#SVGID_2_)"
+   d="M61.786,233.68c20.535,88.762,137.117,186.797,225.879,192.097l59.596-219.553l-69.993-65.67    L61.786,233.68z"
+   id="path4" />
+		<circle
+   fill="#143E51"
+   cx="376.758"
+   cy="97.556"
+   r="33.801"
+   id="circle4" />
 		
-			<line fill="none" stroke="#143E51" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="347.261" y1="206.223" x2="287.665" y2="425.777"/>
+			<line
+   fill="none"
+   stroke="#143E51"
+   stroke-width="22"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   stroke-miterlimit="10"
+   x1="347.261"
+   y1="206.223"
+   x2="287.665"
+   y2="425.777"
+   id="line4" />
 		
-			<line fill="none" stroke="#143E51" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="61.786" y1="233.68" x2="277.268" y2="140.554"/>
+			<line
+   fill="none"
+   stroke="#143E51"
+   stroke-width="22"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   stroke-miterlimit="10"
+   x1="61.786"
+   y1="233.68"
+   x2="277.268"
+   y2="140.554"
+   id="line5" />
 		
-			<line fill="none" stroke="#7E1EC7" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="231.441" y1="97.556" x2="395.143" y2="251.148"/>
+			<line
+   fill="none"
+   stroke="#7E1EC7"
+   stroke-width="22"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   stroke-miterlimit="10"
+   x1="231.441"
+   y1="97.556"
+   x2="395.143"
+   y2="251.148"
+   id="line6" />
 	</g>
 </g>
 </svg>
