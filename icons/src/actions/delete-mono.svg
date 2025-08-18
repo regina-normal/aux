@@ -11,13 +11,29 @@
    viewBox="0 0 640 640"
    enable-background="new 0 0 640 640"
    xml:space="preserve"
-   sodipodi:docname="delete.svg"
+   sodipodi:docname="delete-mono.svg"
    inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"><defs
-   id="defs2" /><sodipodi:namedview
+   id="defs2"><linearGradient
+     id="SVGID_2_"
+     gradientUnits="userSpaceOnUse"
+     x1="235"
+     y1="520.5"
+     x2="315"
+     y2="520.5"
+     gradientTransform="rotate(90,397.99999,442.99999)">
+	<stop
+   offset="0"
+   style="stop-color:#5a5a5a;stop-opacity:1;"
+   id="stop3" />
+	<stop
+   offset="1"
+   style="stop-color:#000000;stop-opacity:1;"
+   id="stop4" />
+</linearGradient></defs><sodipodi:namedview
    id="namedview2"
    pagecolor="#ffffff"
    bordercolor="#000000"
@@ -26,11 +42,11 @@
    inkscape:pageopacity="0.0"
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#d1d1d1"
-   inkscape:zoom="0.67622383"
-   inkscape:cx="376.35467"
-   inkscape:cy="300.19646"
-   inkscape:window-width="1056"
-   inkscape:window-height="821"
+   inkscape:zoom="0.83232904"
+   inkscape:cx="452.94587"
+   inkscape:cy="218.66352"
+   inkscape:window-width="1328"
+   inkscape:window-height="1075"
    inkscape:window-x="0"
    inkscape:window-y="25"
    inkscape:window-maximized="0"
@@ -52,15 +68,10 @@
    style="stop-color:#000000;stop-opacity:1;"
    id="stop2" />
 </linearGradient>
-<line
-   fill="none"
-   stroke="url(#SVGID_1_)"
-   stroke-width="80"
-   stroke-linecap="round"
-   stroke-miterlimit="10"
-   x1="55"
-   y1="320"
-   x2="586"
-   y2="320"
-   id="line2" />
-</svg>
+
+<path
+   fill="url(#SVGID_2_)"
+   d="m 15,320 c 0,-22.091 17.908,-40 40,-40 h 531 c 22.091,0 40,17.909 40,40 0,22.092 -17.909,40 -40,40 H 55 C 32.908,360 15,342.092 15,320 Z"
+   id="path4"
+   style="display:inline;fill:url(#SVGID_2_)"
+   sodipodi:nodetypes="sssssss" /></svg>

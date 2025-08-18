@@ -11,7 +11,7 @@
    viewBox="0 0 640 640"
    enable-background="new 0 0 640 640"
    xml:space="preserve"
-   sodipodi:docname="insert.svg"
+   sodipodi:docname="insert-mono.svg"
    inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -29,10 +29,10 @@
    inkscape:zoom="0.72112464"
    inkscape:cx="314.09272"
    inkscape:cy="301.61222"
-   inkscape:window-width="960"
+   inkscape:window-width="1072"
    inkscape:window-height="808"
    inkscape:window-x="822"
-   inkscape:window-y="138"
+   inkscape:window-y="110"
    inkscape:window-maximized="0"
    inkscape:current-layer="Layer_1" />
 <linearGradient
@@ -45,24 +45,14 @@
    gradientTransform="matrix(1 0 0 1 45 -201)">
 	<stop
    offset="0"
-   style="stop-color:#4e4e4e;stop-opacity:1;"
+   style="stop-color:#5a5a5a;stop-opacity:1;"
    id="stop1" />
 	<stop
    offset="1"
    style="stop-color:#000000;stop-opacity:1;"
    id="stop2" />
 </linearGradient>
-<line
-   fill="none"
-   stroke="url(#SVGID_1_)"
-   stroke-width="80"
-   stroke-linecap="round"
-   stroke-miterlimit="10"
-   x1="55"
-   y1="320"
-   x2="586"
-   y2="320"
-   id="line2" />
+
 <linearGradient
    id="SVGID_2_"
    gradientUnits="userSpaceOnUse"
@@ -80,8 +70,19 @@
    style="stop-color:#000000;stop-opacity:1;"
    id="stop4" />
 </linearGradient>
-<path
-   fill="url(#SVGID_2_)"
-   d="M320,625c-22.091,0-40-17.908-40-40V359.5l40-40l-40-39V54c0-22.091,17.909-40,40-40  c22.092,0,40,17.909,40,40v226.25l-40,39.25l40,40V585C360,607.092,342.092,625,320,625z"
-   id="path4" />
+<g
+   id="g1"><line
+     fill="none"
+     stroke="url(#SVGID_1_)"
+     stroke-width="80"
+     stroke-linecap="round"
+     stroke-miterlimit="10"
+     x1="55"
+     y1="320"
+     x2="586"
+     y2="320"
+     id="line2" /><path
+     fill="url(#SVGID_2_)"
+     d="M320,625c-22.091,0-40-17.908-40-40V359.5l40-40l-40-39V54c0-22.091,17.909-40,40-40  c22.092,0,40,17.909,40,40v226.25l-40,39.25l40,40V585C360,607.092,342.092,625,320,625z"
+     id="path4" /></g>
 </svg>
