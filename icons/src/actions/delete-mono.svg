@@ -24,7 +24,7 @@
      y1="520.5"
      x2="315"
      y2="520.5"
-     gradientTransform="rotate(90,397.99999,442.99999)">
+     gradientTransform="matrix(0,0.82815057,-0.82815057,0,751.05235,92.258593)">
 	<stop
    offset="0"
    style="stop-color:#5a5a5a;stop-opacity:1;"
@@ -42,15 +42,29 @@
    inkscape:pageopacity="0.0"
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#d1d1d1"
-   inkscape:zoom="0.83232904"
-   inkscape:cx="452.94587"
-   inkscape:cy="218.66352"
+   inkscape:zoom="0.78862591"
+   inkscape:cx="346.80575"
+   inkscape:cy="330.9554"
    inkscape:window-width="1328"
    inkscape:window-height="1075"
    inkscape:window-x="0"
    inkscape:window-y="25"
    inkscape:window-maximized="0"
-   inkscape:current-layer="Layer_1" />
+   inkscape:current-layer="Layer_1"
+   showgrid="true"><inkscape:grid
+     id="grid1"
+     units="px"
+     originx="0"
+     originy="0"
+     spacingx="1"
+     spacingy="1"
+     empcolor="#0099e5"
+     empopacity="0.30196078"
+     color="#0099e5"
+     opacity="0.14901961"
+     empspacing="5"
+     enabled="true"
+     visible="true" /></sodipodi:namedview>
 <linearGradient
    id="SVGID_1_"
    gradientUnits="userSpaceOnUse"
@@ -71,7 +85,7 @@
 
 <path
    fill="url(#SVGID_2_)"
-   d="m 15,320 c 0,-22.091 17.908,-40 40,-40 h 531 c 22.091,0 40,17.909 40,40 0,22.092 -17.909,40 -40,40 H 55 C 32.908,360 15,342.092 15,320 Z"
+   d="m 67,320 c 0,-18.29467 14.83052,-33.12602 33.12602,-33.12602 H 539.87398 C 558.16865,286.87398 573,301.70533 573,320 c 0,18.2955 -14.83135,33.12602 -33.12602,33.12602 H 100.12602 C 81.83052,353.12602 67,338.2955 67,320 Z"
    id="path4"
-   style="display:inline;fill:url(#SVGID_2_)"
+   style="display:inline;fill:url(#SVGID_2_);stroke-width:0.828151"
    sodipodi:nodetypes="sssssss" /></svg>
