@@ -37,8 +37,23 @@ Depends: @, bsdextrautils
 Test-Command: debian/tests/python-test alltypes
 Features: test-name=python-alltypes
 
+Test-Command: debian/tests/python-test alltypes-exc
+Features: test-name=python-alltypes
+
+Test-Command: debian/tests/python-test alltypes-noexc
+Features: test-name=python-alltypes
+
 Test-Command: debian/tests/python-test angles
 Features: test-name=python-angles
+
+Test-Command: debian/tests/python-test arrow
+Features: test-name=python-angles
+
+Test-Command: debian/tests/python-test base64
+Features: test-name=python-bool
+
+Test-Command: debian/tests/python-test binom
+Features: test-name=python-bool
 
 Test-Command: debian/tests/python-test bool
 Features: test-name=python-bool
@@ -53,6 +68,12 @@ Test-Command: debian/tests/python-test census
 Features: test-name=python-census
 
 Test-Command: debian/tests/python-test clone
+Features: test-name=python-clone
+
+Test-Command: debian/tests/python-test comparison
+Features: test-name=python-clone
+
+Test-Command: debian/tests/python-test construction
 Features: test-name=python-clone
 
 Test-Command: debian/tests/python-test constructors
@@ -87,6 +108,9 @@ Features: test-name=python-faces
 
 Test-Command: debian/tests/python-test file python/testsuite
 Features: test-name=python-file
+
+Test-Command: debian/tests/python-test flags
+Features: test-name=python-flype
 
 Test-Command: debian/tests/python-test flype
 Features: test-name=python-flype
