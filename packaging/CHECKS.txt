@@ -27,7 +27,9 @@ Manual checks:
       - regfiledump data file from desktop
       - censuslookup cPcbbbiht
       - /usr/bin/python; import regina
-      - ensure that "make test" works (use files from checks/)
+      - regina-helper test
+      - regina-helper cc
+      - ensure that "make sample" works
   - dependencies (apt-cache show regina-normal ; rpm -qR regina-normal)
 
 If you are interested in helping package Regina for one or more
