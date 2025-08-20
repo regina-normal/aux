@@ -56,8 +56,8 @@
    inkscape:cy="278.09055"
    inkscape:window-width="1464"
    inkscape:window-height="937"
-   inkscape:window-x="175"
-   inkscape:window-y="79"
+   inkscape:window-x="107"
+   inkscape:window-y="86"
    inkscape:window-maximized="0"
    inkscape:current-layer="Layer_1"><inkscape:grid
      id="grid6"
@@ -76,17 +76,17 @@
 
 <g
    id="g1"
-   transform="translate(3.25)"><circle
+   transform="translate(-1.75,2.75)"><circle
      style="fill:#8c6239;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
      id="path10"
-     cx="110"
-     cy="287.75"
-     r="35" /><circle
+     cx="100"
+     cy="285"
+     r="55" /><circle
      style="fill:#8c6239;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-     id="path10-3"
-     cx="460"
-     cy="287.75"
-     r="35" /></g><path
+     id="path10-8"
+     cx="480"
+     cy="285"
+     r="55" /></g><path
    id="polygon2"
    style="display:inline;fill:url(#linearGradient4);stroke:#1b1464;stroke-width:30;stroke-linejoin:round;stroke-dasharray:none"
    d="m 358.25,197.75 v 330 l -140,-150 v -330 z"
