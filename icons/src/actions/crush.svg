@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 24.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 576.5 575.5"
+   enable-background="new 0 0 576.5 575.5"
+   xml:space="preserve"
+   sodipodi:docname="crush.svg"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs3">
+	
+	
+	
+	
+	
+	
+	
+<linearGradient
+   inkscape:collect="always"
+   xlink:href="#linearGradient3"
+   id="linearGradient4"
+   x1="162.3201"
+   y1="215.14999"
+   x2="414.6799"
+   y2="360.85001"
+   gradientUnits="userSpaceOnUse"
+   gradientTransform="translate(-1.75,-12.25)" /><linearGradient
+   id="linearGradient3"
+   inkscape:collect="always"><stop
+     style="stop-color:#707b98;stop-opacity:1;"
+     offset="0"
+     id="stop3" /><stop
+     style="stop-color:#b3b8cc;stop-opacity:1;"
+     offset="1"
+     id="stop4" /></linearGradient></defs><sodipodi:namedview
+   id="namedview3"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   showgrid="true"
+   inkscape:zoom="0.84864444"
+   inkscape:cx="272.1988"
+   inkscape:cy="278.09055"
+   inkscape:window-width="1464"
+   inkscape:window-height="937"
+   inkscape:window-x="175"
+   inkscape:window-y="79"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_1"><inkscape:grid
+     id="grid6"
+     units="px"
+     originx="0"
+     originy="0"
+     spacingx="1"
+     spacingy="1"
+     empcolor="#0099e5"
+     empopacity="0.30196078"
+     color="#0099e5"
+     opacity="0.14901961"
+     empspacing="5"
+     enabled="true"
+     visible="true" /></sodipodi:namedview>
+
+<g
+   id="g1"
+   transform="translate(3.25)"><circle
+     style="fill:#8c6239;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     id="path10"
+     cx="110"
+     cy="287.75"
+     r="35" /><circle
+     style="fill:#8c6239;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     id="path10-3"
+     cx="460"
+     cy="287.75"
+     r="35" /></g><path
+   id="polygon2"
+   style="display:inline;fill:url(#linearGradient4);stroke:#1b1464;stroke-width:22;stroke-linejoin:round"
+   d="m 358.25,197.75 v 330 l -140,-150 v -330 z"
+   sodipodi:nodetypes="ccccc" /></svg>
