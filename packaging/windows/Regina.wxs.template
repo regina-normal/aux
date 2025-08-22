@@ -108,7 +108,7 @@
             </Component>
             <Component Id="Utils" Guid="0079C4E6-03BE-43F3-9A4B-1954EFF3F551">
               <File Name="censuslookup.exe" />
-              <File Name="dgt.exe" />
+              <File Name="katie.exe" />
               <File Name="regconcat.exe" KeyPath="yes" />
               <File Name="regconvert.exe" />
               <File Name="regfiledump.exe" />

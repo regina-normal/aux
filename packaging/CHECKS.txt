@@ -8,6 +8,7 @@ Manual checks:
   - graphical user interface:
       - menu entry
       - open sample file
+      - open virtual knot census
       - PDF viewing
       - snappea calculations
       - census lookup
