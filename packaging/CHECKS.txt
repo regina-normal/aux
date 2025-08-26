@@ -15,7 +15,7 @@ Manual checks:
       - face pairing graphs
       - GUI scripting and syntax highlighting
       - handbook (including screenshots)
-      - API docs (including modules/topics link and graphs)
+      - API docs (including modules/topics link, footer, and graphs)
       - help->about box (check build info)
       - open data file from desktop / file manager
       - tab completion (both script and standalone)
