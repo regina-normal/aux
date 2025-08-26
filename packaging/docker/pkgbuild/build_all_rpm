@@ -62,12 +62,13 @@ if [ -e .rpmmacros ]; then
 fi
 echo '%vendor Regina' > .rpmmacros
 
+patches=
 case "$flavour" in
   Fedora)
-    patches=`cat /src/pkg/"$spec" | grep '^\S*\.diff$'`
+    patches=`cat /src/pkg/"$spec" | grep '^\S*\.diff$'` || true
     ;;
   openSUSE)
-    patches=`cat /src/pkg/"$spec" | grep ^Patch | cut -f2 -d' '`
+    patches=`cat /src/pkg/"$spec" | grep ^Patch | cut -f2 -d' '` || true
     ;;
   *)
     # Should never occur
@@ -78,7 +79,9 @@ esac
 
 cd rpmbuild
 cp /src/pkg/regina-"$version".tar.gz SOURCES
-for i in $patches; do cp /src/pkg/"$i" SOURCES; done
+if [ -n "$patches" ]; then
+  for i in $patches; do cp /src/pkg/"$i" SOURCES; done
+fi
 cp /src/pkg/"$spec" SPECS
 cd SPECS
 rpmbuild -ba "$spec"
