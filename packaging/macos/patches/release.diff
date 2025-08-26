@@ -2,7 +2,7 @@ diff --git a/Regina.xcodeproj/project.pbxproj b/Regina.xcodeproj/project.pbxproj
 index fb4315dcc..b19175373 100644
 --- a/Regina.xcodeproj/project.pbxproj
 +++ b/Regina.xcodeproj/project.pbxproj
-@@ -12075,7 +12075,7 @@
+@@ -12088,7 +12088,7 @@
  				HEADER_SEARCH_PATHS = (
  					"$(inherited)",
  					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -11,7 +11,7 @@ index fb4315dcc..b19175373 100644
  					"\"$(SRCROOT)/engine\"",
  					"\"$(SRCROOT)\"",
  					"\"$(SRCROOT)/python\"",
-@@ -12137,7 +12137,7 @@
+@@ -12150,7 +12150,7 @@
  				HEADER_SEARCH_PATHS = (
  					"$(inherited)",
  					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
