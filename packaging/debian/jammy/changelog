@@ -6,7 +6,7 @@ regina-normal (7.4-1~ubuntu22.04.1~regina1) jammy; urgency=low
     jammy but the GUI crashes on a default ubuntu installation without it.
     This issue appears to be fixed in the kinetic qt6 packages.
 
- -- Ben Burton <bab@debian.org>  Thu, 04 May 2023 23:05:55 +1000
+ -- Ben Burton <bab@debian.org>  Tue, 26 Aug 2025 19:12:53 +1000
 
 regina-normal (7.3.1-3) unstable; urgency=low
 

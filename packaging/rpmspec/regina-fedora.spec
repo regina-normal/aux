@@ -146,8 +146,19 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_mandir}/*/*
 
 %changelog
-* Sat Mar 18 2023 Ben Burton <bab@debian.org> 7.4
+* Tue Aug 26 2025 Ben Burton <bab@debian.org> 7.4
 - New upstream release.
+
+* Wed Jul 23 2025 Ben Burton <bab@debian.org> 7.3.1-3
+- Update the previous doxygen patch, since it appears the relevant change
+  (modules -> topics) happened in doxygen 1.9.8, not doxygen 1.10.
+
+* Wed Jul 23 2025 Ben Burton <bab@debian.org> 7.3.1-2
+- Backported some recent fixes from the repository:
+  * Fixed the fact that GNOME does not recognise the GUI when it is running,
+    which was causing a generic icon and window name to appear in the dock.
+  * Added some compatibility patches from upstream to support graphviz >= 13
+    and doxygen >= 1.10.
 
 * Tue Jul 8 2025 Ben Burton <bab@debian.org> 7.3.1
 - New upstream release.
