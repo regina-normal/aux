@@ -617,12 +617,15 @@ sub mkmsi {
 
     &cleanmsi;
 
-    print "\nBuilding $arch installer for Regina $regina_version...\n\n";
-
     my $msi = "Regina-$regina_version-$arch.msi";
 
+    # TODO: This step is slow and fragile.  Possibly check to see if this is
+    # actually necessary (wix extension list -g).
+    print "\nAdding WixToolset.UI.wixext to WiX extension cache...\n\n";
     system "$wix/bin/wix.exe", 'extension', 'add', '-g', 'WixToolset.UI.wixext'
         and die;
+
+    print "\nBuilding $arch installer for Regina $regina_version...\n\n";
     system "$wix/bin/wix.exe", 'build', '-arch', $wixarch, '-o', $msi,
         '-ext', 'WixToolset.UI.wixext', $regina_wxs, 'WixUI_Regina.wxs' and die;
 
