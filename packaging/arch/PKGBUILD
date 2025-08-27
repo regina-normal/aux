@@ -39,6 +39,7 @@ build() {
     cd build
     cmake -DPACKAGE_NAME=regina-normal \
           -DCMAKE_INSTALL_PREFIX=/usr \
+          -DCMAKE_INSTALL_LIBEXECDIR=lib \
           -DPython_EXECUTABLE=/usr/bin/python3 \
           -DPACKAGING_MODE=1 \
           -DDISABLE_RPATH=1 \
