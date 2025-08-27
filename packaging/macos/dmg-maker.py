@@ -49,9 +49,11 @@ def main():
     if app[-1:] == '/':
         app = app[:-1]
 
-    # Detect the app version.
+    # Detect the app version and build version.
     appVersion = ''
+    buildVersion = ''
     reAppVersion = re.compile('<key>CFBundleShortVersionString</key>\\s+<string>([0-9a-z._-]+)</string>')
+    reBuildVersion = re.compile('<key>CFBundleVersion</key>\\s+<string>([0-9a-z._-]+)</string>')
     infoFile = app + '/Contents/Info.plist'
     try:
         f = open(infoFile, 'r')
@@ -60,13 +62,15 @@ def main():
     except exc:
         print("Could not read info file: " + infoFile)
         sys.exit(1)
-    m = reAppVersion.search(data)
-    if m:
-        appVersion = m.group(1)
+    appMatch = reAppVersion.search(data)
+    buildMatch = reBuildVersion.search(data)
+    if appMatch and buildMatch:
+        appVersion = appMatch.group(1)
+        buildVersion = buildMatch.group(1)
     else:
         print("Could not parse info file: " + infoFile)
         sys.exit(1)
-    print("Detected Regina version " + appVersion)
+    print("Detected Regina build " + appVersion + ' (' + buildVersion + ')')
 
     # Detect the custom python version, if any.
     pyType = ''
