@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+if [ -z "$@" ]; then
+  echo "If this intended to be an official upstream release, press Ctrl-C now"
+  echo "and rerun with an extra argument: -DBUILD_INFO='...'"
+  echo
+  echo "If this is an ad-hoc build or a user making their own Windows build,"
+  echo "press [Enter] to continue."
+  read
+fi
+
 qtver=6.9.1
 # gvdir="/c/Program Files/Graphviz2.38"
 # arch=`uname -m`
