@@ -118,6 +118,7 @@
               <File Name="sigcensus.exe" />
               <File Name="tricensus.exe" />
               <File Name="trisetcmp.exe" />
+              <File Source="$installtree/libexec/regina/regina-testsuite.exe" />
             </Component>
             <Component Id="CoreDLLs" Guid="7D74E2A7-1970-4751-94E2-DB9674CA2C64">
               $coredlls
@@ -217,7 +218,7 @@
 
               <Directory Id="PKGDATADIR_syntax" Name="syntax">
                 <Component Id="Syntax" Guid="C8681025-2207-4D2B-84DA-E3186DE066F2">
-                  <File Name="default.theme" KeyPath="yes" />
+                  <File Name="python.xml" KeyPath="yes" />
                   <File Name="*.xml" />
                 </Component>
               </Directory>
