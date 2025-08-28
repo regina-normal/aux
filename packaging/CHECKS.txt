@@ -7,27 +7,23 @@ without forgetting anything.
 Manual checks:
   - graphical user interface:
       - menu entry
-      - open sample file
-      - open virtual knot census
-      - PDF viewing
-      - snappea calculations
-      - census lookup
-      - face pairing graphs
-      - GUI scripting and syntax highlighting
+      - help->about box (check build info)
       - handbook (including screenshots)
       - API docs (including modules/topics link, footer, and graphs)
-      - help->about box (check build info)
+      - open introductory examples
+      - PDF viewing
+      - snappea calculations / census lookup / dual graphs
+      - GUI scripting and syntax highlighting
       - open data file from desktop / file manager
-      - tab completion (both script and standalone)
+      - tab completion in GUI
   - regina-python
-      - print Example3.weberSeifert().homology()
+      - check that computations work
       - tab completion
-      - import snappy
+      - /usr/bin/python; import regina
   - tools
       - tricensus --version (and check build info)
       - regfiledump data file from desktop
       - censuslookup cPcbbbiht
-      - /usr/bin/python; import regina
       - regina-helper test
       - regina-helper cc
       - ensure that "make sample" works
@@ -36,4 +32,4 @@ Manual checks:
 If you are interested in helping package Regina for one or more
 distributions, please contact the author at the address below.
 
- -- Ben Burton <bab@debian.org>, Wed, 26 Oct 2022 21:27:00 +1000
+ -- Ben Burton <bab@debian.org>, Thu, 28 Aug 2025 21:04:50 +1000
