@@ -1,8 +1,8 @@
 diff --git a/Regina.xcodeproj/project.pbxproj b/Regina.xcodeproj/project.pbxproj
-index ac607e0de..b0f73bd0e 100644
+index fb4315dcc..b19175373 100644
 --- a/Regina.xcodeproj/project.pbxproj
 +++ b/Regina.xcodeproj/project.pbxproj
-@@ -12146,7 +12146,7 @@
+@@ -12088,7 +12088,7 @@
  				HEADER_SEARCH_PATHS = (
  					"$(inherited)",
  					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -10,8 +10,8 @@ index ac607e0de..b0f73bd0e 100644
 +					"\"$(SRCROOT)/preconfig/macos-release\"",
  					"\"$(SRCROOT)/engine\"",
  					"\"$(SRCROOT)\"",
- 					/usr/include/libxml2,
-@@ -12204,7 +12204,7 @@
+ 					"\"$(SRCROOT)/python\"",
+@@ -12150,7 +12150,7 @@
  				HEADER_SEARCH_PATHS = (
  					"$(inherited)",
  					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -19,4 +19,4 @@ index ac607e0de..b0f73bd0e 100644
 +					"\"$(SRCROOT)/preconfig/macos-release\"",
  					"\"$(SRCROOT)/engine\"",
  					"\"$(SRCROOT)\"",
- 					/usr/include/libxml2,
+ 					"\"$(SRCROOT)/python\"",

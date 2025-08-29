@@ -1,0 +1,40 @@
+#!/bin/bash
+set -e
+
+me="`whoami`"
+if [ "$me" = root ]; then
+  echo "This script should be run as the build user."
+  exit 1
+fi
+
+gcc_version="$1"
+version="$2"
+if [ -z "$1" ]; then
+  echo "Example usage: $0 10 7.4"
+  exit 1
+fi
+
+echo "Building regina-$version using gcc-$gcc_version... ok?"
+read
+
+cd ~
+mkdir src
+cd src
+tar -zxf /src/pkg/regina-"$version".tar.gz
+cd regina-"$version"
+mkdir build
+cd build
+
+cmake \
+  -DCMAKE_C_COMPILER="gcc-$gcc_version" \
+  -DCMAKE_CXX_COMPILER="g++-$gcc_version" \
+  ..
+
+make -j16
+
+echo "Continue with test suite?"
+read
+
+make test ARGS=-V
+
+exit 0

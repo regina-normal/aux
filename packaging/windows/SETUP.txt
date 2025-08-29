@@ -93,7 +93,7 @@ Update the installer scripts:
 
 Build the installer:
 
-  - Run "make install" from the source tree, ensuring that ~/software is
+  - Run "make install" from the source tree, ensuring that ~/software-... is
     clean of any old Regina files.
 
   - Run ".../windows/helper.pl msi" from the source tree to build the installer.

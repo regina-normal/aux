@@ -14,7 +14,7 @@ desc.setText('This is an initial portion of the census of all prime non-trivial 
     'The census is split into sections according to number of crossings, and then by knot type.\n\n' +
     'The name of each knot is of the form \'9nh_2 (DT: 9n_5)\'. Here 9nh_2 is the name from Regina\'s larger 19-crossing knot tables, and 9n_5 is the Dowker-Thistlethwaite name that appears in other online sources such as Knotinfo or Knotscape. For knots with ≥ 13 crossings, only Regina\'s name is listed.\n\n' +
     'For more information on Regina, see http://regina-normal.github.io/ .\n\n' +
-    '1. Benjamin A. Burton, "The next 350 million knots", 36th International Symposium on Computational Geometry (SoCG 2020), Leibniz Int. Proc. Inform., vol.  164, Dagstuhl, Germany, 2020, pp. 25:1–25:17.\n')
+    '1. Benjamin A. Burton, "The next 350 million knots", 36th International Symposium on Computational Geometry (SoCG 2020), Leibniz Int. Proc. Inform., vol. 164, Dagstuhl, Germany, 2020, pp. 25:1–25:17.\n')
 root.insertChildLast(desc)
 
 for i in range(3, nCrossings + 1):

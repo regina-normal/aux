@@ -202,7 +202,7 @@ Features: test-name=python-sets
 Test-Command: debian/tests/python-test skeleton
 Features: test-name=python-skeleton
 
-Test-Command: debian/tests/python-test snappea
+Test-Command: debian/tests/python-test snappea python/testsuite
 Features: test-name=python-snappea
 
 Test-Command: debian/tests/python-test snapshot
