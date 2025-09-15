@@ -37,98 +37,6 @@
    inkscape:window-maximized="0"
    inkscape:current-layer="g17" />
 
-<linearGradient
-   id="SVGID_1_"
-   gradientUnits="userSpaceOnUse"
-   x1="218.3647"
-   y1="-58.8755"
-   x2="421.1694"
-   y2="698.002">
-	<stop
-   offset="0"
-   style="stop-color:#D6AB72"
-   id="stop1" />
-	<stop
-   offset="0.1305"
-   style="stop-color:#D09F5D"
-   id="stop2" />
-	<stop
-   offset="0.5"
-   style="stop-color:#C18026"
-   id="stop3" />
-	<stop
-   offset="0.6095"
-   style="stop-color:#B97926"
-   id="stop4" />
-	<stop
-   offset="1"
-   style="stop-color:#A26526"
-   id="stop5" />
-</linearGradient>
-
-<linearGradient
-   id="SVGID_2_"
-   gradientUnits="userSpaceOnUse"
-   x1="214.9033"
-   y1="-69.9595"
-   x2="423.3805"
-   y2="708.0881">
-	<stop
-   offset="0"
-   style="stop-color:#AC7A6C"
-   id="stop6" />
-	<stop
-   offset="0.5056"
-   style="stop-color:#945748"
-   id="stop7" />
-	<stop
-   offset="1"
-   style="stop-color:#562D22"
-   id="stop8" />
-</linearGradient>
-
-<linearGradient
-   id="SVGID_3_"
-   gradientUnits="userSpaceOnUse"
-   x1="218.3647"
-   y1="-58.8755"
-   x2="421.1694"
-   y2="698.002">
-	<stop
-   offset="0"
-   style="stop-color:#87835C"
-   id="stop9" />
-	<stop
-   offset="0.5"
-   style="stop-color:#54541F"
-   id="stop10" />
-	<stop
-   offset="1"
-   style="stop-color:#464012"
-   id="stop11" />
-</linearGradient>
-
-<linearGradient
-   id="SVGID_4_"
-   gradientUnits="userSpaceOnUse"
-   x1="214.6992"
-   y1="-68.835"
-   x2="422.842"
-   y2="707.9647">
-	<stop
-   offset="0"
-   style="stop-color:#9A6046"
-   id="stop12" />
-	<stop
-   offset="0.5"
-   style="stop-color:#6E2405"
-   id="stop13" />
-	<stop
-   offset="1"
-   style="stop-color:#4E0000"
-   id="stop14" />
-</linearGradient>
-
 <g
    id="g17">
 	
@@ -139,9 +47,9 @@
    d="M 337.478,51 92.098,414.204 425.728,582.723 531.197,361.869 Z" />
 	
 		<polygon
-   fill="#FFFFFF"
-   fill-opacity="0.4"
-   stroke="#FFFFFF"
+   fill="#8b573f"
+   fill-opacity="1"
+   stroke="#ee956c"
    stroke-width="15"
    stroke-linecap="round"
    stroke-linejoin="round"
@@ -151,7 +59,7 @@
    inkscape:label="inner square"
    style="stroke:#ee956c;stroke-opacity:1;fill:#8b573f;fill-opacity:1" /><line
    fill="none"
-   stroke="#FFFFFF"
+   stroke="#ee956c"
    stroke-width="30"
    stroke-linecap="round"
    stroke-linejoin="round"
@@ -184,7 +92,7 @@
 			<line
    clip-path="url(#SVGID_6_)"
    fill="none"
-   stroke="#FFFFFF"
+   stroke="#ee956c"
    stroke-width="30"
    stroke-linecap="round"
    stroke-linejoin="round"
