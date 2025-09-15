@@ -32,4 +32,9 @@ cmake \
 
 make -j16
 
+echo "Continue with test suite?"
+read
+
+make test ARGS=-V
+
 exit 0

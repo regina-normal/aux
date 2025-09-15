@@ -40,7 +40,7 @@ BUILDING PARALLELS VMs
 
 1. Create an installer ISO from the installer app:
 
-  hdiutil create -o /tmp/Sonoma.cdr -size 16g -layout SPUD -fs HFS+J
+  hdiutil create -o /tmp/Sonoma.cdr -size 18g -layout SPUD -fs HFS+J
   hdiutil attach /tmp/Sonoma.cdr.dmg -noverify -mountpoint /Volumes/install_build
   sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build
   hdiutil detach /Volumes/Install\ macOS\ Sonoma
