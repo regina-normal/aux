@@ -11,4 +11,5 @@ function render {
 
 render front-coloured.svg front.png 1024
 render back-coloured.svg back.png 1024
+render white.svg white.png 1024
 

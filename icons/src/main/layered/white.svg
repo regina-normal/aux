@@ -11,7 +11,7 @@
    viewBox="0 0 640 640"
    enable-background="new 0 0 640 640"
    xml:space="preserve"
-   sodipodi:docname="back-coloured.svg"
+   sodipodi:docname="white.svg"
    inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -60,6 +60,6 @@
    stroke-miterlimit="10"
    points="0,0 640,0 640,640 0,640 "
    id="polygon14"
-   style="display:inline;fill:url(#SVGID_4_);stroke:none" />
+   style="display:inline;fill:#ffffff;stroke:none;stroke-width:0;stroke-dasharray:none;fill-opacity:1" />
 
 </svg>
