@@ -84,7 +84,7 @@ lock:x:54:
 EOT
 
 # For now, disable the update repositories if they are present.
-chroot ${prefix} /usr/bin/zypper mr -d repo-backports-update repo-sle-update
+chroot ${prefix} /usr/bin/zypper mr -d repo-sle-update
 chroot ${prefix} /usr/bin/zypper repos
 
 # We need the repo key trusted to prevent warnings during package install.
