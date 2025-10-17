@@ -810,6 +810,7 @@ sub pkgdev {
         $release eq '15.4' and $latest = '11'; # default: gcc7
         $release eq '15.5' and $latest = '12'; # default: gcc7
         $release eq '15.6' and $latest = '13'; # default: gcc7
+        # 16.0 ships gcc15 by default, at last.
         $latest and $pkgs .= " gcc$latest gcc$latest-c++";
     }
 
