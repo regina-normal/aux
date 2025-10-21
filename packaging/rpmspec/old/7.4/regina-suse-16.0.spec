@@ -53,7 +53,6 @@ compute knot polynomials, and work with several import/export formats.
 Regina comes with a full graphical user interface, as well as Python bindings
 and a low-level C++ programming interface.
 
-%debug_package
 %prep
 %setup -n regina-%{version}
 %patch 0 -p1
