@@ -65,7 +65,7 @@ mkdir build
 cd build
 
 cmake \
-  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBEXECDIR=lib \
+  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr \
   -DPACKAGING_MODE=1 \
   -DBUILD_INFO="Upstream openSUSE Leap 16.0 package" \
   -DREGINA_KVSTORE=lmdb \
