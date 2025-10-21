@@ -56,7 +56,7 @@ and a low-level C++ programming interface.
 %debug_package
 %prep
 %setup -n regina-%{version}
-%patch0 -p1
+%patch 0 -p1
 
 %build
 export CFLAGS=$RPM_OPT_FLAGS
