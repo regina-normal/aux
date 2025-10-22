@@ -6,11 +6,15 @@
 # This script should be run from within a virtual machine that already
 # has the appropriate version of openSUSE installed.
 #
-# - Ben Burton, 31 July 2021
+# - Ben Burton, 17 October 2025
 #
 use strict;
 
-my @pkgs = ( 'rpm', 'zypper', 'util-linux', 'gzip', 'grep', 'sed', 'xz', 'openSUSE-release' );
+# Before openSUSE Leap 16.0, we used openSUSE-release instead of Leap-release.
+# We hard-code Leap-release here, since this script is only intended to be
+# used with new releases going forwards.  For older releases, the package lists
+# have already been extracted and stored in packages/.
+my @pkgs = ( 'rpm', 'zypper', 'util-linux', 'gzip', 'grep', 'sed', 'xz', 'Leap-release' );
 my @latest = @pkgs;
 
 my %deps = ();
@@ -39,6 +43,7 @@ while ($#latest >= 0) {
             $dep =~ s/^\s*(\S.*\S)\s*$/$1/;
             $dep =~ s/^\((.*) or busybox\)$/$1/;
             $dep =~ s/^\((compat-usrmerge-tools) or .*\)$/$1/;
+            $dep =~ /^\(compat-usrmerge if compat-usrmerge\)$/ and next;
             $dep =~ /^\(.* if systemd\)$/ and next;
             $dep =~ /^\(.* if dbus-service\)$/ and next;
             $dep =~ /^rpmlib\(/ and next;

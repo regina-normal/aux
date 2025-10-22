@@ -4,6 +4,7 @@ set -e
 ver="$1"
 case "$ver" in
   15.[0-9]) basever=15 ;;
+  16.[0-9]) basever=16 ;;
   42.[0-9]) basever=42 ;;
   *) echo "Invalid openSUSE Leap version: $ver"; exit 1;;
 esac
