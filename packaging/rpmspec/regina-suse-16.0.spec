@@ -51,7 +51,6 @@ compute knot polynomials, and work with several import/export formats.
 Regina comes with a full graphical user interface, as well as Python bindings
 and a low-level C++ programming interface.
 
-%debug_package
 %prep
 %setup -n regina-%{version}
 
@@ -63,7 +62,7 @@ mkdir build
 cd build
 
 cmake \
-  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBEXECDIR=lib \
+  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr \
   -DPACKAGING_MODE=1 \
   -DBUILD_INFO="Upstream openSUSE Leap 16.0 package" \
   -DREGINA_KVSTORE=lmdb \
