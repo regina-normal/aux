@@ -1,7 +1,7 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 7.4
-Release: lp160.1
+Version: 7.4.1
+Release: lp156.1
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
 Group: Applications/Engineering
@@ -10,16 +10,17 @@ URL: http://regina-normal.github.io/
 Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
-Patch0: graphviz-dynamic-plugins.diff
-
 Requires: mimehandler(application/pdf)
-Requires: python3
+Requires: python312
 Conflicts: regina
 
 BuildRequires: cmake
 BuildRequires: doxygen
-BuildRequires: gcc
-BuildRequires: gcc-c++
+# We use gcc13 because the default is gcc7, which cannot work with Qt6 due to
+# its lack of support for std::filesystem.  It would be super nice if, in the
+# year 2025, openSUSE could move to a compiler that is even remotely modern.
+BuildRequires: gcc13
+BuildRequires: gcc13-c++
 BuildRequires: glibc-devel
 BuildRequires: gmp-devel
 BuildRequires: graphviz-devel
@@ -28,7 +29,7 @@ BuildRequires: libxml2-devel
 BuildRequires: libxslt-tools
 BuildRequires: lmdb-devel
 BuildRequires: pkg-config
-BuildRequires: python3-devel
+BuildRequires: python312-devel
 BuildRequires: qt6-base-devel
 BuildRequires: qt6-svg-devel
 BuildRequires: sed
@@ -53,9 +54,9 @@ compute knot polynomials, and work with several import/export formats.
 Regina comes with a full graphical user interface, as well as Python bindings
 and a low-level C++ programming interface.
 
+%debug_package
 %prep
 %setup -n regina-%{version}
-%patch 0 -p1
 
 %build
 export CFLAGS=$RPM_OPT_FLAGS
@@ -64,10 +65,11 @@ export LDFLAGS="-Wl,-Bsymbolic-functions $LDFLAGS"
 mkdir build
 cd build
 
-cmake \
-  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr \
+cmake -DCMAKE_C_COMPILER=gcc-13 -DCMAKE_CXX_COMPILER=g++-13 \
+  -DDISABLE_RPATH=1 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBEXECDIR=lib \
   -DPACKAGING_MODE=1 \
-  -DBUILD_INFO="Upstream openSUSE Leap 16.0 package" \
+  -DPython_EXECUTABLE=/usr/bin/python3.12 \
+  -DBUILD_INFO="Upstream openSUSE Leap 15.6 package" \
   -DREGINA_KVSTORE=lmdb \
   ..
 
@@ -112,13 +114,14 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_libdir}/libregina-engine.so.%{version}
 %{_libexecdir}/regina/
 %{_mandir}/*/*
-%{_prefix}/lib/python3.13/site-packages/regina/
+%{_prefix}/lib/python3.12/site-packages/regina/
 
 %changelog
-* Fri Oct 17 2025 Ben Burton <bab@debian.org> 7.4
-- Packaging the 7.4 release (Aug 2025) for openSUSE Leap 16.0.
-- Python and gcc versions are now back to the openSUSE defaults,
-  since with openSUSE Leap 16.0 these defaults are finally modern.
+* Tue Nov 25 2025 Ben Burton <bab@debian.org> 7.4.1
+- New upstream release.
+
+* Tue Aug 26 2025 Ben Burton <bab@debian.org> 7.4
+- New upstream release.
 
 * Wed Jul 23 2025 Ben Burton <bab@debian.org> 7.3.1-3
 - Update the previous doxygen patch, since it appears the relevant change

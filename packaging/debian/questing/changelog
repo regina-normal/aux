@@ -1,6 +1,12 @@
-regina-normal (7.4-1~ubuntu25.10.1~regina1) questing; urgency=low
+regina-normal (7.4.1-1~ubuntu25.10.1~regina1) questing; urgency=low
 
   * New upstream release, packaged for questing.
+
+ -- Ben Burton <bab@debian.org>  Tue, 25 Nov 2025 15:04:17 +1000
+
+regina-normal (7.4-1) unstable; urgency=low
+
+  * New upstream release.
   * No longer build-depends on libcppunit-dev, libjansson-dev or libpopt-dev.
 
  -- Ben Burton <bab@debian.org>  Tue, 26 Aug 2025 19:12:53 +1000

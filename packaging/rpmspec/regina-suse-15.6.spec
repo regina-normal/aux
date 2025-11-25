@@ -1,6 +1,6 @@
 Name: regina-normal
 Summary: Mathematical software for low-dimensional topology
-Version: 7.4
+Version: 7.4.1
 Release: lp156.1
 License: GPL
 # I wish there were a more sane group (like Applications/Mathematics).
@@ -117,6 +117,9 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_prefix}/lib/python3.12/site-packages/regina/
 
 %changelog
+* Tue Nov 25 2025 Ben Burton <bab@debian.org> 7.4.1
+- New upstream release.
+
 * Tue Aug 26 2025 Ben Burton <bab@debian.org> 7.4
 - New upstream release.
 
