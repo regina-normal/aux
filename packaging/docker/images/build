@@ -587,6 +587,7 @@ sub basic {
         ' gnupg');
     debStyle() or $pkgs .= ' which perl';
     $pkgs .= ($dist eq 'fedora' ? ' vim-enhanced' : ' vim');
+    $dist eq 'fedora' and $release >= 43 and $pkgs .= ' shadow-utils'; # for useradd
 
     my $data = from('bare');
 
