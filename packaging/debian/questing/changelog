@@ -2,7 +2,7 @@ regina-normal (7.4.1-1~ubuntu25.10.1~regina1) questing; urgency=low
 
   * New upstream release, packaged for questing.
 
- -- Ben Burton <bab@debian.org>  Tue, 25 Nov 2025 15:04:17 +1000
+ -- Ben Burton <bab@debian.org>  Thu, 27 Nov 2025 07:20:24 +1000
 
 regina-normal (7.4-1) unstable; urgency=low
 

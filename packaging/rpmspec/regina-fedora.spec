@@ -150,7 +150,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_mandir}/*/*
 
 %changelog
-* Tue Nov 25 2025 Ben Burton <bab@debian.org> 7.4.1
+* Thu Nov 27 2025 Ben Burton <bab@debian.org> 7.4.1
 - New upstream release.
 
 * Tue Aug 26 2025 Ben Burton <bab@debian.org> 7.4
