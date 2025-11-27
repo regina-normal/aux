@@ -5,7 +5,7 @@ Maintainer: Ben Burton <bab@debian.org>
 Homepage: http://regina-normal.github.io/
 Build-Depends:
     bsdextrautils,
-    debhelper (>= 11),
+    debhelper-compat (= 11),
     dh-python,
     cmake (>= 3.12),
     doxygen (>= 1.8.17),
