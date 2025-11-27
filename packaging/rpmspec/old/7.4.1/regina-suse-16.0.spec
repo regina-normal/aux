@@ -11,6 +11,7 @@ Packager: Ben Burton <bab@debian.org>
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Requires: mimehandler(application/pdf)
+Requires: graphviz-plugins-core
 Requires: python3
 Conflicts: regina
 
