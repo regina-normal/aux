@@ -114,7 +114,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_prefix}/lib/python3.13/site-packages/regina/
 
 %changelog
-* Tue Nov 25 2025 Ben Burton <bab@debian.org> 7.4.1
+* Thu Nov 27 2025 Ben Burton <bab@debian.org> 7.4.1
 - New upstream release.
 - Python and gcc versions are now back to the openSUSE defaults,
   since with openSUSE Leap 16.0 these defaults are finally modern.

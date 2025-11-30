@@ -30,7 +30,7 @@ makedepends=(cmake
              doxygen
              libxslt)
 source=("regina-$pkgver.tar.gz")
-sha256sums=('4b8a82e1cbd1781fc58fb600ba2b183d12ee434c5f27084dc06b722a9e3f6a76')
+sha256sums=('74131014099b77083dd1d09004fd6bc972421c792d188cdf43f0fd11ca6cb2ed')
 
 build() {
     cd "$srcdir/regina-$pkgver"
