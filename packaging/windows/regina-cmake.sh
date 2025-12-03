@@ -23,6 +23,9 @@ elif [ "$arch" = i686 ]; then
   qtdir="/c/Qt/$qtver/mingw_32"
   msys=/c/msys32
   mingw=/mingw32
+elif [ "$arch" = aarch64 ]; then
+  msys=/c/msys64
+  mingw=/clangarm64
 else
   echo "ERROR: Unknown architecture: $arch"
   exit 1
