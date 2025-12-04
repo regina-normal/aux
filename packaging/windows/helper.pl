@@ -70,6 +70,12 @@ if ($arch eq 'x86_64') {
     $mingw = '/mingw32';
     $programfiles = 'ProgramFilesFolder';
     $wixarch = 'x86';
+} elsif ($arch eq 'aarch64') {
+    $archbits = 64;
+    $msys = 'c:\msys64';
+    $mingw = '/clangarm64';
+    $programfiles = 'ProgramFiles64Folder';
+    $wixarch = 'arm64';
 } else {
     die "Unknown architecture: $arch";
 }
@@ -107,12 +113,12 @@ $pyzlibdir = "$mingw/lib/python$pyver/lib-dynload";
 $pyzlib = "zlib-cpython-$pyver_short.dll";
 if (! -e "$pyzlibdir/$pyzlib") {
     $pyzlib = "zlib.cp$pyver_short-mingw_$arch.pyd";
-    if (! -e "$pyzlibdir/$pyzlib") {
-        $pyzlib = "zlib.cp$pyver_short-mingw_${arch}_msvcrt_gnu.pyd";
-        -e "$pyzlibdir/$pyzlib" or die "ERROR: Could not find python zlib module";
-    }
+    -e "$pyzlibdir/$pyzlib" or $pyzlib = "zlib.cp$pyver_short-mingw_${arch}_msvcrt_gnu.pyd";
+    -e "$pyzlibdir/$pyzlib" or $pyzlib = "zlib.cp$pyver_short-mingw_${arch}_ucrt_llvm.pyd";
+    -e "$pyzlibdir/$pyzlib" or die "ERROR: Could not find python zlib module";
 }
 
+-d "$mingw/share/qt6" and $qt = "$mingw/share/qt6";
 foreach (glob('/c/Qt/*/mingw*')) {
     /^(\/c\/Qt\/\d+\.\d+\.\d+\/mingw\d*_$archbits)\s*$/ or next;
     $qt and die "ERROR: Multiple Qt installations detected";
