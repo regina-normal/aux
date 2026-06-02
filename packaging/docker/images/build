@@ -874,6 +874,7 @@ sub regina {
     my $needJava = (reginaVersionCmp($regver, '3.2') <= 0);
     my $needKDE = reginaVersionInRange($regver, '3.95', '4.90');
     my $needKVStore = (reginaVersionCmp($regver, '4.96') >= 0);
+    my $needLZMA = (reginaVersionCmp($regver, '8.0') >= 0);
     my $needMPI = reginaVersionInRange($regver, '4.2', '5.1');
     my $needPopt = reginaVersionInRange($regver, '3.1', '7.3.1');
     my $needPython = (reginaVersionCmp($regver, '3.95') >= 0);
@@ -922,6 +923,7 @@ sub regina {
         $pkgs .= (debianUbuntuCmp('wheezy', 'oneiric') < 0 ? ' libgmp3-dev' : ' libgmp-dev');
         $needXML and $pkgs .= ' libxml2-dev zlib1g-dev';
         $needXSLT and $pkgs .= ' xsltproc';
+        $needLZMA and $pkgs .= ' liblzma-dev';
         $needKVStore and $pkgs .= ' libtokyocabinet-dev';
         $needKVStore and $pkgs .= (debianUbuntuCmp('bookworm', 'lunar') < 0 ? ' pkg-config' : ' pkgconf');
         # For the cppunit package name, the threshold of hoary below might need
@@ -986,6 +988,7 @@ sub regina {
         ($needQt or ($needKDE and $useKDE == 4)) and $pkgs .= ' desktop-file-utils';
         $needXML and $pkgs .= ' libxml2-devel zlib-devel';
         $needXSLT and $pkgs .= ' libxslt';
+        $needLZMA and $pkgs .= ' liblzma-devel';
         $needKVStore and $pkgs .= ' tokyocabinet-devel pkgconfig';
         $needCppUnit and $pkgs .= ' cppunit-devel';
         $needGraphvizLibs and $pkgs .= ' graphviz-devel';
@@ -1035,6 +1038,7 @@ sub regina {
         $pkgs .= ' sed gmp-devel';
         $needXML and $pkgs .= ' libxml2-devel zlib-devel';
         $needXSLT and $pkgs .= ' libxslt-tools';
+        $needLZMA and $pkgs .= ' liblzma-devel';
         # KVStore is messy on openSUSE.  We deal with it below.
         $needCppUnit and $pkgs .= ' cppunit-devel';
         $needGraphvizLibs and $pkgs .= ' graphviz-devel';
@@ -1107,6 +1111,7 @@ sub regina {
         $pkgs .= ' gmp';
         $needXML and $pkgs .= ' libxml2 zlib';
         $needXSLT and $pkgs .= ' libxslt';
+        $needLZMA and $pkgs .= ' liblzma';
         # Regarding KVStore: tokyocabinet is shipped in our own arch repository.
         $needCppUnit and $pkgs .= ' cppunit';
         # Note: if $needGraphvizRuntime is true then we already have graphviz.
