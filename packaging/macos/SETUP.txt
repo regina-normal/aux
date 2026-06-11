@@ -8,9 +8,10 @@ etc., as Apple's security requirements change over time.
 
 To build macOS binaries for distribution:
 
-- Apply the relevant patches from patches/ (the choice of patches differs
-  according to whether you are distributing through the Regina website
-  or the Mac App Store).  DO NOT COMMIT THESE CHANGES TO GIT.
+- In the project info tab, change the project configuration from
+  development.xcconfig (for regular Xcode builds) to either release.xcconfig
+  (for distribution through the Regina website), or sandbox.xcconfig (for
+  distribute through the App Store).  DO NOT COMMIT THESE CHANGES TO GIT.
 
 - Select the macOS scheme and build an archive. Check that the archive
   includes both x86_64 and arm64 binaries, submit it for notarisation,
