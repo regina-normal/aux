@@ -146,28 +146,29 @@ Parallels configuration:
 Installer notes:
 - Fedora downloads: newer signing keys are available in older fedoras
   under /etc/pki/rpm-gpg/
+- All installers: don't forget to set the hostname
 - openSUSE installer: select KDE plasma desktop
 - If GUI does not start (display output is not active), add a serial device to
   see boot messages (no need to remove main display) - sometimes just its
   existence fixes the problem and then it can be removed again immediately
-
-Disable unwanted updates, if making a build machine:
-- Fedora in /etc/yum.repos.d (set enabled=0 in unwanted repos)
-- openSUSE by "zypper repos", then "zypper modifyrepo -d <reponame>"
-- Keep updates repos for test machines but not build machines
-
-Check for unwanted newer packages, if making a build machine:
-- Fedora:
-  * Run rpm-versions-fedora, copied from this directory
-- openSUSE:
-  * zypper refresh
-  * zypper packages -r repo-oss -r repo-non-oss -i | grep ^v
-    (though this still lists all noarch packages on an aarch64 machine)
 
 Desktop tweaks:
 - Fedora: pin Terminal to dash
 - All: disable screen saver and automatic suspend (Settings / Power Management)
 - openSUSE: disable screen locking (Settings / Screen Locking)
 
-Build macros:
-- For a build machine, put in ~/.rpmmacros: %vendor Regina
+Build machines:
+  - Disable unwanted updates:
+    + Fedora in /etc/yum.repos.d (set enabled=0 in unwanted repos)
+    + openSUSE by "zypper repos", then "zypper modifyrepo -d <reponame>"
+    + Keep updates repos for test machines but not build machines
+
+  - Check for unwanted newer packages:
+    + Fedora:
+      * Run rpm-versions-fedora, copied from this directory
+    + openSUSE:
+      * zypper refresh
+      * zypper packages -r repo-oss -r repo-non-oss -i | grep ^v
+        (though this still lists all noarch packages on an aarch64 machine)
+
+  - Put in ~/.rpmmacros: %vendor Regina
