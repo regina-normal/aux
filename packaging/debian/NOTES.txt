@@ -58,6 +58,7 @@ Installer notes:
   + Need to disable systemd-networkd.service to avoid slow/failed boots due to
     conflicting network services (note: systemctl supports tab completion):
     https://askubuntu.com/questions/1217252/boot-process-hangs-at-systemd-networkd-wait-online/1501504#1501504
+- Slow boot due to initrd-switch-root.service: press [Enter] and it keeps moving
 
 Configure updates:
 - Debian in /etc/apt/sources.list
