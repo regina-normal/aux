@@ -118,6 +118,10 @@ Setting up a Windows VM:
     some Windows 10 x86 install media), change the hard drive from NVMe 1 to
     SATA 0:1 (which may require moving the CD/DVD from SATA 0:1 to SATA 0:2).
 
+  - If a UTM Windows guest cannot open large files over a shared folder due to
+    excessive file size, there is a registry-based solution:
+    https://github.com/utmapp/UTM/issues/3806
+
 Building packages locally:
 
   - pacman -S base-devel
