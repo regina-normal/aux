@@ -146,20 +146,10 @@ Parallels configuration:
 Installer notes:
 - Fedora downloads: newer signing keys are available in older fedoras
   under /etc/pki/rpm-gpg/
-- Fedora/aarch64 installer: if the "Everything" image must be used, be sure to
-  choose "Workstation" as the base software environment.  The additional
-  X server (which might be selected by default) is not required.
-- Fedora/aarch64 installer via UTM: if the image is .raw.xz, not .iso, then to
-  use this: uncompress the image (unxz < foo.raw.xz > foo.raw), and add a new
-  VirtIO drive that is read-only, non-removable, and uses this image.
-  Note: an Everything/iso release seems more reliable for installation than
-  a Workstation/raw release.
 - openSUSE installer: select KDE plasma desktop
-- openSUSE installer: disable online repositories when asked
-- openSUSE/aarch64 installer via UTM: will not boot past the grub screen.
-  To fix this, install in console mode (remove the display in hardware
-  settings and add a serial console instead).  After installation, remove
-  the serial console and add a display again, and it should boot fine.
+- If GUI does not start (display output is not active), add a serial device to
+  see boot messages (no need to remove main display) - sometimes just its
+  existence fixes the problem and then it can be removed again immediately
 
 Disable unwanted updates, if making a build machine:
 - Fedora in /etc/yum.repos.d (set enabled=0 in unwanted repos)
@@ -174,34 +164,10 @@ Check for unwanted newer packages, if making a build machine:
   * zypper packages -r repo-oss -r repo-non-oss -i | grep ^v
     (though this still lists all noarch packages on an aarch64 machine)
 
-GUI breakage:
-- To fix openSUSE Leap 15.3 / aarch64 not starting the graphical desktop:
-  * zypper addrepo \
-      https://download.opensuse.org/update/leap/15.3/sle/ repo-sle-update
-  * zypper refresh
-  * zypper update systemd (also updates systemd-sysvinit, udev)
-  * zypper modifyrepo -d repo-sle-update
-- For reference, there is also a backports repo (which is currently not needed):
-  * zypper addrepo https://download.opensuse.org/update/leap/15.3/backports/ \
-      repo-backports-update
-  * zypper modifyrepo -d repo-backports-update
-
 Desktop tweaks:
 - Fedora: pin Terminal to dash
-- All: disable screen saver and automatic suspend
-- openSUSE: disable screen locking (Settings / Workspace Behaviour)
+- All: disable screen saver and automatic suspend (Settings / Power Management)
+- openSUSE: disable screen locking (Settings / Screen Locking)
 
 Build macros:
 - For a build machine, put in ~/.rpmmacros: %vendor Regina
-
-Extra packages:
-- openSUSE:
-  * The doxygen packages are too old for openSUSE Leap 15.4.
-    You can fetch a newer doxygen binary from the devel_tools repository
-      (see the docker image, which also does this).
-    Don't forget to disable the devel_tools repository afterwards.
-  * Update (March 2023): the devel_tools doxygen now depends on a libstdc++
-    that is newer than was originally shipped with openSUSE Leap 15.4.
-    Use Ben's own doxygen repository instead on people.debian.org, which
-    has a newer doxygen built against an original openSUSE Leap 15.4 install.
-
