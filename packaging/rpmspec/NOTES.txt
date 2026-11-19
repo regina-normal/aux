@@ -145,7 +145,7 @@ Parallels configuration:
 
 Installer notes:
 - Fedora downloads: newer signing keys are available in older fedoras
-  under /etc/pki/rpm-gpg/
+  under /etc/pki/rpm-gpg/, or /usr/share/pki/rpm-gpg/ for Fedora ≥ 45
 - All installers: don't forget to set the hostname
 - openSUSE installer: select KDE plasma desktop
 - If GUI does not start (display output is not active), add a serial device to
@@ -159,7 +159,8 @@ Desktop tweaks:
 
 Build machines:
   - Disable unwanted updates:
-    + Fedora in /etc/yum.repos.d (set enabled=0 in unwanted repos)
+    + Fedora in /etc/yum.repos.d (set enabled=0 in unwanted repos), or
+      /usr/share/dnf5/repos.d for Fedora ≥ 45
     + openSUSE by "zypper repos", then "zypper modifyrepo -d <reponame>"
     + Keep updates repos for test machines but not build machines
 
