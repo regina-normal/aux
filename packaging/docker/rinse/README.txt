@@ -43,7 +43,7 @@ For new fedora, we begin with the processs described on the rinse manpage
       grep -E -v 'glibc-all-langpacks|glibc-langpack-'
 
 Then add dnf5 or dnf (which is not included in the list), and strip out all
-fedora-release-* and generic-release-*, except for
+fedora-release* and generic-release*, except for
 fedora-release{,-common,-identity-basic}.  We should probably
 revisit this latter decision at a later date to see if it still makes sense.
 
