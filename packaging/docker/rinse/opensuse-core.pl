@@ -46,6 +46,7 @@ while ($#latest >= 0) {
             $dep =~ /^\(compat-usrmerge if compat-usrmerge\)$/ and next;
             $dep =~ /^\(.* if systemd\)$/ and next;
             $dep =~ /^\(.* if dbus-service\)$/ and next;
+            $dep =~ /^\(.* if selinux-policy\)$/ and next;
             $dep =~ /^rpmlib\(/ and next;
             # The libsolv-tools-base versioned dependency below appears in
             # openSUSE 15.6, as a dependency of libzypp.
