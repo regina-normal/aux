@@ -16,8 +16,13 @@ rpmkeys --import /root/regina-key.asc
 
 echo "Setting up repository for Fedora $release"
 
-if [ "$release" -le 23 ]; then
+if [ "$release" -le 44 ]; then
   src=/etc/yum.repos.d/regina.repo
+else
+  src=/usr/share/dnf5/repos.d/regina.repo
+fi
+
+if [ "$release" -le 23 ]; then
   cat > "$src" <<__END__
 [regina]
 name=Regina
@@ -36,7 +41,6 @@ gpgcheck=1
 gpgkey=https://people.debian.org/~bab/regina-key.txt
 __END__
 else
-  src=/etc/yum.repos.d/regina.repo
   cat > "$src" <<__END__
 [regina]
 name=Regina
