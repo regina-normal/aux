@@ -276,7 +276,14 @@ fi
 	# we also skip the update for woody and sarge, since we would rather get
 	# apt-check-sigs working before installing anything more from the mirror.
 	if [ "$suite" != bionic -a "$suite" != woody -a "$suite" != sarge ]; then
-		rootfs_chroot sh -xc 'apt-get update && apt-get dist-upgrade -y'
+		# Modern ubuntu needs /proc to be mounted to install systemd.
+		# Be sure to unmount it again, regardless of success or failure.
+		mount -t proc /proc "$rootfsDir/proc"
+		if ! rootfs_chroot sh -xc 'apt-get update && apt-get dist-upgrade -y'; then
+			umount "$rootfsDir/proc"
+			exit 1
+		fi
+		umount "$rootfsDir/proc"
 	fi
 
 	# delete all the apt list files since they're big and get stale quickly
