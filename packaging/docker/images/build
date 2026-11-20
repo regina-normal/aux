@@ -48,7 +48,7 @@ my %ubuntuVersion = (
     'hirsute' => '21.04', 'impish' => '21.10', 'jammy' => '22.04',
     'kinetic' => '22.10', 'lunar' => '23.04', 'mantic' => '23.10',
     'noble' => '24.04', 'oracular' => '24.10', 'plucky' => '25.04',
-    'questing' => '25.10' );
+    'questing' => '25.10', 'resolute' => '26.04', 'stonking' => '26.10' );
 
 my @alldists = qw(debian ubuntu fedora opensuse arch);
 my $dist;
@@ -784,6 +784,7 @@ sub pkgdev {
         $release eq 'focal' and @gcc = qw(7 8 9 10);
         $release eq 'jammy' and @gcc = qw(9 10 11 12);
         $release eq 'noble' and @gcc = qw(9 10 11 12 13 14);
+        $release eq 'resolute' and @gcc = qw(11 12 13 14 15 16);
         $pkgs .= " gcc-$_ g++-$_" foreach @gcc;
 
         my @clang = ();
@@ -798,6 +799,7 @@ sub pkgdev {
         $release eq 'focal' and @clang = qw(6.0 7 8 9 10 12);
         $release eq 'jammy' and @clang = qw(11 12 13 14 15);
         $release eq 'noble' and @clang = qw(14 15 16 17 18);
+        $release eq 'resolute' and @clang = qw(17 18 19 20 21 22);
         $pkgs .= " clang-$_" foreach @clang;
         # These LTS releases just had a "clang" package, without versions.
         $release eq 'lucid' and $pkgs .= ' clang';
