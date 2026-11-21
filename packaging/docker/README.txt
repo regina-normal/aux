@@ -46,6 +46,8 @@ To prepare a debian/stable host machine for building and using these images:
 - apt-get install debootstrap zstd curl rpm libversion-util-perl
 - apt-get install debian-keyring (should already be present)
 - manually install a recent ubuntu-keyring package from an ubuntu mirror
+- ensure debootstrap is ≥ 1.0.145, upgrading from testing/unstable if needed
+  (this is to support SHA512 checksums in ubuntu stonking and later)
 - add extra symlinks in /usr/share/debootstrap/scripts/ for newer debian or
   ubuntu releases
 
