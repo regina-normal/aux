@@ -122,8 +122,8 @@ print("Building $tag...\n\n");
 if ($dryrun) {
     print "Saved Dockerfile as: $dockerfile\n";
 } else {
-    system('docker', 'build', '-t', $tag, '-f', $dockerfile, $context) and
-        die "The call to 'docker build ...' failed";
+    system('docker', 'build', '--progress=plain', '-t', $tag, '-f', $dockerfile,
+        $context) and die "The call to 'docker build ...' failed";
     unlink($dockerfile) or die "Could not remove $dockerfile";
 }
 
